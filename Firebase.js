@@ -4,12 +4,12 @@ import firestore from 'firebase/firestore'
 const settings = {timestampsInSnapshots: true};
 
 const config = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DB_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_FCM_ID"
+  apiKey: "AIzaSyBa-cegrexbrmpiLh6r6PidPEotyqdJyvQ",
+  authDomain: "intellsleep.firebaseapp.com",
+  databaseURL: "https://intellsleep.firebaseio.com/",
+  projectId: "intellsleep",
+  storageBucket: "intellsleep.appspot.com",
+  messagingSenderId: "774096563327"
 };
 firebase.initializeApp(config);
 
