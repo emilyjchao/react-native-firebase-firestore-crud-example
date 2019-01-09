@@ -10,7 +10,7 @@ class BoardScreen extends Component {
       headerRight: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'add-circle', style: { marginRight: 0, fontSize: 28 } }}
+          icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
           onPress={() => { navigation.push('AddBoard') }}
         />
       ),
@@ -18,26 +18,28 @@ class BoardScreen extends Component {
   };
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('boards');
+    this.ref = firebase.firestore().collection('days');
     this.unsubscribe = null;
     this.state = {
       isLoading: true,
       boards: []
     };
   }
+
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
+
   onCollectionUpdate = (querySnapshot) => {
     const boards = [];
     querySnapshot.forEach((doc) => {
-      const { title, description, author } = doc.data();
+      const { day, sleep, label } = doc.data();
       boards.push({
         key: doc.id,
         doc, // DocumentSnapshot
-        title,
-        description,
-        author,
+        day,
+        sleep,
+        label,
       });
     });
     this.setState({
@@ -60,7 +62,7 @@ class BoardScreen extends Component {
             this.state.boards.map((item, i) => (
               <ListItem
                 key={i}
-                title={item.title}
+                title={item.label}
                 leftIcon={{name: 'book', type: 'font-awesome'}}
                 onPress={() => {
                   this.props.navigation.navigate('BoardDetails', {
