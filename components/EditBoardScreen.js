@@ -3,6 +3,18 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'reac
 import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
+
+const FakeData = [
+  { day: 1, sleep: 8.5, label: "Mon", bedwet: false, restless: 7, exited: 1},
+  { day: 2, sleep: 7.4, label: "Tues", bedwet: false, restless: 7, exited: 1},
+  { day: 3, sleep: 6.8, label: "Wed", bedwet: false, restless: 7, exited: 1},
+  { day: 4, sleep: 8.9, label: "Thur", bedwet: false, restless: 7, exited: 1},
+  { day: 5, sleep: 5.8, label: "Fri", bedwet: false, restless: 7, exited: 1},
+  { day: 6, sleep: 5.8, label: "Sat", bedwet: false, restless: 7, exited: 1},
+  { day: 7, sleep: 5.8, label: "Sun", bedwet: false, restless: 7, exited: 1},
+];
+
+
 class EditBoardScreen extends Component {
   static navigationOptions = {
     title: 'Edit Board',
@@ -48,6 +60,8 @@ class EditBoardScreen extends Component {
     });
     const { navigation } = this.props;
     const updateRef = firebase.firestore().collection('boards').doc(this.state.key);
+
+
     updateRef.set({
       title: this.state.title,
       description: this.state.description,
