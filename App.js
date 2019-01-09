@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import BoardScreen from './components/BoardScreen';
 import BoardDetailScreen from './components/BoardDetailScreen';
 import AddBoardScreen from './components/AddBoardScreen';
 import EditBoardScreen from './components/EditBoardScreen';
+import { Permissions, Notifications } from 'expo';
 
 const RootStack = createStackNavigator(
   {
