@@ -5,7 +5,7 @@ import firebase from '../Firebase';
 
 class BoardDetailScreen extends Component {
   static navigationOptions = {
-    title: 'Board Details',
+    title: 'Day Details',
   };
   constructor() {
     super();
@@ -17,7 +17,7 @@ class BoardDetailScreen extends Component {
   }
   componentDidMount() {
     const { navigation } = this.props;
-    const ref = firebase.firestore().collection('boards').doc(JSON.parse(navigation.getParam('boardkey')));
+    const ref = firebase.firestore().collection('days').doc(JSON.parse(navigation.getParam('boardkey')));
     ref.get().then((doc) => {
       if (doc.exists) {
         this.setState({
@@ -61,13 +61,13 @@ class BoardDetailScreen extends Component {
         <Card style={styles.container}>
           <View style={styles.subContainer}>
             <View>
-              <Text h3>{this.state.board.title}</Text>
+              <Text h3>{this.state.board.label}</Text>
             </View>
             <View>
-              <Text h5>{this.state.board.description}</Text>
+              <Text h5>{this.state.board.sleep}</Text>
             </View>
             <View>
-              <Text h4>{this.state.board.author}</Text>
+              <Text h4>{this.state.board.restless}</Text>
             </View>
           </View>
           <View style={styles.detailButton}>
