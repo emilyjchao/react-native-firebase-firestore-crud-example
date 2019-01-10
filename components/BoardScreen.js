@@ -161,11 +161,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     marginTop: 15,
+    color: 'indigo',
   },
   brightText: {
     textAlign: 'center',
     fontSize: 24,
-    color: 'gray',
+    color: 'firebrick',
   },
   textInput: {
     fontSize: 24,
