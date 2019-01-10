@@ -42,13 +42,16 @@ class BoardScreen extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const boards = [];
     querySnapshot.forEach((doc) => {
-      const { day, sleep, label } = doc.data();
+      const { day, sleep, label, bedwet, restless, exited } = doc.data();
       boards.push({
         key: doc.id,
         doc, // DocumentSnapshot
         day,
         sleep,
         label,
+        bedwet,
+        restless,
+        exited,
       });
     });
     this.setState({
@@ -93,6 +96,13 @@ class BoardScreen extends Component {
         </TouchableOpacity>
         <Text style={styles.title}>Time Sleeping</Text>
           {reports()}
+        <Text style={styles.title}>Restlessness</Text>
+        <Text style={styles.brightText}>{this.state.boards[0].restless}</Text>
+        <Text style={styles.title}>Bedwet</Text>
+        <Text style={styles.brightText}>{this.state.boards[0].bedwet ? "Dry" : "Unfortunately"}</Text>
+        <Text style={styles.title}>Exited</Text>
+        <Text style={styles.brightText}>{this.state.boards[0].exited}</Text>
+
 
         {/*<List>
           {
@@ -151,6 +161,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     marginTop: 15,
+  },
+  brightText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'gray',
   },
   textInput: {
     fontSize: 24,
