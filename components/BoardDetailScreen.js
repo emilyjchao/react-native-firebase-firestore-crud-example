@@ -93,6 +93,7 @@ class BoardDetailScreen extends Component {
           </View>
         </Card>
       </ScrollView>
+      
     );
   }
 }
