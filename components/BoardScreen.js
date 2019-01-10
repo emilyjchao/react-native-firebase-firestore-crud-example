@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
 import firebase from '../Firebase';
@@ -60,34 +60,34 @@ class BoardScreen extends Component {
     const reports = () => {
       return(this.state.day ?
         (<VictoryChart
-          theme={VictoryTheme.material}
-          height={130}
-          maxDomain={{x:12}}
-          >
-            <VictoryBar data={FakeData.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
-            <VictoryAxis/>
-          </VictoryChart>)
+            theme={VictoryTheme.material}
+            height={130}
+            maxDomain={{x:12}}
+            >
+              <VictoryBar data={this.state.boards.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
+              <VictoryAxis/>
+            </VictoryChart>)
         :
         (<VictoryChart
           theme={VictoryTheme.material}
           minDomain={{x:0.5}}
           maxDomain={{x:7}}
           >
-            <VictoryBar data={FakeData} x="day" y="sleep" />
+            <VictoryBar data={this.state.boards} x="day" y="sleep" />
           </VictoryChart>)
       )}
 
     return (
       <ScrollView style={styles.container}>
-      <VictoryChart
-          theme={VictoryTheme.material}
-          height={130}
-          maxDomain={{x:12}}
-          >
-            <VictoryBar data={this.state.boards.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
-            <VictoryAxis/>
-          </VictoryChart>
-        <List>
+      <TouchableOpacity
+        onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
+        style={styles.button}>
+        <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>Time Sleeping</Text>
+          {reports()}
+
+        {/*<List>
           {
             this.state.boards.map((item, i) => (
               <ListItem
@@ -102,7 +102,7 @@ class BoardScreen extends Component {
               />
             ))
           }
-        </List>
+        </List>*/}
       </ScrollView>
     );
   }
@@ -126,6 +126,27 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  button: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'black',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 15,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 24,
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 24,
+    marginTop: 15,
+  },
+  textInput: {
+    fontSize: 24,
   }
 })
 
