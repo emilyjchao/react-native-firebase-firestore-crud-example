@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
 import firebase from '../Firebase';
 
 class BoardScreen extends Component {
@@ -56,8 +57,36 @@ class BoardScreen extends Component {
         </View>
       )
     }
+    const reports = () => {
+      return(this.state.day ?
+        (<VictoryChart
+          theme={VictoryTheme.material}
+          height={130}
+          maxDomain={{x:12}}
+          >
+            <VictoryBar data={FakeData.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
+            <VictoryAxis/>
+          </VictoryChart>)
+        :
+        (<VictoryChart
+          theme={VictoryTheme.material}
+          minDomain={{x:0.5}}
+          maxDomain={{x:7}}
+          >
+            <VictoryBar data={FakeData} x="day" y="sleep" />
+          </VictoryChart>)
+      )}
+
     return (
       <ScrollView style={styles.container}>
+      <VictoryChart
+          theme={VictoryTheme.material}
+          height={130}
+          maxDomain={{x:12}}
+          >
+            <VictoryBar data={this.state.boards.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
+            <VictoryAxis/>
+          </VictoryChart>
         <List>
           {
             this.state.boards.map((item, i) => (
