@@ -22,7 +22,8 @@ class BoardScreen extends Component {
     this.unsubscribe = null;
     this.state = {
       isLoading: true,
-      boards: []
+      boards: [],
+      day: true,
     };
   }
 
