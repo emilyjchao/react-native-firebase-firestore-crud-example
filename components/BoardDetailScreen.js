@@ -4,9 +4,21 @@ import { List, ListItem, Text, Card, Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
 class BoardDetailScreen extends Component {
-  static navigationOptions = {
-    title: 'Day Details',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Day Details',
+      headerLeft: (
+        <Button
+          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+          icon={{ name: 'back', style: { marginRight: 0, fontSize: 28 } }}
+          onPress={() => { navigation.push('AddBoard') }}
+        />
+      ),
+    };
   };
+
+
+
   constructor() {
     super();
     this.state = {
@@ -93,7 +105,7 @@ class BoardDetailScreen extends Component {
           </View>
         </Card>
       </ScrollView>
-      
+
     );
   }
 }

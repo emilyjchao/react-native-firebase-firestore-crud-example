@@ -15,6 +15,13 @@ class BoardScreen extends Component {
           onPress={() => { navigation.push('AddBoard') }}
         />
       ),
+      headerLeft: (
+        <Button
+          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+          icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
+          onPress={() => { navigation.push('AddBoard') }}
+        />
+      ),
     };
   };
   constructor() {
