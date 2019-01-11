@@ -17,8 +17,6 @@ class BoardDetailScreen extends Component {
     };
   };
 
-
-
   constructor() {
     super();
     this.state = {
