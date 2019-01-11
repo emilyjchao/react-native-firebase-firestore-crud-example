@@ -5,7 +5,7 @@ import BoardScreen from './components/BoardScreen';
 import BoardDetailScreen from './components/BoardDetailScreen';
 import AddBoardScreen from './components/AddBoardScreen';
 import EditBoardScreen from './components/EditBoardScreen';
-//import SettingsScreen from './components/SettingsScreen';
+import SettingsScreen from './components/SettingsScreen';
 import { Permissions, Notifications } from 'expo';
 
 const RootStack = createStackNavigator(
@@ -14,7 +14,7 @@ const RootStack = createStackNavigator(
     BoardDetails: BoardDetailScreen,
     AddBoard: AddBoardScreen,
     EditBoard: EditBoardScreen,
-    //Settings: SettingsScreen,
+    Settings: SettingsScreen,
   },
   {
     initialRouteName: 'Board',
