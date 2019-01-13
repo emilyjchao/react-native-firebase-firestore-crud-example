@@ -8,6 +8,7 @@ import EditBoardScreen from './components/EditBoardScreen';
 import SettingsScreen from './components/SettingsScreen';
 import { Permissions, Notifications } from 'expo';
 
+
 const RootStack = createStackNavigator(
   {
     Board: BoardScreen,
@@ -30,6 +31,7 @@ const RootStack = createStackNavigator(
     },
   },
 );
+
 
 export default class App extends React.Component {
   render() {
