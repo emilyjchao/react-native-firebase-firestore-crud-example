@@ -1,120 +1,87 @@
-import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'react-native';
-import { Button } from 'react-native-elements';
-import firebase from '../Firebase';
+// ./screens/SettingsScreen.js
 
-class SettingsScreen extends Component {
-  static navigationOptions = {
-    title: 'Settings',
-  };
-  constructor() {
-    super();
-    this.ref = firebase.firestore().collection('boards');
-    this.state = {
-      title: '',
-      description: '',
-      author: '',
-      isLoading: false,
-    };
-  }
-  updateTextInput = (text, field) => {
-    const state = this.state
-    state[field] = text;
-    this.setState(state);
-  }
+// Import React and necessary UI modules
+import React from 'react'
+import { Text, ScrollView, StyleSheet, Switch, View } from 'react-native'
 
-  saveBoard() {
-
-    this.setState({
-      isLoading: true,
-    });
-    this.ref.add({
-      title: this.state.title,
-      description: this.state.description,
-      author: this.state.author,
-    }).then((docRef) => {
-      this.setState({
-        title: '',
-        description: '',
-        author: '',
-        isLoading: false,
-      });
-      this.props.navigation.goBack();
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-      this.setState({
-        isLoading: false,
-      });
-    });
-  }
-
-  render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.activity}>
-          <ActivityIndicator size="large" color="#0000ff"/>
-        </View>
-      )
-    }
-    return (
-      <ScrollView style={styles.container}>
-        <View style={styles.subContainer}>
-          <TextInput
-              placeholder={'Title'}
-              value={this.state.title}
-              onChangeText={(text) => this.updateTextInput(text, 'title')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-              multiline={true}
-              numberOfLines={4}
-              placeholder={'Description'}
-              value={this.state.description}
-              onChangeText={(text) => this.updateTextInput(text, 'description')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-              placeholder={'Author'}
-              value={this.state.author}
-              onChangeText={(text) => this.updateTextInput(text, 'author')}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            large
-            leftIcon={{name: 'save'}}
-            title='Save'
-            onPress={() => this.saveBoard()} />
-        </View>
-      </ScrollView>
-    );
-  }
-}
-
+// Import color constants
+import Colors from '../constants/Colors';
+// Add some simple styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    paddingTop: 15,
+    backgroundColor: '#fff'
   },
-  subContainer: {
-    flex: 1,
-    marginBottom: 20,
-    padding: 5,
-    borderBottomWidth: 2,
-    borderBottomColor: '#CCCCCC',
-  },
-  activity: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+  switchContainer: {
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+    paddingHorizontal: 15
+  },
+  switchLabel: {
+    flex: 0
   }
 })
 
-export default SettingsScreen;
+// Create and export Settings screen component
+export default class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Settings' // Enable app header and use 'Settings' as the label
+  }
+
+  // Define default states for switch components
+  state = {
+    isOptionOneEnabled: false,
+    isOptionTwoEnabled: false,
+    isOptionThreeEnabled: false,
+    isOptionFourEnabled: false
+  }
+
+  // Handle change of switch state
+  handleSwitch = (option) => {
+    this.setState({
+      [option]: !this.state[option]
+    })
+  }
+
+  render() {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>
+            Option 1
+          </Text>
+
+          <Switch trackColor={{true: Colors.tintColor}} onValueChange={() => this.handleSwitch('isOptionOneEnabled')} value={this.state.isOptionOneEnabled} />
+        </View>
+
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>
+            Option 2
+          </Text>
+
+          <Switch trackColor={{true: Colors.tintColor}} onValueChange={() => this.handleSwitch('isOptionTwoEnabled')} value={this.state.isOptionTwoEnabled} />
+        </View>
+
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>
+            Option 3
+          </Text>
+
+          <Switch trackColor={{true: Colors.tintColor}} onValueChange={() => this.handleSwitch('isOptionThreeEnabled')} value={this.state.isOptionThreeEnabled} />
+        </View>
+
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>
+            Option 4
+          </Text>
+
+          <Switch trackColor={{true: Colors.tintColor}} onValueChange={() => this.handleSwitch('isOptionFourEnabled')} value={this.state.isOptionFourEnabled} />
+        </View>
+      </ScrollView>
+    )
+  }
+}
