@@ -33,8 +33,21 @@ export default class SettingsScreen extends React.Component {
   }
   constructor() {
     super();
-    this.onValueChange = this.onValueChange.bind(this);
-    this.state = {switchValue: false, loggedIn: false};
+    this.onPoolingChange = this.onPoolingChange.bind(this);
+    this.onNotificationChange = this.onNotificationChange.bind(this);
+    this.onBedwettingChange = this.onBedwettingChange.bind(this);
+    this.onRestlessChange = this.onRestlessChange.bind(this);
+    this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
+    this.onAsleepChange = this.onAsleepChange.bind(this);
+
+    this.state = {
+      pooling: false,
+      notification: false,
+      bedwetting: false,
+      restless: false,
+      outofbed: false,
+      asleep: false,
+      loggedIn: false};
   }
 
   // Handle change of switch state
@@ -51,31 +64,59 @@ export default class SettingsScreen extends React.Component {
       <View style={{backgroundColor:'#EFEFF4',flex:1}}>
         <View style={{flex:1, marginTop:50}}>
           <SettingsList>
-          <SettingsList.Header headerText='First Grouping' headerStyle={{color:'black'}}/>
+          <SettingsList.Header headerText='Profile' headerStyle={{color:'black'}}/>
             <SettingsList.Item
               icon={
                 <View style={{height:30,marginLeft:10,alignSelf:'center'}}>
-                  <Image style={{alignSelf:'center',height:30, width:30}} source={require('./images/about.png')}/>
+                  <Image style={{alignSelf:'center',height:30, width:30}} source={require('./images/user.png')}/>
                 </View>
               }
               itemWidth={50}
-              title='Icon Example'
-              onPress={() => Alert.alert('Icon Example Pressed')}
+              title='Parent 1'
+              onPress={() => Alert.alert('See Account Information')}
             />
             <SettingsList.Item
               hasNavArrow={false}
-              switchState={this.state.switchValue}
-              switchOnValueChange={this.onValueChange}
+              switchState={this.state.pooling}
+              switchOnValueChange={this.onPoolingChange}
               hasSwitch={true}
-              title='Switch Example'/>
+              title='Community Data Pooling'/>
             <SettingsList.Item
-              title='Different Colors Example'
+              title='Privacy Agreement'
               backgroundColor='#D1D1D1'
-              onPress={() => Alert.alert('Different Colors Example Pressed')}/>
-            <SettingsList.Header headerText='Different Grouping' headerStyle={{color:'black', marginTop:50}}/>
-            <SettingsList.Item titleInfo='Some Information' hasNavArrow={false} title='Information Example'/>
-            <SettingsList.Item title='Settings 1'/>
-            <SettingsList.Item title='Settings 2'/>
+              onPress={() => Alert.alert('See Terms and Conditions of Use')}/>
+            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:'black', marginTop:50}}/>
+            <SettingsList.Item titleInfo='Bedroom 1' hasNavArrow={false} title='Child 1'/>
+            <SettingsList.Item
+              hasNavArrow={false}
+              switchState={this.state.notification}
+              switchOnValueChange={this.onNotificationChange}
+              hasSwitch={true}
+              title='Enable Push Notifications'/>
+              <SettingsList.Item
+                hasNavArrow={false}
+                switchState={this.state.bedwetting}
+                switchOnValueChange={this.onBedwettingChange}
+                hasSwitch={true}
+                title='Bedwetting Alarm'/>
+              <SettingsList.Item
+                hasNavArrow={false}
+                switchState={this.state.restless}
+                switchOnValueChange={this.onRestlessChange}
+                hasSwitch={true}
+                title='Restlessness Alarm'/>
+              <SettingsList.Item
+                hasNavArrow={false}
+                switchState={this.state.outofbed}
+                switchOnValueChange={this.onOutOfBedChange}
+                hasSwitch={true}
+                title='Out of Bed Alarm'/>
+              <SettingsList.Item
+                hasNavArrow={false}
+                switchState={this.state.asleep}
+                switchOnValueChange={this.onAsleepChange}
+                hasSwitch={true}
+                title='Fell Asleep Alert'/>
           </SettingsList>
         </View>
       </View>
@@ -85,7 +126,22 @@ export default class SettingsScreen extends React.Component {
   toggleAuthView() {
     this.setState({toggleAuthView: !this.state.toggleAuthView});
   }
-  onValueChange(value){
-    this.setState({switchValue: value});
+  onPoolingChange(value){
+    this.setState({pooling: value});
+  }
+  onNotificationChange(value){
+    this.setState({notification: value});
+  }
+  onBedwettingChange(value){
+    this.setState({bedwetting: value});
+  }
+  onRestlessChange(value){
+    this.setState({restless: value});
+  }
+  onOutOfBedChange(value){
+    this.setState({outofbed: value});
+  }
+  onAsleepChange(value){
+    this.setState({asleep: value});
   }
 }
