@@ -1,17 +1,11 @@
-// ./screens/SettingsScreen.js
-
-// Import React and necessary UI modules
 import React from 'react'
-import { Text, ScrollView, StyleSheet, Switch, View } from 'react-native'
-// Import color constants
+import { Text, ScrollView, StyleSheet, Switch,
+  View, AppRegistry, Component, Image, Alert } from 'react-native'
 import Colors from '../constants/Colors';
-import {
-  AppRegistry,
-  Component,
-  Image,
-  Alert
-} from 'react-native';
+import { Button } from 'react-native-elements';
 import SettingsList from 'react-native-settings-list';
+import firebase from '../Firebase';
+
 
 const styles = StyleSheet.create({
   imageStyle:{
@@ -33,6 +27,8 @@ export default class SettingsScreen extends React.Component {
   }
   constructor() {
     super();
+    this.ref = firebase.firestore().collection('settings');
+
     this.onPoolingChange = this.onPoolingChange.bind(this);
     this.onNotificationChange = this.onNotificationChange.bind(this);
     this.onBedwettingChange = this.onBedwettingChange.bind(this);
@@ -42,12 +38,13 @@ export default class SettingsScreen extends React.Component {
 
     this.state = {
       pooling: false,
-      notification: false,
+      notification: true,
       bedwetting: false,
       restless: false,
       outofbed: false,
       asleep: false,
-      loggedIn: false};
+      loggedIn: false
+      };
   }
 
   // Handle change of switch state
@@ -57,7 +54,30 @@ export default class SettingsScreen extends React.Component {
     })
   }
 
+
+  saveSettings() {
+    this.ref.add({
+      pooling: this.state.pooling,
+      notification: this.state.notification,
+      bedwetting: this.state.bedwetting,
+      restless: this.state.restless,
+      outofbed: this.state.outofbed,
+      asleep: this.state.asleep,
+
+    })
+    .catch((error) => {
+      console.error("Error saving settings: ", error);
+    });
+  }
+
   render() {
+    if(this.state.isLoading){
+      return(
+        <View style={styles.activity}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
     var bgColor = '#DCE3F4';
     return (
       <ScrollView style={styles.container}>
@@ -119,6 +139,13 @@ export default class SettingsScreen extends React.Component {
                 title='Fell Asleep Alert'/>
           </SettingsList>
         </View>
+      </View>
+      <View style={styles.button}>
+        <Button
+          small
+          leftIcon={{name: 'save'}}
+          title='Save Settings'
+          onPress={() => this.saveSettings()} />
       </View>
       </ScrollView>
     )
