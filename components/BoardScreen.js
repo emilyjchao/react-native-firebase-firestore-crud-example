@@ -57,9 +57,9 @@ class BoardScreen extends Component {
       });
     });
     // reorder into chronological order
-    console.log(boards[4].day);
-    boards = boards.sort((a,b) => { return a.day - b.day });
-    console.log(boards.sort((a,b) => { return(a.day - b.day) })[0].day);
+    //console.log(boards[4].day);
+    //boards = boards.sort((a,b) => { return a.day - b.day });
+    //console.log(boards.sort((a,b) => { return(a.day - b.day) })[0].day);
     //store boards in state
     this.setState({
       boards: boards.sort((a,b) => { return(a.day - b.day) }),
@@ -113,12 +113,6 @@ class BoardScreen extends Component {
           //theme={VictoryTheme.material}
           minDomain={{x:0.5}}
           maxDomain={{x:7}}
-          events={[{
-            target:"data",
-            eventHandlers: {
-              onPressIn: (event, data) => {return[{ mutation: (props) => { style: {fill: "black"}}}]}
-            }
-          }]}
           >
             <VictoryBar
               data={this.state.boards}
