@@ -27,15 +27,7 @@ export default class SettingsScreen extends React.Component {
   }
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('settings');
-
-    this.onPoolingChange = this.onPoolingChange.bind(this);
-    this.onNotificationChange = this.onNotificationChange.bind(this);
-    this.onBedwettingChange = this.onBedwettingChange.bind(this);
-    this.onRestlessChange = this.onRestlessChange.bind(this);
-    this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
-    this.onAsleepChange = this.onAsleepChange.bind(this);
-
+    this.ref = firebase.firestore().collection('settings').doc('userSettings');
     this.state = {
       pooling: false,
       notification: true,
@@ -43,9 +35,56 @@ export default class SettingsScreen extends React.Component {
       restless: false,
       outofbed: false,
       asleep: false,
-      loggedIn: false
-      };
-  }
+    };
+    this.onPoolingChange = this.onPoolingChange.bind(this);
+    this.onNotificationChange = this.onNotificationChange.bind(this);
+    this.onBedwettingChange = this.onBedwettingChange.bind(this);
+    this.onRestlessChange = this.onRestlessChange.bind(this);
+    this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
+    this.onAsleepChange = this.onAsleepChange.bind(this);
+
+    // this.ref.get().then((doc) => {
+    //   if (doc.exists) {
+    //     let pooling = doc.pooling();
+    //     let notification = doc.notification();
+    //     let bedwetting = doc.bedwetting();
+    //     let restless = doc.restless();
+    //     let outofbed = doc.outofbed();
+    //     let asleep = doc.asleep();
+    //     console.log(pooling)
+    //     this.state = {
+    //       pooling: pooling,
+    //       notification: notification,
+    //       bedwetting: notification,
+    //       restless: restless,
+    //       outofbed: outofbed,
+    //       asleep: asleep,
+    //   };
+    //
+    //   } else {
+    //     // doc.data() will be undefined in this case
+    //     this.state = {
+    //       pooling: false,
+    //       notification: true,
+    //       bedwetting: false,
+    //       restless: false,
+    //       outofbed: false,
+    //       asleep: false,
+    //     };
+    //     console.log("No such document!");
+    //   }
+    //   }).catch(function (error) {
+    //     this.state = {
+    //       pooling: false,
+    //       notification: true,
+    //       bedwetting: false,
+    //       restless: false,
+    //       outofbed: false,
+    //       asleep: false,
+    //     };
+    //     console.log("Error getting document:", error);
+    //   });
+   }
 
   // Handle change of switch state
   handleSwitch = (option) => {
@@ -56,7 +95,7 @@ export default class SettingsScreen extends React.Component {
 
 
   saveSettings() {
-    this.ref.add({
+    this.ref.update({
       pooling: this.state.pooling,
       notification: this.state.notification,
       bedwetting: this.state.bedwetting,
@@ -71,13 +110,6 @@ export default class SettingsScreen extends React.Component {
   }
 
   render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.activity}>
-          <ActivityIndicator size="large" color="#0000ff"/>
-        </View>
-      )
-    }
     var bgColor = '#DCE3F4';
     return (
       <ScrollView style={styles.container}>
@@ -144,8 +176,8 @@ export default class SettingsScreen extends React.Component {
         <Button
           small
           leftIcon={{name: 'save'}}
-          title='Save Settings'
-          onPress={() => this.saveSettings()} />
+          onPress={() => this.saveSettings()}
+          title='Save Settings' />
       </View>
       </ScrollView>
     )
