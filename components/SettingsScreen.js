@@ -25,8 +25,8 @@ export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings' // Enable app header and use 'Settings' as the label
   }
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.ref = firebase.firestore().collection('settings').doc('userSettings');
     this.state = {
       pooling: false,
@@ -36,6 +36,7 @@ export default class SettingsScreen extends React.Component {
       outofbed: false,
       asleep: false,
     };
+
     this.onPoolingChange = this.onPoolingChange.bind(this);
     this.onNotificationChange = this.onNotificationChange.bind(this);
     this.onBedwettingChange = this.onBedwettingChange.bind(this);
@@ -43,47 +44,48 @@ export default class SettingsScreen extends React.Component {
     this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
     this.onAsleepChange = this.onAsleepChange.bind(this);
 
-    // this.ref.get().then((doc) => {
-    //   if (doc.exists) {
-    //     let pooling = doc.pooling();
-    //     let notification = doc.notification();
-    //     let bedwetting = doc.bedwetting();
-    //     let restless = doc.restless();
-    //     let outofbed = doc.outofbed();
-    //     let asleep = doc.asleep();
-    //     console.log(pooling)
-    //     this.state = {
-    //       pooling: pooling,
-    //       notification: notification,
-    //       bedwetting: notification,
-    //       restless: restless,
-    //       outofbed: outofbed,
-    //       asleep: asleep,
-    //   };
-    //
-    //   } else {
-    //     // doc.data() will be undefined in this case
-    //     this.state = {
-    //       pooling: false,
-    //       notification: true,
-    //       bedwetting: false,
-    //       restless: false,
-    //       outofbed: false,
-    //       asleep: false,
-    //     };
-    //     console.log("No such document!");
-    //   }
-    //   }).catch(function (error) {
-    //     this.state = {
-    //       pooling: false,
-    //       notification: true,
-    //       bedwetting: false,
-    //       restless: false,
-    //       outofbed: false,
-    //       asleep: false,
-    //     };
-    //     console.log("Error getting document:", error);
-    //   });
+    const docRef = firebase.firestore().collection('settings').doc('userSettings');
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let pooling = docRef.pooling();
+        let notification = doc.notification();
+        let bedwetting = doc.bedwetting();
+        let restless = doc.restless();
+        let outofbed = doc.outofbed();
+        let asleep = doc.asleep();
+        console.log(doc.data)
+        this.state = {
+          pooling: pooling,
+          notification: notification,
+          bedwetting: notification,
+          restless: restless,
+          outofbed: outofbed,
+          asleep: asleep,
+      };
+
+      } else {
+        // doc.data() will be undefined in this case
+        this.state = {
+          pooling: false,
+          notification: true,
+          bedwetting: false,
+          restless: false,
+          outofbed: false,
+          asleep: false,
+        };
+        console.log("No such document!");
+      }
+      }).catch(function (error) {
+        this.state = {
+          pooling: false,
+          notification: true,
+          bedwetting: false,
+          restless: false,
+          outofbed: false,
+          asleep: false,
+        };
+        console.log("Error getting document:", error);
+      });
    }
 
   // Handle change of switch state
