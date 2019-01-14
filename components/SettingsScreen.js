@@ -6,20 +6,6 @@ import { Button } from 'react-native-elements';
 import SettingsList from 'react-native-settings-list';
 import firebase from '../Firebase';
 
-
-const styles = StyleSheet.create({
-  imageStyle:{
-    marginLeft:15,
-    alignSelf:'center',
-    height:30,
-    width:30
-  },
-  titleInfoStyle:{
-    fontSize:16,
-    color: '#8e8e93'
-  }
-});
-
 // Create and export Settings screen component
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -44,46 +30,42 @@ export default class SettingsScreen extends React.Component {
     this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
     this.onAsleepChange = this.onAsleepChange.bind(this);
 
-    const docRef = firebase.firestore().collection('settings').doc('userSettings');
-    docRef.get().then((doc) => {
+    this.ref.get().then((doc) => {
       if (doc.exists) {
-        let pooling = docRef.pooling();
-        let notification = doc.notification();
-        let bedwetting = doc.bedwetting();
-        let restless = doc.restless();
-        let outofbed = doc.outofbed();
-        let asleep = doc.asleep();
-        console.log(doc.data)
-        this.state = {
-          pooling: pooling,
-          notification: notification,
-          bedwetting: notification,
-          restless: restless,
-          outofbed: outofbed,
-          asleep: asleep,
-      };
+        console.log(doc.data())
+        this.setState({
+          pooling: doc.data().pooling,
+          notification: doc.data().notification,
+          bedwetting: doc.data().bedwetting,
+          restless: doc.data().restless,
+          outofbed: doc.data().outofbed,
+          asleep: doc.data().asleep,
+        });
+         console.log(doc.data().pooling)
+         console.log(this.state)
+
 
       } else {
         // doc.data() will be undefined in this case
-        this.state = {
+        this.setState({
           pooling: false,
           notification: true,
           bedwetting: false,
           restless: false,
           outofbed: false,
           asleep: false,
-        };
+        });
         console.log("No such document!");
       }
       }).catch(function (error) {
-        this.state = {
+        this.setState({
           pooling: false,
           notification: true,
           bedwetting: false,
           restless: false,
           outofbed: false,
           asleep: false,
-        };
+        });
         console.log("Error getting document:", error);
       });
    }
@@ -206,3 +188,16 @@ export default class SettingsScreen extends React.Component {
     this.setState({asleep: value});
   }
 }
+
+const styles = StyleSheet.create({
+  imageStyle:{
+    marginLeft:15,
+    alignSelf:'center',
+    height:30,
+    width:30
+  },
+  titleInfoStyle:{
+    fontSize:16,
+    color: '#8e8e93'
+  }
+});
