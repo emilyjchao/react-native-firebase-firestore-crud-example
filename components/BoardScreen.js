@@ -56,10 +56,6 @@ class BoardScreen extends Component {
         exited,
       });
     });
-    // reorder into chronological order
-    //console.log(boards[4].day);
-    //boards = boards.sort((a,b) => { return a.day - b.day });
-    //console.log(boards.sort((a,b) => { return(a.day - b.day) })[0].day);
     //store boards in state
     this.setState({
       boards: boards.sort((a,b) => { return(a.day - b.day) }),
@@ -96,10 +92,10 @@ class BoardScreen extends Component {
                       return [
                         {
                           target: "data",
-                          mutation: (props) => {
-                            const fill = props.style && props.style.fill;
-                            return fill === "black" ? null : { style: { fill: "black" } };
-                          }
+                          // mutation: (props) => {
+                          //   const fill = props.style && props.style.fill;
+                          //   return fill === "black" ? null : { style: { fill: "black" } };
+                          // }
                         }
                       ];
                     }
@@ -132,10 +128,10 @@ class BoardScreen extends Component {
                     return [
                       {
                         target: "data",
-                        mutation: (props) => {
-                          const fill = props.style && props.style.fill;
-                          return fill === "black" ? null : { style: { fill: "black" } };
-                        }
+                      //   mutation: (props) => {
+                      //     const fill = props.style && props.style.fill;
+                      //     return fill === "black" ? null : { style: { fill: "black" } };
+                      //   }
                       }
                     ];
                   }
@@ -153,6 +149,7 @@ class BoardScreen extends Component {
         </TouchableOpacity>
         <Text style={styles.title}>Time Sleeping</Text>
           {reports()}
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
         <Text style={styles.title}>Restlessness</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
