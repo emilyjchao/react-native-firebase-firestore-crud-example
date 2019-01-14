@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory-native';
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
 class BoardScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Board List',
+      title: 'Sleep Report',
       headerRight: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
@@ -31,7 +31,8 @@ class BoardScreen extends Component {
     this.state = {
       isLoading: true,
       boards: [],
-      day: true,
+      day: false,
+      picked: 1,
     };
   }
 
@@ -40,7 +41,8 @@ class BoardScreen extends Component {
   }
 
   onCollectionUpdate = (querySnapshot) => {
-    const boards = [];
+    let boards = [];
+    //add the records to array
     querySnapshot.forEach((doc) => {
       const { day, sleep, label, bedwet, restless, exited } = doc.data();
       boards.push({
@@ -54,8 +56,13 @@ class BoardScreen extends Component {
         exited,
       });
     });
+    // reorder into chronological order
+    console.log(boards[4].day);
+    boards = boards.sort((a,b) => { return a.day - b.day });
+    console.log(boards.sort((a,b) => { return(a.day - b.day) })[0].day);
+    //store boards in state
     this.setState({
-      boards,
+      boards: boards.sort((a,b) => { return(a.day - b.day) }),
       isLoading: false,
    });
   }
@@ -74,16 +81,72 @@ class BoardScreen extends Component {
             height={130}
             maxDomain={{x:12}}
             >
-              <VictoryBar data={this.state.boards.slice(0,1)} barWidth={20} x="day" y="sleep"  horizontal={true} />
+              <VictoryBar
+    // Fix this method of getting the specific day
+                data={[this.state.boards[this.state.picked-1]]}
+                barWidth={20} x="day" y="sleep"
+                horizontal={true}
+                style={{
+                  data: { fill: "#c43a31" }
+                }}
+                events={[{
+                  target: "data",
+                  eventHandlers: {
+                   onPressIn: () => {
+                      return [
+                        {
+                          target: "data",
+                          mutation: (props) => {
+                            const fill = props.style && props.style.fill;
+                            return fill === "black" ? null : { style: { fill: "black" } };
+                          }
+                        }
+                      ];
+                    }
+                  }}]}
+                />
               <VictoryAxis/>
             </VictoryChart>)
         :
         (<VictoryChart
-          theme={VictoryTheme.material}
+          // adds grid lines (probably does more too)
+          //theme={VictoryTheme.material}
           minDomain={{x:0.5}}
           maxDomain={{x:7}}
+          events={[{
+            target:"data",
+            eventHandlers: {
+              onPressIn: (event, data) => {return[{ mutation: (props) => { style: {fill: "black"}}}]}
+            }
+          }]}
           >
-            <VictoryBar data={this.state.boards} x="day" y="sleep" />
+            <VictoryBar
+              data={this.state.boards}
+              x="day" y="sleep"
+              style={{
+                data: { fill: "#c43a31" }
+              }}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                 onPressIn: (event, data) => {
+          // Navigate from click
+                   //this.props.navigation.push('Settings');
+                   //access the data point
+                   this.setState({picked: data.datum.day});
+                   console.log(this.state.picked)
+                    return [
+                      {
+                        target: "data",
+                        mutation: (props) => {
+                          const fill = props.style && props.style.fill;
+                          return fill === "black" ? null : { style: { fill: "black" } };
+                        }
+                      }
+                    ];
+                  }
+                }}]}
+                />
           </VictoryChart>)
       )}
 
@@ -97,11 +160,11 @@ class BoardScreen extends Component {
         <Text style={styles.title}>Time Sleeping</Text>
           {reports()}
         <Text style={styles.title}>Restlessness</Text>
-        <Text style={styles.brightText}>{this.state.boards[0].restless}</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{this.state.boards[0].bedwet ? "Dry" : "Unfortunately"}</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
         <Text style={styles.title}>Exited</Text>
-        <Text style={styles.brightText}>{this.state.boards[0].exited}</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
 
 
         {/*<List>
