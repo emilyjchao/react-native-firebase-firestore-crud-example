@@ -154,7 +154,7 @@ class BoardScreen extends Component {
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
-        <Text style={styles.title}>Exited</Text>
+        <Text style={styles.title}>Exits</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
 
 
