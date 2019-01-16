@@ -6,7 +6,7 @@ import BoardDetailScreen from './components/BoardDetailScreen';
 import AddBoardScreen from './components/AddBoardScreen';
 import EditBoardScreen from './components/EditBoardScreen';
 import SettingsScreen from './components/SettingsScreen'
-import { Permissions, Notifications } from 'expo';
+import {Permissions, Notifications} from 'expo'
 
 
 const RootStack = createStackNavigator(
@@ -35,6 +35,8 @@ const RootStack = createStackNavigator(
 
 export default class App extends React.Component {
   render() {
+    registerForPushNotificationsAsync();
+
     return <RootStack />;
   }
 }
@@ -48,9 +50,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-//NotificationsCodeconst
 PUSH_ENDPOINT = 'https://exp.host/--/api/v2/push/send';
 
 async function registerForPushNotificationsAsync() {
@@ -75,6 +74,7 @@ async function registerForPushNotificationsAsync() {
 
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
+  console.log(token)
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
   return fetch(PUSH_ENDPOINT, {
