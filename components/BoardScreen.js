@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
 class BoardScreen extends Component {
@@ -70,75 +70,109 @@ class BoardScreen extends Component {
         </View>
       )
     }
-    const reports = () => {
-      return(this.state.day ?
-        (<VictoryChart
-            theme={VictoryTheme.material}
-            height={130}
-            maxDomain={{x:12}}
-            >
-              <VictoryBar
-    // Fix this method of getting the specific day
-                data={[this.state.boards[this.state.picked-1]]}
-                barWidth={20} x="day" y="sleep"
-                horizontal={true}
-                style={{
-                  data: { fill: "#c43a31" }
-                }}
-                events={[{
-                  target: "data",
-                  eventHandlers: {
-                   onPressIn: () => {
-                      return [
-                        {
-                          target: "data",
-                          // mutation: (props) => {
-                          //   const fill = props.style && props.style.fill;
-                          //   return fill === "black" ? null : { style: { fill: "black" } };
-                          // }
-                        }
-                      ];
+
+    const dayDetail = (
+      <View>
+      <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
+      <VictoryChart
+        theme={VictoryTheme.material}
+        height={130}
+        maxDomain={{x:12}}
+        >
+          <VictoryBar
+// Fix this method of getting the specific day
+            data={[this.state.boards[this.state.picked-1]]}
+            barWidth={20} x="day" y="sleep"
+            horizontal={true}
+            style={{ data: { fill: "#c43a31" } }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+               onPressIn: () => {
+                  return [
+                    {
+                      target: "data",
+                      // mutation: (props) => {
+                      //   const fill = props.style && props.style.fill;
+                      //   return fill === "black" ? null : { style: { fill: "black" } };
+                      // }
                     }
-                  }}]}
-                />
-              <VictoryAxis/>
-            </VictoryChart>)
-        :
-        (<VictoryChart
-          // adds grid lines (probably does more too)
-          //theme={VictoryTheme.material}
-          minDomain={{x:0.5}}
-          maxDomain={{x:7}}
-          >
-            <VictoryBar
-              data={this.state.boards}
-              x="day" y="sleep"
-              style={{
-                data: { fill: "#c43a31" }
-              }}
-              events={[{
-                target: "data",
-                eventHandlers: {
-                 onPressIn: (event, data) => {
-          // Navigate from click
-                   //this.props.navigation.push('Settings');
-                   //access the data point
-                   this.setState({picked: data.datum.day});
-                   console.log(this.state.picked)
-                    return [
-                      {
-                        target: "data",
-                      //   mutation: (props) => {
-                      //     const fill = props.style && props.style.fill;
-                      //     return fill === "black" ? null : { style: { fill: "black" } };
-                      //   }
-                      }
-                    ];
-                  }
-                }}]}
-                />
-          </VictoryChart>)
-      )}
+                  ];
+                }
+              }}]}
+            />
+          <VictoryAxis/>
+        </VictoryChart>
+        <Text style={styles.title}>Restlessness</Text>
+        <VictoryChart
+          theme={VictoryTheme.material}
+          height={130}>
+          <VictoryLine
+            data={[
+              { x: 1, y: 2 },
+              { x: 2, y: 3 },
+              { x: 3, y: 5 },
+              { x: 4, y: 4 },
+              { x: 5, y: 7 }
+            ]}/>
+          <VictoryAxis/>
+        </VictoryChart>
+        //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
+        <Text style={styles.title}>Bedwet</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
+        <Text style={styles.title}>Exits</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
+      </View>);
+
+    const weekDetail = (
+      <View>
+      <Text style={styles.title}>Time Sleeping</Text>
+        <VictoryChart
+        // adds grid lines (probably does more too)
+        //theme={VictoryTheme.material}
+        minDomain={{x:0.5}}
+        maxDomain={{x:7}}
+        >
+          <VictoryBar
+            data={this.state.boards}
+            x="day" y="sleep"
+            style={{
+              data: { fill: "#c43a31" }
+            }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+               onPressIn: (event, data) => {
+        // Navigate from click
+                 //this.props.navigation.push('Settings');
+                 //access the data point
+                 this.setState({picked: data.datum.day});
+                 console.log(this.state.picked)
+                  return [
+                    {
+                      target: "data",
+                    //   mutation: (props) => {
+                    //     const fill = props.style && props.style.fill;
+                    //     return fill === "black" ? null : { style: { fill: "black" } };
+                    //   }
+                    }
+                  ];
+                }
+              }}]}
+              />
+        </VictoryChart>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
+        <Text style={styles.title}>Restlessness</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
+        <Text style={styles.title}>Bedwet</Text>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
+        <Text style={styles.title}>Exits</Text>
+        // To make a nice simple table:
+        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
+      </View>);
+
+    const reports = this.state.day ? (dayDetail) : (weekDetail);
 
     return (
       <ScrollView style={styles.container}>
@@ -147,33 +181,8 @@ class BoardScreen extends Component {
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Time Sleeping</Text>
-          {reports()}
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
-        <Text style={styles.title}>Restlessness</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
-        <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
-        <Text style={styles.title}>Exits</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
 
-
-        {/*<List>
-          {
-            this.state.boards.map((item, i) => (
-              <ListItem
-                key={i}
-                title={item.label}
-                leftIcon={{name: 'book', type: 'font-awesome'}}
-                onPress={() => {
-                  this.props.navigation.navigate('BoardDetails', {
-                    boardkey: `${JSON.stringify(item.key)}`,
-                  });
-                }}
-              />
-            ))
-          }
-        </List>*/}
+          {reports}
       </ScrollView>
     );
   }
