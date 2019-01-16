@@ -41,7 +41,6 @@ export default class SettingsScreen extends React.Component {
           outofbed: doc.data().outofbed,
           asleep: doc.data().asleep,
         });
-         console.log(doc.data().pooling)
          console.log(this.state)
 
 
