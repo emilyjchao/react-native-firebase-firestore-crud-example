@@ -48,10 +48,61 @@ class HomeScreen extends Component {
   fetchData = async () => {
     //Get just one night of sleep
     //firebase.database().ref('1/').on('value', function (snapshot) {
-
+    //console.log("hellllloooooooooooooooo");
     //Get all nights of sleep
+
+    // array of night objects
+    // each object has array of exits, enters, and wets
+    let nightData = [];
+
     firebase.database().ref().on('value', function (snapshot) {
-        console.log(snapshot.val())
+        //console.log(snapshot.val());
+        console.log("done");
+        let nights = [];
+        let data = snapshot.val();
+        // for( var night in snapshot.val()) {
+        //   //console.log(night);
+        //   if ( night != "date") {
+        //     nights.push(night);
+        //   }
+        // }
+        // could also just use Object.keys() instead of above loop
+        nights = Object.keys(data);
+
+        //console.log(data[nights[0]]);
+        nights.forEach( (nightName) => {
+          console.log(data[nightName]);
+          let enters = [];
+          let exits = [];
+          let wets = [];
+
+          let enExWe = -1;
+          for (var event in data[nightName]) {
+            let eventType = data[nightName][event];
+            //console.log('...' + data[nightName][event]);
+            if (eventType == "exited bed") {
+              enExWe = 1;
+            }
+            else if (eventType == "entered bed") {
+              enExWe = 2;
+            }
+            else if (eventType == "wet bed") {
+              enExWe = 3;
+            }
+            else {
+              if(enExWe == 1) { exits.push(eventType); }
+              else if (enExWe == 2) { enters.push(eventType); }
+              else if (enExWe == 3) { wets.push(eventType); }
+              enExWe = -1;
+            }
+
+          }
+
+          nightData.push({ "night": nightName, "exits": exits, "enters": enters, "wets": wets});
+        })
+
+        console.log(nightData);
+
     });
   }
 
