@@ -4,7 +4,7 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
-class BoardScreen extends Component {
+class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Sleep Report',
@@ -19,7 +19,7 @@ class BoardScreen extends Component {
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('AddBoard') }}
+          onPress={() => { navigation.push('AddChild') }}
         />
       ),
     };
@@ -236,4 +236,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default BoardScreen;
+export default HomeScreen;
