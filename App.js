@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import BoardScreen from './components/BoardScreen';
-import BoardDetailScreen from './components/BoardDetailScreen';
-import AddBoardScreen from './components/AddBoardScreen';
+import HomeScreen from './components/HomeScreen';
+import DayDetailScreen from './components/DayDetailScreen';
+import AddChildScreen from './components/AddChildScreen';
 import EditBoardScreen from './components/EditBoardScreen';
 import SettingsScreen from './components/SettingsScreen'
 import {Permissions, Notifications} from 'expo'
@@ -11,14 +11,14 @@ import {Permissions, Notifications} from 'expo'
 
 const RootStack = createStackNavigator(
   {
-    Board: BoardScreen,
-    BoardDetails: BoardDetailScreen,
-    AddBoard: AddBoardScreen,
+    Home: HomeScreen,
+    DayDetails: DayDetailScreen,
+    AddChild: AddChildScreen,
     EditBoard: EditBoardScreen,
     Settings: SettingsScreen,
   },
   {
-    initialRouteName: 'Board',
+    initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#777777',

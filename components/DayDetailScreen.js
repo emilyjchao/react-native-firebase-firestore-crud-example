@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, ActivityIndicator, View } from 'react-native';
 import { List, ListItem, Text, Card, Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
-class BoardDetailScreen extends Component {
+class DayDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Day Details',
@@ -132,4 +132,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default BoardDetailScreen;
+export default DayDetailScreen;

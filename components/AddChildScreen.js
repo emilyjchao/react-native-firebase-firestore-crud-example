@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'reac
 import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
-class AddBoardScreen extends Component {
+class AddChildScreen extends Component {
   static navigationOptions = {
     title: 'Add Child',
   };
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddBoardScreen;
+export default AddChildScreen;

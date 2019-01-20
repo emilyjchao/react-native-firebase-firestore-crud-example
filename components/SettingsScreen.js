@@ -32,7 +32,7 @@ export default class SettingsScreen extends React.Component {
 
     this.ref.get().then((doc) => {
       if (doc.exists) {
-        console.log(doc.data())
+        //console.log(doc.data())
         this.setState({
           pooling: doc.data().pooling,
           notification: doc.data().notification,
@@ -41,7 +41,7 @@ export default class SettingsScreen extends React.Component {
           outofbed: doc.data().outofbed,
           asleep: doc.data().asleep,
         });
-         console.log(this.state)
+        //console.log(this.state)
 
 
       } else {
