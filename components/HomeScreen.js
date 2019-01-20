@@ -33,6 +33,9 @@ class HomeScreen extends Component {
       boards: [],
       day: false,
       picked: 1,
+      bedwet: '',
+      enter: [],
+      exit: []
     };
   }
 
@@ -41,6 +44,7 @@ class HomeScreen extends Component {
     this.fetchData();
 
   }
+
   fetchData = async () => {
     //Get just one night of sleep
     //firebase.database().ref('1/').on('value', function (snapshot) {
