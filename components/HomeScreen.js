@@ -38,6 +38,18 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    this.fetchData();
+
+  }
+  fetchData = async () => {
+    //Get just one night of sleep
+    //firebase.database().ref('1/').on('value', function (snapshot) {
+
+    //Get all nights of sleep
+    firebase.database().ref().on('value', function (snapshot) {
+
+        console.log(snapshot.val())
+    });
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -62,6 +74,7 @@ class HomeScreen extends Component {
       isLoading: false,
    });
   }
+
   render() {
     if(this.state.isLoading){
       return(
