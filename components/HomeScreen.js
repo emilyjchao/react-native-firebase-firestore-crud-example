@@ -35,14 +35,14 @@ class HomeScreen extends Component {
       picked: 1,
       bedwet: '',
       enter: [],
-      exit: []
+      exit: [],
+      dataDump: []
     };
   }
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     this.fetchData();
-
   }
 
   fetchData = async () => {
@@ -51,7 +51,6 @@ class HomeScreen extends Component {
 
     //Get all nights of sleep
     firebase.database().ref().on('value', function (snapshot) {
-
         console.log(snapshot.val())
     });
   }
