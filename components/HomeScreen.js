@@ -71,7 +71,7 @@ class HomeScreen extends Component {
 
         //console.log(data[nights[0]]);
         nights.forEach( (nightName) => {
-          console.log(data[nightName]);
+          //console.log(data[nightName]);
           let enters = [];
           let exits = [];
           let wets = [];
@@ -98,12 +98,40 @@ class HomeScreen extends Component {
 
           }
 
-          nightData.push({ "night": nightName, "exits": exits, "enters": enters, "wets": wets});
+          // process to get time asleep
+          let asleep = enters[0].split(':');
+          let awake = exits[exits.length-1].split(':');
+
+          // find the minutes portion of the time asleep
+          let minutes;
+          if (asleep[1] > awake[1]) { minutes = 60+awake[1]-asleep[1]; }
+          else { minutes = awake[1]-asleep[1]; }
+
+          //THIS doesn't work for overnight, just for hours within the same am or pm
+          let hours = awake[0] - asleep[0];
+          let sleep = hours + (minutes/60);
+          //console.log('Sleep'+ sleep);
+
+          nightData.push({ "day": nightName, "label": (nightName % 7 + 1), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0});
         })
 
-        console.log(nightData);
+        // console.log(nightData);
+
+        // this.setState({
+        //    boards: nightData,
+        //    isLoading: false,
+        // });
 
     });
+
+// Update state boards to use the night data from the actual sensors
+// Uncomment for looks like
+
+  // console.log('Realtime \n'+ nightData);
+    // this.setState({
+    //    boards: nightData,
+    //    isLoading: false,
+    // });
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -123,6 +151,10 @@ class HomeScreen extends Component {
       });
     });
     //store boards in state
+
+// uncomment for Looks like prototype
+// This is for the firestore data
+  //console.log('Firestore \n'+boards);
     this.setState({
       boards: boards.sort((a,b) => { return(a.day - b.day) }),
       isLoading: false,
@@ -140,7 +172,7 @@ class HomeScreen extends Component {
 
     const dayDetail = (
       <View>
-      <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
+      // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
       <VictoryChart
         theme={VictoryTheme.material}
         height={130}
@@ -228,7 +260,7 @@ class HomeScreen extends Component {
               }}]}
               />
         </VictoryChart>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
+        //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
         <Text style={styles.title}>Restlessness</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
