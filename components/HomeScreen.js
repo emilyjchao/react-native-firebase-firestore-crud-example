@@ -198,7 +198,7 @@ class HomeScreen extends Component {
                 }
               }}]}
             />
-          <VictoryAxis/>
+          <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
           {/*<VictoryBar
 // Fix this method of getting the specific day
             data={[this.state.boards[this.state.picked-1]]}
@@ -223,11 +223,6 @@ class HomeScreen extends Component {
             />
           <VictoryAxis/>*/}
         </VictoryChart>
-        <Text style={{
-          textAlign: 'center',
-          fontSize: 16,
-          marginTop: -5,
-          color: 'indigo',}}>Hours</Text>
         <Text style={styles.title}>Restlessness</Text>
         <VictoryChart
           theme={VictoryTheme.material}
@@ -310,7 +305,21 @@ class HomeScreen extends Component {
                   { x: this.state.boards.length + 1, y: weekAVG }
                 ]}
                 labels={["", `Average \n`+weekAVG.toFixed(2)]}
-
+                />
+                <VictoryAxis
+                  label="Day"
+                  style={{
+                    axisLabel: { padding: 30 },
+                    fontSize: 16,
+                  }}
+                />
+                <VictoryAxis dependentAxis
+                  label="Hours"
+                  style={{
+                    axisLabel: { padding: 30},
+                    fontSize: 16,
+                    transform: [{ rotate: '90deg'}]
+                  }}
                 />
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
