@@ -12,7 +12,7 @@ async function register(){
   const {status: alertPermission} = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
   console.log(alertPermission)
   if (alertPermission !== 'granted') {
-    alert("You need to enable permissions in settings.");
+    alert("Please enable notification permissions in settings.");
     return;
   }
 
@@ -56,7 +56,6 @@ export default class App extends React.Component {
     console.log("Some notification", origin, data);
   }
   render() {
-    //registerForPushNotificationsAsync();
     return <RootStack />;
   }
 }

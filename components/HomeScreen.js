@@ -175,6 +175,8 @@ class HomeScreen extends Component {
         theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
+        animate={{ duration: 2000 }}
+
         >
           <VictoryBar
 // Fix this method of getting the specific day
@@ -265,11 +267,13 @@ class HomeScreen extends Component {
     const weekDetail = (
       <View>
       <Text style={styles.title}>Time Sleeping</Text>
+
         <VictoryChart
         // adds grid lines (probably does more too)
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
         maxDomain={{x:7}}
+        animate={{ duration: 2000 }}
         >
           <VictoryBar
             data={this.state.boards}
@@ -281,46 +285,46 @@ class HomeScreen extends Component {
             events={[{
               target: "data",
               eventHandlers: {
-               onPressIn: (event, data) => {
-        // Navigate from click
+              onPressIn: (event, data) => {
+              // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
                  this.setState({picked: data.datum.day});
                  //console.log(this.state.picked)
-                  return [
-                    {
-                      target: "data",
-                    //   mutation: (props) => {
-                    //     const fill = props.style && props.style.fill;
-                    //     return fill === "black" ? null : { style: { fill: "black" } };
-                    //   }
+                 return [
+                  {
+                    target: "data",
+                     mutation: (props) => {
+                    //   const fill = props.style && props.style.fill;
+                    //   return fill === "black" ? null : { style: { fill: "black" } };
                     }
-                  ];
-                }
-              }}]}
+                  }
+                ];
+              }
+            }}]}
+            />
+            <VictoryLine
+              data={[
+                { x: 0, y: weekAVG },
+                { x: this.state.boards.length + 1, y: weekAVG }
+              ]}
+              labels={["", `Average \n`+weekAVG.toFixed(2)]}
               />
-              <VictoryLine
-                data={[
-                  { x: 0, y: weekAVG },
-                  { x: this.state.boards.length + 1, y: weekAVG }
-                ]}
-                labels={["", `Average \n`+weekAVG.toFixed(2)]}
-                />
-                <VictoryAxis
-                  label="Day"
-                  style={{
-                    axisLabel: { padding: 30 },
-                    fontSize: 16,
-                  }}
-                />
-                <VictoryAxis dependentAxis
-                  label="Hours"
-                  style={{
-                    axisLabel: { padding: 30},
-                    fontSize: 16,
-                    transform: [{ rotate: '90deg'}]
-                  }}
-                />
+              <VictoryAxis
+                label="Day"
+                style={{
+                  axisLabel: { padding: 30 },
+                  fontSize: 16,
+                }}
+              />
+              <VictoryAxis dependentAxis
+                label="Hours"
+                style={{
+                  axisLabel: { padding: 30},
+                  fontSize: 16,
+                  transform: [{ rotate: '90deg'}]
+                }}
+              />
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
