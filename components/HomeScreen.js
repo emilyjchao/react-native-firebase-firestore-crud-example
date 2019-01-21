@@ -6,26 +6,24 @@ import firebase from '../Firebase';
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
-    const {params = {}} = navigation.state;
     return {
       title: 'Sleep Report',
       headerRight: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={  () => { navigation.push('Settings') }}
+          onPress={() => { navigation.push('Settings') }}
         />
       ),
       headerLeft: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => {params.handleThis()}}
+          onPress={() => { navigation.push('AddChild') }}
         />
       ),
     };
   };
-
   constructor() {
     super();
     this.ref = firebase.firestore().collection('days');
@@ -38,7 +36,6 @@ class HomeScreen extends Component {
       bedwet: '',
       enter: [],
       exit: [],
-      dataDump: []
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -46,13 +43,6 @@ class HomeScreen extends Component {
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     this.fetchData();
-    this.props.navigation.setParams({
-      handleThis: this.changeDayState
-    });
-  }
-
-  changeDayState() {
-    this.setState(prevState => ({day: !prevState.day}));
   }
 
   //fetchData = async () => {
@@ -66,58 +56,68 @@ class HomeScreen extends Component {
       //console.log("IN onFetchData");
       let nights = [];
       let data = snapshot.val();
+
       // get the number of nights
       nights = Object.keys(data);
+      console.log(nights)
 
-      nights.forEach( (nightName) => {
-        //console.log(data[nightName]);
+      nights.forEach(function(nightName) {
+        console.log(data[nightName]);
+        //console.log(data[nightName]["enters"])
         let enters = [];
         let exits  = [];
         let wets = [];
 
-        // check that it is not reading the date child
-        if (nightName != "date" && nightName < 10){
-        let enExWe = -1;
-        for (var event in data[nightName]) {
-          let eventType = data[nightName][event];
-          //console.log('...' + data[nightName][event]);
-          if (eventType == "exited bed") {
-            enExWe = 1;
-          }
-          else if (eventType == "entered bed") {
-            enExWe = 2;
-          }
-          else if (eventType == "wet bed") {
-            enExWe = 3;
-          }
-          else {
-            if(enExWe == 1) { exits.push(eventType); }
-            else if (enExWe == 2) { enters.push(eventType); }
-            else if (enExWe == 3) { wets.push(eventType); }
-            enExWe = -1;
-          }
+      })
+         //get the timestamps for each event event type
+         //console.log(data[nightName]["enters"])
 
-        }
 
-        //Time between  first enter and  last exit  dates
-        var first = new Date(enters[0]);
-        var lastEx = new Date(exits[exits.length-1]);
-        var dif = new Date((lastEx-first));
-        var sleep = dif / (60*1000);
 
-        // true false on bed wetting length
-        var bedwet = wets.length >= 1;
 
-        nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
-      }
-    })
-    //console.log(nightData);
-    this.setState({
-       boards: nightData,
-       isLoading: false,
-    });
 
-  }
+  //       // check that it is not reading the date child
+  //       // if (nightName != "date" && nightName < 10){
+  //       // let enExWe = -1;
+  //       // for (var event in data[nightName]) {
+  //       //   let eventType = data[nightName][event];
+  //       //   //console.log('...' + data[nightName][event]);
+  //       //   if (eventType == "exited bed") {
+  //       //     enExWe = 1;
+  //       //   }
+  //       //   else if (eventType == "entered bed") {
+  //       //     enExWe = 2;
+  //       //   }
+  //       //   else if (eventType == "wet bed") {
+  //       //     enExWe = 3;
+  //       //   }
+  //       //   else {
+  //       //     if(enExWe == 1) { exits.push(eventType); }
+  //       //     else if (enExWe == 2) { enters.push(eventType); }
+  //       //     else if (enExWe == 3) { wets.push(eventType); }
+  //       //     enExWe = -1;
+  //       //   }
+  //       //
+  //       // }
+  //
+  //       //Time between  first enter and  last exit  dates
+  //       var first = new Date(enters[0]);
+  //       var lastEx = new Date(exits[exits.length-1]);
+  //       var dif = new Date((lastEx-first));
+  //       var sleep = dif / (60*1000);
+  //
+  //       // true false on bed wetting length
+  //       var bedwet = wets.length >= 1;
+  //
+  //       nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+  //     }
+  //   //})
+  //   //console.log(nightData);
+  //   this.setState({
+  //     boards: nightData,
+  //     isLoading: false,
+  //   });
+   }
 
 
 // OLD
@@ -177,14 +177,14 @@ class HomeScreen extends Component {
 
     const dayDetail = (
       <View>
-      <Text style={styles.brightText}>Day:{' ' + this.state.boards[this.state.picked - 1].label}</Text>
       // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
-        animate={{ duration: 500 }}
+        animate={{ duration: 2000 }}
+
         >
           <VictoryBar
 // Fix this method of getting the specific day
@@ -196,7 +196,6 @@ class HomeScreen extends Component {
               target: "data",
               eventHandlers: {
                onPressIn: () => {
-                  this.setState(prevState => ({day: !prevState.day}));
                   return [
                     {
                       target: "data",
@@ -275,7 +274,6 @@ class HomeScreen extends Component {
 
     const weekDetail = (
       <View>
-      <Text style={styles.brightText}>This Week</Text>
       <Text style={styles.title}>Time Sleeping</Text>
 
         <VictoryChart
@@ -283,7 +281,7 @@ class HomeScreen extends Component {
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
         maxDomain={{x:7}}
-        animate={{ duration: 500 }}
+        animate={{ duration: 2000 }}
         >
           <VictoryBar
             data={this.state.boards}
@@ -300,15 +298,14 @@ class HomeScreen extends Component {
                  //this.props.navigation.push('Settings');
                  //access the data point
                  this.setState({picked: data.datum.day});
-                 this.setState(prevState => ({day: !prevState.day}));
                  //console.log(this.state.picked)
                  return [
                   {
                     target: "data",
-                     mutation: (props) => {
-                    //   const fill = props.style && props.style.fill;
-                    //   return fill === "black" ? null : { style: { fill: "black" } };
-                    }
+                    //  mutation: (props) => {
+                    //    const fill = props.style && props.style.fill;
+                    //    return fill === "black" ? null : { style: { fill: "black" } };
+                    // }
                   }
                 ];
               }
@@ -337,6 +334,7 @@ class HomeScreen extends Component {
                 }}
               />
         </VictoryChart>
+        <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
         {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
@@ -374,8 +372,9 @@ class HomeScreen extends Component {
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
-      </TouchableOpacity>
-      {reports}
+        </TouchableOpacity>
+
+          {reports}
       </ScrollView>
     );
   }

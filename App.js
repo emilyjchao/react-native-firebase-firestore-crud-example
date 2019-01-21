@@ -23,9 +23,9 @@ async function register(){
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    DayDetails: DayDetailScreen,
+    //DayDetails: DayDetailScreen,
     AddChild: AddChildScreen,
-    EditBoard: EditBoardScreen,
+    //EditBoard: EditBoardScreen,
     Settings: SettingsScreen,
   },
   {
