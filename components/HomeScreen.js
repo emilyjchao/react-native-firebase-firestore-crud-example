@@ -233,6 +233,7 @@ class HomeScreen extends Component {
           <VictoryBar
             data={this.state.boards}
             x="day" y="sleep"
+            barRatio={.75}
             style={{
               data: { fill: "#c43a31" }
             }}
