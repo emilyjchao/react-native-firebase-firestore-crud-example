@@ -31,11 +31,11 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: true,
       boards: [],
-      day: false,
+      //day: false,
       picked: 1,
-      bedwet: '',
-      enter: [],
-      exit: [],
+      //bedwet: '',
+      //enter: [],
+      //exit: [],
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -63,20 +63,10 @@ class HomeScreen extends Component {
 
       nights.forEach(function(nightName) {
         console.log(data[nightName]);
-        console.log(data[nightName]["enters"]);
         const night = data[nightName];
         let enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
         let exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
         let wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
-        
-
-      })
-         //get the timestamps for each event event type
-         //console.log(data[nightName]["enters"])
-
-
-
-
 
   //       // check that it is not reading the date child
   //       // if (nightName != "date" && nightName < 10){
@@ -101,24 +91,24 @@ class HomeScreen extends Component {
   //       //   }
   //       //
   //       // }
-  //
-  //       //Time between  first enter and  last exit  dates
-  //       var first = new Date(enters[0]);
-  //       var lastEx = new Date(exits[exits.length-1]);
-  //       var dif = new Date((lastEx-first));
-  //       var sleep = dif / (60*1000);
-  //
-  //       // true false on bed wetting length
-  //       var bedwet = wets.length >= 1;
-  //
-  //       nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
-  //     }
+
+        //Time between  first enter and  last exit  dates
+        var first = new Date(enters[0]);
+        var lastEx = new Date(exits[exits.length-1]);
+        var dif = new Date((lastEx-first));
+        var sleep = dif / (60*1000);
+
+        // true false on bed wetting length
+        var bedwet = wets.length >= 1;
+
+        nightData.push({ "day": nightName, "label": (nightName), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+      })
   //   //})
-  //   //console.log(nightData);
-  //   this.setState({
-  //     boards: nightData,
-  //     isLoading: false,
-  //   });
+    //console.log(nightData);
+    this.setState({
+      boards: nightData,
+      isLoading: false,
+    });
    }
 
 
@@ -299,7 +289,9 @@ class HomeScreen extends Component {
               // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
-                 this.setState({picked: data.datum.day});
+                 let d = new Date(data.datum.day);
+                 console.log(d.getUTCDay());
+                 this.setState({picked: d.getUTCDay()});
                  //console.log(this.state.picked)
                  return [
                   {
