@@ -163,12 +163,36 @@ class HomeScreen extends Component {
     const dayDetail = (
       <View>
       // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
+      <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
         >
           <VictoryBar
+// Fix this method of getting the specific day
+            data={[{day: this.state.picked-1, "sleep": 8.5}]}
+            barWidth={20} x="day" y="sleep"
+            horizontal={true}
+            style={{ data: { fill: "#c43a31" } }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+               onPressIn: () => {
+                  return [
+                    {
+                      target: "data",
+                      // mutation: (props) => {
+                      //   const fill = props.style && props.style.fill;
+                      //   return fill === "black" ? null : { style: { fill: "black" } };
+                      // }
+                    }
+                  ];
+                }
+              }}]}
+            />
+          <VictoryAxis/>
+          {/*<VictoryBar
 // Fix this method of getting the specific day
             data={[this.state.boards[this.state.picked-1]]}
             barWidth={20} x="day" y="sleep"
@@ -190,8 +214,13 @@ class HomeScreen extends Component {
                 }
               }}]}
             />
-          <VictoryAxis/>
+          <VictoryAxis/>*/}
         </VictoryChart>
+        <Text style={{
+          textAlign: 'center',
+          fontSize: 16,
+          marginTop: -5,
+          color: 'indigo',}}>Hours</Text>
         <Text style={styles.title}>Restlessness</Text>
         <VictoryChart
           theme={VictoryTheme.material}
@@ -206,10 +235,10 @@ class HomeScreen extends Component {
             ]}/>
           <VictoryAxis/>
         </VictoryChart>
-        //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
+        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
-        <Text style={styles.title}>Exits</Text>
+        <Text style={styles.title}>Exited Bed</Text>
         <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
