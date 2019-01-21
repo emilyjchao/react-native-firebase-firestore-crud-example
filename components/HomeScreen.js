@@ -258,6 +258,7 @@ class HomeScreen extends Component {
               }}]}
               />
         </VictoryChart>
+        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
         <Text style={styles.title}>Restlessness</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
@@ -266,19 +267,20 @@ class HomeScreen extends Component {
         <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {
               this.state.boards[this.state.picked - 1].exited.map((time, index) => { // This will render a row for each data element.
-                if (index != this.state.boards[this.state.picked - 1].exited.length-1){
-                var exitTime = new Date(time);
-                var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
-                var dif = new Date(enterTime-exitTime);
-                var timeOut = dif / (60*1000);
+              if (index != this.state.boards[this.state.picked - 1].exited.length-1){
+              var exitTime = new Date(time);
+              var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
+              var dif = new Date(enterTime-exitTime);
+              var timeOut = dif / (60*1000);
 
-                return (
-                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
-                );
-                }
+              return (
+                <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
+              );
+              }
               })
             }
         </View>
