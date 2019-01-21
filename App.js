@@ -6,9 +6,20 @@ import DayDetailScreen from './components/DayDetailScreen';
 import AddChildScreen from './components/AddChildScreen';
 import EditBoardScreen from './components/EditBoardScreen';
 import SettingsScreen from './components/SettingsScreen'
-import {Permissions, Notifications} from 'expo'
-//import registerForPushNotificationsAsync from './registerForPushNotificationsAsync';
+import {Constants, Permissions, Notifications} from 'expo'
 
+async function register(){
+  const {status: alertPermission} = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+  console.log(alertPermission)
+  if (alertPermission !== 'granted') {
+    alert("You need to enable permissions in settings.");
+    return;
+  }
+
+  const token = await Expo.Notifications.getExpoPushTokenAsync();
+  console.log(alertPermission, token);
+
+}
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -34,6 +45,16 @@ const RootStack = createStackNavigator(
 
 
 export default class App extends React.Component {
+  componentWillMount() {
+    register();
+    this.listener = Expo.Notifications.addListener(this.listen)
+  }
+  componentWillUnmount(){
+    this.listener && Expo.Notifications.removeListener(this.listen)
+  }
+  listen = ({origin, data}) => {
+    console.log("Some notification", origin, data);
+  }
   render() {
     //registerForPushNotificationsAsync();
     return <RootStack />;
@@ -48,47 +69,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-// PUSH_ENDPOINT = 'https://exp.host/--/api/v2/push/send';
-//
-// async function registerForPushNotificationsAsync() {
-//   const { status: existingStatus } = await Permissions.getAsync(
-//     Permissions.NOTIFICATIONS
-//   );
-//   let finalStatus = existingStatus;
-//
-//   // only ask if permissions have not already been determined, because
-//   // iOS won't necessarily prompt the user a second time.
-//   if (existingStatus !== 'granted') {
-//     // Android remote notification permissions are granted during the app
-//     // install, so this will only ask on iOS
-//     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-//     finalStatus = status;
-//   }
-//
-//   // Stop here if the user did not grant permissions
-//   if (finalStatus !== 'granted') {
-//     return;
-//   }
-//
-//   // Get the token that uniquely identifies this device
-//   let token = await Notifications.getExpoPushTokenAsync();
-//   console.log(token)
-//
-//   // POST the token to your backend server from where you can retrieve it to send push notifications.
-//   return fetch(PUSH_ENDPOINT, {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       token: {
-//         value: token,
-//       },
-//       user: {
-//         username: 'User1',
-//       },
-//     }),
-//   });
-// }
