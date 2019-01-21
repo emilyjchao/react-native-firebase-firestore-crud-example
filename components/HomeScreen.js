@@ -269,13 +269,15 @@ class HomeScreen extends Component {
               }}]}
               />
         </VictoryChart>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
-        <Text style={styles.title}>Restlessness</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
-        <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{bedWetContent}</Text>
-        <Text style={styles.title}>Exits</Text>
-        <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
+        <Text style={styles.brightText}>This Week</Text>
+        <Text style={styles.title}>Restlessness Average</Text>
+        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
+        <Text style={styles.brightText}>1.54</Text>
+        <Text style={styles.title}>Bedwets</Text>
+        <Text style={styles.brightText}>3</Text>
+        <Text style={styles.title}>Exits per Night</Text>
+        <Text style={styles.brightText}>6</Text>
+        {/*<Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
 
@@ -294,7 +296,7 @@ class HomeScreen extends Component {
               }
               })
             }
-        </View>
+        </View>*/}
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
