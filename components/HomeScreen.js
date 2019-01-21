@@ -159,16 +159,47 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
+    let weekAVG = 0;
+    for ( i = 0; i < this.state.boards.length; i++){
+      weekAVG += this.state.boards[i].sleep;
+      //console.log(this.state.boards[i].sleep);
+    }
+    weekAVG = weekAVG/i;
+    //console.log(weekAVG);
 
     const dayDetail = (
       <View>
       // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
+      <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
         >
           <VictoryBar
+// Fix this method of getting the specific day
+            data={[{day: this.state.picked-1, "sleep": 8.5}]}
+            barWidth={20} x="day" y="sleep"
+            horizontal={true}
+            style={{ data: { fill: "#c43a31" } }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+               onPressIn: () => {
+                  return [
+                    {
+                      target: "data",
+                      // mutation: (props) => {
+                      //   const fill = props.style && props.style.fill;
+                      //   return fill === "black" ? null : { style: { fill: "black" } };
+                      // }
+                    }
+                  ];
+                }
+              }}]}
+            />
+          <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
+          {/*<VictoryBar
 // Fix this method of getting the specific day
             data={[this.state.boards[this.state.picked-1]]}
             barWidth={20} x="day" y="sleep"
@@ -190,7 +221,7 @@ class HomeScreen extends Component {
                 }
               }}]}
             />
-          <VictoryAxis/>
+          <VictoryAxis/>*/}
         </VictoryChart>
         <Text style={styles.title}>Restlessness</Text>
         <VictoryChart
@@ -206,10 +237,10 @@ class HomeScreen extends Component {
             ]}/>
           <VictoryAxis/>
         </VictoryChart>
-        //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
+        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
-        <Text style={styles.title}>Exits</Text>
+        <Text style={styles.title}>Exited Bed</Text>
         <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
@@ -268,6 +299,28 @@ class HomeScreen extends Component {
                 }
               }}]}
               />
+              <VictoryLine
+                data={[
+                  { x: 0, y: weekAVG },
+                  { x: this.state.boards.length + 1, y: weekAVG }
+                ]}
+                labels={["", `Average \n`+weekAVG.toFixed(2)]}
+                />
+                <VictoryAxis
+                  label="Day"
+                  style={{
+                    axisLabel: { padding: 30 },
+                    fontSize: 16,
+                  }}
+                />
+                <VictoryAxis dependentAxis
+                  label="Hours"
+                  style={{
+                    axisLabel: { padding: 30},
+                    fontSize: 16,
+                    transform: [{ rotate: '90deg'}]
+                  }}
+                />
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
