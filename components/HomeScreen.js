@@ -54,7 +54,7 @@ class HomeScreen extends Component {
   onFetchData = (snapshot) => {
       let nightData = [];
       //console.log(snapshot.val());
-      console.log("IN onFetchData");
+      //console.log("IN onFetchData");
       let nights = [];
       let data = snapshot.val();
 
@@ -91,15 +91,19 @@ class HomeScreen extends Component {
 
         }
 
-        //Time between two  dates
+        //Time between  first enter and  last exit  dates
         var first = new Date(enters[0]);
-        var second = new Date(enters[1]);
-        var dif = new Date((second-first));
+        var lastEx = new Date(exits[exits.length-1]);
+        var dif = new Date((lastEx-first));
         var sleep = dif / (60*1000);
-        nightData.push({ "day": nightName, "label": (nightName % 7 + 1), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+
+        // true false on bed wetting length
+        var bedwet = wets.length >= 1;
+
+        nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": bedwet, "sleep": sleep, "restless": 0,});
       }
     })
-    console.log(nightData);
+    //console.log(nightData);
     this.setState({
        boards: nightData,
        isLoading: false,
@@ -107,6 +111,9 @@ class HomeScreen extends Component {
 
   }
 
+
+// OLD
+// gets fake data from firestore on firebase
   onCollectionUpdate = (querySnapshot) => {
     let boards = [];
     //add the records to array
@@ -193,7 +200,25 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
         <Text style={styles.title}>Exits</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
+        <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
+        // To make a nice simple table:
+        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              this.state.boards[this.state.picked - 1].exited.map((time, index) => { // This will render a row for each data element.
+                if (index != this.state.boards[this.state.picked - 1].exited.length-1){
+                var exitTime = new Date(time);
+                var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
+                var dif = new Date(enterTime-exitTime);
+                var timeOut = dif / (60*1000);
+
+                return (
+                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
+                );
+                }
+              })
+            }
+        </View>
       </View>);
 
     const weekDetail = (
@@ -219,7 +244,7 @@ class HomeScreen extends Component {
                  //this.props.navigation.push('Settings');
                  //access the data point
                  this.setState({picked: data.datum.day});
-                 console.log(this.state.picked)
+                 //console.log(this.state.picked)
                   return [
                     {
                       target: "data",
@@ -238,9 +263,25 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
         <Text style={styles.title}>Exits</Text>
+        <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].exited}</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              this.state.boards[this.state.picked - 1].exited.map((time, index) => { // This will render a row for each data element.
+                if (index != this.state.boards[this.state.picked - 1].exited.length-1){
+                var exitTime = new Date(time);
+                var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
+                var dif = new Date(enterTime-exitTime);
+                var timeOut = dif / (60*1000);
+
+                return (
+                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
+                );
+                }
+              })
+            }
+        </View>
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
