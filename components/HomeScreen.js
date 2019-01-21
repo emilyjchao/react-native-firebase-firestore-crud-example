@@ -6,24 +6,26 @@ import firebase from '../Firebase';
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    const {params = {}} = navigation.state;
     return {
       title: 'Sleep Report',
       headerRight: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Settings') }}
+          onPress={  () => { navigation.push('Settings') }}
         />
       ),
       headerLeft: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('AddChild') }}
+          onPress={() => {params.handleThis()}}
         />
       ),
     };
   };
+
   constructor() {
     super();
     this.ref = firebase.firestore().collection('days');
@@ -44,6 +46,13 @@ class HomeScreen extends Component {
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     this.fetchData();
+    this.props.navigation.setParams({
+      handleThis: this.changeDayState
+    });
+  }
+
+  changeDayState() {
+    this.setState(prevState => ({day: !prevState.day}));
   }
 
   //fetchData = async () => {
@@ -57,7 +66,6 @@ class HomeScreen extends Component {
       //console.log("IN onFetchData");
       let nights = [];
       let data = snapshot.val();
-
       // get the number of nights
       nights = Object.keys(data);
 
@@ -169,14 +177,14 @@ class HomeScreen extends Component {
 
     const dayDetail = (
       <View>
+      <Text style={styles.brightText}>Day:{' ' + this.state.boards[this.state.picked - 1].label}</Text>
       // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
-        animate={{ duration: 2000 }}
-
+        animate={{ duration: 500 }}
         >
           <VictoryBar
 // Fix this method of getting the specific day
@@ -188,6 +196,7 @@ class HomeScreen extends Component {
               target: "data",
               eventHandlers: {
                onPressIn: () => {
+                  this.setState(prevState => ({day: !prevState.day}));
                   return [
                     {
                       target: "data",
@@ -266,6 +275,7 @@ class HomeScreen extends Component {
 
     const weekDetail = (
       <View>
+      <Text style={styles.brightText}>This Week</Text>
       <Text style={styles.title}>Time Sleeping</Text>
 
         <VictoryChart
@@ -273,7 +283,7 @@ class HomeScreen extends Component {
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
         maxDomain={{x:7}}
-        animate={{ duration: 2000 }}
+        animate={{ duration: 500 }}
         >
           <VictoryBar
             data={this.state.boards}
@@ -290,6 +300,7 @@ class HomeScreen extends Component {
                  //this.props.navigation.push('Settings');
                  //access the data point
                  this.setState({picked: data.datum.day});
+                 this.setState(prevState => ({day: !prevState.day}));
                  //console.log(this.state.picked)
                  return [
                   {
@@ -326,7 +337,6 @@ class HomeScreen extends Component {
                 }}
               />
         </VictoryChart>
-        <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
         {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
@@ -364,9 +374,8 @@ class HomeScreen extends Component {
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
-        </TouchableOpacity>
-
-          {reports}
+      </TouchableOpacity>
+      {reports}
       </ScrollView>
     );
   }
