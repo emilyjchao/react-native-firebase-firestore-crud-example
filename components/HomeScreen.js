@@ -59,7 +59,7 @@ class HomeScreen extends Component {
 
       // get the number of nights
       nights = Object.keys(data);
-      console.log(nights)
+      //console.log(nights)
 
       nights.forEach(function(nightName) {
         console.log(data[nightName]);
@@ -92,7 +92,7 @@ class HomeScreen extends Component {
   //       //
   //       // }
 
-        //Time between  first enter and  last exit  dates
+        //Time between first enter and  last exit dates
         var first = new Date(enters[0]);
         var lastEx = new Date(exits[exits.length-1]);
         var dif = new Date((lastEx-first));
@@ -151,7 +151,8 @@ class HomeScreen extends Component {
     }
 
     let bedWetContent;
-    if(this.state.boards[this.state.picked - 1].bedwet.length > 0){
+    console.log(this.state.picked)
+    if(this.state.boards[this.state.picked-1].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked - 1].bedwet[0]);
       bedWetContent = "Sadly  -  " + wetTime.getHours() + ":" + wetTime.getMinutes();
     }
@@ -289,9 +290,9 @@ class HomeScreen extends Component {
               // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
-                 let d = new Date(data.datum.day);
-                 console.log(d.getUTCDay());
-                 this.setState({picked: d.getUTCDay()});
+                 console.log(data.datum.day);
+                 this.setState({picked: 1});
+
                  //console.log(this.state.picked)
                  return [
                   {
