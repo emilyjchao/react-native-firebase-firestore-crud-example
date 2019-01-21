@@ -159,6 +159,13 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
+    let weekAVG = 0;
+    for ( i = 0; i < this.state.boards.length; i++){
+      weekAVG += this.state.boards[i].sleep;
+      //console.log(this.state.boards[i].sleep);
+    }
+    weekAVG = weekAVG/i;
+    //console.log(weekAVG);
 
     const dayDetail = (
       <View>
@@ -297,6 +304,14 @@ class HomeScreen extends Component {
                 }
               }}]}
               />
+              <VictoryLine
+                data={[
+                  { x: 0, y: weekAVG },
+                  { x: this.state.boards.length + 1, y: weekAVG }
+                ]}
+                labels={["", `Average \n`+weekAVG.toFixed(2)]}
+
+                />
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
