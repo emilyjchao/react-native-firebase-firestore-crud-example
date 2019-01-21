@@ -63,10 +63,12 @@ class HomeScreen extends Component {
 
       nights.forEach(function(nightName) {
         console.log(data[nightName]);
-        //console.log(data[nightName]["enters"])
-        let enters = [];
-        let exits  = [];
-        let wets = [];
+        console.log(data[nightName]["enters"]);
+        const night = data[nightName];
+        let enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+        let exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
+        let wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+        
 
       })
          //get the timestamps for each event event type
