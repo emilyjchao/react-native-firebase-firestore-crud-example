@@ -38,6 +38,7 @@ class HomeScreen extends Component {
       exit: [],
       dataDump: []
     };
+    this.onFetchData = this.onFetchData.bind(this);
   }
 
   componentDidMount() {
@@ -45,93 +46,65 @@ class HomeScreen extends Component {
     this.fetchData();
   }
 
-  fetchData = async () => {
-    //Get just one night of sleep
-    //firebase.database().ref('1/').on('value', function (snapshot) {
-    //console.log("hellllloooooooooooooooo");
-    //Get all nights of sleep
+  //fetchData = async () => {
+  fetchData() {
+    firebase.database().ref().on('value', this.onFetchData);
+  }
 
-    // array of night objects
-    // each object has array of exits, enters, and wets
-    let nightData = [];
+  onFetchData = (snapshot) => {
+      let nightData = [];
+      //console.log(snapshot.val());
+      console.log("IN onFetchData");
+      let nights = [];
+      let data = snapshot.val();
 
-    firebase.database().ref().on('value', function (snapshot) {
-        //console.log(snapshot.val());
-        console.log("done");
-        let nights = [];
-        let data = snapshot.val();
-        // for( var night in snapshot.val()) {
-        //   //console.log(night);
-        //   if ( night != "date") {
-        //     nights.push(night);
-        //   }
-        // }
-        // could also just use Object.keys() instead of above loop
-        nights = Object.keys(data);
+      // get the number of nights
+      nights = Object.keys(data);
 
-        //console.log(data[nights[0]]);
-        nights.forEach( (nightName) => {
-          //console.log(data[nightName]);
-          let enters = [];
-          let exits = [];
-          let wets = [];
+      nights.forEach( (nightName) => {
+        //console.log(data[nightName]);
+        let enters = [];
+        let exits  = [];
+        let wets = [];
 
-          let enExWe = -1;
-          for (var event in data[nightName]) {
-            let eventType = data[nightName][event];
-            //console.log('...' + data[nightName][event]);
-            if (eventType == "exited bed") {
-              enExWe = 1;
-            }
-            else if (eventType == "entered bed") {
-              enExWe = 2;
-            }
-            else if (eventType == "wet bed") {
-              enExWe = 3;
-            }
-            else {
-              if(enExWe == 1) { exits.push(eventType); }
-              else if (enExWe == 2) { enters.push(eventType); }
-              else if (enExWe == 3) { wets.push(eventType); }
-              enExWe = -1;
-            }
-
+        // check that it is not reading the date child
+        if (nightName != "date"){
+        let enExWe = -1;
+        for (var event in data[nightName]) {
+          let eventType = data[nightName][event];
+          //console.log('...' + data[nightName][event]);
+          if (eventType == "exited bed") {
+            enExWe = 1;
+          }
+          else if (eventType == "entered bed") {
+            enExWe = 2;
+          }
+          else if (eventType == "wet bed") {
+            enExWe = 3;
+          }
+          else {
+            if(enExWe == 1) { exits.push(eventType); }
+            else if (enExWe == 2) { enters.push(eventType); }
+            else if (enExWe == 3) { wets.push(eventType); }
+            enExWe = -1;
           }
 
-          // process to get time asleep
-          let asleep = enters[0].split(':');
-          let awake = exits[exits.length-1].split(':');
+        }
 
-          // find the minutes portion of the time asleep
-          let minutes;
-          if (asleep[1] > awake[1]) { minutes = 60+awake[1]-asleep[1]; }
-          else { minutes = awake[1]-asleep[1]; }
-
-          //THIS doesn't work for overnight, just for hours within the same am or pm
-          let hours = awake[0] - asleep[0];
-          let sleep = hours + (minutes/60);
-          //console.log('Sleep'+ sleep);
-
-          nightData.push({ "day": nightName, "label": (nightName % 7 + 1), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0});
-        })
-
-        // console.log(nightData);
-
-        // this.setState({
-        //    boards: nightData,
-        //    isLoading: false,
-        // });
-
+        //Time between two  dates
+        var first = new Date(enters[0]);
+        var second = new Date(enters[1]);
+        var dif = new Date((second-first));
+        var sleep = dif / (60*1000);
+        nightData.push({ "day": nightName, "label": (nightName % 7 + 1), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+      }
+    })
+    console.log(nightData);
+    this.setState({
+       boards: nightData,
+       isLoading: false,
     });
 
-// Update state boards to use the night data from the actual sensors
-// Uncomment for looks like
-
-  // console.log('Realtime \n'+ nightData);
-    // this.setState({
-    //    boards: nightData,
-    //    isLoading: false,
-    // });
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -155,10 +128,10 @@ class HomeScreen extends Component {
 // uncomment for Looks like prototype
 // This is for the firestore data
   //console.log('Firestore \n'+boards);
-    this.setState({
-      boards: boards.sort((a,b) => { return(a.day - b.day) }),
-      isLoading: false,
-   });
+   //  this.setState({
+   //    boards: boards.sort((a,b) => { return(a.day - b.day) }),
+   //    isLoading: false,
+   // });
   }
 
   render() {
@@ -260,7 +233,6 @@ class HomeScreen extends Component {
               }}]}
               />
         </VictoryChart>
-        //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].label}</Text>
         <Text style={styles.title}>Restlessness</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
