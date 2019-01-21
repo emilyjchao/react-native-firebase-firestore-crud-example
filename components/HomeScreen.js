@@ -68,7 +68,7 @@ class HomeScreen extends Component {
         let wets = [];
 
         // check that it is not reading the date child
-        if (nightName != "date"){
+        if (nightName != "date" && nightName < 10){
         let enExWe = -1;
         for (var event in data[nightName]) {
           let eventType = data[nightName][event];
@@ -100,7 +100,7 @@ class HomeScreen extends Component {
         // true false on bed wetting length
         var bedwet = wets.length >= 1;
 
-        nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": bedwet, "sleep": sleep, "restless": 0,});
+        nightData.push({ "day": nightName, "label": (nightName % 7), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
       }
     })
     //console.log(nightData);
@@ -150,6 +150,16 @@ class HomeScreen extends Component {
       )
     }
 
+    let bedWetContent;
+    if(this.state.boards[this.state.picked - 1].bedwet.length > 0){
+      let wetTime = new Date(this.state.boards[this.state.picked - 1].bedwet[0]);
+      bedWetContent = "Sadly  -  " + wetTime.getHours() + ":" + wetTime.getMinutes();
+    }
+    else {
+      bedWetContent = "Dry";
+    }
+
+
     const dayDetail = (
       <View>
       // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
@@ -198,7 +208,7 @@ class HomeScreen extends Component {
         </VictoryChart>
         //<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
+        <Text style={styles.brightText}>{bedWetContent}</Text>
         <Text style={styles.title}>Exits</Text>
         <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
@@ -263,7 +273,7 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Restlessness</Text>
         <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>
         <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].bedwet ? "Unfortunately" : "Dry"}</Text>
+        <Text style={styles.brightText}>{bedWetContent}</Text>
         <Text style={styles.title}>Exits</Text>
         <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
