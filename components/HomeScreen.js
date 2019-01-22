@@ -35,6 +35,8 @@ class HomeScreen extends Component {
       picked: 0,
       dateDic: [],
       day: false,
+      weekAvgWets: 0,
+      weekAvgExits: 0,
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -115,6 +117,24 @@ class HomeScreen extends Component {
 
     });
     console.log("dateDic: " + this.state.dateDic);
+
+    //Find weekly bedwetting average
+    let weekWets = 0;
+    for ( i=0; i<this.state.weekBoards.length; i++) {
+      weekWets = weekWets + this.state.weekBoards[i].bedwet.length;
+    }
+     weekWets = weekWets/(i);
+     //console.log(weekWets)
+     this.setState({weekAvgWets: weekWets,})
+
+     //Find weekly bed exit Average
+     let weekExits = 0;
+     for ( i=0; i<this.state.weekBoards.length; i++) {
+       weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
+     }
+      weekExits = weekExits/(i);
+      //console.log(weekExits)
+      this.setState({weekAvgExits: weekExits,})
   }
 
 
@@ -160,7 +180,7 @@ class HomeScreen extends Component {
     let bedWetContent;
     if(this.state.boards[this.state.picked].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
-      bedWetContent = "Sadly  -  " + wetTime.getHours() + ":" + wetTime.getMinutes();
+      bedWetContent = "Sadly     " + wetTime.getHours() + ":" + wetTime.getMinutes();
     }
     else {
       bedWetContent = "Dry";
@@ -250,7 +270,7 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
         <Text style={styles.title}>Exited Bed</Text>
-        <Text style={styles.brightText}>Time{'\t\t'}Length</Text>
+        <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -263,7 +283,7 @@ class HomeScreen extends Component {
                 var timeOut = dif / (60*1000);
 
                 return (
-                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
+                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'       '}{Number(timeOut).toFixed(2)}</Text>
                 );
                 }
               })
@@ -280,7 +300,7 @@ class HomeScreen extends Component {
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
         maxDomain={{x:7}}
-        animate={{ duration: 500 }}
+        animate={{ duration: 200 }}
         >
           <VictoryBar
             data = {this.state.weekBoards}
@@ -322,8 +342,11 @@ class HomeScreen extends Component {
                 label="Day"
                 style={{
                   axisLabel: { padding: 30 },
+                  //axisLabel: { padding: 10 },
                   fontSize: 16,
                 }}
+                fixLabelOverlap
+                //tickFormat={() => ''}
               />
               <VictoryAxis dependentAxis
                 label="Hours"
@@ -332,6 +355,7 @@ class HomeScreen extends Component {
                   fontSize: 16,
                   transform: [{ rotate: '90deg'}]
                 }}
+                fixLabelOverlap
               />
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
@@ -339,9 +363,9 @@ class HomeScreen extends Component {
         {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
         <Text style={styles.title}>Bedwets</Text>
-        <Text style={styles.brightText}>3</Text>
+        <Text style={styles.brightText}>{this.state.weekAvgWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
-        <Text style={styles.brightText}>6</Text>
+        <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}</Text>
         {/*<Text style={styles.brightText}>Time{'\t\t'}Length</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
@@ -371,7 +395,7 @@ class HomeScreen extends Component {
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
-        <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
+        <Text style={styles.buttonText}>{this.state.day ? "Return to Day" : "Week"}</Text>
         </TouchableOpacity>
           {reports}
       </ScrollView>
