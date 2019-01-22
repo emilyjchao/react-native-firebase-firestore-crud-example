@@ -293,7 +293,7 @@ class HomeScreen extends Component {
 
     const weekDetail = (
       <View>
-      <Text style={styles.title}>Time Sleeping</Text>
+      //<Text style={styles.title}>Time Sleeping</Text>
 
         <VictoryChart
         // adds grid lines (probably does more too)
