@@ -180,7 +180,7 @@ class HomeScreen extends Component {
     let bedWetContent;
     if(this.state.boards[this.state.picked].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
-      bedWetContent = "Sadly     " + wetTime.getHours() + ":" + wetTime.getMinutes();
+      bedWetContent = "Sadly     " + wetTime.getHours() + ":" + (wetTime.getMinutes()<10?'0':'') + wetTime.getMinutes() ;
     }
     else {
       bedWetContent = "Dry";
@@ -269,7 +269,7 @@ class HomeScreen extends Component {
         {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
-        <Text style={styles.title}>Exited Bed</Text>
+        <Text style={styles.title}>{"\n"}Exited Bed</Text>
         <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
         // To make a nice simple table:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
@@ -283,7 +283,7 @@ class HomeScreen extends Component {
                 var timeOut = dif / (60*1000);
 
                 return (
-                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'       '}{Number(timeOut).toFixed(2)}</Text>
+                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
                 );
                 }
               })
@@ -359,11 +359,11 @@ class HomeScreen extends Component {
                 fixLabelOverlap
               />
         </VictoryChart>
-        <Text style={styles.brightText}>This Week</Text>
-        <Text style={styles.title}>Restlessness Average</Text>
+        <Text style={styles.brightText}>{"\n"}This Week</Text>
+        <Text style={styles.title}>Average Restlessness</Text>
         {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
-        <Text style={styles.title}>Bedwets</Text>
+        <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{this.state.weekAvgWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
         <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}</Text>
