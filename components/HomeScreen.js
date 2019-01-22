@@ -32,7 +32,8 @@ class HomeScreen extends Component {
       isLoading: true,
       boards: [],
       //day: false,
-      picked: 1,
+      picked: 0,
+      dateDic: [],
       //bedwet: '',
       //enter: [],
       //exit: [],
@@ -55,14 +56,18 @@ class HomeScreen extends Component {
       //console.log(snapshot.val());
       //console.log("IN onFetchData");
       let nights = [];
+      let dates = [];
       let data = snapshot.val();
 
       // get the number of nights
       nights = Object.keys(data);
       //console.log(nights)
-
       nights.forEach(function(nightName) {
-        console.log(data[nightName]);
+        //console.log(data[nightName]);
+
+        //Use to index boards
+        dates.push(nightName);
+
         const night = data[nightName];
         let enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
         let exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
@@ -100,6 +105,7 @@ class HomeScreen extends Component {
 
         // true false on bed wetting length
         var bedwet = wets.length >= 1;
+        console.log(dates)
 
         nightData.push({ "day": nightName, "label": (nightName), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
       })
@@ -107,6 +113,7 @@ class HomeScreen extends Component {
     //console.log(nightData);
     this.setState({
       boards: nightData,
+      dateDic: dates,
       isLoading: false,
     });
    }
@@ -151,9 +158,8 @@ class HomeScreen extends Component {
     }
 
     let bedWetContent;
-    console.log(this.state.picked)
-    if(this.state.boards[this.state.picked-1].bedwet.length > 0){
-      let wetTime = new Date(this.state.boards[this.state.picked - 1].bedwet[0]);
+    if(this.state.boards[this.state.picked].bedwet.length > 0){
+      let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
       bedWetContent = "Sadly  -  " + wetTime.getHours() + ":" + wetTime.getMinutes();
     }
     else {
@@ -170,7 +176,7 @@ class HomeScreen extends Component {
 
     const dayDetail = (
       <View>
-      // <Text style={styles.title}>{this.state.boards[this.state.picked - 1].label}</Text>
+      // <Text style={styles.title}>{this.state.boards[this.state.picked].label}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         theme={VictoryTheme.material}
@@ -181,7 +187,7 @@ class HomeScreen extends Component {
         >
           <VictoryBar
 // Fix this method of getting the specific day
-            data={[{day: this.state.picked-1, "sleep": 8.5}]}
+            data={[{day: this.state.picked, "sleep": 8.5}]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
             style={{ data: { fill: "#c43a31" } }}
@@ -204,7 +210,7 @@ class HomeScreen extends Component {
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
           {/*<VictoryBar
 // Fix this method of getting the specific day
-            data={[this.state.boards[this.state.picked-1]]}
+            data={[this.state.boards[this.state.picked]]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
             style={{ data: { fill: "#c43a31" } }}
@@ -240,7 +246,7 @@ class HomeScreen extends Component {
             ]}/>
           <VictoryAxis/>
         </VictoryChart>
-        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
+        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
         <Text style={styles.title}>Exited Bed</Text>
@@ -249,10 +255,10 @@ class HomeScreen extends Component {
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {
-              this.state.boards[this.state.picked - 1].exited.map((time, index) => { // This will render a row for each data element.
-                if (index != this.state.boards[this.state.picked - 1].exited.length-1){
+              this.state.boards[this.state.picked].exited.map((time, index) => { // This will render a row for each data element.
+                if (index != this.state.boards[this.state.picked].exited.length-1){
                 var exitTime = new Date(time);
-                var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
+                var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
                 var dif = new Date(enterTime-exitTime);
                 var timeOut = dif / (60*1000);
 
@@ -290,8 +296,9 @@ class HomeScreen extends Component {
               // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
-                 console.log(data.datum.day);
-                 this.setState({picked: 1});
+                 console.log(this.state.dateDic.indexOf(data.datum.day))
+                 this.setState({picked: this.state.dateDic.indexOf(data.datum.day)});
+                 //this.setState({picked: data.datum.day});
 
                  //console.log(this.state.picked)
                  return [
@@ -331,7 +338,7 @@ class HomeScreen extends Component {
         </VictoryChart>
         <Text style={styles.brightText}>This Week</Text>
         <Text style={styles.title}>Restlessness Average</Text>
-        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked - 1].restless}</Text>*/}
+        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
         <Text style={styles.title}>Bedwets</Text>
         <Text style={styles.brightText}>3</Text>
@@ -343,10 +350,10 @@ class HomeScreen extends Component {
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {
-              this.state.boards[this.state.picked - 1].exited.map((time, index) => { // This will render a row for each data element.
-              if (index != this.state.boards[this.state.picked - 1].exited.length-1){
+              this.state.boards[this.state.picked].exited.map((time, index) => { // This will render a row for each data element.
+              if (index != this.state.boards[this.state.picked].exited.length-1){
               var exitTime = new Date(time);
-              var enterTime = new Date(this.state.boards[this.state.picked - 1].enters[index + 1]);
+              var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
               var dif = new Date(enterTime-exitTime);
               var timeOut = dif / (60*1000);
 
