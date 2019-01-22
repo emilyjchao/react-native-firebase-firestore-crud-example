@@ -91,7 +91,7 @@ class HomeScreen extends Component {
       var bedwet = wets.length >= 1;
       //console.log(dates)
 
-      nightData.push({ "day": nightName, "label": (nightName), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+      nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
 
     })
 
@@ -299,7 +299,7 @@ class HomeScreen extends Component {
         // adds grid lines (probably does more too)
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
-        maxDomain={{x:7}}
+        maxDomain={{x:8}}
         animate={{ duration: 200 }}
         >
           <VictoryBar
@@ -334,9 +334,10 @@ class HomeScreen extends Component {
             <VictoryLine
               data={[
                 { x: 0, y: weekAVG },
-                { x: this.state.boards.length + 1, y: weekAVG }
+                { x: this.state.weekBoards.length , y: weekAVG }
               ]}
-              labels={["", `Average \n`+weekAVG.toFixed(2)]}
+              labels={["", 'Average \n'+weekAVG.toFixed(2)]}
+              style={{ labels: { textAlign: 'left', marginRight: 30} }}
               />
               <VictoryAxis
                 label="Day"
@@ -395,7 +396,7 @@ class HomeScreen extends Component {
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
-        <Text style={styles.buttonText}>{this.state.day ? "Return to Day" : "Week"}</Text>
+        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Week"}</Text>
         </TouchableOpacity>
           {reports}
       </ScrollView>
