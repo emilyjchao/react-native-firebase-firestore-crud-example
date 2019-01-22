@@ -34,6 +34,7 @@ class HomeScreen extends Component {
       weekBoards: [],
       picked: 0,
       dateDic: [],
+      day: false,
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -296,7 +297,7 @@ class HomeScreen extends Component {
                  //this.props.navigation.push('Settings');
                  //access the data point
                  //console.log(this.state.dateDic.indexOf(data.datum.day))
-                 this.setState({picked: this.state.dateDic.indexOf(data.datum.day)});
+                 this.setState({picked: this.state.dateDic.indexOf(data.datum.day), day: true});
 
                  return [
                   {
@@ -372,7 +373,6 @@ class HomeScreen extends Component {
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Day" : "Week"}</Text>
         </TouchableOpacity>
-
           {reports}
       </ScrollView>
     );
