@@ -31,12 +31,9 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: true,
       boards: [],
-      //day: false,
+      weekBoards: [],
       picked: 0,
       dateDic: [],
-      //bedwet: '',
-      //enter: [],
-      //exit: [],
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -63,60 +60,61 @@ class HomeScreen extends Component {
       nights = Object.keys(data);
       //console.log(nights)
       nights.forEach(function(nightName) {
-        //console.log(data[nightName]);
+      //Use to index boards
+      dates.push(nightName);
 
-        //Use to index boards
-        dates.push(nightName);
+      let enters = [];
+      let exits = [];
+      let wets = [];
+      const night = data[nightName];
 
-        const night = data[nightName];
-        let enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
-        let exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
-        let wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+      if (night["enters"])  {
+        enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+      }
+      if (night["exits"])  {
+        exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
+      }
+      if (night["wets"])  {
+        wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+      }
 
-  //       // check that it is not reading the date child
-  //       // if (nightName != "date" && nightName < 10){
-  //       // let enExWe = -1;
-  //       // for (var event in data[nightName]) {
-  //       //   let eventType = data[nightName][event];
-  //       //   //console.log('...' + data[nightName][event]);
-  //       //   if (eventType == "exited bed") {
-  //       //     enExWe = 1;
-  //       //   }
-  //       //   else if (eventType == "entered bed") {
-  //       //     enExWe = 2;
-  //       //   }
-  //       //   else if (eventType == "wet bed") {
-  //       //     enExWe = 3;
-  //       //   }
-  //       //   else {
-  //       //     if(enExWe == 1) { exits.push(eventType); }
-  //       //     else if (enExWe == 2) { enters.push(eventType); }
-  //       //     else if (enExWe == 3) { wets.push(eventType); }
-  //       //     enExWe = -1;
-  //       //   }
-  //       //
-  //       // }
+      //Time between first enter and  last exit dates
+      var first = new Date(enters[0]);
+      var lastEx = new Date(exits[exits.length-1]);
+      var dif = new Date((lastEx-first));
+      var sleep = dif / (60*1000);
 
-        //Time between first enter and  last exit dates
-        var first = new Date(enters[0]);
-        var lastEx = new Date(exits[exits.length-1]);
-        var dif = new Date((lastEx-first));
-        var sleep = dif / (60*1000);
+      // true false on bed wetting length
+      var bedwet = wets.length >= 1;
+      //console.log(dates)
 
-        // true false on bed wetting length
-        var bedwet = wets.length >= 1;
-        console.log(dates)
+      nightData.push({ "day": nightName, "label": (nightName), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
 
-        nightData.push({ "day": nightName, "label": (nightName), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
-      })
-  //   //})
-    //console.log(nightData);
+    })
+
+    //Set up boards for weekly view
+    let weeklyData = []
+    if (dates.length <= 7) {
+      weeklyData = nightData
+    } else {
+      weeklyData = [nightData[dates.length-7],
+                    nightData[dates.length-6],
+                    nightData[dates.length-5],
+                    nightData[dates.length-4],
+                    nightData[dates.length-3],
+                    nightData[dates.length-2],
+                    nightData[dates.length-1]];
+    }
+
     this.setState({
       boards: nightData,
+      weekBoards: weeklyData,
       dateDic: dates,
       isLoading: false,
+
     });
-   }
+    console.log("dateDic: " + this.state.dateDic);
+  }
 
 
 // OLD
@@ -146,6 +144,7 @@ class HomeScreen extends Component {
    //    boards: boards.sort((a,b) => { return(a.day - b.day) }),
    //    isLoading: false,
    // });
+
   }
 
   render() {
@@ -280,10 +279,10 @@ class HomeScreen extends Component {
         //theme={VictoryTheme.material}
         minDomain={{x:0.5}}
         maxDomain={{x:7}}
-        animate={{ duration: 2000 }}
+        animate={{ duration: 500 }}
         >
           <VictoryBar
-            data={this.state.boards}
+            data = {this.state.weekBoards}
             x="day" y="sleep"
             barRatio={.75}
             style={{
@@ -296,11 +295,9 @@ class HomeScreen extends Component {
               // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
-                 console.log(this.state.dateDic.indexOf(data.datum.day))
+                 //console.log(this.state.dateDic.indexOf(data.datum.day))
                  this.setState({picked: this.state.dateDic.indexOf(data.datum.day)});
-                 //this.setState({picked: data.datum.day});
 
-                 //console.log(this.state.picked)
                  return [
                   {
                     target: "data",
