@@ -16,8 +16,6 @@ class AllDetailScreen extends Component {
       isLoading: true,  // check for whether initial data has been received
       boards: [],       // full list of all nights data
       dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
-      avgWets: 0,   // average for the week
-      avgExits: 0,  //
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -85,22 +83,6 @@ class AllDetailScreen extends Component {
       isLoading: false, // update so components render
 
     });
-
-    //Find bedwetting average
-    let avgTWets = 0;
-    for ( i=0; i<this.state.boards.length; i++) {
-      avgTWets = avgTWets + this.state.boards[i].bedwet.length;
-    }
-    avgTWets = avgTWets/(i);
-    this.setState({avgWets: avgTWets,})
-
-    //Find weekly bed exit Average
-    let avgTExits = 0;
-    for ( i=0; i<this.state.boards.length; i++) {
-     avgTExits = avgTExits + this.state.boards[i].exited.length-1;
-    }
-    avgTExits = avgTExits/(i);
-    this.setState({avgExits: avgTExits,})
   }
 
 
@@ -122,12 +104,26 @@ class AllDetailScreen extends Component {
     }
     sleepAVG = sleepAVG/i;
 
+    //Find bedwetting average
+    let avgTWets = 0;
+    for ( i=0; i<this.state.boards.length; i++) {
+      avgTWets = avgTWets + this.state.boards[i].bedwet.length;
+    }
+    avgTWets = avgTWets/(i);
+
+    //Find weekly bed exit Average
+    let avgTExits = 0;
+    for ( i=0; i<this.state.boards.length; i++) {
+     avgTExits = avgTExits + this.state.boards[i].exited.length-1;
+    }
+    avgTExits = avgTExits/(i);
+
     return (
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <Text style={styles.blackText}>{"\n"}Sleep History</Text>
           <VictoryChart
-            animate={{ duration: 200 }}
+            animate={{ duration: 100 }}
             //helps so that chart is not cut off on right
             domainPadding={{ x : [30, 30] }}
           >
@@ -169,9 +165,24 @@ class AllDetailScreen extends Component {
               <Text style={styles.title}>{"\n"}Average Restlessness</Text>
               <Text style={styles.brightText}>1.54</Text>
               <Text style={styles.title}>Bedwets per Night</Text>
-              <Text style={styles.brightText}>{this.state.avgWets.toFixed(1)}</Text>
+              <Text style={styles.brightText}>{avgTWets.toFixed(1)}</Text>
               <Text style={styles.title}>Exits per Night</Text>
-              <Text style={styles.brightText}>{this.state.avgExits.toFixed(1)}{"\n"}</Text>
+              <Text style={styles.brightText}>{avgTExits.toFixed(1)}{"\n"}</Text>
+
+              <View
+                style={{
+                  borderBottomColor: 'black',
+                  borderBottomWidth: 1,
+                }}
+              />
+              <Text style={styles.blackText}>{"\n"}Community Data</Text>
+              <Text style={styles.title}>{"\n"}Restlessness</Text>
+              <Text style={styles.brightText}>??</Text>
+              <Text style={styles.title}>Bedwets per Night</Text>
+              <Text style={styles.brightText}>??</Text>
+              <Text style={styles.title}>Exits per Night</Text>
+              <Text style={styles.brightText}>??</Text>
+
           />
         </View>
       </ScrollView>

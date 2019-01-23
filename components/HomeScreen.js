@@ -35,8 +35,6 @@ class HomeScreen extends Component {
       picked: 0,        // the index in boards of the currently selected night
       dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
       day: false,       // day v. week view --> should  be removed if using separate components
-      weekAvgWets: 0,   // average for the week
-      weekAvgExits: 0,  //
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
@@ -124,22 +122,6 @@ class HomeScreen extends Component {
       isLoading: false, // update so components render
 
     });
-
-    //Find weekly bedwetting average
-    let weekWets = 0;
-    for ( i=0; i<this.state.weekBoards.length; i++) {
-      weekWets = weekWets + this.state.weekBoards[i].bedwet.length;
-    }
-    weekWets = weekWets/(i);
-    this.setState({weekAvgWets: weekWets,})
-
-    //Find weekly bed exit Average
-    let weekExits = 0;
-    for ( i=0; i<this.state.weekBoards.length; i++) {
-     weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
-    }
-    weekExits = weekExits/(i);
-    this.setState({weekAvgExits: weekExits,})
   }
 
 
@@ -172,6 +154,20 @@ class HomeScreen extends Component {
       weekAVG += this.state.weekBoards[i].sleep;
     }
     weekAVG = weekAVG/i;
+
+    //Find weekly bedwetting average
+    let weekWets = 0;
+    for ( i=0; i<this.state.weekBoards.length; i++) {
+      weekWets = weekWets + this.state.weekBoards[i].bedwet.length;
+    }
+    weekWets = weekWets/(i);
+
+    //Find weekly bed exit Average
+    let weekExits = 0;
+    for ( i=0; i<this.state.weekBoards.length; i++) {
+     weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
+    }
+    weekExits = weekExits/(i);
 
     // day View
     // Could become separate component
@@ -294,15 +290,17 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Average Restlessness</Text>
         <Text style={styles.brightText}>1.54</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
-        <Text style={styles.brightText}>{this.state.weekAvgWets.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
-        <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}{"\n"}</Text>
+        <Text style={styles.brightText}>{weekExits.toFixed(1)}</Text>
 
         //Navigate to all details page
         <Button
+          style={styles.button}
           onPress={() => navigate('AllDetails')}
           title="View Data Details"
-          //color="#841584"
+          buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
+          color="black"
         />
       </View>);
 
