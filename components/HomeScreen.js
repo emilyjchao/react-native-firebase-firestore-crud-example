@@ -178,12 +178,11 @@ class HomeScreen extends Component {
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         height={130}
-        maxDomain={{x:12}}
         animate={{ duration: 2000 }}
 
         >
           <VictoryBar
-            data={[{day: this.state.picked, "sleep": 8.5}]}
+            data={[this.state.weekBoards[this.state.picked-1]]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
             style={{ data: { fill: "#c43a31" } }}
@@ -191,11 +190,7 @@ class HomeScreen extends Component {
               target: "data",
               eventHandlers: {
                onPressIn: () => {
-                  return [
-                    {
-                      target: "data",
-                    }
-                  ];
+                  return [{ target: "data",}];
                 }
               }}]}
             />
