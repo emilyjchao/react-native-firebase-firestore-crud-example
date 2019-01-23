@@ -93,8 +93,12 @@ export default class SettingsScreen extends React.Component {
   }
 
   render() {
+    //Needed to naviaget to other pages from Settings Screen
+    const {navigate} = this.props.navigation;
+    
     var bgColor = '#DCE3F4';
     return (
+
       <ScrollView style={styles.container}>
       <View style={{backgroundColor:'#EFEFF4',flex:1}}>
         <View style={{flex:1, marginTop:50}}>
@@ -121,7 +125,8 @@ export default class SettingsScreen extends React.Component {
               backgroundColor='#D1D1D1'
               onPress={() => Alert.alert('See Terms and Conditions of Use')}/>
             <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:'black', marginTop:50}}/>
-            <SettingsList.Item titleInfo='Bedroom 1' hasNavArrow={false} title='Child 1'/>
+            <SettingsList.Item titleInfo='Details' hasNavArrow={false} title='Child 1'
+              onPress={() => navigate('ChildDetails')}/>
             <SettingsList.Item
               hasNavArrow={false}
               switchState={this.state.notification}

@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './components/HomeScreen';
 import AllDetailScreen from './components/AllDetailScreen';
 import AddChildScreen from './components/AddChildScreen';
-import EditBoardScreen from './components/EditBoardScreen';
+import ChildDetailsScreen from './components/ChildDetailsScreen';
 import SettingsScreen from './components/SettingsScreen'
 import {Constants, Permissions, Notifications} from 'expo'
 
@@ -25,7 +25,7 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     AllDetails: AllDetailScreen,
     AddChild: AddChildScreen,
-    //EditBoard: EditBoardScreen,
+    ChildDetails: ChildDetailsScreen,
     Settings: SettingsScreen,
   },
   {
