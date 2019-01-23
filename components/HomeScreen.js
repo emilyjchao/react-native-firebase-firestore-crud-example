@@ -120,6 +120,7 @@ class HomeScreen extends Component {
       boards: nightData,
       weekBoards: weeklyData,
       dateDic: dates,
+      picked: dates.length-7,
       isLoading: false, // update so components render
 
     });
@@ -167,8 +168,8 @@ class HomeScreen extends Component {
 
     // weekly sleep average
     let weekAVG = 0;
-    for ( i = 0; i < this.state.boards.length; i++){
-      weekAVG += this.state.boards[i].sleep;
+    for ( i = 0; i < this.state.weekBoards.length; i++){
+      weekAVG += this.state.weekBoards[i].sleep;
     }
     weekAVG = weekAVG/i;
 
@@ -176,14 +177,16 @@ class HomeScreen extends Component {
     // Could become separate component
     const dayDetail = (
       <View>
+      <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
         height={130}
-        animate={{ duration: 2000 }}
+        animate={{ duration: 100 }}
 
         >
           <VictoryBar
-            data={[this.state.weekBoards[this.state.picked-1]]}
+            //data={[this.state.boards[this.state.picked-1]]}
+            data={[this.state.boards[this.state.picked]]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
             style={{ data: { fill: "#c43a31" } }}
@@ -240,7 +243,7 @@ class HomeScreen extends Component {
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
-          animate={{ duration: 200 }}
+          animate={{ duration: 100 }}
           >
           <VictoryBar
             data = {this.state.weekBoards}
@@ -360,6 +363,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'firebrick',
+  },
+  blackText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'black',
   },
   textInput: {
     fontSize: 24,

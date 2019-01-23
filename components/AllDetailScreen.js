@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
@@ -23,17 +23,15 @@ class AllDetailScreen extends Component {
   }
 
   componentDidMount() {
-    // OLD: firestore connection
-    //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     // Realtime database connection
     this.fetchData();
   }
-
 
   //wrapper so that state can be set from onFetchData
   fetchData() {
     firebase.database().ref().on('value', this.onFetchData);
   }
+
   // process the incoming data
   onFetchData = (snapshot) => {
       let nightData = [];
@@ -81,7 +79,6 @@ class AllDetailScreen extends Component {
 
     })
 
-
     this.setState({
       boards: nightData,
       dateDic: dates,
@@ -125,37 +122,31 @@ class AllDetailScreen extends Component {
     }
     sleepAVG = sleepAVG/i;
 
-
-    const weekDetail = (
-      <View>
-        <VictoryChart
-          minDomain={{x:0.5}}
-          maxDomain={{x:8}}
-          animate={{ duration: 200 }}
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.subContainer}>
+          <Text style={styles.blackText}>{"\n"}Sleep History</Text>
+          <VictoryChart
+            animate={{ duration: 200 }}
+            //helps so that chart is not cut off on right
+            domainPadding={{ x : [30, 30] }}
           >
-          <VictoryBar
-            data = {this.state.boards}
-            x="day" y="sleep"
-            barRatio={.75}
-            style={{
-              data: { fill: "#c43a31" }
-            }}
-            events={[{
-              target: "data",
-              eventHandlers: {
-              onPressIn: (event, data) => {
-                 return [{target: "data",}];
-               }
-             }}]}
+          <VictoryLine
+            data={[
+              { x: 0, y: sleepAVG },
+              { x: this.state.boards.length , y: sleepAVG }
+            ]}
+            labels={["", 'Average \n'+sleepAVG.toFixed(2)]}
+            style={{ labels: { textAlign: 'left', marginRight: 30} }}
             />
             <VictoryLine
-              data={[
-                { x: 0, y: sleepAVG },
-                { x: this.state.boards.length , y: sleepAVG }
-              ]}
-              labels={["", 'Average \n'+sleepAVG.toFixed(2)]}
-              style={{ labels: { textAlign: 'left', marginRight: 30} }}
-              />
+              style={{
+                data: { stroke: "#c43a31" },
+                parent: { border: "1px solid #ccc"}
+              }}
+              data = {this.state.boards}
+              x="day" y="sleep"
+            />
               <VictoryAxis
                 label="Day"
                 style={{
@@ -173,24 +164,16 @@ class AllDetailScreen extends Component {
                 }}
                 fixLabelOverlap
               />
-        </VictoryChart>
-        <Text style={styles.brightText}>{"\n"}Sleep Data</Text>
-        <Text style={styles.title}>Average Restlessness</Text>
-        <Text style={styles.brightText}>1.54</Text>
-        <Text style={styles.title}>Bedwets per Night</Text>
-        <Text style={styles.brightText}>{this.state.avgWets.toFixed(1)}</Text>
-        <Text style={styles.title}>Exits per Night</Text>
-        <Text style={styles.brightText}>{this.state.avgExits.toFixed(1)}{"\n"}</Text>
+              </VictoryChart>
 
-
-      </View>);
-
-    return (
-      <ScrollView style={styles.container}>
-      <TouchableOpacity
-        onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
-        style={styles.button}>
-      </TouchableOpacity>
+              <Text style={styles.title}>{"\n"}Average Restlessness</Text>
+              <Text style={styles.brightText}>1.54</Text>
+              <Text style={styles.title}>Bedwets per Night</Text>
+              <Text style={styles.brightText}>{this.state.avgWets.toFixed(1)}</Text>
+              <Text style={styles.title}>Exits per Night</Text>
+              <Text style={styles.brightText}>{this.state.avgExits.toFixed(1)}{"\n"}</Text>
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -238,6 +221,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'firebrick',
+  },
+  blackText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'black',
   },
   textInput: {
     fontSize: 24,
