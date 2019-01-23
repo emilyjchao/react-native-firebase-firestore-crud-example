@@ -29,73 +29,80 @@ class HomeScreen extends Component {
     this.ref = firebase.firestore().collection('days');
     this.unsubscribe = null;
     this.state = {
-      isLoading: true,
-      boards: [],
-      weekBoards: [],
-      picked: 0,
-      dateDic: [],
-      day: false,
-      weekAvgWets: 0,
-      weekAvgExits: 0,
+      isLoading: true,  // check for whether initial data has been received
+      boards: [],       // full list of all nights data
+      weekBoards: [],   // the last week of nights
+      picked: 0,        // the index in boards of the currently selected night
+      dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
+      day: false,       // day v. week view --> should  be removed if using separate components
+      weekAvgWets: 0,   // average for the week
+      weekAvgExits: 0,  //
     };
     this.onFetchData = this.onFetchData.bind(this);
   }
 
   componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    // OLD: firestore connection
+    //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    // Realtime database connection
     this.fetchData();
   }
 
-  //fetchData = async () => {
+
+  //wrapper so that state can be set from onFetchData
   fetchData() {
     firebase.database().ref().on('value', this.onFetchData);
   }
 
+  // process the incoming data
   onFetchData = (snapshot) => {
       let nightData = [];
-      //console.log(snapshot.val());
-      //console.log("IN onFetchData");
       let nights = [];
       let dates = [];
       let data = snapshot.val();
 
       // get the number of nights
       nights = Object.keys(data);
-      //console.log(nights)
+
       nights.forEach(function(nightName) {
-      //Use to index boards
-      dates.push(nightName);
+        //Use to index boards
+        dates.push(nightName);
 
-      let enters = [];
-      let exits = [];
-      let wets = [];
-      const night = data[nightName];
+        // initialize arrays for data
+        let enters = [];
+        let exits = [];
+        let wets = [];
+        const night = data[nightName];
 
-      if (night["enters"])  {
-        enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
-      }
-      if (night["exits"])  {
-        exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
-      }
-      if (night["wets"])  {
-        wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
-      }
+        //  fill arrays by iterating over each list from firebase
+        if (night["enters"])  {
+          enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+        }
+        if (night["exits"])  {
+          exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
+        }
+        if (night["wets"])  {
+          wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+        }
 
-      //Time between first enter and  last exit dates
-      var first = new Date(enters[0]);
-      var lastEx = new Date(exits[exits.length-1]);
-      var dif = new Date((lastEx-first));
-      var sleep = dif / (60*1000);
+// TODO: more accurate processing of sleep and awake time
+        //Time between first enter and  last exit dates
+        var first = new Date(enters[0]);
+        var lastEx = new Date(exits[exits.length-1]);
+        var dif = new Date((lastEx-first));
+// TODO: this is minutes --> switch to hours for full data
+        var sleep = dif / (60*1000);
 
-      // true false on bed wetting length
-      var bedwet = wets.length >= 1;
-      //console.log(dates)
+        // true false on bed wetting length
+        var bedwet = wets.length >= 1;
+        //console.log(dates)
 
-      nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+        // add these arrays to the array that will be boards
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
 
     })
 
-    //Set up boards for weekly view
+    //Set up boards for weekly view (take most recent 7 days)
     let weeklyData = []
     if (dates.length <= 7) {
       weeklyData = nightData
@@ -113,7 +120,7 @@ class HomeScreen extends Component {
       boards: nightData,
       weekBoards: weeklyData,
       dateDic: dates,
-      isLoading: false,
+      isLoading: false, // update so components render
 
     });
     console.log("dateDic: " + this.state.dateDic);
@@ -123,52 +130,22 @@ class HomeScreen extends Component {
     for ( i=0; i<this.state.weekBoards.length; i++) {
       weekWets = weekWets + this.state.weekBoards[i].bedwet.length;
     }
-     weekWets = weekWets/(i);
-     //console.log(weekWets)
-     this.setState({weekAvgWets: weekWets,})
+    weekWets = weekWets/(i);
+    this.setState({weekAvgWets: weekWets,})
 
-     //Find weekly bed exit Average
-     let weekExits = 0;
-     for ( i=0; i<this.state.weekBoards.length; i++) {
-       weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
-     }
-      weekExits = weekExits/(i);
-      //console.log(weekExits)
-      this.setState({weekAvgExits: weekExits,})
+    //Find weekly bed exit Average
+    let weekExits = 0;
+    for ( i=0; i<this.state.weekBoards.length; i++) {
+     weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
+    }
+    weekExits = weekExits/(i);
+    this.setState({weekAvgExits: weekExits,})
   }
 
-
-// OLD
-// gets fake data from firestore on firebase
-  onCollectionUpdate = (querySnapshot) => {
-    let boards = [];
-    //add the records to array
-    querySnapshot.forEach((doc) => {
-      const { day, sleep, label, bedwet, restless, exited } = doc.data();
-      boards.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        day,
-        sleep,
-        label,
-        bedwet,
-        restless,
-        exited,
-      });
-    });
-    //store boards in state
-
-// uncomment for Looks like prototype
-// This is for the firestore data
-  //console.log('Firestore \n'+boards);
-   //  this.setState({
-   //    boards: boards.sort((a,b) => { return(a.day - b.day) }),
-   //    isLoading: false,
-   // });
-
-  }
 
   render() {
+
+    // check there is data loaded
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
@@ -177,6 +154,7 @@ class HomeScreen extends Component {
       )
     }
 
+    // Build text to display for bedwetting table
     let bedWetContent;
     if(this.state.boards[this.state.picked].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
@@ -186,27 +164,25 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
+    // weekly sleep average
     let weekAVG = 0;
     for ( i = 0; i < this.state.boards.length; i++){
       weekAVG += this.state.boards[i].sleep;
-      //console.log(this.state.boards[i].sleep);
     }
     weekAVG = weekAVG/i;
-    //console.log(weekAVG);
 
+    // day View
+    // Could become separate component
     const dayDetail = (
       <View>
-      // <Text style={styles.title}>{this.state.boards[this.state.picked].label}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
       <VictoryChart
-        theme={VictoryTheme.material}
         height={130}
         maxDomain={{x:12}}
         animate={{ duration: 2000 }}
 
         >
           <VictoryBar
-// Fix this method of getting the specific day
             data={[{day: this.state.picked, "sleep": 8.5}]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
@@ -218,43 +194,16 @@ class HomeScreen extends Component {
                   return [
                     {
                       target: "data",
-                      // mutation: (props) => {
-                      //   const fill = props.style && props.style.fill;
-                      //   return fill === "black" ? null : { style: { fill: "black" } };
-                      // }
                     }
                   ];
                 }
               }}]}
             />
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
-          {/*<VictoryBar
-// Fix this method of getting the specific day
-            data={[this.state.boards[this.state.picked]]}
-            barWidth={20} x="day" y="sleep"
-            horizontal={true}
-            style={{ data: { fill: "#c43a31" } }}
-            events={[{
-              target: "data",
-              eventHandlers: {
-               onPressIn: () => {
-                  return [
-                    {
-                      target: "data",
-                      // mutation: (props) => {
-                      //   const fill = props.style && props.style.fill;
-                      //   return fill === "black" ? null : { style: { fill: "black" } };
-                      // }
-                    }
-                  ];
-                }
-              }}]}
-            />
-          <VictoryAxis/>*/}
         </VictoryChart>
         <Text style={styles.title}>Restlessness</Text>
+// TODO: use real restlessness data
         <VictoryChart
-          theme={VictoryTheme.material}
           height={130}>
           <VictoryLine
             data={[
@@ -266,12 +215,11 @@ class HomeScreen extends Component {
             ]}/>
           <VictoryAxis/>
         </VictoryChart>
-        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.title}>Bedwet</Text>
         <Text style={styles.brightText}>{bedWetContent}</Text>
         <Text style={styles.title}>{"\n"}Exited Bed</Text>
         <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-        // To make a nice simple table:
+        // This code for rendering table is from:
         // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {
@@ -293,15 +241,11 @@ class HomeScreen extends Component {
 
     const weekDetail = (
       <View>
-      //<Text style={styles.title}>Time Sleeping</Text>
-
         <VictoryChart
-        // adds grid lines (probably does more too)
-        //theme={VictoryTheme.material}
-        minDomain={{x:0.5}}
-        maxDomain={{x:8}}
-        animate={{ duration: 200 }}
-        >
+          minDomain={{x:0.5}}
+          maxDomain={{x:8}}
+          animate={{ duration: 200 }}
+          >
           <VictoryBar
             data = {this.state.weekBoards}
             x="day" y="sleep"
@@ -318,18 +262,9 @@ class HomeScreen extends Component {
                  //access the data point
                  //console.log(this.state.dateDic.indexOf(data.datum.day))
                  this.setState({picked: this.state.dateDic.indexOf(data.datum.day), day: true});
-
-                 return [
-                  {
-                    target: "data",
-                    //  mutation: (props) => {
-                    //    const fill = props.style && props.style.fill;
-                    //    return fill === "black" ? null : { style: { fill: "black" } };
-                    // }
-                  }
-                ];
-              }
-            }}]}
+                 return [{target: "data",}];
+               }
+             }}]}
             />
             <VictoryLine
               data={[
@@ -343,11 +278,9 @@ class HomeScreen extends Component {
                 label="Day"
                 style={{
                   axisLabel: { padding: 30 },
-                  //axisLabel: { padding: 10 },
                   fontSize: 16,
                 }}
                 fixLabelOverlap
-                //tickFormat={() => ''}
               />
               <VictoryAxis dependentAxis
                 label="Hours"
@@ -361,32 +294,11 @@ class HomeScreen extends Component {
         </VictoryChart>
         <Text style={styles.brightText}>{"\n"}This Week</Text>
         <Text style={styles.title}>Average Restlessness</Text>
-        {/*<Text style={styles.brightText}>{this.state.boards[this.state.picked].restless}</Text>*/}
         <Text style={styles.brightText}>1.54</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{this.state.weekAvgWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
         <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}</Text>
-        {/*<Text style={styles.brightText}>Time{'\t\t'}Length</Text>
-        // To make a nice simple table:
-        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {
-              this.state.boards[this.state.picked].exited.map((time, index) => { // This will render a row for each data element.
-              if (index != this.state.boards[this.state.picked].exited.length-1){
-              var exitTime = new Date(time);
-              var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
-              var dif = new Date(enterTime-exitTime);
-              var timeOut = dif / (60*1000);
-
-              return (
-                <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{exitTime.getMinutes()}{'  -  '}{Number(timeOut).toFixed(2)}</Text>
-              );
-              }
-              })
-            }
-        </View>*/}
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
