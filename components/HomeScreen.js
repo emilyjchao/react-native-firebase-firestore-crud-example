@@ -123,7 +123,6 @@ class HomeScreen extends Component {
       isLoading: false, // update so components render
 
     });
-    console.log("dateDic: " + this.state.dateDic);
 
     //Find weekly bedwetting average
     let weekWets = 0;
@@ -153,6 +152,8 @@ class HomeScreen extends Component {
         </View>
       )
     }
+    //Needed to naviaget to other pages from Home Screen
+    const {navigate} = this.props.navigation;
 
     // Build text to display for bedwetting table
     let bedWetContent;
@@ -255,7 +256,6 @@ class HomeScreen extends Component {
               // Navigate from click
                  //this.props.navigation.push('Settings');
                  //access the data point
-                 //console.log(this.state.dateDic.indexOf(data.datum.day))
                  this.setState({picked: this.state.dateDic.indexOf(data.datum.day), day: true});
                  return [{target: "data",}];
                }
@@ -293,7 +293,14 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{this.state.weekAvgWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
-        <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{this.state.weekAvgExits.toFixed(1)}{"\n"}</Text>
+
+        //Navigate to all details page
+        <Button
+          onPress={() => navigate('AllDetails')}
+          title="View Data Details"
+          //color="#841584"
+        />
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);

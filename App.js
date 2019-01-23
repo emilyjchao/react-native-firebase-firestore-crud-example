@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './components/HomeScreen';
-import DayDetailScreen from './components/DayDetailScreen';
+import AllDetailScreen from './components/AllDetailScreen';
 import AddChildScreen from './components/AddChildScreen';
 import EditBoardScreen from './components/EditBoardScreen';
 import SettingsScreen from './components/SettingsScreen'
@@ -23,7 +23,7 @@ async function register(){
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    //DayDetails: DayDetailScreen,
+    AllDetails: AllDetailScreen,
     AddChild: AddChildScreen,
     //EditBoard: EditBoardScreen,
     Settings: SettingsScreen,
