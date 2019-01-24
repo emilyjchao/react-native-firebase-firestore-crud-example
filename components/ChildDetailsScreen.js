@@ -71,32 +71,32 @@ class ChildDetailsScreen extends Component {
   }
 
   updateBoard() {
-    this.setState({
-      isLoading: true,
-    });
-    const { navigation } = this.props;
-    const updateRef = firebase.firestore().collection('boards').doc(this.state.key);
-
-
-    updateRef.set({
-      name: this.state.name,
-      age: this.state.age,
-      weight: this.state.weight,
-    }).then((docRef) => {
-      this.setState({
-        key: '',
-        name: '',
-        age: '',
-        weight: '',
-        isLoading: false,
-      });
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-      this.setState({
-        isLoading: false,
-      });
-    });
+    // this.setState({
+    //   isLoading: true,
+    // });
+    // const { navigation } = this.props;
+    // const updateRef = firebase.firestore().collection('boards').doc(this.state.key);
+    //
+    //
+    // updateRef.set({
+    //   name: this.state.name,
+    //   age: this.state.age,
+    //   weight: this.state.weight,
+    // }).then((docRef) => {
+    //   this.setState({
+    //     key: '',
+    //     name: '',
+    //     age: '',
+    //     weight: '',
+    //     isLoading: false,
+    //   });
+    // })
+    // .catch((error) => {
+    //   console.error("Error adding document: ", error);
+    //   this.setState({
+    //     isLoading: false,
+    //   });
+    // });
   }
 
   render() {
