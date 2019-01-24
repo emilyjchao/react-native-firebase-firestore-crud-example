@@ -63,7 +63,7 @@ class HomeScreen extends Component {
     nights = Object.keys(data);
 
     nights.forEach(function(nightName) {
-      if (nightName != 'Profile') {
+      if (nightName != 'Profile' && nightName != 'current_time') {
         //Use to index boards
         dates.push(nightName);
 
