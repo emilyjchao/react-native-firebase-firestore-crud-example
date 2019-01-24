@@ -41,40 +41,41 @@ class AllDetailScreen extends Component {
       nights = Object.keys(data);
 
       nights.forEach(function(nightName) {
-        //Use to index boards
-        dates.push(nightName);
+       if (nightName != 'Profile') {
+          //Use to index boards
+          dates.push(nightName);
 
-        // initialize arrays for data
-        let enters = [];
-        let exits = [];
-        let wets = [];
-        const night = data[nightName];
+          // initialize arrays for data
+          let enters = [];
+          let exits = [];
+          let wets = [];
+          const night = data[nightName];
 
-        //  fill arrays by iterating over each list from firebase
-        if (night["enters"])  {
-          enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+          //  fill arrays by iterating over each list from firebase
+          if (night["enters"])  {
+            enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+          }
+          if (night["exits"])  {
+            exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
+          }
+          if (night["wets"])  {
+            wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+          }
+
+  // TODO: more accurate processing of sleep and awake time
+          //Time between first enter and  last exit dates
+          var first = new Date(enters[0]);
+          var lastEx = new Date(exits[exits.length-1]);
+          var dif = new Date((lastEx-first));
+  // TODO: this is minutes --> switch to hours for full data
+          var sleep = dif / (60*1000);
+
+          // true false on bed wetting length
+          var bedwet = wets.length >= 1;
+
+          // add these arrays to the array that will be boards
+          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
         }
-        if (night["exits"])  {
-          exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
-        }
-        if (night["wets"])  {
-          wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
-        }
-
-// TODO: more accurate processing of sleep and awake time
-        //Time between first enter and  last exit dates
-        var first = new Date(enters[0]);
-        var lastEx = new Date(exits[exits.length-1]);
-        var dif = new Date((lastEx-first));
-// TODO: this is minutes --> switch to hours for full data
-        var sleep = dif / (60*1000);
-
-        // true false on bed wetting length
-        var bedwet = wets.length >= 1;
-
-        // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
-
     })
 
     this.setState({
@@ -175,7 +176,7 @@ class AllDetailScreen extends Component {
                   borderBottomWidth: 1,
                 }}
               />
-              <Text style={styles.blackText}>{"\n"}Community Data</Text>
+              <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
               <Text style={styles.title}>{"\n"}Restlessness</Text>
               <Text style={styles.brightText}>??</Text>
               <Text style={styles.title}>Bedwets per Night</Text>

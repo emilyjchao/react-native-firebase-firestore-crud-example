@@ -61,7 +61,7 @@ class AddChildScreen extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <TextInput
-              placeholder={'Child'}
+              placeholder={'Name'}
               value={this.state.title}
               onChangeText={(text) => this.updateTextInput(text, 'title')}
           />
@@ -70,14 +70,14 @@ class AddChildScreen extends Component {
           <TextInput
               multiline={true}
               numberOfLines={4}
-              placeholder={'Weight'}
+              placeholder={'Age'}
               value={this.state.description}
               onChangeText={(text) => this.updateTextInput(text, 'description')}
           />
         </View>
         <View style={styles.subContainer}>
           <TextInput
-              placeholder={'Product ID'}
+              placeholder={'Weight'}
               value={this.state.author}
               onChangeText={(text) => this.updateTextInput(text, 'author')}
           />

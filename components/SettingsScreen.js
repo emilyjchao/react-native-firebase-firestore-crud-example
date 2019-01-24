@@ -8,8 +8,10 @@ import firebase from '../Firebase';
 
 // Create and export Settings screen component
 export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings' // Enable app header and use 'Settings' as the label
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Settings',
+    }
   }
   constructor(props) {
     super(props);
@@ -95,7 +97,7 @@ export default class SettingsScreen extends React.Component {
   render() {
     //Needed to naviaget to other pages from Settings Screen
     const {navigate} = this.props.navigation;
-    
+
     var bgColor = '#DCE3F4';
     return (
 

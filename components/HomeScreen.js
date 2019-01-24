@@ -54,15 +54,16 @@ class HomeScreen extends Component {
 
   // process the incoming data
   onFetchData = (snapshot) => {
-      let nightData = [];
-      let nights = [];
-      let dates = [];
-      let data = snapshot.val();
+    let nightData = [];
+    let nights = [];
+    let dates = [];
+    let data = snapshot.val();
 
-      // get the number of nights
-      nights = Object.keys(data);
+    // get the number of nights
+    nights = Object.keys(data);
 
-      nights.forEach(function(nightName) {
+    nights.forEach(function(nightName) {
+      if (nightName != 'Profile') {
         //Use to index boards
         dates.push(nightName);
 
@@ -97,7 +98,7 @@ class HomeScreen extends Component {
 
         // add these arrays to the array that will be boards
         nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
-
+      }
     })
 
     //Set up boards for weekly view (take most recent 7 days)
