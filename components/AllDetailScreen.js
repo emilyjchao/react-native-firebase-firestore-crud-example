@@ -65,6 +65,14 @@ class AllDetailScreen extends Component {
           if (night["movement"])  {
             restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
           }
+          //Split timestamp from restlessness rating
+          let restTime = [];
+          let restNum = [];
+          for (i=0; i<restless.length; i++) {
+            restlessSplit = restless[i].toString().split(" ")
+            restTime.push(parseInt(restlessSplit[0], 10));
+            restNum.push(parseInt(restlessSplit[1], 10));
+          }
 
   // TODO: more accurate processing of sleep and awake time
           //Time between first enter and  last exit dates
@@ -78,7 +86,7 @@ class AllDetailScreen extends Component {
           var bedwet = wets.length >= 1;
 
           // add these arrays to the array that will be boards
-          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": restless,});
+          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum,});
         }
     })
 
@@ -116,19 +124,24 @@ class AllDetailScreen extends Component {
     }
     avgTWets = avgTWets/(i);
 
-    //Find weekly bed exit Average
+    //Find bed exit average
     let avgTExits = 0;
     for ( i=0; i<this.state.boards.length; i++) {
      avgTExits = avgTExits + this.state.boards[i].exited.length-1;
     }
     avgTExits = avgTExits/(i);
 
-    //Find weekly restlessness average
+    //Find restlessness average
     let avgTRestless = 0;
+    let restCounter = 0;
     for ( i=0; i<this.state.boards.length; i++) {
-     avgTRestless = avgTRestless + this.state.boards[i].restless;
+      for (j=0; j<this.state.boards[i].restNum.length; j++) {
+        avgTRestless = avgTRestless + this.state.boards[i].restNum[j];
+        restCounter++;
+      }
     }
-    avgTRestless = avgTRestless/(i);
+
+    avgTRestless = avgTRestless/(restCounter);
 
     return (
       <ScrollView style={styles.container}>

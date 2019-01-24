@@ -88,8 +88,15 @@ class HomeScreen extends Component {
           restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
         }
         //Split timestamp from restlessness rating
-        restless = restless.toString().split(" ");
-        console.log(restless)
+        let restTime = [];
+        let restNum = [];
+        for (i=0; i<restless.length; i++) {
+          restlessSplit = restless[i].toString().split(" ")
+          restTime.push(parseInt(restlessSplit[0], 10));
+          restNum.push(parseInt(restlessSplit[1], 10));
+        }
+        //console.log(restTime);
+        //console.log(restNum);
 
 
 // TODO: more accurate processing of sleep and awake time
@@ -105,7 +112,7 @@ class HomeScreen extends Component {
         //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": restless,});
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum,});
       }
     })
 
@@ -180,10 +187,16 @@ class HomeScreen extends Component {
 
     //Find weekly restlessness average
     let avgTRestless = 0;
-    for ( i=0; i<this.state.boards.length; i++) {
-     avgTRestless = avgTRestless + this.state.boards[i].restless;
+    let restCounter = 0;
+    for ( i=0; i<this.state.weekBoards.length; i++) {
+      for (j=0; j<this.state.weekBoards[i].restNum.length; j++) {
+        avgTRestless = avgTRestless + this.state.weekBoards[i].restNum[j];
+        restCounter++;
+      }
     }
-    avgTRestless = avgTRestless/(i);
+    //console.log(avgTRestless);
+    //console.log(restCounter);
+    avgTRestless = avgTRestless/(restCounter);
 
     // day View
     // Could become separate component
