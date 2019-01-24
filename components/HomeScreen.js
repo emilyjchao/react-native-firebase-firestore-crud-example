@@ -88,11 +88,11 @@ class HomeScreen extends Component {
           restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
         }
         //Split timestamp from restlessness rating
-        let restTime = [];
-        let restNum = [];
+        let restTime = [];  //time in day/hr/min/set
+        let restNum = [];   //movement on scale 0-2
         for (i=0; i<restless.length; i++) {
           restlessSplit = restless[i].toString().split(" ")
-          restTime.push(parseInt(restlessSplit[0], 10));
+          restTime.push(new Date(parseInt(restlessSplit[0], 10)));
           restNum.push(parseInt(restlessSplit[1], 10));
         }
         //console.log(restTime);
@@ -194,8 +194,6 @@ class HomeScreen extends Component {
         restCounter++;
       }
     }
-    //console.log(avgTRestless);
-    //console.log(restCounter);
     avgTRestless = avgTRestless/(restCounter);
 
     // day View
@@ -210,7 +208,6 @@ class HomeScreen extends Component {
 
         >
           <VictoryBar
-            //data={[this.state.boards[this.state.picked-1]]}
             data={[this.state.boards[this.state.picked]]}
             barWidth={20} x="day" y="sleep"
             horizontal={true}
@@ -230,13 +227,9 @@ class HomeScreen extends Component {
         <VictoryChart
           height={130}>
           <VictoryLine
-            data={[
-              { x: 1, y: 2 },
-              { x: 2, y: 3 },
-              { x: 3, y: 5 },
-              { x: 4, y: 4 },
-              { x: 5, y: 7 }
-            ]}/>
+            data={[this.state.boards[this.state.picked]]}
+            x="day" y="restNum"
+          />
           <VictoryAxis/>
         </VictoryChart>
         <Text style={styles.title}>Bedwet</Text>
