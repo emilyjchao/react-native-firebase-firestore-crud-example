@@ -71,6 +71,7 @@ class HomeScreen extends Component {
         let enters = [];
         let exits = [];
         let wets = [];
+        let restless = [];
         const night = data[nightName];
 
         //  fill arrays by iterating over each list from firebase
@@ -83,6 +84,13 @@ class HomeScreen extends Component {
         if (night["wets"])  {
           wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
         }
+        if (night["movement"])  {
+          restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
+        }
+        //Split timestamp from restlessness rating
+        restless = restless.toString().split(" ");
+        console.log(restless)
+
 
 // TODO: more accurate processing of sleep and awake time
         //Time between first enter and  last exit dates
@@ -97,7 +105,7 @@ class HomeScreen extends Component {
         //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": restless,});
       }
     })
 
@@ -169,6 +177,13 @@ class HomeScreen extends Component {
      weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
     }
     weekExits = weekExits/(i);
+
+    //Find weekly restlessness average
+    let avgTRestless = 0;
+    for ( i=0; i<this.state.boards.length; i++) {
+     avgTRestless = avgTRestless + this.state.boards[i].restless;
+    }
+    avgTRestless = avgTRestless/(i);
 
     // day View
     // Could become separate component
@@ -289,7 +304,7 @@ class HomeScreen extends Component {
         </VictoryChart>
         <Text style={styles.brightText}>{"\n"}This Week</Text>
         <Text style={styles.title}>Average Restlessness</Text>
-        <Text style={styles.brightText}>1.54</Text>
+        <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>

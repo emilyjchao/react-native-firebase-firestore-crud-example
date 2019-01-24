@@ -48,6 +48,7 @@ class AllDetailScreen extends Component {
           // initialize arrays for data
           let enters = [];
           let exits = [];
+          let restless = [];
           let wets = [];
           const night = data[nightName];
 
@@ -60,6 +61,9 @@ class AllDetailScreen extends Component {
           }
           if (night["wets"])  {
             wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+          }
+          if (night["movement"])  {
+            restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
           }
 
   // TODO: more accurate processing of sleep and awake time
@@ -74,7 +78,7 @@ class AllDetailScreen extends Component {
           var bedwet = wets.length >= 1;
 
           // add these arrays to the array that will be boards
-          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": 0,});
+          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restless": restless,});
         }
     })
 
@@ -118,6 +122,13 @@ class AllDetailScreen extends Component {
      avgTExits = avgTExits + this.state.boards[i].exited.length-1;
     }
     avgTExits = avgTExits/(i);
+
+    //Find weekly restlessness average
+    let avgTRestless = 0;
+    for ( i=0; i<this.state.boards.length; i++) {
+     avgTRestless = avgTRestless + this.state.boards[i].restless;
+    }
+    avgTRestless = avgTRestless/(i);
 
     return (
       <ScrollView style={styles.container}>
@@ -164,7 +175,7 @@ class AllDetailScreen extends Component {
               </VictoryChart>
 
               <Text style={styles.title}>{"\n"}Average Restlessness</Text>
-              <Text style={styles.brightText}>1.54</Text>
+              <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
               <Text style={styles.title}>Bedwets per Night</Text>
               <Text style={styles.brightText}>{avgTWets.toFixed(1)}</Text>
               <Text style={styles.title}>Exits per Night</Text>
