@@ -130,6 +130,9 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Item titleInfo='Details' hasNavArrow={false} title='Child 1'
               onPress={() => navigate('ChildDetails')}/>
             <SettingsList.Item
+              title='Calibrate Tracker'
+              onPress={() => navigate('Calibrate')}/>
+            <SettingsList.Item
               hasNavArrow={false}
               switchState={this.state.notification}
               switchOnValueChange={this.onNotificationChange}
