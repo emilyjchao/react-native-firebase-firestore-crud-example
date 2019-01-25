@@ -95,9 +95,6 @@ class HomeScreen extends Component {
           restTime.push(new Date(parseInt(restlessSplit[0], 10)));
           restNum.push(parseInt(restlessSplit[1], 10));
         }
-        //console.log(restTime);
-        //console.log(restNum);
-
 
 // TODO: more accurate processing of sleep and awake time
         //Time between first enter and  last exit dates
@@ -197,10 +194,31 @@ class HomeScreen extends Component {
 
     //Set up labels for restless graph
     let restlessLabel = [];
+    let restRate = [];
     for (i=0; i<this.state.boards[this.state.picked].restTime.length; i++) {
+      //Create array of low, moderate, and high's based on numbers passed in
+      if (this.state.boards[this.state.picked].restNum[i] == 0) {
+        restRate.push('Low');
+      }
+      else if (this.state.boards[this.state.picked].restNum[i] == 1) {
+        restRate.push('Moderate');
+      }
+      else if (this.state.boards[this.state.picked].restNum[i] == 2) {
+        restRate.push('High');
+      }
+      //Create array of hh:mm for restlessness data passed in
       restlessLabel.push(this.state.boards[this.state.picked].restTime[i].getHours() + ':' + this.state.boards[this.state.picked].restTime[i].getMinutes())
     }
+    //Set up x axis labeling for restlessness chart
+    let restlessXAxis = "";
     let restlineLabels = [restlessLabel[0], restlessLabel[parseInt((restlessLabel.length-1)/2, 10)], restlessLabel[restlessLabel.length-1]];
+    //Check if restlessness data exists before creating labels
+    if (restlineLabels[0] && restlineLabels[1] && restlineLabels[2]) {
+      restlessXAxis = restlineLabels[0] + "                    " + restlineLabels[1] +
+                          "                        " + restlineLabels[2];
+    } else {
+      restlessXAxis = "No restlessness data available"
+    }
 
     // day View
     // Could become separate component
@@ -228,19 +246,28 @@ class HomeScreen extends Component {
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
       </VictoryChart>
       <Text style={styles.title}>Restlessness</Text>
-// TODO: use real restlessness data
       <VictoryChart
         height={150}
+        domainPadding={{ x : [20, 20] }}
         animate={{ duration: 100 }} >
-        <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 10 }}}
-          tickFormat={() => ''}
+        <VictoryAxis
+          label={restlessXAxis}
+          style={{fontSize: 16, axisLabel: { padding: 10 }}}
           //Uncomment below to show time labels on x-axis (currently stops line from showing up)
           //tickFormat={restlineLabels}
-          fixLabelOverlap
+          //tickFormat={restlessLabel}
+          tickFormat={() => ''}
+          //fixLabelOverlap
           />
         <VictoryAxis dependentAxis
-          tickFormat={["Low", "High"]}
-          style={{tickLabels: { padding: 10 }}}
+          label="Low     High"
+          style={{
+            axisLabel: { padding: 10},
+            fontSize: 16,
+            transform: [{ rotate: '90deg'}]
+          }}
+          tickFormat={() => ''}
+          fixLabelOverlap
           />
         <VictoryLine
           style={{
