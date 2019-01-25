@@ -353,7 +353,7 @@ class HomeScreen extends Component {
               />
         </VictoryChart>
         <Text style={styles.brightText}>{"\n"}This Week</Text>
-        <Text style={styles.title}>Average Restlessness</Text>
+        <Text style={styles.title}>Restlessness (Scale: 0-2)</Text>
         <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>

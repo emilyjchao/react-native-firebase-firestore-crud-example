@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
 class AllDetailScreen extends Component {
@@ -200,12 +200,69 @@ class AllDetailScreen extends Component {
                 }}
               />
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
-              <Text style={styles.title}>{"\n"}Restlessness</Text>
-              <Text style={styles.brightText}>??</Text>
-              <Text style={styles.title}>Bedwets per Night</Text>
-              <Text style={styles.brightText}>??</Text>
-              <Text style={styles.title}>Exits per Night</Text>
-              <Text style={styles.brightText}>??</Text>
+              <Text style={styles.title}>{"\n"}Restlessness (Scale: 0-2)</Text>
+              <VictoryChart
+                domainPadding={80}
+                animate={{ duration: 100 }}
+                >
+                <VictoryBar
+                  categories={{
+                    x: ["Your Child", "National Average"]
+                  }}
+                  data = {[
+                    {x: "Your Child", y: avgTRestless.toFixed(2)},
+                    {x: "National Average", y: 0.55}
+                  ]}
+                  style={{
+                    data: { fill: "#c43a31" }
+                  }}
+                  labels={(d) => d.y}
+                />
+                <VictoryAxis dependentAxis tickFormat={() => ''} />
+                <VictoryAxis independentAxis tickFormat={(x) => x} />
+              </VictoryChart>
+              <Text style={styles.title}>{"\n"}Bedwets per Night</Text>
+              <VictoryChart
+                domainPadding={80}
+                animate={{ duration: 100 }}
+                >
+                <VictoryBar
+                  categories={{
+                    x: ["Your Child", "National Average"]
+                  }}
+                  data = {[
+                    {x: "Your Child", y: avgTWets.toFixed(1)},
+                    {x: "National Average", y: 0.7}
+                  ]}
+                  style={{
+                    data: { fill: "#c43a31" }
+                  }}
+                  labels={(d) => d.y}
+                />
+                <VictoryAxis dependentAxis tickFormat={() => ''} />
+                <VictoryAxis independentAxis tickFormat={(x) => x} />
+              </VictoryChart>
+              <Text style={styles.title}>{"\n"}Exits per Night</Text>
+              <VictoryChart
+                domainPadding={80}
+                animate={{ duration: 100 }}
+                >
+                <VictoryBar
+                  categories={{
+                    x: ["Your Child", "National Average"]
+                  }}
+                  data = {[
+                    {x: "Your Child", y: avgTExits.toFixed(1.2)},
+                    {x: "National Average", y: 0.55}
+                  ]}
+                  style={{
+                    data: { fill: "#c43a31" }
+                  }}
+                  labels={(d) => d.y}
+                />
+                <VictoryAxis dependentAxis tickFormat={() => ''} />
+                <VictoryAxis independentAxis tickFormat={(x) => x} />
+              </VictoryChart>
 
           />
         </View>
