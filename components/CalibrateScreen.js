@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'react-native';
+import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
 
-class ChildDetailsScreen extends Component {
+class CalibrateScreen extends Component {
   static navigationOptions = {
-    title: 'Child Profile',
+    title: 'Calibrate System',
   };
   constructor() {
     super();
@@ -108,38 +108,10 @@ class ChildDetailsScreen extends Component {
       )
     }
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.subContainer}>
-          <TextInput
-              placeholder={"Name: Tommy"}
-              value={this.state.name}
-              onChangeText={(text) => this.updateTextInput(text, 'name')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-              multiline={true}
-              numberOfLines={4}
-              placeholder={"Age: 4"}
-              value={this.state.age}
-              onChangeText={(text) => this.updateTextInput(text, 'age')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-              placeholder={"Weight: 40 lbs"}
-              value={this.state.weight}
-              onChangeText={(text) => this.updateTextInput(text, 'weight')}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            large
-            leftIcon={{name: 'update'}}
-            title='Update'
-            onPress={() => this.updateBoard()} />
-        </View>
-      </ScrollView>
+      <View>
+      <Text style={styles.blackText}>{"\n"}Instructions</Text>
+      <Text style={styles.title}>Time Sleeping</Text>
+      </View>
     );
   }
 }
@@ -164,7 +136,23 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 24,
+    marginTop: 15,
+    color: 'indigo',
+  },
+  brightText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'firebrick',
+  },
+  blackText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'black',
   }
 })
 
-export default ChildDetailsScreen;
+export default CalibrateScreen;
