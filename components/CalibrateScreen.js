@@ -12,13 +12,10 @@ class CalibrateScreen extends Component {
     this.state = {
       key: '',
       isLoading: true,
-      name: [],
-      age: [],
-      weight: [],
     };
   }
   componentDidMount() {
-    //const { navigation } = this.props;
+    const { navigation } = this.props;
     // Realtime database connection
     this.fetchData();
   }
@@ -30,72 +27,25 @@ class CalibrateScreen extends Component {
 
   // process the incoming data
   onFetchData = (snapshot) => {
-    // let nights = [];
-    // let dates = [];
-    // let data = snapshot.val();
-    //
-    // // get the number of nights
-    // nights = Object.keys(data);
-    //
-    let childName = [];
-    let childAge = [];
-    let childWeight = [];
-    // nights.forEach(function(nightName){
-    //
-    //   if(nightName == 'Profile') {
-    //     //Read in name, age, weight
-    //     if (night["name"])  {
-    //       childName = Object.keys(night["name"]).map( (key) => { return( night["name"][key])});
-    //     }
-    //     if (night["age"])  {
-    //       childAge  = Object.keys(night["age"]).map( (key) => { return( night["age"][key])});
-    //     }
-    //     if (night["weight"])  {
-    //       childWeight = Object.keys(night["weight"]).map( (key) => { return( night["weight"][key])});
-    //     }
-    //   }
-    // })
+    // process data
+
+    //set prevState
     this.setState({
-      name: "",
-      age: "",
-      weight: "",
       isLoading: false, // update so components render
     });
   }
 
-  updateTextInput = (text, field) => {
-    const state = this.state
-    state[field] = text;
-    this.setState(state);
-  }
-
   updateBoard() {
-    // this.setState({
-    //   isLoading: true,
-    // });
-    // const { navigation } = this.props;
-    // const updateRef = firebase.firestore().collection('boards').doc(this.state.key);
-    //
-    //
-    // updateRef.set({
-    //   name: this.state.name,
-    //   age: this.state.age,
-    //   weight: this.state.weight,
-    // }).then((docRef) => {
-    //   this.setState({
-    //     key: '',
-    //     name: '',
-    //     age: '',
-    //     weight: '',
-    //     isLoading: false,
-    //   });
-    // })
-    // .catch((error) => {
-    //   console.error("Error adding document: ", error);
-    //   this.setState({
-    //     isLoading: false,
-    //   });
-    // });
+    this.setState({
+      isLoading: true,
+    });
+    const { navigation } = this.props;
+
+    //Write to Firebase here
+
+    this.setState({
+      isLoading: false,
+    });
   }
 
   render() {

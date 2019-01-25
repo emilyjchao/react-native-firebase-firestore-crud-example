@@ -340,7 +340,7 @@ class HomeScreen extends Component {
           title="View Data Details"
           buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
           color="black"
-        />
+          />
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
