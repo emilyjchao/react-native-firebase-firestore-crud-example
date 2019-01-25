@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text, Button } from 'react-native';
+import { Alert, StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text, Button } from 'react-native';
 import firebase from '../Firebase';
 
 
@@ -16,36 +16,27 @@ class CalibrateScreen extends Component {
   }
   componentDidMount() {
     const { navigation } = this.props;
-    // Realtime database connection
-    this.fetchData();
-  }
-
-  //wrapper so that state can be set from onFetchData
-  fetchData() {
-    firebase.database().ref().on('value', this.onFetchData);
-  }
-
-  // process the incoming data
-  onFetchData = (snapshot) => {
-    // process data
-
-    //set prevState
+    var database = firebase.database();
     this.setState({
-      isLoading: false, // update so components render
+      isLoading: false,
     });
   }
 
-  updateBoard() {
+  updateBoard(calibrateBool) {
     this.setState({
       isLoading: true,
     });
     const { navigation } = this.props;
+    firebase.database().ref('Profile/').set({
+      calibrate: calibrateBool,
+    });
 
     //Write to Firebase here
 
     this.setState({
       isLoading: false,
     });
+    Alert.alert('System Calibrated')
   }
 
   render() {
@@ -66,7 +57,7 @@ class CalibrateScreen extends Component {
         <Button
           style={styles.button}
           large
-          onPress={() => this.updateBoard()}
+          onPress={() => this.updateBoard(1)}
           title="Calibrate"
           buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
           />
