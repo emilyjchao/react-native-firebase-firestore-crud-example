@@ -136,7 +136,6 @@ class HomeScreen extends Component {
       dateDic: dates,
       picked: dates.length-7,
       isLoading: false, // update so components render
-
     });
   }
 
@@ -196,6 +195,13 @@ class HomeScreen extends Component {
     }
     avgTRestless = avgTRestless/(restCounter);
 
+    //Set up labels for restless graph
+    let restlessLabel = [];
+    for (i=0; i<this.state.boards[this.state.picked].restTime.length; i++) {
+      restlessLabel.push(this.state.boards[this.state.picked].restTime[i].getHours() + ':' + this.state.boards[this.state.picked].restTime[i].getMinutes())
+    }
+    let restlineLabels = [restlessLabel[0], restlessLabel[parseInt((restlessLabel.length-1)/2, 10)], restlessLabel[restlessLabel.length-1]];
+
     // day View
     // Could become separate component
     const dayDetail = (
@@ -205,7 +211,6 @@ class HomeScreen extends Component {
       <VictoryChart
         height={130}
         animate={{ duration: 100 }}
-
         >
           <VictoryBar
             data={[this.state.boards[this.state.picked]]}
@@ -221,38 +226,50 @@ class HomeScreen extends Component {
               }}]}
             />
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
-        </VictoryChart>
-        <Text style={styles.title}>Restlessness</Text>
+      </VictoryChart>
+      <Text style={styles.title}>Restlessness</Text>
 // TODO: use real restlessness data
-        <VictoryChart
-          height={130}>
-          <VictoryLine
-            data={[this.state.boards[this.state.picked]]}
-            x="day" y="restNum"
+      <VictoryChart
+        height={150}
+        animate={{ duration: 100 }} >
+        <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 10 }}}
+          tickFormat={() => ''}
+          //Uncomment below to show time labels on x-axis (currently stops line from showing up)
+          //tickFormat={restlineLabels}
+          fixLabelOverlap
           />
-          <VictoryAxis/>
-        </VictoryChart>
-        <Text style={styles.title}>Bedwet</Text>
-        <Text style={styles.brightText}>{bedWetContent}</Text>
-        <Text style={styles.title}>{"\n"}Exited Bed</Text>
-        <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-        // This code for rendering table is from:
-        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {
-              this.state.boards[this.state.picked].exited.map((time, index) => { // This will render a row for each data element.
-                if (index != this.state.boards[this.state.picked].exited.length-1){
-                var exitTime = new Date(time);
-                var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
-                var dif = new Date(enterTime-exitTime);
-                var timeOut = dif / (60*1000);
+        <VictoryAxis dependentAxis
+          tickFormat={["Low", "High"]}
+          style={{tickLabels: { padding: 10 }}}
+          />
+        <VictoryLine
+          style={{
+            data: { stroke: "#c43a31" },
+          }}
+          data={this.state.boards[this.state.picked].restNum}
+        />
+      </VictoryChart>
+      <Text style={styles.title}>Bedwet</Text>
+      <Text style={styles.brightText}>{bedWetContent}</Text>
+      <Text style={styles.title}>{"\n"}Exited Bed</Text>
+      <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
+      // This code for rendering table is from:
+      // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {
+          this.state.boards[this.state.picked].exited.map((time, index) => { // This will render a row for each data element.
+            if (index != this.state.boards[this.state.picked].exited.length-1){
+            var exitTime = new Date(time);
+            var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
+            var dif = new Date(enterTime-exitTime);
+            var timeOut = dif / (60*1000);
 
-                return (
-                  <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
-                );
-                }
-              })
+            return (
+              <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
+            );
             }
+          })
+        }
         </View>
       </View>);
 

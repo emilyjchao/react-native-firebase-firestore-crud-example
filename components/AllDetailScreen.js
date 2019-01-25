@@ -140,7 +140,6 @@ class AllDetailScreen extends Component {
         restCounter++;
       }
     }
-
     avgTRestless = avgTRestless/(restCounter);
 
     return (
