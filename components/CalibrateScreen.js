@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text, Button } from 'react-native';
 import firebase from '../Firebase';
 
 
@@ -109,8 +108,18 @@ class CalibrateScreen extends Component {
     }
     return (
       <View>
-      <Text style={styles.blackText}>{"\n"}Instructions</Text>
-      <Text style={styles.title}>Time Sleeping</Text>
+        <Text style={styles.blackText}>{"\n"}Instructions{"\n"}</Text>
+        <Text style={styles.smallText}>Please calibrate the system.
+        Once your child is lying on the bed in a sleep position, press 'Calibrate'.
+        This will set the default night-time bed weight.{"\n"}{"\n"}</Text>
+        //Set calibrate in firebase
+        <Button
+          style={styles.button}
+          large
+          onPress={() => this.updateBoard()}
+          title="Calibrate"
+          buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
+          />
       </View>
     );
   }
@@ -152,6 +161,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'black',
+  },
+  smallText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'black',
+  },
+  button: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'black',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 15,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 24,
   }
 })
 
