@@ -384,16 +384,17 @@ class HomeScreen extends Component {
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
         <Text style={styles.title}>Exits per Night</Text>
-        <Text style={styles.brightText}>{weekExits.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{weekExits.toFixed(1)}{'\n'}</Text>
 
         //Navigate to all details page
-        <Button
-          style={styles.button1}
-          onPress={() => navigate('AllDetails')}
-          title="View Data Details"
-          buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
-          color="black"
-          />
+        <TouchableOpacity
+          onPress={() => {}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.blueTextSmall}>View Full Data History</Text>
+            </View>
+          </TouchableOpacity>
+
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
@@ -444,6 +445,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    alignItems: 'center',
     borderRadius: 3,
     borderColor: 'black',
     borderWidth: 1,
@@ -453,6 +455,7 @@ const styles = StyleSheet.create({
   },
   button1: {
     flex: 1,
+    alignItems: 'center',
     borderRadius: 3,
     borderColor: 'transparent',
     borderWidth: 1,
@@ -479,6 +482,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'black',
+  },
+  blueTextSmall: {
+    textAlign: 'center',
+    fontSize: 22,
+    color: 'blue',
   },
   textInput: {
     fontSize: 24,
