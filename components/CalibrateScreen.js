@@ -11,9 +11,11 @@ class CalibrateScreen extends Component {
     super();
     this.state = {
       key: '',
-      isLoading: true,
+      isLoading: true,  
     };
   }
+
+  //Check if component mounted
   componentDidMount() {
     const { navigation } = this.props;
     var database = firebase.database();
@@ -22,6 +24,7 @@ class CalibrateScreen extends Component {
     });
   }
 
+  //Write calibrate variable to Firebase
   updateBoard(calibrateBool) {
     this.setState({
       isLoading: true,
@@ -31,8 +34,7 @@ class CalibrateScreen extends Component {
       calibrate: calibrateBool,
     });
 
-    //Write to Firebase here
-
+    //Send alert that system has been calibrated
     this.setState({
       isLoading: false,
     });
@@ -40,6 +42,7 @@ class CalibrateScreen extends Component {
   }
 
   render() {
+    //Check if loading = true
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
@@ -49,7 +52,8 @@ class CalibrateScreen extends Component {
     }
     return (
       <View>
-        <Text style={styles.blackText}>{"\n"}Instructions{"\n"}</Text>
+        //Display instructions
+        <Text style={styles.blackText}>{"\n"}{"\n"}Instructions{"\n"}{"\n"}</Text>
         <Text style={styles.smallText}>Please calibrate the system.
         Once your child is lying on the bed in a sleep position, press 'Calibrate'.
         This will set the default night-time bed weight.{"\n"}{"\n"}</Text>

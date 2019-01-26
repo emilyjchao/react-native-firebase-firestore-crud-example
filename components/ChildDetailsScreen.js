@@ -38,9 +38,9 @@ class ChildDetailsScreen extends Component {
     // // get the number of nights
     // nights = Object.keys(data);
     //
-    let childName = [];
-    let childAge = [];
-    let childWeight = [];
+    // let childName = [];
+    // let childAge = [];
+    // let childWeight = [];
     // nights.forEach(function(nightName){
     //
     //   if(nightName == 'Profile') {
@@ -64,12 +64,14 @@ class ChildDetailsScreen extends Component {
     });
   }
 
+  //Updates text boxes as user types
   updateTextInput = (text, field) => {
     const state = this.state
     state[field] = text;
     this.setState(state);
   }
 
+  //Should write data to Firebase, but no connection right now
   updateBoard() {
     // this.setState({
     //   isLoading: true,
@@ -100,6 +102,7 @@ class ChildDetailsScreen extends Component {
   }
 
   render() {
+    //Check if state is loading
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
@@ -108,6 +111,7 @@ class ChildDetailsScreen extends Component {
       )
     }
     return (
+      //Display current name, age, weight
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <TextInput
@@ -132,11 +136,13 @@ class ChildDetailsScreen extends Component {
               onChangeText={(text) => this.updateTextInput(text, 'weight')}
           />
         </View>
+        //Update button to save new info
         <View style={styles.button}>
           <Button
             large
             leftIcon={{name: 'update'}}
             title='Update'
+            //When button pressed, nothing currently happens in updateBoard()
             onPress={() => this.updateBoard()} />
         </View>
       </ScrollView>

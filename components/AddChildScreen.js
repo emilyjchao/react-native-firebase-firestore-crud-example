@@ -9,14 +9,17 @@ class AddChildScreen extends Component {
   };
   constructor() {
     super();
+    //Set up Firestore connection and state variables
     this.ref = firebase.firestore().collection('boards');
     this.state = {
-      title: '',
-      description: '',
-      author: '',
+      name: '',
+      age: '',
+      weight: '',
       isLoading: false,
     };
   }
+
+  //Update text box inputs as user types
   updateTextInput = (text, field) => {
     const state = this.state
     state[field] = text;
@@ -24,19 +27,19 @@ class AddChildScreen extends Component {
   }
 
   saveBoard() {
-
+    //Save inputted text info to Firestore if document can be found
     this.setState({
       isLoading: true,
     });
     this.ref.add({
-      title: this.state.title,
-      description: this.state.description,
-      author: this.state.author,
+      name: this.state.name,
+      age: this.state.age,
+      weight: this.state.weight,
     }).then((docRef) => {
       this.setState({
-        title: '',
-        description: '',
-        author: '',
+        name: '',
+        age: '',
+        weight: '',
         isLoading: false,
       });
       this.props.navigation.goBack();
@@ -50,6 +53,7 @@ class AddChildScreen extends Component {
   }
 
   render() {
+    //Check if state is loading
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
@@ -58,12 +62,13 @@ class AddChildScreen extends Component {
       )
     }
     return (
+      //Text input boxes for name, age, and weight
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <TextInput
               placeholder={'Name'}
-              value={this.state.title}
-              onChangeText={(text) => this.updateTextInput(text, 'title')}
+              value={this.state.name}
+              onChangeText={(text) => this.updateTextInput(text, 'name')}
           />
         </View>
         <View style={styles.subContainer}>
@@ -71,17 +76,18 @@ class AddChildScreen extends Component {
               multiline={true}
               numberOfLines={4}
               placeholder={'Age'}
-              value={this.state.description}
-              onChangeText={(text) => this.updateTextInput(text, 'description')}
+              value={this.state.age}
+              onChangeText={(text) => this.updateTextInput(text, 'age')}
           />
         </View>
         <View style={styles.subContainer}>
           <TextInput
               placeholder={'Weight'}
-              value={this.state.author}
-              onChangeText={(text) => this.updateTextInput(text, 'author')}
+              value={this.state.weight}
+              onChangeText={(text) => this.updateTextInput(text, 'weight')}
           />
         </View>
+        //Save button (saves to Firestore)
         <View style={styles.button}>
           <Button
             large

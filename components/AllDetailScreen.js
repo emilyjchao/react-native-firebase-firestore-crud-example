@@ -40,9 +40,10 @@ class AllDetailScreen extends Component {
       // get the number of nights
       nights = Object.keys(data);
 
+      //Loop through each night
       nights.forEach(function(nightName) {
        if (nightName != 'Profile' && nightName != 'current_time') {
-          //Use to index boards
+          //Save each date to index boards
           dates.push(nightName);
 
           // initialize arrays for data
@@ -89,7 +90,7 @@ class AllDetailScreen extends Component {
           nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum,});
         }
     })
-
+    //Set state with processed variables
     this.setState({
       boards: nightData,
       dateDic: dates,
@@ -110,7 +111,7 @@ class AllDetailScreen extends Component {
       )
     }
 
-    // weekly sleep average
+    //Find weekly sleep average
     let sleepAVG = 0;
     for ( i = 0; i < this.state.boards.length; i++){
       sleepAVG += this.state.boards[i].sleep;
@@ -143,9 +144,11 @@ class AllDetailScreen extends Component {
     avgTRestless = avgTRestless/(restCounter);
 
     return (
+      //Display visual graphics
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <Text style={styles.blackText}>{"\n"}Sleep History</Text>
+          //Display line graph of all sleep time
           <VictoryChart
             animate={{ duration: 100 }}
             //helps so that chart is not cut off on right
@@ -186,6 +189,7 @@ class AllDetailScreen extends Component {
               />
               </VictoryChart>
 
+              //Text display
               <Text style={styles.title}>{"\n"}Average Restlessness</Text>
               <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
               <Text style={styles.title}>Bedwets per Night</Text>

@@ -17,6 +17,7 @@ export default class SettingsScreen extends React.Component {
     super(props);
     this.ref = firebase.firestore().collection('settings').doc('userSettings');
     this.state = {
+      //These booleans all say whether their respective notification is toggled on or off
       pooling: false,
       notification: true,
       bedwetting: false,
@@ -25,6 +26,7 @@ export default class SettingsScreen extends React.Component {
       asleep: false,
     };
 
+    //These help change the toggles from on to off and vice versa
     this.onPoolingChange = this.onPoolingChange.bind(this);
     this.onNotificationChange = this.onNotificationChange.bind(this);
     this.onBedwettingChange = this.onBedwettingChange.bind(this);
@@ -32,6 +34,7 @@ export default class SettingsScreen extends React.Component {
     this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
     this.onAsleepChange = this.onAsleepChange.bind(this);
 
+    //This pulls the toggle settings from the Firestore database
     this.ref.get().then((doc) => {
       if (doc.exists) {
         //console.log(doc.data())
@@ -45,7 +48,7 @@ export default class SettingsScreen extends React.Component {
         });
         //console.log(this.state)
 
-
+      //If can't access Firestore, we write the default toggles
       } else {
         // doc.data() will be undefined in this case
         this.setState({
@@ -78,7 +81,7 @@ export default class SettingsScreen extends React.Component {
     })
   }
 
-
+  //This saves the current settings to Firestore
   saveSettings() {
     this.ref.update({
       pooling: this.state.pooling,
@@ -100,7 +103,7 @@ export default class SettingsScreen extends React.Component {
 
     var bgColor = '#DCE3F4';
     return (
-
+      //Display the settings item list
       <ScrollView style={styles.container}>
       <View style={{backgroundColor:'#EFEFF4',flex:1}}>
         <View style={{flex:1, marginTop:50}}>
@@ -121,7 +124,7 @@ export default class SettingsScreen extends React.Component {
               switchState={this.state.pooling}
               switchOnValueChange={this.onPoolingChange}
               hasSwitch={true}
-              title='Community Data Pooling'/>
+              title='National Data Pooling'/>
             <SettingsList.Item
               title='Privacy Agreement'
               backgroundColor='#D1D1D1'
@@ -165,6 +168,7 @@ export default class SettingsScreen extends React.Component {
           </SettingsList>
         </View>
       </View>
+      //Save button (must be pressed to update settings in Firebase)
       <View style={styles.button}>
         <Button
           small

@@ -7,6 +7,7 @@ import firebase from '../Firebase';
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      //Draw settings and add child buttons on header of screen
       title: 'Sleep Report',
       headerRight: (
         <Button
@@ -126,7 +127,7 @@ class HomeScreen extends Component {
                     nightData[dates.length-2],
                     nightData[dates.length-1]];
     }
-
+    //Set state with all of newly processed variables
     this.setState({
       boards: nightData,
       weekBoards: weeklyData,
@@ -138,8 +139,7 @@ class HomeScreen extends Component {
 
 
   render() {
-
-    // check there is data loaded
+    //Check there is data loaded
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
@@ -147,10 +147,10 @@ class HomeScreen extends Component {
         </View>
       )
     }
-    //Needed to naviaget to other pages from Home Screen
+    //Needed to navigate to other pages from Home Screen
     const {navigate} = this.props.navigation;
 
-    // Build text to display for bedwetting table
+    //Build text to display for bedwetting table
     let bedWetContent;
     if(this.state.boards[this.state.picked].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
@@ -160,7 +160,7 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
-    // weekly sleep average
+    //Weekly sleep average
     let weekAVG = 0;
     for ( i = 0; i < this.state.weekBoards.length; i++){
       weekAVG += this.state.weekBoards[i].sleep;
@@ -226,6 +226,7 @@ class HomeScreen extends Component {
       <View>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
       <Text style={styles.title}>Time Sleeping</Text>
+      //Chart of daily sleep length
       <VictoryChart
         height={130}
         animate={{ duration: 100 }}
@@ -246,6 +247,7 @@ class HomeScreen extends Component {
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
       </VictoryChart>
       <Text style={styles.title}>Restlessness</Text>
+      //Line graph of restlessness
       <VictoryChart
         height={150}
         domainPadding={{ x : [20, 20] }}
@@ -276,8 +278,10 @@ class HomeScreen extends Component {
           data={this.state.boards[this.state.picked].restNum}
         />
       </VictoryChart>
+      //Text displays
       <Text style={styles.title}>Bedwet</Text>
       <Text style={styles.brightText}>{bedWetContent}</Text>
+      //Table for bed exits
       <Text style={styles.title}>{"\n"}Exited Bed</Text>
       <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
       // This code for rendering table is from:
@@ -300,8 +304,10 @@ class HomeScreen extends Component {
         </View>
       </View>);
 
+    //Week detail (could be component)
     const weekDetail = (
       <View>
+        //Chart to display weekly sleep time
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
