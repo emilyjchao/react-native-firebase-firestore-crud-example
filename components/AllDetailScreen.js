@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { Alert, StyleSheet, ScrollView, Image, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
@@ -190,7 +190,16 @@ class AllDetailScreen extends Component {
               </VictoryChart>
 
               //Text display
-              <Text style={styles.title}>{"\n"}Average Restlessness</Text>
+              <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Restlessness</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
               <Text style={styles.title}>Bedwets per Night</Text>
               <Text style={styles.brightText}>{avgTWets.toFixed(1)}</Text>
@@ -204,7 +213,16 @@ class AllDetailScreen extends Component {
                 }}
               />
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
-              <Text style={styles.title}>{"\n"}Restlessness (Scale: 0-2)</Text>
+              <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Restlessness</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+              </TouchableOpacity>
+              </View>
               <VictoryChart
                 domainPadding={80}
                 animate={{ duration: 100 }}
@@ -276,6 +294,27 @@ class AllDetailScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  btnContainer: {
+    paddingHorizontal: 30,
+    paddingVertical: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'transparent',
+  },
+  button1: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 15,
+  },
   container: {
    flex: 1,
    paddingBottom: 22
@@ -325,6 +364,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 24,
+  },
+  icon: {
+    width: 15,
+    height: 15,
+    position: 'absolute',
+    right: 7, // Keep some space between your left border and Image
   }
 })
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, ActivityIndicator, View, TouchableOpacity, Text } from 'react-native';
+import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
@@ -246,7 +246,16 @@ class HomeScreen extends Component {
             />
           <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
       </VictoryChart>
-      <Text style={styles.title}>Restlessness</Text>
+      <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+          style={styles.button1}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.title}>Restlessness</Text>
+            <Image source={require('./about.png')} style={styles.icon} />
+          </View>
+        </TouchableOpacity>
+      </View>
       //Line graph of restlessness
       <VictoryChart
         height={150}
@@ -358,8 +367,19 @@ class HomeScreen extends Component {
                 fixLabelOverlap
               />
         </VictoryChart>
-        <Text style={styles.brightText}>{"\n"}This Week</Text>
-        <Text style={styles.title}>Restlessness (Scale: 0-2)</Text>
+
+        <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Restlessness</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+
         <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
@@ -368,7 +388,7 @@ class HomeScreen extends Component {
 
         //Navigate to all details page
         <Button
-          style={styles.button}
+          style={styles.button1}
           onPress={() => navigate('AllDetails')}
           title="View Data Details"
           buttonStyle={{ padding: 10, backgroundColor: 'transparent'}}
@@ -392,6 +412,18 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  btnContainer: {
+    paddingHorizontal: 30,
+    paddingVertical: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'transparent',
+  },
   container: {
    flex: 1,
    paddingBottom: 22
@@ -419,6 +451,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 15,
   },
+  button1: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 15,
+  },
   buttonText: {
     textAlign: 'center',
     fontSize: 24,
@@ -441,6 +482,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 24,
+  },
+  icon: {
+    width: 15,
+    height: 15,
+    position: 'absolute',
+    right: 7, // Keep some space between your left border and Image
   }
 })
 
