@@ -40,6 +40,34 @@ class AllDetailScreen extends Component {
       // get the number of nights
       nights = Object.keys(data);
 
+      //clean non mm-dd-yyyy keys from nights
+      let splitDate = "";
+      for (i=0; i<nights.length; i++){
+        //Check that key is in date format with two '-'
+        if (nights[i].split("-").length - 1 == 2) {
+          splitDate= nights[i].split("-");
+          nights[i] = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
+        }
+        else {
+          nights.splice(i, 1);
+        }
+      }
+
+      //Sort nights keys
+      //Function to sort dates
+      var date_sort_asc = function (date1, date2) {
+        // Sort in ascending order
+        if (date1 > date2) return 1;
+        if (date1 < date2) return -1;
+        return 0;
+      };
+      dates.sort(date_sort_asc);
+
+      //convert nights keys back to mm-dd-yyyy strings
+      for (i=0; i<nights.length; i++){
+        nights[i] = (nights[i].getMonth() + 1) + '-' + nights[i].getDate() + '-' +  nights[i].getFullYear();
+      }
+
       //Loop through each night
       nights.forEach(function(nightName) {
        if (nightName != 'Profile' && nightName != 'current_time') {

@@ -85,15 +85,11 @@ class HomeScreen extends Component {
       return 0;
     };
     dates.sort(date_sort_asc);
-    console.log(nights);
 
     //convert nights keys back to mm-dd-yyyy strings
     for (i=0; i<nights.length; i++){
       nights[i] = (nights[i].getMonth() + 1) + '-' + nights[i].getDate() + '-' +  nights[i].getFullYear();
     }
-
-    console.log(nights);
-
 
     nights.forEach(function(nightName) {
       if (nightName != 'Profile' && nightName != 'current_time') {
@@ -337,7 +333,7 @@ class HomeScreen extends Component {
             var timeOut = dif / (60*1000);
 
             return (
-              <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
+                <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
             );
             }
           })
@@ -420,7 +416,7 @@ class HomeScreen extends Component {
 
         //Navigate to all details page
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => {navigate('AllDetails')}}
           style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.blueTextSmall}>View Full Data History</Text>
