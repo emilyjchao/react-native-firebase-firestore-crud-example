@@ -260,12 +260,36 @@ class AllDetailScreen extends Component {
                 }}
               />
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
+              sleepAVG.toFixed(2)
+              <VictoryChart
+                domainPadding={80}
+                animate={{ duration: 100 }}
+                >
+                <VictoryLabel text="Total Hours of Sleep" x={245} y={30} textAnchor="end" />
+                <VictoryBar
+                  barRatio={0.8}
+                  categories={{
+                    x: ["Your Child", "National Average"]
+                  }}
+                  data = {[
+                    {x: "Your Child", y: sleepAVG.toFixed(2)},
+                    {x: "National Average", y: 1.4}
+                  ]}
+                  style={{
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31",}
+                  }}
+                  labels={(d) => d.y}
+                />
+                <VictoryAxis dependentAxis tickFormat={() => ''} />
+                <VictoryAxis independentAxis tickFormat={(x) => x} />
+              </VictoryChart>
               <VictoryChart
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
                 <VictoryLabel text="Restlessness" x={225} y={30} textAnchor="end" />
                 <VictoryBar
+                  barRatio={0.8}
                   categories={{
                     x: ["Your Child", "National Average"]
                   }}
@@ -274,7 +298,7 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.55}
                   ]}
                   style={{
-                    data: { fill: "#c43a31" }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
                   }}
                   labels={(d) => d.y}
                 />
@@ -287,6 +311,7 @@ class AllDetailScreen extends Component {
                 >
                 <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
                 <VictoryBar
+                  barRatio={0.8}
                   categories={{
                     x: ["Your Child", "National Average"]
                   }}
@@ -295,7 +320,7 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.7}
                   ]}
                   style={{
-                    data: { fill: "#c43a31" }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
                   }}
                   labels={(d) => d.y}
                 />
@@ -306,8 +331,9 @@ class AllDetailScreen extends Component {
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
-                <VictoryLabel text="Exits Per Night" x={245} y={30} textAnchor="end"/>
+                <VictoryLabel text="Exits Per Night" x={240} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar
+                  barRatio={0.8}
                   categories={{
                     x: ["Your Child", "National Average"]
                   }}
@@ -316,7 +342,7 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.55}
                   ]}
                   style={{
-                    data: { fill: "#c43a31" }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
                   }}
                   labels={(d) => d.y}
                 />
