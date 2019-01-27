@@ -282,7 +282,7 @@ class HomeScreen extends Component {
     const dayDetail = (
       <View>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
-      <Text style={styles.title}>Time Sleeping</Text>
+      <Text style={styles.title}>Time Asleep</Text>
       //Chart of daily sleep length
       <VictoryChart
         height={130}
@@ -348,7 +348,7 @@ class HomeScreen extends Component {
       <Text style={styles.title}>Bedwet</Text>
       <Text style={styles.brightText}>{bedWetContent}</Text>
       //Table for bed exits
-      <Text style={styles.title}>{"\n"}Exited Bed</Text>
+      <Text style={styles.title}>{"\n"}Bed Exits</Text>
       <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
       // This code for rendering table is from:
       // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
@@ -362,7 +362,9 @@ class HomeScreen extends Component {
             var timeOut = dif / (60*1000);
 
             return (
-                <Text key={time} style={styles.brightText}>{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'       '}{Number(timeOut).toFixed(2)}</Text>
+                <Text key={time} style={styles.brightTextLeft}>
+                  {'                  '}{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'           '}{Number(timeOut).toFixed(2)}
+                </Text>
             );
             }
           })
@@ -415,7 +417,7 @@ class HomeScreen extends Component {
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
-                label="Hours"
+                label="Hours of Sleep"
                 style={{
                   axisLabel: { padding: 35},
                   fontSize: 16,
@@ -440,7 +442,7 @@ class HomeScreen extends Component {
         <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
         <Text style={styles.title}>Bedwets per Night</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
-        <Text style={styles.title}>Exits per Night</Text>
+        <Text style={styles.title}>Bed Exits per Night</Text>
         <Text style={styles.brightText}>{weekExits.toFixed(1)}{'\n'}</Text>
 
         //Navigate to all details page
@@ -534,6 +536,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'firebrick',
+  },
+  brightTextLeft: {
+    textAlign: 'left',
+    fontSize: 24,
+    color: 'firebrick',
+    alignSelf: 'stretch',
   },
   blackText: {
     textAlign: 'center',

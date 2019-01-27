@@ -226,9 +226,9 @@ class AllDetailScreen extends Component {
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
-                label="Hours"
+                label="Hours of Sleep"
                 style={{
-                  axisLabel: { padding: 30},
+                  axisLabel: { padding: 35},
                   fontSize: 16,
                   transform: [{ rotate: '90deg'}]
                 }}
@@ -250,7 +250,7 @@ class AllDetailScreen extends Component {
               <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
               <Text style={styles.title}>Bedwets per Night</Text>
               <Text style={styles.brightText}>{avgTWets.toFixed(1)}</Text>
-              <Text style={styles.title}>Exits per Night</Text>
+              <Text style={styles.title}>Bed Exits per Night</Text>
               <Text style={styles.brightText}>{avgTExits.toFixed(1)}{"\n"}</Text>
 
               <View
@@ -331,7 +331,7 @@ class AllDetailScreen extends Component {
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
-                <VictoryLabel text="Exits Per Night" x={240} y={30} fontSize={60} textAnchor="end"/>
+                <VictoryLabel text="Bed Exits Per Night" x={240} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar
                   barRatio={0.8}
                   categories={{
