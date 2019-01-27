@@ -11,7 +11,7 @@ class CalibrateScreen extends Component {
     super();
     this.state = {
       key: '',
-      isLoading: true,  
+      isLoading: true,
     };
   }
 
@@ -54,9 +54,11 @@ class CalibrateScreen extends Component {
       <View>
         //Display instructions
         <Text style={styles.blackText}>{"\n"}{"\n"}Instructions{"\n"}{"\n"}</Text>
-        <Text style={styles.smallText}>Please calibrate the system.
-        Once your child is lying on the bed in a sleep position, press 'Calibrate'.
-        This will set the default night-time bed weight.{"\n"}{"\n"}</Text>
+        <Text
+          style={styles.smallText}>  Please calibrate the system.
+          Once your child is lying on the bed in a sleep position, press 'Calibrate'.
+          This will set the default night-time bed weight.{"\n"}{"\n"}
+        </Text>
         //Set calibrate in firebase
         <Button
           style={styles.button}

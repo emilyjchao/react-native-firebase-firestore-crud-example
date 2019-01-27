@@ -104,12 +104,31 @@ class AllDetailScreen extends Component {
           }
 
   // TODO: more accurate processing of sleep and awake time
-          //Time between first enter and  last exit dates
-          var first = new Date(enters[0]);
-          var lastEx = new Date(exits[exits.length-1]);
-          var dif = new Date((lastEx-first));
-  // TODO: this is minutes --> switch to hours for full data
-          var sleep = dif / (60*1000);
+          //Calculate time between first enter and last exit dates (time in bed)
+          var exit1 = new Date(enters[0]);
+          var exit2 = new Date(exits[exits.length-1]);
+          var inBedDiff = new Date((exit2-exit1));
+  // TODO: this is ms --> switch to hours for full data
+          //var inBedTime = inBedDiff / (60*1000);
+          var inBedTime = 0;
+          if (inBedDiff) {
+            inBedTime = inBedDiff / (60*1000);
+          }
+
+          //Loop through exits and calculate sleep time (time in bed not counting exits)
+          var sleep = 0;
+          var totalOutOfBed = 0;
+          for (i=0; i<enters.length-1; i++){
+            var inTime = new Date(enters[i]);
+            var outTime = new Date(exits[i]);
+// TODO: this is ms --> switch to hours for full data
+            var timeIn = new Date(outTime-inTime) / (60*1000);
+            //Add time in bed between each entrance and exit to sleep
+            if (timeIn) {
+              sleep += timeIn;
+            }
+          }
+
 
           // true false on bed wetting length
           var bedwet = wets.length >= 1;
@@ -241,20 +260,11 @@ class AllDetailScreen extends Component {
                 }}
               />
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
-              <View style={styles.appContainer}>
-              <TouchableOpacity
-                onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
-                style={styles.button1}>
-                  <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Restlessness</Text>
-                    <Image source={require('./about.png')} style={styles.icon} />
-                  </View>
-              </TouchableOpacity>
-              </View>
               <VictoryChart
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
+                <VictoryLabel text="Restlessness" x={225} y={30} textAnchor="end" />
                 <VictoryBar
                   categories={{
                     x: ["Your Child", "National Average"]
@@ -271,11 +281,11 @@ class AllDetailScreen extends Component {
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />
               </VictoryChart>
-              <Text style={styles.title}>{"\n"}Bedwets per Night</Text>
               <VictoryChart
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
+                <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
                 <VictoryBar
                   categories={{
                     x: ["Your Child", "National Average"]
@@ -292,11 +302,11 @@ class AllDetailScreen extends Component {
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />
               </VictoryChart>
-              <Text style={styles.title}>{"\n"}Exits per Night</Text>
               <VictoryChart
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
+                <VictoryLabel text="Exits Per Night" x={245} y={30} textAnchor="end"/>
                 <VictoryBar
                   categories={{
                     x: ["Your Child", "National Average"]

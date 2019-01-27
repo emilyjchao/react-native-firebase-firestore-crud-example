@@ -125,13 +125,42 @@ class HomeScreen extends Component {
           restNum.push(parseInt(restlessSplit[1], 10));
         }
 
+//Old processing of sleep time
+//         //Time between first enter and  last exit dates
+//         var first = new Date(enters[0]);
+//         var lastEx = new Date(exits[exits.length-1]);
+//         var dif = new Date((lastEx-first));
+//         var sleep = dif / (60*1000);
+
 // TODO: more accurate processing of sleep and awake time
-        //Time between first enter and  last exit dates
-        var first = new Date(enters[0]);
-        var lastEx = new Date(exits[exits.length-1]);
-        var dif = new Date((lastEx-first));
-// TODO: this is minutes --> switch to hours for full data
-        var sleep = dif / (60*1000);
+        //Calculate time between first enter and last exit dates (time in bed)
+        var exit1 = new Date(enters[0]);
+        var exit2 = new Date(exits[exits.length-1]);
+        var inBedDiff = new Date((exit2-exit1));
+// TODO: this is ms --> switch to hours for full data
+        //var inBedTime = inBedDiff / (60*1000);
+        var inBedTime = 0;
+        if (inBedDiff) {
+          inBedTime = inBedDiff / (60*1000);
+        }
+
+
+        //Loop through exits and calculate sleep time (time in bed not counting exits)
+        var sleep = 0;
+        var totalOutOfBed = 0;
+        for (i=0; i<enters.length-1; i++){
+          var inTime = new Date(enters[i]);
+          var outTime = new Date(exits[i]);
+// TODO: this is ms --> switch to hours for full data
+          var timeIn = new Date(outTime-inTime) / (60*1000);
+          //Add time in bed between each entrance and exit to sleep
+          if (timeIn) {
+            sleep += timeIn;
+          }
+        }
+
+        //console.log(sleep)
+        //console.log(inBedTime)
 
         // true false on bed wetting length
         var bedwet = wets.length >= 1;
@@ -182,7 +211,7 @@ class HomeScreen extends Component {
     let bedWetContent;
     if(this.state.boards[this.state.picked].bedwet.length > 0){
       let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
-      bedWetContent = "Sadly     " + wetTime.getHours() + ":" + (wetTime.getMinutes()<10?'0':'') + wetTime.getMinutes() ;
+      bedWetContent = "Wet     " + wetTime.getHours() + ":" + (wetTime.getMinutes()<10?'0':'') + wetTime.getMinutes() ;
     }
     else {
       bedWetContent = "Dry";
@@ -388,7 +417,7 @@ class HomeScreen extends Component {
               <VictoryAxis dependentAxis
                 label="Hours"
                 style={{
-                  axisLabel: { padding: 30},
+                  axisLabel: { padding: 35},
                   fontSize: 16,
                   transform: [{ rotate: '90deg'}]
                 }}
