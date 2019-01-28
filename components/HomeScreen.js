@@ -375,7 +375,7 @@ class HomeScreen extends Component {
     //Week detail (could be component)
     const weekDetail = (
       <View>
-        //Chart to display weekly sleep time
+        <Text style={styles.title}>Averages of this week</Text>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
@@ -403,10 +403,10 @@ class HomeScreen extends Component {
             <VictoryLine
               data={[
                 { x: 0, y: weekAVG },
-                { x: this.state.weekBoards.length , y: weekAVG }
+                { x: this.state.weekBoards.length, y: weekAVG }
               ]}
               labels={["", 'Average \n'+weekAVG.toFixed(2)]}
-              style={{ labels: { textAlign: 'left', marginRight: 30} }}
+              style={{ labels: { textAlign: 'left', marginRight: 30, fontSize: 14, fontWeight: 'bold'} }}
               />
               <VictoryAxis
                 label="Day"
@@ -437,12 +437,30 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-
-
         <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
-        <Text style={styles.title}>Bedwets per Night</Text>
+
+        <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Bedwetting Avg.</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
-        <Text style={styles.title}>Bed Exits per Night</Text>
+
+        <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Exits</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.brightText}>{weekExits.toFixed(1)}{'\n'}</Text>
 
         //Navigate to all details page
@@ -520,7 +538,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 15,
+    marginTop: 0,
   },
   buttonText: {
     textAlign: 'center',
@@ -530,6 +548,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     marginTop: 15,
+    marginBottom: 0,
     color: 'indigo',
   },
   brightText: {
