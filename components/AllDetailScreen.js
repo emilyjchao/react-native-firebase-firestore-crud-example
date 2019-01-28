@@ -134,7 +134,7 @@ class AllDetailScreen extends Component {
           var bedwet = wets.length >= 1;
 
           // add these arrays to the array that will be boards
-          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum,});
+          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime,});
         }
     })
     //Set state with processed variables
@@ -190,6 +190,13 @@ class AllDetailScreen extends Component {
     }
     avgTRestless = avgTRestless/(restCounter);
 
+    //Set up bar chart labels
+    let dateLabels = [];
+    for (i=0; i<this.state.boards.length-1; i++) {
+      dateLabels.push("");
+    }
+    dateLabels.push("Time In \n Bed");
+
     return (
       //Display visual graphics
       <ScrollView style={styles.container}>
@@ -201,22 +208,20 @@ class AllDetailScreen extends Component {
             //helps so that chart is not cut off on right
             domainPadding={{ x : [30, 30] }}
           >
-          <VictoryLine
-            data={[
-              { x: 0, y: sleepAVG },
-              { x: this.state.boards.length , y: sleepAVG }
-            ]}
-            labels={["", 'Average \n'+sleepAVG.toFixed(2)]}
-            style={{ labels: { textAlign: 'left', marginRight: 30} }}
-            />
-            <VictoryLine
-              style={{
-                data: { stroke: "#c43a31" },
-                parent: { border: "1px solid #ccc"}
-              }}
+            <VictoryBar
               data = {this.state.boards}
               x="day" y="sleep"
-            />
+              barRatio={.75}
+              style={{
+                data: { fill: "#c43a31"}
+              }}
+              />
+            <VictoryLine
+              data = {this.state.boards}
+              x="day" y="inBed"
+              labels={dateLabels}
+              style={{ labels: { textAlign: 'left', marginRight: 30} }}
+              />
               <VictoryAxis
                 label="Day"
                 style={{
