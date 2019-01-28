@@ -149,6 +149,11 @@ class HomeScreen extends Component {
         // amount of time that within exits and enters do not count towards Sleep
         const asleepThresh = .01;
         let asleep = false;
+
+        let newExits = [];
+        let newEnters = [];
+
+        // loop  through, build asleep time and new exits list
         for (i=0; i<enters.length-1; i++){
           var inTime = new Date(enters[i]);
           var outTime = new Date(exits[i]);
@@ -160,6 +165,15 @@ class HomeScreen extends Component {
             if (timeIn > asleepThresh) {
               asleep = true;
               sleep += timeIn;
+              // add  new exits and newEnters
+              newExits.push(exits[i]);
+              newEnters.push(enters[i]);
+            }
+            // if asleep but not longer than threshhold
+            else if (asleep) {
+              // add  new exits and newEnters
+              newExits.push(exits[i]);
+              newEnters.push(enters[i]);
             }
           //Add time in bed between each entrance and exit to sleep
           }
@@ -300,7 +314,7 @@ class HomeScreen extends Component {
     for (i=0; i<this.state.weekBoards.length; i++) {
       weekLabels.push(this.state.weekBoards[i].dayLabel);
     }
-    
+
     // day View
     // Could become separate component
     const dayDetail = (
