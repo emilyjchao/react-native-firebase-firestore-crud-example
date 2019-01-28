@@ -345,10 +345,30 @@ class HomeScreen extends Component {
         />
       </VictoryChart>
       //Text displays
-      <Text style={styles.title}>Bedwet</Text>
+
+      <View style={styles.appContainer}>
+      <TouchableOpacity
+        onPress={() => {Alert.alert('The Bedwet section shows the time of a bedwetting incident if there was one.')}}
+        style={styles.button1}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.title}>Bedwet</Text>
+            <Image source={require('./about.png')} style={styles.icon} />
+          </View>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.brightText}>{bedWetContent}</Text>
+
       //Table for bed exits
-      <Text style={styles.title}>{"\n"}Bed Exits</Text>
+      <View style={styles.appContainer}>
+      <TouchableOpacity
+        onPress={() => {Alert.alert('The Bed Exit section displays the time and duration of each time your child exited the bed.')}}
+        style={styles.button1}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.title}>Bed Exits</Text>
+            <Image source={require('./about.png')} style={styles.icon} />
+          </View>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
       // This code for rendering table is from:
       // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
