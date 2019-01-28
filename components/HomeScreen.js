@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
 class HomeScreen extends Component {
@@ -124,6 +124,11 @@ class HomeScreen extends Component {
           restNum.push(parseInt(restlessSplit[1], 10));
         }
 
+        //Create asleep, in bed, and out of bed array for daily summary
+        let dailySleepTime = [];
+        let dailySleep = [];
+//TODO^^^^^^^^^^^
+
 //Old processing of sleep time
 //         //Time between first enter and  last exit dates
 //         var first = new Date(enters[0]);
@@ -207,7 +212,7 @@ class HomeScreen extends Component {
       boards: nightData,
       weekBoards: weeklyData,
       dateDic: dates,
-      picked: dates.length-7,
+      picked: dates.length-1,
       isLoading: false, // update so components render
     });
   }
@@ -268,7 +273,14 @@ class HomeScreen extends Component {
     avgTRestless = avgTRestless/(restCounter);
 
     //Set up labels for restless graph
-    let restlessLabel = [];
+    let xRestless = this.state.boards[this.state.picked].restTime;
+    let yRestless = this.state.boards[this.state.picked].restNum;
+    let restlessXLabel = [];
+    for (i=0; i<yRestless.length; i++) {
+      restlessXLabel.push(xRestless[i].getHours() + ':' +(xRestless[i].getMinutes()<10?'0':'') + xRestless[i].getMinutes());
+    }
+    console.log(restlessXLabel);
+
     let restRate = [];
     for (i=0; i<this.state.boards[this.state.picked].restTime.length; i++) {
       //Create array of low, moderate, and high's based on numbers passed in
@@ -281,18 +293,6 @@ class HomeScreen extends Component {
       else if (this.state.boards[this.state.picked].restNum[i] == 2) {
         restRate.push('High');
       }
-      //Create array of hh:mm for restlessness data passed in
-      restlessLabel.push(this.state.boards[this.state.picked].restTime[i].getHours() + ':' + this.state.boards[this.state.picked].restTime[i].getMinutes())
-    }
-    //Set up x axis labeling for restlessness chart
-    let restlessXAxis = "";
-    let restlineLabels = [restlessLabel[0], restlessLabel[parseInt((restlessLabel.length-1)/2, 10)], restlessLabel[restlessLabel.length-1]];
-    //Check if restlessness data exists before creating labels
-    if (restlineLabels[0] && restlineLabels[1] && restlineLabels[2]) {
-      restlessXAxis = restlineLabels[0] + "                    " + restlineLabels[1] +
-                          "                        " + restlineLabels[2];
-    } else {
-      restlessXAxis = "No restlessness data available"
     }
 
     //Set up day of week labels
@@ -300,7 +300,7 @@ class HomeScreen extends Component {
     for (i=0; i<this.state.weekBoards.length; i++) {
       weekLabels.push(this.state.weekBoards[i].dayLabel);
     }
-    
+
     // day View
     // Could become separate component
     const dayDetail = (
@@ -341,15 +341,19 @@ class HomeScreen extends Component {
       <VictoryChart
         height={150}
         domainPadding={{ x : [20, 20] }}
+        scale={{ x: "time" }}
         animate={{ duration: 100 }} >
+        <VictoryLine
+          interpolation="natural"
+          style={{
+            data: { stroke: "#c43a31" },
+          }}
+          data = {xRestless, yRestless}
+          />
         <VictoryAxis
-          label={restlessXAxis}
-          style={{fontSize: 16, axisLabel: { padding: 10 }}}
-          //Uncomment below to show time labels on x-axis (currently stops line from showing up)
-          //tickFormat={restlineLabels}
-          //tickFormat={restlessLabel}
-          tickFormat={() => ''}
-          //fixLabelOverlap
+          label={"Time"}
+          tickFormat={restlessXLabel}
+          fixLabelOverlap
           />
         <VictoryAxis dependentAxis
           label="Low     High"
@@ -359,17 +363,8 @@ class HomeScreen extends Component {
             transform: [{ rotate: '90deg'}]
           }}
           tickFormat={() => ''}
-          fixLabelOverlap
           />
-        <VictoryLine
-          interpolation="natural"
-          style={{
-            data: { stroke: "#c43a31" },
-          }}
-          data={this.state.boards[this.state.picked].restNum}
-        />
       </VictoryChart>
-      //Text displays
 
       <View style={styles.appContainer}>
       <TouchableOpacity
@@ -430,12 +425,16 @@ class HomeScreen extends Component {
       //   />
 
       <View>
-        <Text style={styles.title}>Weekly Averages</Text>
+        <Text style={styles.title}>Sleep History</Text>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
           animate={{ duration: 100 }}
           >
+          <VictoryScatter
+            data = {this.state.weekBoards}
+            x="day" y="inBed"
+            />
           <VictoryBar
             data = {this.state.weekBoards}
             x="day" y="sleep"

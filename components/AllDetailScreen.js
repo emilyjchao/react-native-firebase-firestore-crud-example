@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, Image, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
 class AllDetailScreen extends Component {
@@ -222,6 +222,10 @@ class AllDetailScreen extends Component {
               labels={dateLabels}
               style={{ labels: { textAlign: 'left', marginRight: 30} }}
               />
+              <VictoryScatter
+                data = {this.state.boards}
+                x="day" y="inBed"
+                />
               <VictoryAxis
                 label="Day"
                 style={{
