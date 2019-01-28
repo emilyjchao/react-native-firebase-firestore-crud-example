@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
 class HomeScreen extends Component {
@@ -123,11 +123,6 @@ class HomeScreen extends Component {
           restTime.push(new Date(parseInt(restlessSplit[0], 10)));
           restNum.push(parseInt(restlessSplit[1], 10));
         }
-
-        //Create asleep, in bed, and out of bed array for daily summary
-        let dailySleepTime = [];
-        let dailySleep = [];
-//TODO^^^^^^^^^^^
 
 //Old processing of sleep time
 //         //Time between first enter and  last exit dates
@@ -279,7 +274,6 @@ class HomeScreen extends Component {
     for (i=0; i<yRestless.length; i++) {
       restlessXLabel.push(xRestless[i].getHours() + ':' +(xRestless[i].getMinutes()<10?'0':'') + xRestless[i].getMinutes());
     }
-    console.log(restlessXLabel);
 
     let restRate = [];
     for (i=0; i<this.state.boards[this.state.picked].restTime.length; i++) {
@@ -301,31 +295,70 @@ class HomeScreen extends Component {
       weekLabels.push(this.state.weekBoards[i].dayLabel);
     }
 
+    //Set up stack daily view sleep data
+    let yStackSleep = [];
+    let ySleep = [];
+    let dailySleep = [];
+    let colorArray = [];
+    let in_out = [];
+    for (i=0; i<this.state.boards[this.state.picked].enters.length; i++) {
+      //Set x and y data arrays
+      if (this.state.boards[this.state.picked].exited[i]) {
+        //For bar stack
+        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].exited[i]))-(new Date(this.state.boards[this.state.picked].enters[i]))) / (60*1000));
+        colorArray.push("red");
+        //For line graph
+        in_out.push("1"); //1 represents in bed
+        ySleep.push(new Date(this.state.boards[this.state.picked].enters[i]));
+        in_out.push("0");
+        ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
+      }
+      if (i+1 < this.state.boards[this.state.picked].enters.length) {
+        //For bar stack
+        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].enters[i+1]))-(new Date(this.state.boards[this.state.picked].exited[i]))) / (60*1000));
+        colorArray.push("black");
+        //For line graph
+        in_out.push("0"); //0 represents out of bed
+        ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
+        in_out.push("1");
+        ySleep.push(new Date(this.state.boards[this.state.picked].enters[i+1]));
+
+      }
+    }
+    for (i=0; i<yStackSleep.length; i++) {
+      dailySleep.push({"day": 1, "period": yStackSleep[i]});
+    }
+
+
+
     // day View
     // Could become separate component
     const dayDetail = (
       <View>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
-      <Text style={styles.title}>Time Asleep</Text>
+      <Text style={styles.title}>Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
       //Chart of daily sleep length
       <VictoryChart
         height={130}
-        animate={{ duration: 100 }}
-        >
-          <VictoryBar
-            data={[this.state.boards[this.state.picked]]}
-            barWidth={20} x="day" y="sleep"
-            horizontal={true}
-            style={{ data: { fill: "#c43a31" } }}
-            events={[{
-              target: "data",
-              eventHandlers: {
-               onPressIn: () => {
-                  return [{ target: "data",}];
-                }
-              }}]}
-            />
-          <VictoryAxis label="Hours" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
+        scale={{ x: "time" }}
+        animate={{ duration: 100 }} >
+        <VictoryLine
+          data={ySleep, in_out}
+          interpolation="step"
+          style={{
+            data: { stroke: "#c43a31" },
+          }}
+          />
+        <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
+        <VictoryAxis dependentAxis
+          label="Asleep     Awake"
+          style={{
+            axisLabel: { padding: 10},
+            fontSize: 16,
+            transform: [{ rotate: '90deg'}]
+          }}
+          tickFormat={() => ''}
+          />
       </VictoryChart>
       <View style={styles.appContainer}>
         <TouchableOpacity
@@ -352,7 +385,7 @@ class HomeScreen extends Component {
           />
         <VictoryAxis
           label={"Time"}
-          tickFormat={restlessXLabel}
+          //tickFormat={restlessXLabel}
           fixLabelOverlap
           />
         <VictoryAxis dependentAxis
