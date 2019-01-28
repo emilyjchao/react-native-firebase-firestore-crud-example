@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
 class HomeScreen extends Component {
@@ -168,15 +168,24 @@ class HomeScreen extends Component {
 // Todo: incorporate restlessness into judging sleep time
 
 
-        //console.log(sleep)
-        //console.log(inBedTime)
+        //Find day of week as label
+        var weekday = new Array();
+        weekday[0] = "Su";
+        weekday[1] = "M";
+        weekday[2] = "T";
+        weekday[3] = "W";
+        weekday[4] = "Th";
+        weekday[5] = "F";
+        weekday[6] = "S";
+        splitDate= nightName.split("-");
+        let dayOfWk = weekday[(new Date(splitDate[2], splitDate[0] - 1, splitDate[1])).getUTCDay()];
 
         // true false on bed wetting length
         var bedwet = wets.length >= 1;
         //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum,});
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
       }
     })
 
@@ -286,6 +295,12 @@ class HomeScreen extends Component {
       restlessXAxis = "No restlessness data available"
     }
 
+    //Set up day of week labels
+    let weekLabels = [];
+    for (i=0; i<this.state.weekBoards.length; i++) {
+      weekLabels.push(this.state.weekBoards[i].dayLabel);
+    }
+    
     // day View
     // Could become separate component
     const dayDetail = (
@@ -347,6 +362,7 @@ class HomeScreen extends Component {
           fixLabelOverlap
           />
         <VictoryLine
+          interpolation="natural"
           style={{
             data: { stroke: "#c43a31" },
           }}
@@ -403,8 +419,18 @@ class HomeScreen extends Component {
 
     //Week detail (could be component)
     const weekDetail = (
+      // Use this to draw average sleep line
+      // <VictoryLine
+      //   data={[
+      //     { x: 0, y: weekAVG },
+      //     { x: this.state.weekBoards.length, y: weekAVG }
+      //   ]}
+      //   labels={["", 'Average \n'+weekAVG.toFixed(2)]}
+      //   style={{ labels: { textAlign: 'left', marginRight: 30, fontSize: 14, fontWeight: 'bold'} }}
+      //   />
+
       <View>
-        <Text style={styles.title}>Averages of this week</Text>
+        <Text style={styles.title}>Weekly Averages</Text>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
@@ -413,10 +439,12 @@ class HomeScreen extends Component {
           <VictoryBar
             data = {this.state.weekBoards}
             x="day" y="sleep"
+            labels={weekLabels}
             barRatio={.75}
             style={{
-              data: { fill: "#c43a31" }
+              data: { fill: "#c43a31"}, labels: { fill: "white" }
             }}
+            labelComponent={<VictoryLabel dy={30}/>}
             events={[{
               target: "data",
               eventHandlers: {
@@ -429,32 +457,41 @@ class HomeScreen extends Component {
                }
              }}]}
             />
-            <VictoryLine
-              data={[
-                { x: 0, y: weekAVG },
-                { x: this.state.weekBoards.length, y: weekAVG }
-              ]}
-              labels={["", 'Average \n'+weekAVG.toFixed(2)]}
-              style={{ labels: { textAlign: 'left', marginRight: 30, fontSize: 14, fontWeight: 'bold'} }}
-              />
-              <VictoryAxis
-                label="Day"
-                style={{
-                  axisLabel: { padding: 30 },
-                  fontSize: 16,
-                }}
-                fixLabelOverlap
-              />
-              <VictoryAxis dependentAxis
-                label="Hours of Sleep"
-                style={{
-                  axisLabel: { padding: 35},
-                  fontSize: 16,
-                  transform: [{ rotate: '90deg'}]
-                }}
-                fixLabelOverlap
-              />
+          <VictoryLine
+            data = {this.state.weekBoards}
+            x="day" y="inBed"
+            labels={["", "", "", "", "", "","Time in Bed"]}
+            style={{ labels: { textAlign: 'left', marginRight: 30} }}
+            />
+          <VictoryAxis
+            label="Day"
+            style={{
+              axisLabel: { padding: 30 },
+              fontSize: 16,
+            }}
+            fixLabelOverlap
+            />
+          <VictoryAxis dependentAxis
+            label="Hours of Sleep"
+            style={{
+              axisLabel: { padding: 35},
+              fontSize: 16,
+              transform: [{ rotate: '90deg'}]
+            }}
+            fixLabelOverlap
+            />
         </VictoryChart>
+        <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Average Hours of Sleep</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.brightText}>{weekAVG.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -605,10 +642,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   icon: {
-    width: 15,
-    height: 15,
+    width: 10,
+    height: 10,
     position: 'absolute',
-    right: 7, // Keep some space between your left border and Image
+    right: 15, // Keep some space between your left border and Image
   }
 })
 

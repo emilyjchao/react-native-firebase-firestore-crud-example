@@ -235,8 +235,18 @@ class AllDetailScreen extends Component {
                 fixLabelOverlap
               />
               </VictoryChart>
+              <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Average Hours of Sleep</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.brightText}>{sleepAVG.toFixed(2)}</Text>
 
-              //Text display
               <View style={styles.appContainer}>
               <TouchableOpacity
                 onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
@@ -248,9 +258,29 @@ class AllDetailScreen extends Component {
                 </TouchableOpacity>
               </View>
               <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
-              <Text style={styles.title}>Bedwets per Night</Text>
+
+              <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Bedwetting Avg.</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.brightText}>{avgTWets.toFixed(1)}</Text>
-              <Text style={styles.title}>Bed Exits per Night</Text>
+
+              <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Exits</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+                </TouchableOpacity>
+              </View>
               <Text style={styles.brightText}>{avgTExits.toFixed(1)}{"\n"}</Text>
 
               <View
@@ -430,10 +460,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   icon: {
-    width: 15,
-    height: 15,
+    width: 10,
+    height: 10,
     position: 'absolute',
-    right: 7, // Keep some space between your left border and Image
+    right: 15, // Keep some space between your left border and Image
   }
 })
 
