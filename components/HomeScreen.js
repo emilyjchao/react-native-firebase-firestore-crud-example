@@ -9,8 +9,7 @@ class HomeScreen extends Component {
     return {
       //Draw settings and add child buttons on header of screen
       title: 'Sleep Report',
-      headerRight: (
-        <Button
+      headerRight:  (<Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
           onPress={() => { navigation.push('Settings') }}
@@ -138,7 +137,6 @@ class HomeScreen extends Component {
         var exit2 = new Date(exits[exits.length-1]);
         var inBedDiff = new Date((exit2-exit1));
 // TODO: this is ms --> switch to hours for full data
-        //var inBedTime = inBedDiff / (60*1000);
         var inBedTime = 0;
         if (inBedDiff) {
           inBedTime = inBedDiff / (60*1000);
@@ -148,16 +146,27 @@ class HomeScreen extends Component {
         //Loop through exits and calculate sleep time (time in bed not counting exits)
         var sleep = 0;
         var totalOutOfBed = 0;
+        // amount of time that within exits and enters do not count towards Sleep
+        const asleepThresh = .01;
+        let asleep = false;
         for (i=0; i<enters.length-1; i++){
           var inTime = new Date(enters[i]);
           var outTime = new Date(exits[i]);
 // TODO: this is ms --> switch to hours for full data
           var timeIn = new Date(outTime-inTime) / (60*1000);
-          //Add time in bed between each entrance and exit to sleep
+
+          // if not asleep yet, don't count, check if asleep
           if (timeIn) {
-            sleep += timeIn;
+            if (timeIn > asleepThresh) {
+              asleep = true;
+              sleep += timeIn;
+            }
+          //Add time in bed between each entrance and exit to sleep
           }
         }
+
+// Todo: incorporate restlessness into judging sleep time
+
 
         //console.log(sleep)
         //console.log(inBedTime)
