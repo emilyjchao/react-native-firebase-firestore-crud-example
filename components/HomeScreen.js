@@ -171,19 +171,20 @@ class HomeScreen extends Component {
               asleep = true;
               sleep += timeIn;
               // add  new exits and newEnters
-              newExits.push(exits[i]);
-              newEnters.push(enters[i]);
+              newExits.push(exits[i+1]);
+              newEnters.push(enters[i+1]);
             }
-            // if asleep but not longer than threshhold
-            else if (asleep) {
+            else if (asleep) { // if asleep but not longer than threshhold
               // add  new exits and newEnters
-              newExits.push(exits[i]);
-              newEnters.push(enters[i]);
+              newExits.push(exits[i+1]);
+              newEnters.push(enters[i+1]);
             }
           //Add time in bed between each entrance and exit to sleep
           }
         }
 
+        // console.log(enters);
+        // console.log(newEnters);
 // Todo: incorporate restlessness into judging sleep time
 
 
@@ -204,7 +205,7 @@ class HomeScreen extends Component {
         //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
+        nightData.push({ "day": nightName, "exited": newExits, "enters": newEnters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
       }
     })
 
