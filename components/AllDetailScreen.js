@@ -189,6 +189,15 @@ class AllDetailScreen extends Component {
       }
     }
     avgTRestless = avgTRestless/(restCounter);
+    //Set up qualitative descriptions of restlessness
+    let restlessDescription = "";
+    if (avgTRestless < 1.3) {
+      restlessDescription = "Normal";
+    } else if (avgTRestless < 1.75) {
+      restlessDescription = "Moderate";
+    } else {
+      restlessDescription = "High";
+    }
 
     //Set up bar chart labels
     let dateLabels = [];
@@ -266,14 +275,14 @@ class AllDetailScreen extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
+              <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
 
               <View style={styles.appContainer}>
               <TouchableOpacity
                 onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Bedwetting Avg.</Text>
+                    <Text style={styles.title}>Bedwetting Average</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
@@ -315,9 +324,10 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 1.4}
                   ]}
                   style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31",}
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
                   }}
                   labels={(d) => d.y}
+                  labelComponent={<VictoryLabel dy={30}/>}
                 />
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />
@@ -337,9 +347,10 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.55}
                   ]}
                   style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
                   }}
                   labels={(d) => d.y}
+                  labelComponent={<VictoryLabel dy={30}/>}
                 />
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />
@@ -359,9 +370,10 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.7}
                   ]}
                   style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
                   }}
                   labels={(d) => d.y}
+                  labelComponent={<VictoryLabel dy={30}/>}
                 />
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />
@@ -370,7 +382,7 @@ class AllDetailScreen extends Component {
                 domainPadding={80}
                 animate={{ duration: 100 }}
                 >
-                <VictoryLabel text="Bed Exits Per Night" x={240} y={30} fontSize={60} textAnchor="end"/>
+                <VictoryLabel text="Bed Exits Per Night" x={250} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar
                   barRatio={0.8}
                   categories={{
@@ -381,9 +393,10 @@ class AllDetailScreen extends Component {
                     {x: "National Average", y: 0.55}
                   ]}
                   style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }
+                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
                   }}
                   labels={(d) => d.y}
+                  labelComponent={<VictoryLabel dy={30}/>}
                 />
                 <VictoryAxis dependentAxis tickFormat={() => ''} />
                 <VictoryAxis independentAxis tickFormat={(x) => x} />

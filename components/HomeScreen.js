@@ -115,6 +115,13 @@ class HomeScreen extends Component {
         if (night["movement"])  {
           restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
         }
+
+        //Check that first enter comes before first exit
+        if (exits[0] < enters[0]) {
+          //Remove first exit if came before first enter
+          exits.splice(0, 1);
+        }
+
         //Split timestamp from restlessness rating
         let restTime = [];  //time in day/hr/min/set
         let restNum = [];   //movement on scale 0-2
@@ -266,13 +273,14 @@ class HomeScreen extends Component {
       }
     }
     avgTRestless = avgTRestless/(restCounter);
-
-    //Set up labels for restless graph
-    let xRestless = this.state.boards[this.state.picked].restTime;
-    let yRestless = this.state.boards[this.state.picked].restNum;
-    let restlessXLabel = [];
-    for (i=0; i<yRestless.length; i++) {
-      restlessXLabel.push(xRestless[i].getHours() + ':' +(xRestless[i].getMinutes()<10?'0':'') + xRestless[i].getMinutes());
+    //Set up qualitative descriptions of restlessness
+    let restlessDescription = "";
+    if (avgTRestless < 1.3) {
+      restlessDescription = "Normal";
+    } else if (avgTRestless < 1.75) {
+      restlessDescription = "Moderate";
+    } else {
+      restlessDescription = "High";
     }
 
     let restRate = [];
@@ -369,6 +377,7 @@ class HomeScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
+      <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
       //Line graph of restlessness
       <VictoryChart
         height={150}
@@ -380,7 +389,7 @@ class HomeScreen extends Component {
           style={{
             data: { stroke: "#c43a31" },
           }}
-          data = {xRestless, yRestless}
+          data = {this.state.boards[this.state.picked].restTime, this.state.boards[this.state.picked].restNum}
           />
         <VictoryAxis
           label={"Time"}
@@ -457,7 +466,16 @@ class HomeScreen extends Component {
       //   />
 
       <View>
-        <Text style={styles.title}>Sleep History</Text>
+        <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Click on any bar to see daily details.')}}
+            style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Sleep History</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
@@ -534,14 +552,14 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{avgTRestless.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
           onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
           style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Bedwetting Avg.</Text>
+              <Text style={styles.title}>Bedwetting Average</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>
