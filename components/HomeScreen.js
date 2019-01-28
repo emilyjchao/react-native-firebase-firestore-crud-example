@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
 class HomeScreen extends Component {
@@ -149,11 +149,6 @@ class HomeScreen extends Component {
         // amount of time that within exits and enters do not count towards Sleep
         const asleepThresh = .01;
         let asleep = false;
-
-        let newExits = [];
-        let newEnters = [];
-
-        // loop  through, build asleep time and new exits list
         for (i=0; i<enters.length-1; i++){
           var inTime = new Date(enters[i]);
           var outTime = new Date(exits[i]);
@@ -165,21 +160,11 @@ class HomeScreen extends Component {
             if (timeIn > asleepThresh) {
               asleep = true;
               sleep += timeIn;
-              // add  new exits and newEnters
-              newExits.push(exits[i+1]);
-              newEnters.push(enters[i+1]);
-            }
-            else if (asleep) { // if asleep but not longer than threshhold
-              // add  new exits and newEnters
-              newExits.push(exits[i+1]);
-              newEnters.push(enters[i+1]);
             }
           //Add time in bed between each entrance and exit to sleep
           }
         }
 
-        // console.log(enters);
-        // console.log(newEnters);
 // Todo: incorporate restlessness into judging sleep time
 
 
@@ -200,7 +185,7 @@ class HomeScreen extends Component {
         //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": newExits, "enters": newEnters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
       }
     })
 
@@ -357,16 +342,15 @@ class HomeScreen extends Component {
         height={130}
         scale={{ x: "time" }}
         animate={{ duration: 100 }} >
-        <VictoryLine
+        <VictoryArea
           data={ySleep, in_out}
           interpolation="step"
           style={{
-            data: { stroke: "#c43a31" },
+            data: { stroke: "#c43a31", fill: "#c43a31" },
           }}
           />
         <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
         <VictoryAxis dependentAxis
-          label="Asleep     Awake"
           style={{
             axisLabel: { padding: 10},
             fontSize: 16,
