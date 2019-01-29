@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, Image, ActivityIndicator, View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryChart, VictoryScatter, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryChart, VictoryZoomContainer, VictoryScatter, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import firebase from '../Firebase';
 
 class AllDetailScreen extends Component {
@@ -108,27 +108,23 @@ class AllDetailScreen extends Component {
           var exit1 = new Date(enters[0]);
           var exit2 = new Date(exits[exits.length-1]);
           var inBedDiff = new Date((exit2-exit1));
-  // TODO: this is ms --> switch to hours for full data
-          //var inBedTime = inBedDiff / (60*1000);
+          //Calculate time in bed (from first enter to last exit)
           var inBedTime = 0;
           if (inBedDiff) {
-            inBedTime = inBedDiff / (60*1000);
+            inBedTime = inBedDiff / (3600000);
           }
 
-          //Loop through exits and calculate sleep time (time in bed not counting exits)
+          //Loop through exits and calculate sleep time (time in bed accounting for exits)
           var sleep = 0;
-          var totalOutOfBed = 0;
-          for (i=0; i<enters.length-1; i++){
+          for (i=0; i<enters.length; i++){
             var inTime = new Date(enters[i]);
             var outTime = new Date(exits[i]);
-// TODO: this is ms --> switch to hours for full data
-            var timeIn = new Date(outTime-inTime) / (60*1000);
+            var timeIn = new Date(outTime-inTime) / (3600000);
             //Add time in bed between each entrance and exit to sleep
             if (timeIn) {
               sleep += timeIn;
             }
           }
-
 
           // true false on bed wetting length
           var bedwet = wets.length >= 1;
@@ -213,9 +209,12 @@ class AllDetailScreen extends Component {
           <Text style={styles.blackText}>{"\n"}Sleep History</Text>
           //Display line graph of all sleep time
           <VictoryChart
-            animate={{ duration: 100 }}
+            //animate={{ duration: 10 }}
             //helps so that chart is not cut off on right
             domainPadding={{ x : [30, 30] }}
+            containerComponent={
+                <VictoryZoomContainer/>
+              }
           >
             <VictoryBar
               data = {this.state.boards}
@@ -311,7 +310,7 @@ class AllDetailScreen extends Component {
               sleepAVG.toFixed(2)
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 100 }}
+                //animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Total Hours of Sleep" x={245} y={30} textAnchor="end" />
                 <VictoryBar
@@ -334,7 +333,7 @@ class AllDetailScreen extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 100 }}
+                //animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Restlessness" x={225} y={30} textAnchor="end" />
                 <VictoryBar
@@ -357,7 +356,7 @@ class AllDetailScreen extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 100 }}
+                //animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
                 <VictoryBar
@@ -380,7 +379,7 @@ class AllDetailScreen extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 100 }}
+                //animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bed Exits Per Night" x={250} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar
