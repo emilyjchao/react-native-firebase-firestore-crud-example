@@ -4,27 +4,14 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
-class HomeScreen extends Component {
+class TutorialScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       //Draw settings and add child buttons on header of screen
-      title: 'Sleep Report',
-      headerRight:  (
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Settings') }}
-        />
-      ),
-      headerLeft: (
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Tutorial') }}
-        />
-      ),
+      title: 'Tutorial',
     };
   };
+
   constructor() {
     super();
     this.ref = firebase.firestore().collection('days');
@@ -594,6 +581,7 @@ class HomeScreen extends Component {
 
     return (
       <ScrollView style={styles.container}>
+      <Text>Welcome!</Text>
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
@@ -699,4 +687,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HomeScreen;
+export default TutorialScreen;
