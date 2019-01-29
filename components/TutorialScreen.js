@@ -333,6 +333,7 @@ class TutorialScreen extends Component {
       <View>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
       <Text style={styles.title}>Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
+      <Text style={styles.smallText}>Last night's sleep, red is time asleep and white is time out of bed.</Text>
       //Chart of daily sleep length
       <VictoryChart
         height={130}
@@ -365,6 +366,7 @@ class TutorialScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
+      <Text style={styles.smallText}>Restless illustrates how much your child moved while sleeping. It is ranked into three categories of movement, low, medium, and high.</Text>
       <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
       //Line graph of restlessness
       <VictoryChart
@@ -405,6 +407,7 @@ class TutorialScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
+      <Text style={styles.smallText}>Displays the time of a bedwetting incident.</Text>
       <Text style={styles.brightText}>{bedWetContent}</Text>
 
       //Table for bed exits
@@ -418,6 +421,7 @@ class TutorialScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
+      <Text style={styles.smallText}>The time and duration of each time your child exited the bed.</Text>
       <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
       // This code for rendering table is from:
       // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native

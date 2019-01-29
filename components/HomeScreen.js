@@ -18,8 +18,8 @@ class HomeScreen extends Component {
       headerLeft: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('AddChild') }}
+          icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
+          onPress={() => { navigation.push('Tutorial') }}
         />
       ),
     };
