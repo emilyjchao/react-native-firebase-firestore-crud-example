@@ -4,27 +4,14 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import firebase from '../Firebase';
 
-class HomeScreen extends Component {
+class TutorialScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       //Draw settings and add child buttons on header of screen
-      title: 'Sleep Report',
-      headerRight:  (
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Settings') }}
-        />
-      ),
-      headerLeft: (
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Tutorial') }}
-        />
-      ),
+      title: 'Tutorial',
     };
   };
+
   constructor() {
     super();
     this.ref = firebase.firestore().collection('days');
@@ -137,17 +124,17 @@ class HomeScreen extends Component {
 //         var first = new Date(enters[0]);
 //         var lastEx = new Date(exits[exits.length-1]);
 //         var dif = new Date((lastEx-first));
-//         var sleep = dif / (3600000);
+//         var sleep = dif / (60*1000);
 
 // TODO: more accurate processing of sleep and awake time
         //Calculate time between first enter and last exit dates (time in bed)
-        var enter1 = new Date(enters[0]);
+        var exit1 = new Date(enters[0]);
         var exit2 = new Date(exits[exits.length-1]);
-        var inBedDiff = new Date((exit2-enter1));
+        var inBedDiff = new Date((exit2-exit1));
 // TODO: this is ms --> switch to hours for full data
         var inBedTime = 0;
         if (inBedDiff) {
-          inBedTime = inBedDiff / (3600000 );
+          inBedTime = inBedDiff / (60*1000);
         }
 
 
@@ -161,7 +148,7 @@ class HomeScreen extends Component {
           var inTime = new Date(enters[i]);
           var outTime = new Date(exits[i]);
 // TODO: this is ms --> switch to hours for full data
-          var timeIn = new Date(outTime-inTime) / (3600000);
+          var timeIn = new Date(outTime-inTime) / (60*1000);
 
           // if not asleep yet, don't count, check if asleep
           if (timeIn) {
@@ -190,9 +177,10 @@ class HomeScreen extends Component {
 
         // true false on bed wetting length
         var bedwet = wets.length >= 1;
+        //console.log(dates)
 
         // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
+        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk,});
       }
     })
 
@@ -313,7 +301,7 @@ class HomeScreen extends Component {
       //Set x and y data arrays
       if (this.state.boards[this.state.picked].exited[i]) {
         //For bar stack
-        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].exited[i]))-(new Date(this.state.boards[this.state.picked].enters[i]))) / (3600000));
+        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].exited[i]))-(new Date(this.state.boards[this.state.picked].enters[i]))) / (60*1000));
         colorArray.push("red");
         //For line graph
         in_out.push("1"); //1 represents in bed
@@ -323,7 +311,7 @@ class HomeScreen extends Component {
       }
       if (i+1 < this.state.boards[this.state.picked].enters.length) {
         //For bar stack
-        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].enters[i+1]))-(new Date(this.state.boards[this.state.picked].exited[i]))) / (3600000));
+        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].enters[i+1]))-(new Date(this.state.boards[this.state.picked].exited[i]))) / (60*1000));
         colorArray.push("black");
         //For line graph
         in_out.push("0"); //0 represents out of bed
@@ -349,8 +337,7 @@ class HomeScreen extends Component {
       <VictoryChart
         height={130}
         scale={{ x: "time" }}
-        //animate={{ duration: 10 }}
-        >
+        animate={{ duration: 100 }} >
         <VictoryArea
           data={ySleep, in_out}
           interpolation="step"
@@ -384,8 +371,7 @@ class HomeScreen extends Component {
         height={150}
         domainPadding={{ x : [20, 20] }}
         scale={{ x: "time" }}
-        //animate={{ duration: 10 }}
-        >
+        animate={{ duration: 100 }} >
         <VictoryLine
           interpolation="natural"
           style={{
@@ -442,7 +428,7 @@ class HomeScreen extends Component {
             var exitTime = new Date(time);
             var enterTime = new Date(this.state.boards[this.state.picked].enters[index + 1]);
             var dif = new Date(enterTime-exitTime);
-            var timeOut = dif / (3600000);
+            var timeOut = dif / (60*1000);
 
             return (
                 <Text key={time} style={styles.brightTextLeft}>
@@ -481,7 +467,7 @@ class HomeScreen extends Component {
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
-          //animate={{ duration: 10 }}
+          animate={{ duration: 100 }}
           >
           <VictoryScatter
             data = {this.state.weekBoards}
@@ -588,12 +574,14 @@ class HomeScreen extends Component {
               <Text style={styles.blueTextSmall}>View Full Data History</Text>
             </View>
           </TouchableOpacity>
+
       </View>);
 
     const reports = this.state.day ? (dayDetail) : (weekDetail);
 
     return (
       <ScrollView style={styles.container}>
+      <Text>Welcome!</Text>
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
@@ -699,4 +687,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HomeScreen;
+export default TutorialScreen;

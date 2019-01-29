@@ -132,6 +132,7 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:'black', marginTop:50}}/>
             <SettingsList.Item titleInfo='Details' hasNavArrow={false} title='Child 1'
               onPress={() => navigate('ChildDetails')}/>
+            <SettingsList.Item title="Add Child" hasNavArrow={true} onPress={() => navigate('AddChild')} />
             <SettingsList.Item
               title='Calibrate Tracker'
               onPress={() => navigate('Calibrate')}/>

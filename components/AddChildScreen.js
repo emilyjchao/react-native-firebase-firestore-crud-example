@@ -4,9 +4,12 @@ import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
 class AddChildScreen extends Component {
-  static navigationOptions = {
-    title: 'Add Child',
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Child',
+    }
+  }
+
   constructor() {
     super();
     //Set up Firestore connection and state variables

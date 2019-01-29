@@ -5,8 +5,9 @@ import HomeScreen from './components/HomeScreen';
 import AllDetailScreen from './components/AllDetailScreen';
 import AddChildScreen from './components/AddChildScreen';
 import ChildDetailsScreen from './components/ChildDetailsScreen';
-import SettingsScreen from './components/SettingsScreen'
-import CalibrateScreen from './components/CalibrateScreen'
+import SettingsScreen from './components/SettingsScreen';
+import CalibrateScreen from './components/CalibrateScreen';
+import TutorialScreen from './components/TutorialScreen';
 import {Constants, Permissions, Notifications} from 'expo'
 
 async function register(){
@@ -29,6 +30,7 @@ const RootStack = createStackNavigator(
     ChildDetails: ChildDetailsScreen,
     Settings: SettingsScreen,
     Calibrate: CalibrateScreen,
+    Tutorial: TutorialScreen,
   },
   {
     initialRouteName: 'Home',
