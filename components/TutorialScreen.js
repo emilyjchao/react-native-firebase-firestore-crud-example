@@ -464,6 +464,7 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.smallText}>Click on any day's bar to see the daily details from that night.</Text>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
@@ -528,6 +529,7 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.smallText}>This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.</Text>
         <Text style={styles.brightText}>{weekAVG.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
@@ -540,6 +542,7 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.smallText}>Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.</Text>
         <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
@@ -552,6 +555,7 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.smallText}>This is the average number of times your child wet the bed per night this week.</Text>
         <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
 
         <View style={styles.appContainer}>
@@ -564,6 +568,7 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.smallText}>This is the average number of times your child left the bed per night this week.</Text>
         <Text style={styles.brightText}>{weekExits.toFixed(1)}{'\n'}</Text>
 
         //Navigate to all details page
@@ -573,7 +578,8 @@ class TutorialScreen extends Component {
             <View style={styles.btnContainer}>
               <Text style={styles.blueTextSmall}>View Full Data History</Text>
             </View>
-          </TouchableOpacity>
+        </TouchableOpacity>
+        <Text style={styles.smallText}>This links to the full history of your data.</Text>
 
       </View>);
 
@@ -581,11 +587,11 @@ class TutorialScreen extends Component {
 
     return (
       <ScrollView style={styles.container}>
-      <Text>Welcome!</Text>
+      <Text style={styles.title}>Welcome!</Text>
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
-        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Week"}</Text>
+        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily Detail"}</Text>
         </TouchableOpacity>
           {reports}
       </ScrollView>
@@ -675,6 +681,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     color: 'blue',
+  },
+  smallText: {
+    fontSize: 14,
+    textAlign: 'center',
   },
   textInput: {
     fontSize: 24,
