@@ -9,8 +9,7 @@ class HomeScreen extends Component {
     return {
       //Draw settings and add child buttons on header of screen
       title: 'Sleep Report',
-      headerRight:  (
-        <Button
+      headerRight:  (<Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
           onPress={() => { navigation.push('Settings') }}
@@ -19,8 +18,8 @@ class HomeScreen extends Component {
       headerLeft: (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Tutorial') }}
+          icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
+          onPress={() => { navigation.push('AddChild') }}
         />
       ),
     };
@@ -132,24 +131,16 @@ class HomeScreen extends Component {
           restNum.push(parseInt(restlessSplit[1], 10));
         }
 
-//Old processing of sleep time
-//         //Time between first enter and  last exit dates
-//         var first = new Date(enters[0]);
-//         var lastEx = new Date(exits[exits.length-1]);
-//         var dif = new Date((lastEx-first));
-//         var sleep = dif / (3600000);
-
 // TODO: more accurate processing of sleep and awake time
         //Calculate time between first enter and last exit dates (time in bed)
         var enter1 = new Date(enters[0]);
         var exit2 = new Date(exits[exits.length-1]);
         var inBedDiff = new Date((exit2-enter1));
-// TODO: this is ms --> switch to hours for full data
+        //Calculate time in bed
         var inBedTime = 0;
         if (inBedDiff) {
           inBedTime = inBedDiff / (3600000 );
         }
-
 
         //Loop through exits and calculate sleep time (time in bed not counting exits)
         var sleep = 0;
@@ -160,7 +151,6 @@ class HomeScreen extends Component {
         for (i=0; i<enters.length-1; i++){
           var inTime = new Date(enters[i]);
           var outTime = new Date(exits[i]);
-// TODO: this is ms --> switch to hours for full data
           var timeIn = new Date(outTime-inTime) / (3600000);
 
           // if not asleep yet, don't count, check if asleep
@@ -174,7 +164,6 @@ class HomeScreen extends Component {
         }
 
 // Todo: incorporate restlessness into judging sleep time
-
 
         //Find day of week as label
         var weekday = new Array();
@@ -273,6 +262,7 @@ class HomeScreen extends Component {
       }
     }
     avgTRestless = avgTRestless/(restCounter);
+
     //Set up qualitative descriptions of restlessness
     let restlessDescription = "";
     if (avgTRestless < 1.3) {
@@ -283,20 +273,6 @@ class HomeScreen extends Component {
       restlessDescription = "High";
     }
 
-    let restRate = [];
-    for (i=0; i<this.state.boards[this.state.picked].restTime.length; i++) {
-      //Create array of low, moderate, and high's based on numbers passed in
-      if (this.state.boards[this.state.picked].restNum[i] == 0) {
-        restRate.push('Low');
-      }
-      else if (this.state.boards[this.state.picked].restNum[i] == 1) {
-        restRate.push('Moderate');
-      }
-      else if (this.state.boards[this.state.picked].restNum[i] == 2) {
-        restRate.push('High');
-      }
-    }
-
     //Set up day of week labels
     let weekLabels = [];
     for (i=0; i<this.state.weekBoards.length; i++) {
@@ -304,17 +280,11 @@ class HomeScreen extends Component {
     }
 
     //Set up stack daily view sleep data
-    let yStackSleep = [];
     let ySleep = [];
-    let dailySleep = [];
-    let colorArray = [];
     let in_out = [];
     for (i=0; i<this.state.boards[this.state.picked].enters.length; i++) {
       //Set x and y data arrays
       if (this.state.boards[this.state.picked].exited[i]) {
-        //For bar stack
-        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].exited[i]))-(new Date(this.state.boards[this.state.picked].enters[i]))) / (3600000));
-        colorArray.push("red");
         //For line graph
         in_out.push("1"); //1 represents in bed
         ySleep.push(new Date(this.state.boards[this.state.picked].enters[i]));
@@ -322,22 +292,13 @@ class HomeScreen extends Component {
         ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
       }
       if (i+1 < this.state.boards[this.state.picked].enters.length) {
-        //For bar stack
-        yStackSleep.push(new Date((new Date(this.state.boards[this.state.picked].enters[i+1]))-(new Date(this.state.boards[this.state.picked].exited[i]))) / (3600000));
-        colorArray.push("black");
         //For line graph
         in_out.push("0"); //0 represents out of bed
         ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
         in_out.push("1");
         ySleep.push(new Date(this.state.boards[this.state.picked].enters[i+1]));
-
       }
     }
-    for (i=0; i<yStackSleep.length; i++) {
-      dailySleep.push({"day": 1, "period": yStackSleep[i]});
-    }
-
-
 
     // day View
     // Could become separate component

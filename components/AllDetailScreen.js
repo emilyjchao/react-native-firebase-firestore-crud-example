@@ -320,7 +320,7 @@ class AllDetailScreen extends Component {
                   }}
                   data = {[
                     {x: "Your Child", y: sleepAVG.toFixed(2)},
-                    {x: "National Average", y: 1.4}
+                    {x: "National Average", y: 10}
                   ]}
                   style={{
                     data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
@@ -343,7 +343,7 @@ class AllDetailScreen extends Component {
                   }}
                   data = {[
                     {x: "Your Child", y: avgTRestless.toFixed(2)},
-                    {x: "National Average", y: 0.55}
+                    {x: "National Average", y: 0.98}
                   ]}
                   style={{
                     data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
