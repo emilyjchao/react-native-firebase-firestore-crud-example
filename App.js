@@ -8,6 +8,8 @@ import ChildDetailsScreen from './components/ChildDetailsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import CalibrateScreen from './components/CalibrateScreen';
 import TutorialScreen from './components/TutorialScreen';
+import DayScreen from './components/DayScreen';
+import SummaryScreen from './components/SummaryScreen';
 import {Constants, Permissions, Notifications} from 'expo'
 
 async function register(){
