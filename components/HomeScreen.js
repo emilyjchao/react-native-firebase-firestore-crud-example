@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
+import DayDetail from './DayScreen';
+import SummaryDetail from './SummaryScreen';
 import firebase from '../Firebase';
 import styles from './style';
 
@@ -51,6 +53,11 @@ class HomeScreen extends Component {
   //wrapper so that state can be set from onFetchData
   fetchData() {
     firebase.database().ref().on('value', this.onFetchData);
+  }
+
+  // increment or decrement the picked by the amount given in updown
+  changeDay(upDown) {
+    this.setState(prevState => ({picked: prevState.picked + upDown} ))
   }
 
   // process the incoming data
@@ -232,25 +239,21 @@ class HomeScreen extends Component {
     }
 
     //Weekly sleep average
-    let weekAVG = 0;
+    let sleepAVG = 0;
     for ( i = 0; i < this.state.displayBoards.length; i++){
-      weekAVG += this.state.displayBoards[i].sleep;
+      sleepAVG += this.state.displayBoards[i].sleep;
     }
-    weekAVG = weekAVG/i;
+    sleepAVG = sleepAVG/i;
 
-    //Find weekly bedwetting average
-    let weekWets = 0;
+    //Find weekly bedwetting sum and exits average
+    let sumWets = 0;
+    let avgExits = 0;
     for ( i=0; i<this.state.displayBoards.length; i++) {
-      weekWets = weekWets + this.state.displayBoards[i].bedwet.length;
+      sumWets = sumWets + this.state.displayBoards[i].bedwet.length;
+      avgExits = avgExits + this.state.displayBoards[i].exited.length-1;
     }
-    weekWets = weekWets/(i);
-
-    //Find weekly bed exit Average
-    let weekExits = 0;
-    for ( i=0; i<this.state.displayBoards.length; i++) {
-     weekExits = weekExits + this.state.displayBoards[i].exited.length-1;
-    }
-    weekExits = weekExits/(i);
+    sumWets = sumWets/(i);
+    avgExits = avgExits/(i);
 
     //Find weekly restlessness average
     let avgTRestless = 0;
@@ -503,7 +506,7 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{weekAVG.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{sleepAVG.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -527,7 +530,7 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{sumWets.toFixed(1)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -539,7 +542,7 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{weekExits.toFixed(1)}{'\n'}</Text>
+        <Text style={styles.brightText}>{avgExits.toFixed(1)}{'\n'}</Text>
 
         //Navigate to all details page
         <TouchableOpacity
@@ -560,7 +563,21 @@ class HomeScreen extends Component {
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily View"}</Text>
         </TouchableOpacity>
-          {reports}
+        <SummaryDetail
+          boards={this.state.displayBoards}
+          sleepAVG={sleepAVG}
+          restlessDescription={restlessDescription}
+          avgRestless={avgTRestless.toFixed(2)}
+          sumWets={sumWets}
+          avgExits={avgExits}
+        />
+        {reports}
+        <DayDetail boards={this.state.boards}
+          picked={this.state.picked}
+          changePicked={this.changeDay}
+          restlessDescription={restlessDescription}
+          avgRestless={avgTRestless.toFixed(2)}/>
+
       </ScrollView>
     );
   }
