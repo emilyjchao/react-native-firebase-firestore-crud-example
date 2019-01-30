@@ -483,7 +483,11 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.smallText}>Click on any day's bar to see the daily details from that night.</Text>
+        <Text style={styles.smallText}>Come back here after you understand the
+          rest of this screen and click on a day to see that day's detailed
+          information. The black line is the time spent in bed, while the red bar
+           is the time asleep that night.
+        </Text>
         <VictoryChart
           minDomain={{x:0.5}}
           maxDomain={{x:8}}
