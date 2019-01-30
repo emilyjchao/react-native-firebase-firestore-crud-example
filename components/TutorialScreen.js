@@ -331,6 +331,11 @@ class TutorialScreen extends Component {
     // Could become separate component
     const dayDetail = (
       <View>
+      <Text>This is the daily view, it shows more detailed information about the
+        same metrics shown on the weekly page. Scroll through and have a look!
+      </Text>
+      <Text>When you're done, click the back button above to go to the standard data page.
+      </Text>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
       <Text style={styles.title}>Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
       <Text style={styles.smallText}>Last night's sleep, red is time asleep and white is time out of bed.</Text>
@@ -458,6 +463,16 @@ class TutorialScreen extends Component {
       //   />
 
       <View>
+      <Text>Our goal is to help you improve your child's sleep by
+          understanding their sleeping habits and disruptions.
+          You can better understand
+          when your child gets into or out of bed, wets the bed, or moves around
+          all night long.
+      </Text>
+      <Text> The following is an example of a past week of data.
+          Scroll through the following sections, each with a short description
+          of the data being presented.
+      </Text>
         <View style={styles.appContainer}>
           <TouchableOpacity
             onPress={() => {Alert.alert('Click on any bar to see daily details.')}}
@@ -584,6 +599,9 @@ class TutorialScreen extends Component {
             </View>
         </TouchableOpacity>
         <Text style={styles.smallText}>This links to the full history of your data.</Text>
+        <Text> Now that you have seen the daily view, scroll back to the top and click
+          on one of the days in the time asleep graph to see that day's detailed information.
+        </Text>
 
       </View>);
 
@@ -596,8 +614,8 @@ class TutorialScreen extends Component {
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily Detail"}</Text>
-        </TouchableOpacity>
-          {reports}
+      </TouchableOpacity>
+      {reports}
       </ScrollView>
     );
   }
