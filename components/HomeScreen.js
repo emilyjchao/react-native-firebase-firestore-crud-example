@@ -556,7 +556,7 @@ class HomeScreen extends Component {
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
-        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Week"}</Text>
+        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily View"}</Text>
         </TouchableOpacity>
           {reports}
       </ScrollView>
@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 18,
-    marginTop: 0,
+    marginTop: 5,
     marginBottom: 0,
     color: 'indigo',
   },
@@ -631,7 +631,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'firebrick',
     marginTop: 5,
-    marginBottom: 5,
   },
   brightTextLeft: {
     textAlign: 'left',
