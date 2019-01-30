@@ -472,22 +472,20 @@ class HomeScreen extends Component {
           <VictoryLine
             data = {this.state.weekBoards}
             x="day" y="inBed"
-            labels={["", "", "", "", "", "","Time in Bed"]}
-            style={{ labels: { textAlign: 'left', marginRight: 30} }}
+            labels={["", "", "", "", "", "","\nTime in\n Bed"]}
+            style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
             label="Day"
             style={{
-              axisLabel: { padding: 30 },
-              fontSize: 16,
+              axisLabel: { padding: 30, fontSize: 18 },
             }}
             fixLabelOverlap
             />
           <VictoryAxis dependentAxis
             label="Hours of Sleep"
             style={{
-              axisLabel: { padding: 35},
-              fontSize: 16,
+              axisLabel: { fontSize: 18 },
               transform: [{ rotate: '90deg'}]
             }}
             fixLabelOverlap
@@ -605,7 +603,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 15,
+    marginTop: 5,
   },
   button1: {
     flex: 1,
@@ -623,8 +621,8 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 15,
+    fontSize: 18,
+    marginTop: 0,
     marginBottom: 0,
     color: 'indigo',
   },
@@ -632,6 +630,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'firebrick',
+    marginTop: 5,
+    marginBottom: 5,
   },
   brightTextLeft: {
     textAlign: 'left',
