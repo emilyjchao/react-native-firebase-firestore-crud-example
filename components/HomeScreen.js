@@ -41,6 +41,7 @@ class HomeScreen extends Component {
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
+    this.changeDay = this.changeDay.bind(this);
   }
 
   componentDidMount() {
@@ -58,12 +59,12 @@ class HomeScreen extends Component {
 
   // increment or decrement the picked by the amount given in updown
   changeDay(upDown) {
-    this.setState(prevState => ({picked: prevState.picked + upDown} ))
+    if((this.state.picked + upDown < this.state.boards.length) && (this.state.picked + upDown >= 0)) {
+      this.setState(prevState => ({picked: prevState.picked + upDown} ))
+    }
   }
 
   goToDay(dayString) {
-    console.log(dayString);
-    console.log(this.state.dateDic);
     this.setState({picked: this.state.dateDic.indexOf(dayString), day: true});
   }
 

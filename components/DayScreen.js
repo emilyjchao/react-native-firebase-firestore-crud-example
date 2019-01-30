@@ -46,13 +46,13 @@ import styles from './style';
       <Button
         buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
         icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-        onPress={() => this.setState(prevState => ({picked: prevState.picked - 1} ))}
+        onPress={() => this.props.changePicked(-1)}
       />
       <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
       <Button
         buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
         icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-        onPress={() => this.setState(prevState => ({picked: prevState.picked + 1} ))}
+        onPress={() => this.props.changePicked(1)}
       />
     </View>
     <Text style={styles.title}>Time Asleep: {(this.props.boards[this.props.picked].sleep).toFixed(2)} hours</Text>
