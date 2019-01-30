@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   btnContainer: {
     paddingHorizontal: 30,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
    flex: 1,
    paddingBottom: 22
-  },
+ },
   item: {
     padding: 10,
     fontSize: 18,
@@ -87,6 +87,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     color: 'teal',
+  },
+  smallText: {
+    textAlign: 'center',
   },
   textInput: {
     fontSize: 24,
