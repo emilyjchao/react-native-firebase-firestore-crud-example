@@ -304,7 +304,19 @@ class HomeScreen extends Component {
     // Could become separate component
     const dayDetail = (
       <View>
-      <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
+      <View style={styles.triplet}>
+        <Button
+          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+          onPress={() => this.setState(prevState => ({picked: prevState.picked - 1} ))}
+        />
+        <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
+        <Button
+          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+          onPress={() => this.setState(prevState => ({picked: prevState.picked + 1} ))}
+        />
+      </View>
       <Text style={styles.title}>Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
       //Chart of daily sleep length
       <VictoryChart
@@ -642,6 +654,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: 'black',
+    paddingTop: 0,
+    marginTop: 0,
   },
   blueTextSmall: {
     textAlign: 'center',
@@ -650,6 +664,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 24,
+  },
+  triplet: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   icon: {
     width: 10,
