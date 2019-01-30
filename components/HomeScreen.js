@@ -32,7 +32,7 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: true,  // check for whether initial data has been received
       boards: [],       // full list of all nights data
-      weekBoards: [],   // the last week of nights
+      displayBoards: [],   // the display of nights on the summary
       picked: 0,        // the index in boards of the currently selected night
       dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
       day: false,       // day v. week view --> should  be removed if using separate components
@@ -186,23 +186,22 @@ class HomeScreen extends Component {
       }
     })
 
-    //Set up boards for weekly view (take most recent 7 days)
-    let weeklyData = []
-    if (dates.length <= 7) {
-      weeklyData = nightData
+    //Set up boards for display view (take most recent numDisplay days)
+    let numDisplay = 7;
+    let displayData = []
+    //if fewer data days than the user wants to display, only show available data
+    if (dates.length <= numDisplay) {
+      displayData = nightData
+    //else show last numDisplay days
     } else {
-      weeklyData = [nightData[dates.length-7],
-                    nightData[dates.length-6],
-                    nightData[dates.length-5],
-                    nightData[dates.length-4],
-                    nightData[dates.length-3],
-                    nightData[dates.length-2],
-                    nightData[dates.length-1]];
+      for (i = numDisplay; i>0; i--) {
+        displayData.push(nightData[dates.length-i]);
+      }
     }
     //Set state with all of newly processed variables
     this.setState({
       boards: nightData,
-      weekBoards: weeklyData,
+      displayBoards: displayData,
       dateDic: dates,
       picked: dates.length-1,
       isLoading: false, // update so components render
@@ -234,31 +233,31 @@ class HomeScreen extends Component {
 
     //Weekly sleep average
     let weekAVG = 0;
-    for ( i = 0; i < this.state.weekBoards.length; i++){
-      weekAVG += this.state.weekBoards[i].sleep;
+    for ( i = 0; i < this.state.displayBoards.length; i++){
+      weekAVG += this.state.displayBoards[i].sleep;
     }
     weekAVG = weekAVG/i;
 
     //Find weekly bedwetting average
     let weekWets = 0;
-    for ( i=0; i<this.state.weekBoards.length; i++) {
-      weekWets = weekWets + this.state.weekBoards[i].bedwet.length;
+    for ( i=0; i<this.state.displayBoards.length; i++) {
+      weekWets = weekWets + this.state.displayBoards[i].bedwet.length;
     }
     weekWets = weekWets/(i);
 
     //Find weekly bed exit Average
     let weekExits = 0;
-    for ( i=0; i<this.state.weekBoards.length; i++) {
-     weekExits = weekExits + this.state.weekBoards[i].exited.length-1;
+    for ( i=0; i<this.state.displayBoards.length; i++) {
+     weekExits = weekExits + this.state.displayBoards[i].exited.length-1;
     }
     weekExits = weekExits/(i);
 
     //Find weekly restlessness average
     let avgTRestless = 0;
     let restCounter = 0;
-    for ( i=0; i<this.state.weekBoards.length; i++) {
-      for (j=0; j<this.state.weekBoards[i].restNum.length; j++) {
-        avgTRestless = avgTRestless + this.state.weekBoards[i].restNum[j];
+    for ( i=0; i<this.state.displayBoards.length; i++) {
+      for (j=0; j<this.state.displayBoards[i].restNum.length; j++) {
+        avgTRestless = avgTRestless + this.state.displayBoards[i].restNum[j];
         restCounter++;
       }
     }
@@ -276,8 +275,8 @@ class HomeScreen extends Component {
 
     //Set up day of week labels
     let weekLabels = [];
-    for (i=0; i<this.state.weekBoards.length; i++) {
-      weekLabels.push(this.state.weekBoards[i].dayLabel);
+    for (i=0; i<this.state.displayBoards.length; i++) {
+      weekLabels.push(this.state.displayBoards[i].dayLabel);
     }
 
     //Set up stack daily view sleep data
@@ -431,16 +430,6 @@ class HomeScreen extends Component {
 
     //Week detail (could be component)
     const weekDetail = (
-      // Use this to draw average sleep line
-      // <VictoryLine
-      //   data={[
-      //     { x: 0, y: weekAVG },
-      //     { x: this.state.weekBoards.length, y: weekAVG }
-      //   ]}
-      //   labels={["", 'Average \n'+weekAVG.toFixed(2)]}
-      //   style={{ labels: { textAlign: 'left', marginRight: 30, fontSize: 14, fontWeight: 'bold'} }}
-      //   />
-
       <View>
         <View style={styles.appContainer}>
           <TouchableOpacity
@@ -453,16 +442,17 @@ class HomeScreen extends Component {
           </TouchableOpacity>
         </View>
         <VictoryChart
-          minDomain={{x:0.5}}
-          maxDomain={{x:8}}
+          domainPadding={{ x: 15 }}
+          //minDomain={{x:0.5}}
+          //maxDomain={{x:8}}
           //animate={{ duration: 10 }}
           >
           <VictoryScatter
-            data = {this.state.weekBoards}
+            data = {this.state.displayBoards}
             x="day" y="inBed"
             />
           <VictoryBar
-            data = {this.state.weekBoards}
+            data = {this.state.displayBoards}
             x="day" y="sleep"
             labels={weekLabels}
             barRatio={.75}
@@ -483,9 +473,8 @@ class HomeScreen extends Component {
              }}]}
             />
           <VictoryLine
-            data = {this.state.weekBoards}
+            data = {this.state.displayBoards}
             x="day" y="inBed"
-            labels={["", "", "", "", "", "","\nTime in\n Bed"]}
             style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
