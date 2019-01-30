@@ -6,11 +6,15 @@ import styles from './style';
 
 
 class SummaryDetail extends Component {
+  static navigationOptions = ({ navigation }) => {}
+
   constructor(){
     super();
   }
 
   render() {
+
+    const {navigate} = this.props.navigation;
 
     //Set up day of week labels
     let weekLabels = [];
@@ -53,10 +57,7 @@ class SummaryDetail extends Component {
               target: "data",
               eventHandlers: {
               onPressIn: (event, data) => {
-              // Navigate from click
-                 //this.props.navigation.push('Settings');
-                 //access the data point
-                 this.setState({picked: this.state.dateDic.indexOf(data.datum.day), day: true});
+                 this.props.selectDay(data.datum.day);
                  return [{target: "data",}];
                }
              }}]}
