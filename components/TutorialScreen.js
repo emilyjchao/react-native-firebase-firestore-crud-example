@@ -348,7 +348,7 @@ class TutorialScreen extends Component {
           data={ySleep, in_out}
           interpolation="step"
           style={{
-            data: { stroke: "#c43a31", fill: "#c43a31" },
+            data: { stroke: "steelblue", fill: "steelblue" },
           }}
           />
         <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
@@ -372,7 +372,7 @@ class TutorialScreen extends Component {
         </TouchableOpacity>
       </View>
       <Text style={styles.smallText}>Restless illustrates how much your child moved while sleeping. It is ranked into three categories of movement, low, medium, and high.</Text>
-      <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
+      <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
       //Line graph of restlessness
       <VictoryChart
         height={150}
@@ -382,7 +382,7 @@ class TutorialScreen extends Component {
         <VictoryLine
           interpolation="natural"
           style={{
-            data: { stroke: "#c43a31" },
+            data: { stroke: "steelblue" },
           }}
           data = {this.state.boards[this.state.picked].restTime, this.state.boards[this.state.picked].restNum}
           />
@@ -503,7 +503,7 @@ class TutorialScreen extends Component {
             labels={weekLabels}
             barRatio={.75}
             style={{
-              data: { fill: "#c43a31"}, labels: { fill: "white" }
+              data: { fill: "steelblue"}, labels: { fill: "white" }
             }}
             labelComponent={<VictoryLabel dy={30}/>}
             events={[{
@@ -566,7 +566,7 @@ class TutorialScreen extends Component {
           </TouchableOpacity>
         </View>
         <Text style={styles.smallText}>Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.</Text>
-        <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -664,7 +664,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 15,
+    marginTop: 5,
   },
   button1: {
     flex: 1,
@@ -682,38 +682,42 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 24,
-    marginTop: 15,
+    fontSize: 18,
+    marginTop: 5,
     marginBottom: 0,
-    color: 'indigo',
+    color: 'teal',
   },
   brightText: {
     textAlign: 'center',
     fontSize: 24,
-    color: 'firebrick',
+    color: 'steelblue',
+    marginTop: 5,
   },
   brightTextLeft: {
     textAlign: 'left',
     fontSize: 24,
-    color: 'firebrick',
+    color: 'steelblue',
     alignSelf: 'stretch',
   },
   blackText: {
     textAlign: 'center',
     fontSize: 24,
     color: 'black',
+    paddingTop: 0,
+    marginTop: 0,
   },
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
-    color: 'blue',
-  },
-  smallText: {
-    fontSize: 14,
-    textAlign: 'center',
+    color: 'teal',
   },
   textInput: {
     fontSize: 24,
+  },
+  triplet: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   icon: {
     width: 10,
@@ -722,5 +726,102 @@ const styles = StyleSheet.create({
     right: 15, // Keep some space between your left border and Image
   }
 })
+// StyleSheet.create({
+//   appContainer: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   btnContainer: {
+//     paddingHorizontal: 30,
+//     paddingVertical: 0,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderColor: 'transparent',
+//   },
+//   container: {
+//    flex: 1,
+//    paddingBottom: 22
+//   },
+//   item: {
+//     padding: 10,
+//     fontSize: 18,
+//     height: 44,
+//   },
+//   activity: {
+//     position: 'absolute',
+//     left: 0,
+//     right: 0,
+//     top: 0,
+//     bottom: 0,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   button: {
+//     flex: 1,
+//     alignItems: 'center',
+//     borderRadius: 3,
+//     borderColor: 'black',
+//     borderWidth: 1,
+//     marginLeft: 10,
+//     marginRight: 10,
+//     marginTop: 15,
+//   },
+//   button1: {
+//     flex: 1,
+//     alignItems: 'center',
+//     borderRadius: 3,
+//     borderColor: 'transparent',
+//     borderWidth: 1,
+//     marginLeft: 10,
+//     marginRight: 10,
+//     marginTop: 0,
+//   },
+//   buttonText: {
+//     textAlign: 'center',
+//     fontSize: 24,
+//   },
+//   title: {
+//     textAlign: 'center',
+//     fontSize: 24,
+//     marginTop: 15,
+//     marginBottom: 0,
+//     color: 'indigo',
+//   },
+//   brightText: {
+//     textAlign: 'center',
+//     fontSize: 24,
+//     color: 'firebrick',
+//   },
+//   brightTextLeft: {
+//     textAlign: 'left',
+//     fontSize: 24,
+//     color: 'firebrick',
+//     alignSelf: 'stretch',
+//   },
+//   blackText: {
+//     textAlign: 'center',
+//     fontSize: 24,
+//     color: 'black',
+//   },
+//   blueTextSmall: {
+//     textAlign: 'center',
+//     fontSize: 22,
+//     color: 'blue',
+//   },
+//   smallText: {
+//     fontSize: 14,
+//     textAlign: 'center',
+//   },
+//   textInput: {
+//     fontSize: 24,
+//   },
+//   icon: {
+//     width: 10,
+//     height: 10,
+//     position: 'absolute',
+//     right: 15, // Keep some space between your left border and Image
+//   }
+// })
 
 export default TutorialScreen;

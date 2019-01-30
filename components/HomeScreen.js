@@ -328,7 +328,7 @@ class HomeScreen extends Component {
           data={ySleep, in_out}
           interpolation="step"
           style={{
-            data: { stroke: "#c43a31", fill: "#c43a31" },
+            data: { stroke: "steelblue", fill: "steelblue" },
           }}
           />
         <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
@@ -351,7 +351,7 @@ class HomeScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
-      <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
+      <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
       //Line graph of restlessness
       <VictoryChart
         height={150}
@@ -362,7 +362,7 @@ class HomeScreen extends Component {
         <VictoryLine
           interpolation="natural"
           style={{
-            data: { stroke: "#c43a31" },
+            data: { stroke: "steelblue" },
           }}
           data = {this.state.boards[this.state.picked].restTime, this.state.boards[this.state.picked].restNum}
           />
@@ -466,7 +466,7 @@ class HomeScreen extends Component {
             labels={weekLabels}
             barRatio={.75}
             style={{
-              data: { fill: "#c43a31"}, labels: { fill: "white" }
+              data: { fill: "steelblue"}, labels: { fill: "white" }
             }}
             labelComponent={<VictoryLabel dy={30}/>}
             events={[{
@@ -525,7 +525,7 @@ class HomeScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{restlessDescription} - {avgTRestless.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -636,18 +636,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 5,
     marginBottom: 0,
-    color: 'indigo',
+    color: 'teal',
   },
   brightText: {
     textAlign: 'center',
     fontSize: 24,
-    color: 'firebrick',
+    color: 'steelblue',
     marginTop: 5,
   },
   brightTextLeft: {
     textAlign: 'left',
     fontSize: 24,
-    color: 'firebrick',
+    color: 'steelblue',
     alignSelf: 'stretch',
   },
   blackText: {
@@ -660,7 +660,7 @@ const styles = StyleSheet.create({
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
-    color: 'blue',
+    color: 'teal',
   },
   textInput: {
     fontSize: 24,
