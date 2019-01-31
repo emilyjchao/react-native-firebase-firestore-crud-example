@@ -29,7 +29,7 @@ class AllDetail extends Component {
               x="day" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: "#c43a31"}
+                data: { fill: "steelblue"}
               }}
               events={[{
                 target: "data",
