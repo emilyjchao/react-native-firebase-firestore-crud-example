@@ -31,6 +31,14 @@ class AllDetail extends Component {
               style={{
                 data: { fill: "#c43a31"}
               }}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
+               }}]}
               />
             <VictoryLine
               data = {this.props.boards}
