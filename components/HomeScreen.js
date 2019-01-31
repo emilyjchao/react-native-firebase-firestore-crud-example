@@ -562,7 +562,23 @@ class HomeScreen extends Component {
           </TouchableOpacity>
       </View>);
 
-    const reports = this.state.day ? (dayDetail) : (weekDetail);
+    const reports = this.state.day ?
+      (<DayDetail boards={this.state.boards}
+      picked={this.state.picked}
+      changePicked={this.changeDay}
+      restlessDescription={restlessDescription}
+      avgRestless={avgTRestless.toFixed(2)}/>)
+      :
+      (<SummaryDetail
+      boards={this.state.displayBoards}
+      sleepAVG={sleepAVG}
+      restlessDescription={restlessDescription}
+      avgRestless={avgTRestless.toFixed(2)}
+      sumWets={sumWets}
+      avgExits={avgExits.toFixed(1)}
+      selectDay={this.goToDay}
+      navigation={this.props.navigation}
+    />);
 
     return (
       <ScrollView style={styles.container}>
@@ -571,22 +587,8 @@ class HomeScreen extends Component {
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily View"}</Text>
         </TouchableOpacity>
-        <SummaryDetail
-          boards={this.state.displayBoards}
-          sleepAVG={sleepAVG}
-          restlessDescription={restlessDescription}
-          avgRestless={avgTRestless.toFixed(2)}
-          sumWets={sumWets}
-          avgExits={avgExits}
-          selectDay={this.goToDay}
-          navigation={this.props.navigation}
-        />
+
         {reports}
-        <DayDetail boards={this.state.boards}
-          picked={this.state.picked}
-          changePicked={this.changeDay}
-          restlessDescription={restlessDescription}
-          avgRestless={avgTRestless.toFixed(2)}/>
 
       </ScrollView>
     );
