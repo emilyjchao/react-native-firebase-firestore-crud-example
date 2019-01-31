@@ -4,6 +4,7 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import DayDetail from './DayScreen';
 import SummaryDetail from './SummaryScreen';
+import AllDetail from './AllScreen';
 import firebase from '../Firebase';
 import styles from './style';
 
@@ -329,15 +330,24 @@ class HomeScreen extends Component {
       navigation={this.props.navigation}
     />);
 
+    // <AllDetail
+    //   boards={this.state.boards}
+    //   sleepAVG={sleepAVG.toFixed(2)}
+    //   restlessDescription={restlessDescription}
+    //   avgRestless={avgTRestless.toFixed(2)}
+    //   sumWets={sumWets.toFixed(1)}
+    //   avgExits={avgExits.toFixed(1)}
+    // />
+
     return (
       <ScrollView style={styles.container}>
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
         <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily View"}</Text>
-        </TouchableOpacity>
+      </TouchableOpacity>
 
-        {reports}
+      {reports}
 
       </ScrollView>
     );
