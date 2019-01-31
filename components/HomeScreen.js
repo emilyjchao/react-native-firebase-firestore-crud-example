@@ -337,19 +337,12 @@ class HomeScreen extends Component {
     //   avgRestless={avgTRestless.toFixed(2)}
     //   sumWets={sumWets.toFixed(1)}
     //   avgExits={avgExits.toFixed(1)}
+    //   selectDay={this.goToDay}
     // />
 
     return (
       <ScrollView style={styles.container}>
-      <AllDetail
-        boards={this.state.boards}
-        sleepAVG={sleepAVG.toFixed(2)}
-        restlessDescription={restlessDescription}
-        avgRestless={avgTRestless.toFixed(2)}
-        sumWets={sumWets.toFixed(1)}
-        avgExits={avgExits.toFixed(1)}
-        selectDay={this.goToDay}
-      />
+
       <TouchableOpacity
         onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
         style={styles.button}>
