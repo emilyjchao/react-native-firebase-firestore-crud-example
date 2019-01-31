@@ -38,7 +38,7 @@ class HomeScreen extends Component {
       displayBoards: [],   // the display of nights on the summary
       picked: 0,        // the index in boards of the currently selected night
       dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
-      day: false,       // day v. week view --> should  be removed if using separate components
+      day: 2,       // day v. week view --> should  be removed if using separate pages
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -312,14 +312,15 @@ class HomeScreen extends Component {
       }
     }
 
-    const reports = this.state.day ?
-      (<DayDetail boards={this.state.boards}
+    let reports;
+    if (this.state.day == 1){
+      reports = (<DayDetail boards={this.state.boards}
       picked={this.state.picked}
       changePicked={this.changeDay}
       restlessDescription={restlessDescription}
-      avgRestless={avgTRestless.toFixed(2)}/>)
-      :
-      (<SummaryDetail
+      avgRestless={avgTRestless.toFixed(2)}/>);}
+    else if (this.state.day == 2) {
+      reports = (<SummaryDetail
       boards={this.state.displayBoards}
       sleepAVG={sleepAVG}
       restlessDescription={restlessDescription}
@@ -328,26 +329,39 @@ class HomeScreen extends Component {
       avgExits={avgExits.toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
-    />);
-
-    // <AllDetail
-    //   boards={this.state.boards}
-    //   sleepAVG={sleepAVG.toFixed(2)}
-    //   restlessDescription={restlessDescription}
-    //   avgRestless={avgTRestless.toFixed(2)}
-    //   sumWets={sumWets.toFixed(1)}
-    //   avgExits={avgExits.toFixed(1)}
-    //   selectDay={this.goToDay}
-    // />
+    />);}
+    else if (this.state.day == 3) {
+      reports =
+      (<AllDetail
+        boards={this.state.boards}
+        sleepAVG={sleepAVG.toFixed(2)}
+        restlessDescription={restlessDescription}
+        avgRestless={avgTRestless.toFixed(2)}
+        sumWets={sumWets.toFixed(1)}
+        avgExits={avgExits.toFixed(1)}
+        selectDay={this.goToDay}
+      />);}
 
     return (
       <ScrollView style={styles.container}>
-
-      <TouchableOpacity
-        onPress = {()=> this.setState(prevState => ({day: !prevState.day}))}
-        style={styles.button}>
-        <Text style={styles.buttonText}>{this.state.day ? "Return to Week" : "Go to Daily View"}</Text>
-      </TouchableOpacity>
+      <View style={styles.tripleToggle}>
+        <TouchableOpacity
+          onPress = {()=> this.setState({day: 1})}
+          style={((this.state.day == 1) ? styles.buttonSelected : styles.button)}>
+          <Text style={styles.buttonText}>Day</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress = {()=> this.setState({day: 2})}
+          style={((this.state.day == 2) ? styles.buttonSelected : styles.button)}>
+          <Text style={styles.buttonText}>Week</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress = {()=> this.setState({day: 3})}
+          style={((this.state.day == 3) ? styles.buttonSelected : styles.button)}>
+          <Text style={styles.buttonText}>All</Text>
+        </TouchableOpacity>
+      </View>
+      {this.state.picked}
 
       {reports}
 

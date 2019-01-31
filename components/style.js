@@ -43,6 +43,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
   },
+  buttonSelected: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: 3,
+    borderColor: 'black',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+    backgroundColor: 'grey',
+  },
   button1: {
     flex: 1,
     alignItems: 'center',
@@ -98,6 +109,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  tripleToggle: {
+    flexDirection: 'row',
   },
   icon: {
     width: 10,
