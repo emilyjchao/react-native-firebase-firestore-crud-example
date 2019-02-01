@@ -113,8 +113,8 @@ class HomeScreen extends Component {
         dates.push(nightName);
 
         // initialize arrays for data
-        let enters = [];
-        let exits = [];
+        let enters;
+        let exits;
         let wets = [];
         let restless = [];
         const night = data[nightName];
@@ -133,6 +133,35 @@ class HomeScreen extends Component {
           restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
         }
 
+        // Check that there are exits and if not check if it is from
+        // today/yesterday if it is from today then set exit as current
+        // time, if it is not then set the exit to right after the enter
+        if (!exits) {
+          //  console.log('No exits today' + nightName);
+          let nightDate;
+          // get the actual date from the nightName again
+          if (nightName.split("-").length - 1 == 2) {
+            splitDate= nightName.split("-");
+            nightDate = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
+          }
+          // console.log(nightName);
+          let currTime = new Date();
+
+          // see if the enter is from the last 24 hours
+          // if enter is from the past night then set exit as now
+          // if not then set exit as just one more than the enter
+          timeDif = (currTime - nightDate)/(60*60*1000);
+          if ( timeDif < 24 ) {
+            exits = [currTime];
+          }
+          else {
+            exits = [enters[0]];
+          }
+        }
+        // console.log('new exits:');
+        // console.log(exits);
+
+
         //Check that first enter comes before first exit
         if (exits[0] < enters[0]) {
           //Remove first exit if came before first enter
@@ -142,6 +171,7 @@ class HomeScreen extends Component {
         //Split timestamp from restlessness rating
         let restTime = [];  //time in day/hr/min/set
         let restNum = [];   //movement on scale 0-2
+
         for (i=0; i<restless.length; i++) {
           restlessSplit = restless[i].toString().split(" ")
           restTime.push(new Date(parseInt(restlessSplit[0], 10)));
