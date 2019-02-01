@@ -100,12 +100,20 @@ class HomeScreen extends Component {
       if (date1 < date2) return -1;
       return 0;
     };
-    dates.sort(date_sort_asc);
+    //dates.sort(date_sort_asc);
+    console.log(nights);
+    nights.sort(date_sort_asc);
+    console.log(nights);
 
     //convert nights keys back to mm-dd-yyyy strings
     for (i=0; i<nights.length; i++){
       nights[i] = (nights[i].getMonth() + 1) + '-' + nights[i].getDate() + '-' +  nights[i].getFullYear();
     }
+
+    // loop through each night and sort the data into arrays and objects
+    // to store in state
+    // check that the nights are continuous and not missing one
+    // let prevNight = nights[0];
 
     nights.forEach(function(nightName) {
       if (nightName != 'Profile' && nightName != 'current_time') {
@@ -132,6 +140,8 @@ class HomeScreen extends Component {
         if (night["movement"])  {
           restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
         }
+
+
 
         // Check that there are exits and if not check if it is from
         // today/yesterday if it is from today then set exit as current
@@ -160,6 +170,7 @@ class HomeScreen extends Component {
         }
         // console.log('new exits:');
         // console.log(exits);
+
 
 
         //Check that first enter comes before first exit
@@ -229,7 +240,8 @@ class HomeScreen extends Component {
 
         // add these arrays to the array that will be boards
         nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
-      }
+      } // end of if checking its not current time or profile
+
     })
 
     //Set up boards for display view (take most recent numDisplay days)
