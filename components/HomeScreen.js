@@ -79,12 +79,22 @@ class HomeScreen extends Component {
     // get the number of nights
     nights = Object.keys(data);
 
+    //Find day of week as label
+    var weekday = new Array();
+    weekday[0] = "Su";
+    weekday[1] = "M";
+    weekday[2] = "T";
+    weekday[3] = "W";
+    weekday[4] = "Th";
+    weekday[5] = "F";
+    weekday[6] = "S";
+
     //clean non mm-dd-yyyy keys from nights
     let splitDate = "";
     for (i=0; i<nights.length; i++){
       //Check that key is in date format with two '-'
       if (nights[i].split("-").length - 1 == 2) {
-        splitDate= nights[i].split("-");
+        splitDate = nights[i].split("-");
         nights[i] = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
       }
       else {
@@ -101,148 +111,177 @@ class HomeScreen extends Component {
       return 0;
     };
     //dates.sort(date_sort_asc);
-    console.log(nights);
     nights.sort(date_sort_asc);
-    console.log(nights);
 
     //convert nights keys back to mm-dd-yyyy strings
     for (i=0; i<nights.length; i++){
       nights[i] = (nights[i].getMonth() + 1) + '-' + nights[i].getDate() + '-' +  nights[i].getFullYear();
     }
 
+    console.log(nights);
     // loop through each night and sort the data into arrays and objects
     // to store in state
-    // check that the nights are continuous and not missing one
-    // let prevNight = nights[0];
-
+    // try to ensure that there are atleast zerosfor missing nights
+    let prevDate = new Date(nights[0].split("-")[2], nights[0].split("-")[0] - 1, nights[0].split("-")[1]);
+    //console.log(prevDate);
+    //console.log(prevDate.getDay());
     nights.forEach(function(nightName) {
       if (nightName != 'Profile' && nightName != 'current_time') {
-        //Use to index boards
-        dates.push(nightName);
-
-        // initialize arrays for data
-        let enters;
-        let exits;
-        let wets = [];
-        let restless = [];
-        const night = data[nightName];
-
-        //  fill arrays by iterating over each list from firebase
-        if (night["enters"])  {
-          enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
-        }
-        if (night["exits"])  {
-          exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
-        }
-        if (night["wets"])  {
-          wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
-        }
-        if (night["movement"])  {
-          restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
+        let thisDate = new Date(nightName.split("-")[2], nightName.split("-")[0] - 1, nightName.split("-")[1]);
+        // console.log(thisDate);
+        // console.log(prevDate);
+        // console.log((thisDate - prevDate)/(60*60*1000));
+        while (((thisDate.getTime()) - (prevDate.getTime()))/(60*60*1000) > 30) {
+          // add a day to prevDate
+          //console.log(prevDate);
+          prevDate = new Date(prevDate.getTime() + (24*60*60*1000));
+          console.log('missing day');
+          // Now store an object of zeros
+          let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
+          let extradayOfWk = weekday[prevDate.getUTCDay()];
+          console.log(extraNightName);
+          nightData.push({ "day": extraNightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": 0, "restNum": 0, "inBed": 0, "dayLabel": extradayOfWk, });
+          //console.log(prevDate);
         }
 
 
+          prevDate = thisDate;
+          //Use to index boards
+          dates.push(nightName);
 
-        // Check that there are exits and if not check if it is from
-        // today/yesterday if it is from today then set exit as current
-        // time, if it is not then set the exit to right after the enter
-        if (!exits) {
-          //  console.log('No exits today' + nightName);
-          let nightDate;
-          // get the actual date from the nightName again
-          if (nightName.split("-").length - 1 == 2) {
-            splitDate= nightName.split("-");
-            nightDate = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
+          // initialize arrays for data
+          let enters;
+          let exits;
+          let wets = [];
+          let restless = [];
+          const night = data[nightName];
+
+          //  fill arrays by iterating over each list from firebase
+          if (night["enters"])  {
+            enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
           }
-          // console.log(nightName);
-          let currTime = new Date();
-
-          // see if the enter is from the last 24 hours
-          // if enter is from the past night then set exit as now
-          // if not then set exit as just one more than the enter
-          timeDif = (currTime - nightDate)/(60*60*1000);
-          if ( timeDif < 24 ) {
-            exits = [currTime];
+          if (night["exits"])  {
+            exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
           }
-          else {
-            exits = [enters[0]];
+          if (night["wets"])  {
+            wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
           }
-        }
-        // console.log('new exits:');
-        // console.log(exits);
+          if (night["movement"])  {
+            restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
+          }
 
 
 
-        //Check that first enter comes before first exit
-        if (exits[0] < enters[0]) {
-          //Remove first exit if came before first enter
-          exits.splice(0, 1);
-        }
-
-        //Split timestamp from restlessness rating
-        let restTime = [];  //time in day/hr/min/set
-        let restNum = [];   //movement on scale 0-2
-
-        for (i=0; i<restless.length; i++) {
-          restlessSplit = restless[i].toString().split(" ")
-          restTime.push(new Date(parseInt(restlessSplit[0], 10)));
-          restNum.push(parseInt(restlessSplit[1], 10));
-        }
-
-// TODO: more accurate processing of sleep and awake time
-        //Calculate time between first enter and last exit dates (time in bed)
-        var enter1 = new Date(enters[0]);
-        var exit2 = new Date(exits[exits.length-1]);
-        var inBedDiff = new Date((exit2-enter1));
-        //Calculate time in bed
-        var inBedTime = 0;
-        if (inBedDiff) {
-          inBedTime = inBedDiff / (3600000 );
-        }
-
-        //Loop through exits and calculate sleep time (time in bed not counting exits)
-        var sleep = 0;
-        var totalOutOfBed = 0;
-        // amount of time that within exits and enters do not count towards Sleep
-        const asleepThresh = .01;
-        let asleep = false;
-        for (i=0; i<enters.length-1; i++){
-          var inTime = new Date(enters[i]);
-          var outTime = new Date(exits[i]);
-          var timeIn = new Date(outTime-inTime) / (3600000);
-
-          // if not asleep yet, don't count, check if asleep
-          if (timeIn) {
-            if (timeIn > asleepThresh) {
-              asleep = true;
-              sleep += timeIn;
+          // Check that there are exits and if not check if it is from
+          // today/yesterday if it is from today then set exit as current
+          // time, if it is not then set the exit to right after the enter
+          if (!exits) {
+            //  console.log('No exits today' + nightName);
+            let nightDate;
+            // get the actual date from the nightName again
+            if (nightName.split("-").length - 1 == 2) {
+              splitDate = nightName.split("-");
+              nightDate = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
             }
-          //Add time in bed between each entrance and exit to sleep
+            // console.log(nightName);
+            let currTime = new Date();
+
+            // see if the enter is from the last 24 hours
+            // if enter is from the past night then set exit as now
+            // if not then set exit as just one more than the enter
+            timeDif = (currTime - nightDate)/(60*60*1000);
+            if ( timeDif < 24 ) {
+              exits = [currTime];
+            }
+            else {
+              exits = [enters[0]];
+            }
           }
-        }
+          // console.log('new exits:');
+          // console.log(exits);
 
-// Todo: incorporate restlessness into judging sleep time
 
-        //Find day of week as label
-        var weekday = new Array();
-        weekday[0] = "Su";
-        weekday[1] = "M";
-        weekday[2] = "T";
-        weekday[3] = "W";
-        weekday[4] = "Th";
-        weekday[5] = "F";
-        weekday[6] = "S";
-        splitDate= nightName.split("-");
-        let dayOfWk = weekday[(new Date(splitDate[2], splitDate[0] - 1, splitDate[1])).getUTCDay()];
 
-        // true false on bed wetting length
-        var bedwet = wets.length >= 1;
+          //Check that first enter comes before first exit
+          if (exits[0] < enters[0]) {
+            //Remove first exit if came before first enter
+            exits.splice(0, 1);
+          }
 
-        // add these arrays to the array that will be boards
-        nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
-      } // end of if checking its not current time or profile
+          //Split timestamp from restlessness rating
+          let restTime = [];  //time in day/hr/min/set
+          let restNum = [];   //movement on scale 0-2
 
-    })
+          for (i=0; i<restless.length; i++) {
+            restlessSplit = restless[i].toString().split(" ")
+            restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+            restNum.push(parseInt(restlessSplit[1], 10));
+          }
+
+  // TODO: more accurate processing of sleep and awake time
+          //Calculate time between first enter and last exit dates (time in bed)
+          var enter1 = new Date(enters[0]);
+          var exit2 = new Date(exits[exits.length-1]);
+          var inBedDiff = new Date((exit2-enter1));
+          //Calculate time in bed
+          var inBedTime = 0;
+          if (inBedDiff) {
+            inBedTime = inBedDiff / (3600000 );
+          }
+
+          //Loop through exits and calculate sleep time (time in bed not counting exits)
+          var sleep = 0;
+          var totalOutOfBed = 0;
+          // amount of time that within exits and enters do not count towards Sleep
+          const asleepThresh = .01;
+          let asleep = false;
+          for (i=0; i<enters.length-1; i++){
+            var inTime = new Date(enters[i]);
+            var outTime = new Date(exits[i]);
+            var timeIn = new Date(outTime-inTime) / (3600000);
+
+            // if not asleep yet, don't count, check if asleep
+            if (timeIn) {
+              if (timeIn > asleepThresh) {
+                asleep = true;
+                sleep += timeIn;
+              }
+            //Add time in bed between each entrance and exit to sleep
+            }
+          }
+
+  // Todo: incorporate restlessness into judging sleep time
+
+
+          splitDate= nightName.split("-");
+          let dayOfWk = weekday[(new Date(splitDate[2], splitDate[0] - 1, splitDate[1])).getUTCDay()];
+
+          // true false on bed wetting length
+          var bedwet = wets.length >= 1;
+
+          // add these arrays to the array that will be boards
+          console.log('real: ' + nightName);
+          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
+
+        //} // end of checking if it was within the last 24 hrs
+        // else {
+        //   // add a day to prevDate
+        //   //console.log(prevDate);
+        //   prevDate = new Date(prevDate.getTime() + (24*60*60*1000));
+        //   console.log('missing day');
+        //   // Now store an object of zeros
+        //   nightName = (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
+        //   let dayOfWk = weekday[prevDate.getUTCDay()];
+        //   console.log(nightName);
+        //   nightData.push({ "day": nightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": 0, "restNum": 0, "inBed": 0, "dayLabel": dayOfWk, });
+        //   //console.log(prevDate);
+        // }
+        } // end of if checking its not current time or profile
+
+    }) // end of looping through the nights of data
+
+
+
 
     //Set up boards for display view (take most recent numDisplay days)
     let numDisplay = 7;
