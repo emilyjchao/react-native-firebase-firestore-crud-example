@@ -35,9 +35,10 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: true,  // check for whether initial data has been received
       boards: [],       // full list of all nights data
-      displayBoards: [],   // the display of nights on the summary
+      displayBoards: [],   // the display of nights on the weekly summary
+      monthBoards: [],  //the display of nights on the monthly summary
       picked: 0,        // the index in boards of the currently selected night
-      dateDic: [],      // dictionary of all the dates --> to speed finding  a specific night's index
+      dateDic: [],      // dictionary of all the dates --> to speed finding of a specific night's index
       day: 2,       // day v. week view --> should  be removed if using separate pages
     };
     this.onFetchData = this.onFetchData.bind(this);
@@ -121,7 +122,7 @@ class HomeScreen extends Component {
     console.log(nights);
     // loop through each night and sort the data into arrays and objects
     // to store in state
-    // try to ensure that there are atleast zerosfor missing nights
+    // try to ensure that there are at least zeros for missing nights
     let prevDate = new Date(nights[0].split("-")[2], nights[0].split("-")[0] - 1, nights[0].split("-")[1]);
     //console.log(prevDate);
     //console.log(prevDate.getDay());
@@ -140,10 +141,9 @@ class HomeScreen extends Component {
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
           let extradayOfWk = weekday[prevDate.getUTCDay()];
           console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": 0, "restNum": 0, "inBed": 0, "dayLabel": extradayOfWk, });
+          nightData.push({ "day": extraNightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [], "restNum": [], "inBed": 0, "dayLabel": extradayOfWk, });
           //console.log(prevDate);
         }
-
 
           prevDate = thisDate;
           //Use to index boards
@@ -169,8 +169,6 @@ class HomeScreen extends Component {
           if (night["movement"])  {
             restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
           }
-
-
 
           // Check that there are exits and if not check if it is from
           // today/yesterday if it is from today then set exit as current
@@ -199,7 +197,6 @@ class HomeScreen extends Component {
           }
           // console.log('new exits:');
           // console.log(exits);
-
 
 
           //Check that first enter comes before first exit
@@ -281,9 +278,7 @@ class HomeScreen extends Component {
     }) // end of looping through the nights of data
 
 
-
-
-    //Set up boards for display view (take most recent numDisplay days)
+    //Set up boards for weekly display view (take most recent numDisplay days)
     let numDisplay = 7;
     let displayData = []
     //if fewer data days than the user wants to display, only show available data
@@ -295,10 +290,33 @@ class HomeScreen extends Component {
         displayData.push(nightData[dates.length-i]);
       }
     }
+
+    //Set up boards for monthly display view (take only boards with same month)
+    let splitDate1 = 0;
+    let count = dates.length-1;
+    //find most recent day with data
+    while (count >= 0) {
+      if (nightData[count].enters.length > 0) {
+        splitDate1 = dates[count].split("-");
+        count = -1;
+      } else {
+        count--;
+      }
+    }
+    //add all days to monthData that have same month as most recent day with data
+    let monthData = [];
+    for (i=0; i<dates.length; i++) {
+      let splitDate2 = dates[i].split("-");
+      if (splitDate1[0] == splitDate2[0]) {
+        monthData.push(nightData[i]);
+      }
+    }
+
     //Set state with all of newly processed variables
     this.setState({
       boards: nightData,
       displayBoards: displayData,
+      monthBoards: monthData,
       dateDic: dates,
       picked: dates.length-1,
       isLoading: false, // update so components render
@@ -328,42 +346,74 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
-    //Weekly sleep average
-    let sleepAVG = 0;
-    for ( i = 0; i < this.state.displayBoards.length; i++){
-      sleepAVG += this.state.displayBoards[i].sleep;
-    }
-    sleepAVG = sleepAVG/i;
-
-    //Find weekly bedwetting sum and exits average
-    let sumWets = 0;
-    let avgExits = 0;
-    for ( i=0; i<this.state.displayBoards.length; i++) {
-      sumWets = sumWets + this.state.displayBoards[i].bedwet.length;
-      avgExits = avgExits + this.state.displayBoards[i].exited.length-1;
-    }
-    sumWets = sumWets/(i);
-    avgExits = avgExits/(i);
-
-    //Find weekly restlessness average
-    let avgTRestless = 0;
-    let restCounter = 0;
-    for ( i=0; i<this.state.displayBoards.length; i++) {
-      for (j=0; j<this.state.displayBoards[i].restNum.length; j++) {
-        avgTRestless = avgTRestless + this.state.displayBoards[i].restNum[j];
-        restCounter++;
+    //Calculate sleep average
+    function calcSleepAvg(currBoards) {
+      let sleepAVG = 0;
+      for ( i = 0; i < currBoards.length; i++){
+        sleepAVG += currBoards[i].sleep;
       }
+      sleepAVG = sleepAVG/i;
+      return sleepAVG;
     }
-    avgTRestless = avgTRestless/(restCounter);
+
+    //Calculate bedwetting sum
+    function calcBedwetting(currBoards) {
+      let sumWets = 0;
+
+      for ( i=0; i<currBoards.length; i++) {
+        sumWets = sumWets + currBoards[i].bedwet.length;
+      }
+      sumWets = sumWets/(i);
+      return sumWets;
+    }
+
+    //Calculate average exits
+    function calcExits(currBoards) {
+      let avgExits = 0;
+
+      for ( i=0; i<currBoards.length; i++) {
+        avgExits = avgExits + currBoards[i].exited.length-1;
+      }
+      avgExits = avgExits/(i);
+      return avgExits;
+
+    }
+
+    //Calculate restlessness average
+    function calcRestless(currBoards) {
+      let avgTRestless = 0;
+      let restCounter = 0;
+
+      //If only one day in currBoards
+      if (!currBoards.length) {
+        for (j=0; j<currBoards.restNum.length; j++) {
+          avgTRestless = avgTRestless + currBoards.restNum[j];
+          restCounter++;
+        }
+      //If multiple days in currBoards
+      } else {
+        for ( i=0; i<currBoards.length; i++) {
+          for (j=0; j<currBoards[i].restNum.length; j++) {
+            avgTRestless = avgTRestless + currBoards[i].restNum[j];
+            restCounter++;
+          }
+        }
+      }
+      avgTRestless = avgTRestless/(restCounter);
+      return avgTRestless;
+    }
 
     //Set up qualitative descriptions of restlessness
-    let restlessDescription = "";
-    if (avgTRestless < 1.3) {
-      restlessDescription = "Normal";
-    } else if (avgTRestless < 1.75) {
-      restlessDescription = "Moderate";
-    } else {
-      restlessDescription = "High";
+    function findRestlessWord(avgTRestless) {
+      let restlessDescription = "";
+      if (avgTRestless < 1.3) {
+        restlessDescription = "Normal";
+      } else if (avgTRestless < 1.75) {
+        restlessDescription = "Moderate";
+      } else {
+        restlessDescription = "High";
+      }
+      return restlessDescription;
     }
 
     //Set up day of week labels
@@ -398,30 +448,40 @@ class HomeScreen extends Component {
       reports = (<DayDetail boards={this.state.boards}
       picked={this.state.picked}
       changePicked={this.changeDay}
-      restlessDescription={restlessDescription}
-      avgRestless={avgTRestless.toFixed(2)}/>);}
+      restlessDescription={findRestlessWord(calcRestless(this.state.boards[this.state.picked]))}
+      avgRestless={calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
+    />);}
     else if (this.state.day == 2) {
       reports = (<SummaryDetail
       boards={this.state.displayBoards}
-      sleepAVG={sleepAVG}
-      restlessDescription={restlessDescription}
-      avgRestless={avgTRestless.toFixed(2)}
-      sumWets={sumWets}
-      avgExits={avgExits.toFixed(1)}
+      sleepAVG={calcSleepAvg(this.state.displayBoards).toFixed(2)}
+      restlessDescription={findRestlessWord(calcRestless(this.state.displayBoards))}
+      avgRestless={calcRestless(this.state.displayBoards).toFixed(2)}
+      sumWets={calcBedwetting(this.state.displayBoards).toFixed(1)}
+      avgExits={calcExits(this.state.displayBoards).toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
     />);}
     else if (this.state.day == 3) {
-      reports =
-      (<AllDetail
-        boards={this.state.boards}
-        sleepAVG={sleepAVG.toFixed(2)}
-        restlessDescription={restlessDescription}
-        avgRestless={avgTRestless.toFixed(2)}
-        sumWets={sumWets.toFixed(1)}
-        avgExits={avgExits.toFixed(1)}
-        selectDay={this.goToDay}
-      />);}
+      reports =(<AllDetail
+      boards={this.state.monthBoards}
+      sleepAVG={calcSleepAvg(this.state.monthBoards).toFixed(2)}
+      restlessDescription={findRestlessWord(calcRestless(this.state.monthBoards))}
+      avgRestless={calcRestless(this.state.monthBoards).toFixed(2)}
+      sumWets={calcBedwetting(this.state.monthBoards).toFixed(1)}
+      avgExits={calcExits(this.state.monthBoards).toFixed(1)}
+      selectDay={this.goToDay}
+    />);}
+    else if (this.state.day == 4) {
+      reports =(<AllDetail
+      boards={this.state.boards}
+      sleepAVG={calcSleepAvg(this.state.boards).toFixed(2)}
+      restlessDescription={findRestlessWord(calcRestless(this.state.boards))}
+      avgRestless={calcRestless(this.state.boards).toFixed(2)}
+      sumWets={calcBedwetting(this.state.boards).toFixed(1)}
+      avgExits={calcExits(this.state.boards).toFixed(1)}
+      selectDay={this.goToDay}
+    />);}
 
     return (
       <ScrollView style={styles.container}>
@@ -439,6 +499,11 @@ class HomeScreen extends Component {
         <TouchableOpacity
           onPress = {()=> this.setState({day: 3})}
           style={((this.state.day == 3) ? styles.buttonSelected : styles.button)}>
+          <Text style={styles.buttonText}>Month</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress = {()=> this.setState({day: 4})}
+          style={((this.state.day == 4) ? styles.buttonSelected : styles.button)}>
           <Text style={styles.buttonText}>All</Text>
         </TouchableOpacity>
       </View>

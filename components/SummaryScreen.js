@@ -93,7 +93,7 @@ class SummaryDetail extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{this.props.sleepAVG.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{this.props.sleepAVG}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -117,7 +117,7 @@ class SummaryDetail extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{this.props.sumWets.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{this.props.sumWets}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
