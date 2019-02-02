@@ -25,7 +25,7 @@ class AllDetail extends Component {
           </TouchableOpacity>
           //Display line graph of all sleep time
           <VictoryChart
-            //animate={{ duration: 10 }}
+            animate={{ duration: 10 }}
             //helps so that chart is not cut off on right
             domainPadding={{ x : [30, 30] }}
             containerComponent={
@@ -85,7 +85,7 @@ class AllDetail extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.brightText}>{this.props.sleepAVG}</Text>
+              <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
 
               <View style={styles.appContainer}>
               <TouchableOpacity
@@ -133,7 +133,7 @@ class AllDetail extends Component {
               this.props.sleepAVG
               <VictoryChart
                 domainPadding={80}
-                //animate={{ duration: 10 }}
+                animate={{ duration: 5 }}
                 >
                 <VictoryLabel text="Total Hours of Sleep" x={245} y={30} textAnchor="end" />
                 <VictoryBar
@@ -156,7 +156,7 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                //animate={{ duration: 10 }}
+                animate={{ duration: 5 }}
                 >
                 <VictoryLabel text="Restlessness" x={225} y={30} textAnchor="end" />
                 <VictoryBar
@@ -179,7 +179,7 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                //animate={{ duration: 10 }}
+                animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
                 <VictoryBar
@@ -202,7 +202,7 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                //animate={{ duration: 10 }}
+                animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bed Exits Per Night" x={250} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar

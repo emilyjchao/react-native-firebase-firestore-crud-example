@@ -46,7 +46,7 @@ class SummaryDetail extends Component {
           domainPadding={{ x: 15 }}
           //minDomain={{x:0.5}}
           //maxDomain={{x:8}}
-          //animate={{ duration: 10 }}
+          animate={{ duration: 10 }}
           >
           <VictoryScatter
             data = {this.props.boards}
@@ -101,7 +101,7 @@ class SummaryDetail extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{this.props.sleepAVG}</Text>
+        <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity

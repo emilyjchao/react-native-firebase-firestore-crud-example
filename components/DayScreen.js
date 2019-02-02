@@ -35,7 +35,7 @@ import styles from './style';
      let bedWetContent;
      if(this.props.boards[this.props.picked].bedwet.length > 0){
        let wetTime = new Date(this.props.boards[this.props.picked].bedwet[0]);
-       bedWetContent = "Wet     " + wetTime.getHours() + ":" + (wetTime.getMinutes()<10?'0':'') + wetTime.getMinutes() ;
+       bedWetContent = "Wet     " + this.props.formatTime(wetTime) ;
      }
      else {
        bedWetContent = "Dry";
@@ -55,12 +55,12 @@ import styles from './style';
         onPress={() => this.props.changePicked(1)}
       />
     </View>
-    <Text style={styles.title}>Time Asleep: {(this.props.boards[this.props.picked].sleep).toFixed(2)} hours</Text>
+    <Text style={styles.title}>Time Asleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
     //Chart of daily sleep length
     <VictoryChart
       height={130}
       scale={{ x: "time" }}
-      //animate={{ duration: 10 }}
+      animate={{ duration: 10 }}
       >
       <VictoryArea
         data={ySleep, in_out}
@@ -95,7 +95,7 @@ import styles from './style';
       height={150}
       domainPadding={{ x : [20, 20] }}
       scale={{ x: "time" }}
-      //animate={{ duration: 10 }}
+      animate={{ duration: 10 }}
       >
       <VictoryLine
         interpolation="natural"
@@ -130,7 +130,7 @@ import styles from './style';
         </View>
       </TouchableOpacity>
     </View>
-    <Text style={styles.brightText}>{bedWetContent}</Text>
+    <Text style={styles.brightText}>{bedWetContent}{"\n"}</Text>
 
     //Table for bed exits
     <View style={styles.appContainer}>
@@ -157,7 +157,7 @@ import styles from './style';
 
           return (
               <Text key={time} style={styles.brightTextLeft}>
-                {'                  '}{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'           '}{Number(timeOut).toFixed(1)}
+                {'              '}{this.props.formatTime(exitTime)}{'        '}{(this.props.minToSec(timeOut))}
               </Text>
           );
           }

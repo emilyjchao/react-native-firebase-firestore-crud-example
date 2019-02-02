@@ -72,6 +72,41 @@ class HomeScreen extends Component {
     this.setState({picked: this.state.dateDic.indexOf(dayString), day: true});
   }
 
+  //Convert decimal minutes to min:sec
+  minTommss(minutes){
+   var min = Math.floor(Math.abs(minutes));
+   var sec = Math.floor((Math.abs(minutes) * 60) % 60);
+   //return  min + "m " + sec + "s";
+   return min + " m"
+  }
+
+  //Convert decimal hours to hr:min
+  hrTohhmm(hours){
+   var hr = Math.floor(Math.abs(hours));
+   var min = Math.floor((Math.abs(hours) * 60) % 60);
+   min = min < 10 ? " " + min : min;
+   return  hr + "h " + min + "m";
+  }
+
+  //Format time into hh:mm in am and pm
+  formatAmPm(date) {
+    var hh = date.getHours();
+    var m = date.getMinutes();
+    var dd = "AM";
+    var h = hh;
+    if (h >= 12) {
+      h = hh - 12;
+      dd = "PM";
+    }
+    if (h == 0) {
+      h = 12;
+    }
+    h = h < 10 ? " " + h : h;
+    m = m < 10 ? "0" + m : m;
+    var replacement = h + ":" + m + " " + dd;
+    return replacement;
+  }
+
   // process the incoming data
   onFetchData = (snapshot) => {
     let nightData = [];
@@ -121,7 +156,7 @@ class HomeScreen extends Component {
       nights[i] = (nights[i].getMonth() + 1) + '-' + nights[i].getDate() + '-' +  nights[i].getFullYear();
     }
 
-    console.log(nights);
+    //console.log(nights);
     // loop through each night and sort the data into arrays and objects
     // to store in state
     // try to ensure that there are at least zeros for missing nights
@@ -452,6 +487,9 @@ class HomeScreen extends Component {
       changePicked={this.changeDay}
       restlessDescription={findRestlessWord(calcRestless(this.state.boards[this.state.picked]))}
       avgRestless={calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
+      hrToMin={this.hrTohhmm}
+      minToSec={this.minTommss}
+      formatTime={this.formatAmPm}
     />);}
     else if (this.state.day == 2) {
       reports = (<SummaryDetail
@@ -463,6 +501,7 @@ class HomeScreen extends Component {
       avgExits={calcExits(this.state.displayBoards).toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
+      hrToMin={this.hrTohhmm}
     />);}
     else if (this.state.day == 3) {
       reports =(<SummaryDetail
@@ -474,6 +513,7 @@ class HomeScreen extends Component {
       avgExits={calcExits(this.state.monthBoards).toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
+      hrToMin={this.hrTohhmm}
     />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail
@@ -484,6 +524,7 @@ class HomeScreen extends Component {
       sumWets={calcBedwetting(this.state.boards).toFixed(1)}
       avgExits={calcExits(this.state.boards).toFixed(1)}
       selectDay={this.goToDay}
+      hrToMin={this.hrTohhmm}
     />);}
 
     return (
