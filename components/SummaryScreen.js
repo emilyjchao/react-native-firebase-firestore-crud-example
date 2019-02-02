@@ -91,53 +91,55 @@ class SummaryDetail extends Component {
             fixLabelOverlap
             />
         </VictoryChart>
-        <View style={styles.appContainer}>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Average Hours of Sleep</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
 
-        <View style={styles.appContainer}>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Restlessness</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
+            <View style={styles.appContainer}>
+            <TouchableOpacity
+              onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+              style={styles.button1}>
+                <View style={styles.btnContainer}>
+                  <Text style={styles.title}>Average Hours of Sleep</Text>
+                  <Image source={require('./about.png')} style={styles.icon} />
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
+            <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
 
-        <View style={styles.appContainer}>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Bedwetting Average</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.brightText}>{this.props.sumWets}</Text>
+          <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+            style={styles.button1}>
+              <View style={styles.btnContainer}>
+                <Text style={styles.title}>Restlessness</Text>
+                <Image source={require('./about.png')} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
 
-        <View style={styles.appContainer}>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Exits</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.brightText}>{this.props.avgExits}{'\n'}</Text>
+
+          <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
+            style={styles.button1}>
+              <View style={styles.btnContainer}>
+                <Text style={styles.title}>Bedwetting Average</Text>
+                <Image source={require('./about.png')} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.brightText}>{this.props.sumWets}</Text>
+
+          <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+            style={styles.button1}>
+              <View style={styles.btnContainer}>
+                <Text style={styles.title}>Exits</Text>
+                <Image source={require('./about.png')} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.brightText}>{this.props.avgExits}{'\n'}</Text>
 
       </View>);
     }
