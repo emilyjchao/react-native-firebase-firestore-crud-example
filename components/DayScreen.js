@@ -153,11 +153,11 @@ import styles from './style';
           var exitTime = new Date(time);
           var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
           var dif = new Date(enterTime-exitTime);
-          var timeOut = dif / (3600000);
+          var timeOut = dif / (60000);
 
           return (
               <Text key={time} style={styles.brightTextLeft}>
-                {'                  '}{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'           '}{Number(timeOut).toFixed(2)}
+                {'                  '}{exitTime.getHours()}:{(exitTime.getMinutes()<10?'0':'') + exitTime.getMinutes() }{'           '}{Number(timeOut).toFixed(1)}
               </Text>
           );
           }

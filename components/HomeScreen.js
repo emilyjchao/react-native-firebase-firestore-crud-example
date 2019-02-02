@@ -4,6 +4,8 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import DayDetail from './DayScreen';
 import SummaryDetail from './SummaryScreen';
+import Tutorial from './TutorialScreen';
+import Settings from './SettingsScreen';
 import AllDetail from './AllScreen';
 import firebase from '../Firebase';
 import styles from './style';
@@ -258,7 +260,7 @@ class HomeScreen extends Component {
 
           // add these arrays to the array that will be boards
           console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
 
         //} // end of checking if it was within the last 24 hrs
         // else {
@@ -463,7 +465,7 @@ class HomeScreen extends Component {
       navigation={this.props.navigation}
     />);}
     else if (this.state.day == 3) {
-      reports =(<AllDetail
+      reports =(<SummaryDetail
       boards={this.state.monthBoards}
       sleepAVG={calcSleepAvg(this.state.monthBoards).toFixed(2)}
       restlessDescription={findRestlessWord(calcRestless(this.state.monthBoards))}
@@ -471,6 +473,7 @@ class HomeScreen extends Component {
       sumWets={calcBedwetting(this.state.monthBoards).toFixed(1)}
       avgExits={calcExits(this.state.monthBoards).toFixed(1)}
       selectDay={this.goToDay}
+      navigation={this.props.navigation}
     />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail

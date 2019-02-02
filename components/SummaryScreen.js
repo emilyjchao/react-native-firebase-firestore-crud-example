@@ -15,18 +15,26 @@ class SummaryDetail extends Component {
   render() {
 
     const {navigate} = this.props.navigation;
-
+    //Set up graph labels
     //Set up day of week labels
     let weekLabels = [];
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
     }
+    //Set up date mm/dd labels
+    let dateLabels = [];
+    for (i=0; i<this.props.boards.length; i++) {
+      splitDate = this.props.boards[i].day.split("-");
+      dateLabels.push(splitDate[0] + '/' + splitDate[1]);
+    }
+
 
     return(
       <View>
         <View style={styles.appContainer}>
+          <Text>{"\n"}</Text>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Click on any bar to see daily details.')}}
+            onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.title}>Sleep History</Text>
@@ -42,11 +50,11 @@ class SummaryDetail extends Component {
           >
           <VictoryScatter
             data = {this.props.boards}
-            x="day" y="inBed"
+            x="dateLabel" y="inBed"
             />
           <VictoryBar
             data = {this.props.boards}
-            x="day" y="sleep"
+            x="dateLabel" y="sleep"
             labels={weekLabels}
             barRatio={.75}
             style={{
@@ -64,11 +72,11 @@ class SummaryDetail extends Component {
             />
           <VictoryLine
             data = {this.props.boards}
-            x="day" y="inBed"
+            x="dateLabel" y="inBed"
             style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
-            label="Day"
+            label={"Day"}
             style={{
               axisLabel: { padding: 30, fontSize: 18 },
             }}
@@ -131,14 +139,6 @@ class SummaryDetail extends Component {
         </View>
         <Text style={styles.brightText}>{this.props.avgExits}{'\n'}</Text>
 
-        //Navigate to all details page
-        <TouchableOpacity
-          onPress={() => {navigate('AllDetails')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.blueTextSmall}>View Full Data History</Text>
-            </View>
-          </TouchableOpacity>
       </View>);
     }
   }

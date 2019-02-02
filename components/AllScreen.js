@@ -14,7 +14,15 @@ class AllDetail extends Component {
     return(
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
-          <Text style={styles.blackText}>{"\n"}Sleep History</Text>
+          <Text>{"\n"}</Text>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
+            style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Sleep History</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
           //Display line graph of all sleep time
           <VictoryChart
             //animate={{ duration: 10 }}
@@ -26,7 +34,7 @@ class AllDetail extends Component {
           >
             <VictoryBar
               data = {this.props.boards}
-              x="day" y="sleep"
+              x="dateLabel" y="sleep"
               barRatio={.75}
               style={{
                 data: { fill: "steelblue"}
@@ -42,13 +50,12 @@ class AllDetail extends Component {
               />
             <VictoryLine
               data = {this.props.boards}
-              x="day" y="inBed"
-              //labels={dateLabels}
+              x="dateLabel" y="inBed"
               style={{ labels: { textAlign: 'left', marginRight: 30} }}
               />
               <VictoryScatter
                 data = {this.props.boards}
-                x="day" y="inBed"
+                x="dateLabel" y="inBed"
                 />
               <VictoryAxis
                 label="Day"
@@ -135,7 +142,7 @@ class AllDetail extends Component {
                     x: ["Your Child", "National Average"]
                   }}
                   data = {[
-                    {x: "Your Child", y: this.props.sleepAVG},
+                    {x: "Your Child", y: parseFloat(this.props.sleepAVG)},
                     {x: "National Average", y: 10}
                   ]}
                   style={{
@@ -158,8 +165,8 @@ class AllDetail extends Component {
                     x: ["Your Child", "National Average"]
                   }}
                   data = {[
-                    {x: "Your Child", y: this.props.avgRestless},
-                    {x: "National Average", y: 0.98}
+                    {x: "Your Child", y: parseFloat(this.props.avgRestless)},
+                    {x: "National Average", y: 1.1}
                   ]}
                   style={{
                     data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
@@ -181,7 +188,7 @@ class AllDetail extends Component {
                     x: ["Your Child", "National Average"]
                   }}
                   data = {[
-                    {x: "Your Child", y: this.props.sumWets},
+                    {x: "Your Child", y: parseFloat(this.props.sumWets)},
                     {x: "National Average", y: 0.7}
                   ]}
                   style={{
@@ -204,8 +211,8 @@ class AllDetail extends Component {
                     x: ["Your Child", "National Average"]
                   }}
                   data = {[
-                    {x: "Your Child", y: this.props.avgExits},
-                    {x: "National Average", y: 0.55}
+                    {x: "Your Child", y: parseFloat(this.props.avgExits)},
+                    {x: "National Average", y: 0.63}
                   ]}
                   style={{
                     data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
