@@ -4,6 +4,7 @@ import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import DayDetail from './DayScreen';
 import SummaryDetail from './SummaryScreen';
+import MonthDetail from './MonthScreen';
 import Tutorial from './TutorialScreen';
 import Settings from './SettingsScreen';
 import AllDetail from './AllScreen';
@@ -105,6 +106,23 @@ class HomeScreen extends Component {
     m = m < 10 ? "0" + m : m;
     var replacement = h + ":" + m + " " + dd;
     return replacement;
+  }
+  //Change week view for summary screen
+  changeWeek(direction) {
+    //Find the index of the first day of the current week in dateDic
+    //console.log(this.state.dateDic);
+    //console.log(displayBoards[0].day);
+    //let index = this.state.dateDic.indexOf(displayBoards[0].day);
+    //console.log(index);
+
+    //If go back a week
+    if (direction == -1) {
+
+    }
+    //If go forward a week
+    else if (direction == 1) {
+
+    }
   }
 
   // process the incoming data
@@ -502,9 +520,10 @@ class HomeScreen extends Component {
       selectDay={this.goToDay}
       navigation={this.props.navigation}
       hrToMin={this.hrTohhmm}
+      changeWeek={this.changeWeek}
     />);}
     else if (this.state.day == 3) {
-      reports =(<SummaryDetail
+      reports =(<MonthDetail
       boards={this.state.monthBoards}
       sleepAVG={calcSleepAvg(this.state.monthBoards).toFixed(2)}
       restlessDescription={findRestlessWord(calcRestless(this.state.monthBoards))}

@@ -5,7 +5,7 @@ import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, Victo
 import styles from './style';
 
 
-class SummaryDetail extends Component {
+class MonthDetail extends Component {
   static navigationOptions = ({ navigation }) => {}
 
   constructor(){
@@ -31,20 +31,6 @@ class SummaryDetail extends Component {
 
     return(
       <View>
-      <View style={styles.triplet}>
-        <Button
-          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(-1)}
-        />
-        <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
-        <Button
-          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(1)}
-        />
-      </View>
-      <View>
         <View style={styles.appContainer}>
           <Text>{"\n"}</Text>
           <TouchableOpacity
@@ -59,7 +45,7 @@ class SummaryDetail extends Component {
         <VictoryChart
           domainPadding={{ x: 15 }}
           //minDomain={{x:0.5}}
-          maxDomain={{x:7}}
+          //maxDomain={{x:8}}
           animate={{ duration: 10 }}
           >
           <VictoryScatter
@@ -69,7 +55,7 @@ class SummaryDetail extends Component {
           <VictoryBar
             data = {this.props.boards}
             x="dateLabel" y="sleep"
-            labels={weekLabels}
+            //labels={weekLabels}
             barRatio={.75}
             style={{
               data: { fill: "steelblue"}, labels: { fill: "white" }
@@ -155,9 +141,8 @@ class SummaryDetail extends Component {
       </View>
       <Text style={styles.brightText}>{this.props.avgExits}{'\n'}</Text>
 
-      </View>
       </View>);
     }
   }
 
-export default SummaryDetail;
+export default MonthDetail;
