@@ -47,6 +47,7 @@ class HomeScreen extends Component {
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
     this.changeDay = this.changeDay.bind(this);
+    this.changeWeek = this.changeWeek.bind(this);
   }
 
   componentDidMount() {
@@ -109,20 +110,43 @@ class HomeScreen extends Component {
   }
   //Change week view for summary screen
   changeWeek(direction) {
+    let newBoards = [];
     //Find the index of the first day of the current week in dateDic
-    //console.log(this.state.dateDic);
-    //console.log(displayBoards[0].day);
-    //let index = this.state.dateDic.indexOf(displayBoards[0].day);
-    //console.log(index);
+    let index = this.state.dateDic.indexOf(this.state.displayBoards[0].day);
+    console.log(index);
 
     //If go back a week
     if (direction == -1) {
-
+      //Check if more than a week of data before current week
+      if (index < 7) {
+        for (i=0; i<7; i++) {
+          newBoards.push(this.state.boards[i]);
+        }
+      }
+      //If more than one week before exists
+      else {
+        for (i=index-7; i<index; i++) {
+          newBoards.push(this.state.boards[i]);
+        }
+      }
     }
     //If go forward a week
     else if (direction == 1) {
-
+      //If not more than a week of data after current week
+      if (index > this.state.boards.length-14) {
+        for (i=this.state.boards.length-7; i<this.state.boards.length; i++) {
+          newBoards.push(this.state.boards[i]);
+        }
+      }
+      //if more than one week after exists
+      else {
+        for (i=index+7; i<index+14; i++) {
+          newBoards.push(this.state.boards[i]);
+        }
+      }
     }
+    //Update displayBoards
+    this.setState({displayBoards: newBoards,});
   }
 
   // process the incoming data
