@@ -115,18 +115,19 @@ class HomeScreen extends Component {
     let newBoards = [];
     //Find the index of the first day of the current week in dateDic
     let index = this.state.dateDic.indexOf(this.state.displayBoards[0].day);
-    console.log(index);
 
     //If go back a week
     if (direction == -1) {
-      //Check if more than a week of data before current week
+      //If not more than a week of data before current week
       if (index < 7) {
+        //Display the first seven days
         for (i=0; i<7; i++) {
           newBoards.push(this.state.boards[i]);
         }
       }
       //If more than one week before exists
       else {
+        //Display the last seven days before the current boards
         for (i=index-7; i<index; i++) {
           newBoards.push(this.state.boards[i]);
         }
@@ -136,12 +137,14 @@ class HomeScreen extends Component {
     else if (direction == 1) {
       //If not more than a week of data after current week
       if (index > this.state.boards.length-14) {
+        //Display most recent 7 days
         for (i=this.state.boards.length-7; i<this.state.boards.length; i++) {
           newBoards.push(this.state.boards[i]);
         }
       }
       //if more than one week after exists
       else {
+        //Display next seven days after current day
         for (i=index+7; i<index+14; i++) {
           newBoards.push(this.state.boards[i]);
         }
@@ -157,7 +160,6 @@ class HomeScreen extends Component {
     //Find the index of the first day of the current week in dateDic
     let index = this.state.dateDic.indexOf(this.state.monthBoards[0].day);
     let monthIndex = 0;
-    console.log(index);
 
     //If go back a week
     if (direction == -1) {
@@ -175,7 +177,7 @@ class HomeScreen extends Component {
         //Loop through dates to find boards that match the previous month
         for (i=0; i<this.state.dates.length; i++) {
           let splitDate2 = dates[i].split("-");
-          //If they match the month we're looking for
+          //If they match the month we're looking for, add them to display
           if (splitDate1[0] == splitDate2[0]) {
             newBoards.push(this.state.boards[i]);
           }
@@ -183,6 +185,7 @@ class HomeScreen extends Component {
       }
       //if no month found
       else {
+        //Keep current monthBoards as display
         newBoards = this.state.monthBoards;
       }
     }
@@ -202,13 +205,13 @@ class HomeScreen extends Component {
         //Loop through dates to find boards that match the previous month
         for (i=index; i<this.state.dates.length; i++) {
           let splitDate2 = dates[i].split("-");
-          //If they match the month we're looking for
+          //If they match the month we're looking for, display
           if (splitDate1[0] == splitDate2[0]) {
             newBoards.push(this.state.boards[i]);
           }
         }
       }
-      //if no month found
+      //if no month found, display current monthBoards
       else {
         newBoards = this.state.monthBoards;
       }
