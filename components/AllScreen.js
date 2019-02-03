@@ -80,12 +80,12 @@ class AllDetail extends Component {
                 onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Average Hours of Sleep</Text>
+                    <Text style={styles.title}>Average Sleep</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
+              <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}{"\n"}</Text>
 
               <View style={styles.appContainer}>
               <TouchableOpacity
@@ -97,26 +97,26 @@ class AllDetail extends Component {
                   </View>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.brightText}>{this.props.restlessDescription} - {this.props.avgRestless}</Text>
+              <Text style={styles.brightText}>{this.props.restlessDescription}: {this.props.avgRestless}{"\n"}</Text>
 
               <View style={styles.appContainer}>
               <TouchableOpacity
                 onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Bedwetting Average</Text>
+                    <Text style={styles.title}>Average Bedwets</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.brightText}>{this.props.sumWets}</Text>
+              <Text style={styles.brightText}>{this.props.sumWets}{"\n"}</Text>
 
               <View style={styles.appContainer}>
               <TouchableOpacity
                 onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Exits</Text>
+                    <Text style={styles.title}>Average Exits</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>

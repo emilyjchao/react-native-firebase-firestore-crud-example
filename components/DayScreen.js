@@ -55,7 +55,7 @@ import styles from './style';
         onPress={() => this.props.changePicked(1)}
       />
     </View>
-    <Text style={styles.title}>Time Asleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
+    <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
     //Chart of daily sleep length
     <VictoryChart
       height={130}
@@ -125,7 +125,7 @@ import styles from './style';
       onPress={() => {Alert.alert('The Bedwet section shows the time of a bedwetting incident if there was one.')}}
       style={styles.button1}>
         <View style={styles.btnContainer}>
-          <Text style={styles.title}>Bedwet</Text>
+          <Text style={styles.title}>Bedwets</Text>
           <Image source={require('./about.png')} style={styles.icon} />
         </View>
       </TouchableOpacity>
@@ -157,7 +157,7 @@ import styles from './style';
 
           return (
               <Text key={time} style={styles.brightTextLeft}>
-                {'              '}{this.props.formatTime(exitTime)}{'        '}{(this.props.minToSec(timeOut))}
+                {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
               </Text>
           );
           }

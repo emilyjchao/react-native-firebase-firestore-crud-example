@@ -68,24 +68,32 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
   },
-  title: {
+  //title: {
+  brightText: {
     textAlign: 'center',
     fontSize: 18,
     marginTop: 5,
     marginBottom: 0,
     color: 'teal',
   },
-  brightText: {
+  title: {
+  //brightText: {
     textAlign: 'center',
     fontSize: 24,
     color: 'steelblue',
     marginTop: 5,
   },
+  // brightTextLeft: {
+  //   textAlign: 'left',
+  //   fontSize: 24,
+  //   color: 'steelblue',
+  //   alignSelf: 'stretch',
+  // },
   brightTextLeft: {
     textAlign: 'left',
-    fontSize: 24,
-    color: 'steelblue',
+    fontSize: 18,
     alignSelf: 'stretch',
+    color: 'teal',
   },
   blackText: {
     textAlign: 'center',
