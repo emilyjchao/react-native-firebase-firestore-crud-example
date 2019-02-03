@@ -468,13 +468,12 @@ class TutorialScreen extends Component {
     // Could become separate component
     const dayDetail = (
       <View>
-      <Text>This is the daily view, it shows more detailed information about the
-        same metrics shown on the weekly page. Scroll through and have a look!
-      </Text>
-      <Text style={styles.smallText}>When you're done, click the back button above to go to the standard data page.
+      <Text style={styles.smallText}>{"\n"}This is the daily view, it shows more detailed information about the
+        same metrics shown on the weekly page. Scroll through and have a look!When you're done, click the back
+        button above to go to the standard data page.
       </Text>
       <Text style={styles.blackText}>{"\n"}{this.state.dateDic[this.state.picked]}</Text>
-      <Text style={styles.title}>Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
+      <Text style={styles.title}>{"\n"}Time Asleep: {(this.state.boards[this.state.picked].sleep).toFixed(2)} hours</Text>
       <Text style={styles.smallText}>Last night's sleep, red is time asleep and white is time out of bed.</Text>
       //Chart of daily sleep length
       <VictoryChart
@@ -508,7 +507,7 @@ class TutorialScreen extends Component {
           </View>
         </TouchableOpacity>
       </View>
-      <Text style={styles.smallText}>Restless illustrates how much your child moved while sleeping. It is ranked into three categories of movement, low, medium, and high.</Text>
+      <Text style={styles.smallText}>Restless illustrates how much your child moved while sleeping, on a scale of 0-2. It is ranked into three categories of movement, low, medium, and high.</Text>
       <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
       //Line graph of restlessness
       <VictoryChart
@@ -550,7 +549,7 @@ class TutorialScreen extends Component {
         </TouchableOpacity>
       </View>
       <Text style={styles.smallText}>Displays the time of a bedwetting incident.</Text>
-      <Text style={styles.brightText}>{bedWetContent}</Text>
+      <Text style={styles.brightText}>{bedWetContent}{"\n"}</Text>
 
       //Table for bed exits
       <View style={styles.appContainer}>
@@ -589,26 +588,14 @@ class TutorialScreen extends Component {
 
     //Week detail (could be component)
     const weekDetail = (
-      // Use this to draw average sleep line
-      // <VictoryLine
-      //   data={[
-      //     { x: 0, y: weekAVG },
-      //     { x: this.state.displayBoards.length, y: weekAVG }
-      //   ]}
-      //   labels={["", 'Average \n'+weekAVG.toFixed(2)]}
-      //   style={{ labels: { textAlign: 'left', marginRight: 30, fontSize: 14, fontWeight: 'bold'} }}
-      //   />
 
       <View>
-      <Text style={styles.smallText}>Our goal is to help you improve your child's sleep by
-          understanding their sleeping habits and disruptions.
-          You can better understand
+      <Text style={styles.smallText}>{"\n"}Our goal is to help you improve your child's sleep by
+          understanding their sleeping habits and disruptions.You can better understand
           when your child gets into or out of bed, wets the bed, or moves around
-          all night long.
-      </Text>
-      <Text style={styles.smallText}> The following is an example of a past week of data.
+          all night long.{"\n"}The following is an example of a past week of data.
           Scroll through the following sections, each with a short description
-          of the data being presented.
+          of the data being presented.{"\n"}
       </Text>
         <View style={styles.appContainer}>
           <TouchableOpacity
@@ -620,9 +607,9 @@ class TutorialScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.smallText}>Come back here after you understand the
+        <Text style={styles.smallText}>{"\n"}Come back here after you understand the
           rest of this screen and click on a day to see that day's detailed
-          information. The black line is the time spent in bed, while the red bar
+          information. The black line is the time spent in bed, while the blue bar
            is the time asleep that night.
         </Text>
         <VictoryChart
@@ -690,7 +677,7 @@ class TutorialScreen extends Component {
           </TouchableOpacity>
         </View>
         <Text style={styles.smallText}>This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.</Text>
-        <Text style={styles.brightText}>{weekAVG.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{weekAVG.toFixed(2)}{"\n"}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -703,7 +690,7 @@ class TutorialScreen extends Component {
           </TouchableOpacity>
         </View>
         <Text style={styles.smallText}>Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.</Text>
-        <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}</Text>
+        <Text style={styles.brightText}>{restlessDescription} : {avgTRestless.toFixed(2)}{"\n"}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -716,7 +703,7 @@ class TutorialScreen extends Component {
           </TouchableOpacity>
         </View>
         <Text style={styles.smallText}>This is the average number of times your child wet the bed per night this week.</Text>
-        <Text style={styles.brightText}>{weekWets.toFixed(1)}</Text>
+        <Text style={styles.brightText}>{weekWets.toFixed(1)}{"\n"}</Text>
 
         <View style={styles.appContainer}>
         <TouchableOpacity
@@ -739,8 +726,8 @@ class TutorialScreen extends Component {
               <Text style={styles.blueTextSmall}>View Full Data History</Text>
             </View>
         </TouchableOpacity>
-        <Text style={styles.smallText}>This links to the full history of your data.</Text>
-        <Text>Now that you have seen the daily view, scroll back to the top and click
+        <Text style={styles.smallText}>This links to the full history of your data.
+          Now that you have seen the daily view, scroll back to the top and click
           on one of the days in the time asleep graph to see that day's detailed information.
         </Text>
 

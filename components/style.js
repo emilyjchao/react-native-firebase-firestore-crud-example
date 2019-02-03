@@ -94,6 +94,14 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     marginTop: 0,
   },
+  blackTextPadding: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'black',
+    paddingTop: 13,
+    paddingBottom: 13,
+    marginTop: 0,
+  },
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
