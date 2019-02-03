@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 5,
     paddingVertical: 0,
     flexDirection: 'row',
     alignItems: 'center',
@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
   icon: {
     width: 10,
     height: 10,
-    position: 'absolute',
-    right: 15, // Keep some space between your left border and Image
+    position: 'relative',
+    right: -2, // Keep some space between your left border and Image
   }
 })
 

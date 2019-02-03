@@ -104,7 +104,7 @@ class AllDetail extends Component {
                 onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Average Bedwets</Text>
+                    <Text style={styles.title}>Bedwets</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
@@ -116,7 +116,7 @@ class AllDetail extends Component {
                 onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
                 style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Average Exits</Text>
+                    <Text style={styles.title}>Bed Exits</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
