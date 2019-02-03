@@ -46,7 +46,6 @@ class SummaryDetail extends Component {
       </View>
       <View>
         <View style={styles.appContainer}>
-          <Text>{"\n"}</Text>
           <TouchableOpacity
             onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
             style={styles.button1}>

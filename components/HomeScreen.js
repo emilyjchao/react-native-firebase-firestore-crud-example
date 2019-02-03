@@ -48,6 +48,8 @@ class HomeScreen extends Component {
     this.goToDay = this.goToDay.bind(this);
     this.changeDay = this.changeDay.bind(this);
     this.changeWeek = this.changeWeek.bind(this);
+    this.changeMonth = this.changeMonth.bind(this);
+
   }
 
   componentDidMount() {
@@ -147,6 +149,72 @@ class HomeScreen extends Component {
     }
     //Update displayBoards
     this.setState({displayBoards: newBoards,});
+  }
+
+  //Change week view for summary screen
+  changeMonth(direction) {
+    let newBoards = [];
+    //Find the index of the first day of the current week in dateDic
+    let index = this.state.dateDic.indexOf(this.state.monthBoards[0].day);
+    let monthIndex = 0;
+    console.log(index);
+
+    //If go back a week
+    if (direction == -1) {
+      //Check if a month exists prior to displayed month
+      for (i=index; i>0; i--) {
+        //Check when month of current date is different from month in dateDic
+        if (this.state.dateDic[i].split("-")[0] != this.state.monthBoards[0].day.split("-")[0]) {
+          monthIndex = i;
+          i = -1;
+        }
+      }
+      //If previous month found
+      if (monthIndex != 0) {
+        let splitDate1 = this.state.dates[monthIndex].split("-");
+        //Loop through dates to find boards that match the previous month
+        for (i=0; i<this.state.dates.length; i++) {
+          let splitDate2 = dates[i].split("-");
+          //If they match the month we're looking for
+          if (splitDate1[0] == splitDate2[0]) {
+            newBoards.push(this.state.boards[i]);
+          }
+        }
+      }
+      //if no month found
+      else {
+        newBoards = this.state.monthBoards;
+      }
+    }
+    //If go forward a week
+    else if (direction == 1) {
+      //Check if a month exists after  displayed month
+      for (i=index; i<this.state.boards.length; i++) {
+        //Check when month of current date is different from month in dateDic
+        if (this.state.dateDic[i].split("-")[0] != this.state.monthBoards[0].day.split("-")[0]) {
+          monthIndex = i;
+          i = -1;
+        }
+      }
+      //If previous month found
+      if (monthIndex != 0) {
+        let splitDate1 = this.state.dates[monthIndex].split("-");
+        //Loop through dates to find boards that match the previous month
+        for (i=index; i<this.state.dates.length; i++) {
+          let splitDate2 = dates[i].split("-");
+          //If they match the month we're looking for
+          if (splitDate1[0] == splitDate2[0]) {
+            newBoards.push(this.state.boards[i]);
+          }
+        }
+      }
+      //if no month found
+      else {
+        newBoards = this.state.monthBoards;
+      }
+    }
+    //Update displayBoards
+    this.setState({monthBoards: newBoards,});
   }
 
   // process the incoming data
@@ -557,6 +625,7 @@ class HomeScreen extends Component {
       selectDay={this.goToDay}
       navigation={this.props.navigation}
       hrToMin={this.hrTohhmm}
+      changeMonth={this.changeMonth}
     />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail

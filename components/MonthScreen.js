@@ -31,8 +31,21 @@ class MonthDetail extends Component {
 
     return(
       <View>
+      <View style={styles.triplet}>
+        <Button
+          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+          onPress={() => this.props.changeMonth(-1)}
+        />
+        <Text style={styles.blackText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
+        <Button
+          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+          onPress={() => this.props.changeMonth(1)}
+        />
+      </View>
+      <View>
         <View style={styles.appContainer}>
-          <Text>{"\n"}</Text>
           <TouchableOpacity
             onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
             style={styles.button1}>
@@ -140,7 +153,7 @@ class MonthDetail extends Component {
         </TouchableOpacity>
       </View>
       <Text style={styles.brightText}>{this.props.avgExits}{'\n'}</Text>
-
+      </View>
       </View>);
     }
   }
