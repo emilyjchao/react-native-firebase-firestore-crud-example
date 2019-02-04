@@ -94,13 +94,7 @@ class SummaryDetail extends Component {
           <VictoryLine
             data = {this.props.boards}
             x="dateLabel" y="inBed"
-            events={[{
-              target: "data",
-              eventHandlers: {
-              onPressIn: () => {
-                 Alert.alert('Black line shows total time in bed')
-               }
-             }}]}
+
             style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
@@ -111,7 +105,7 @@ class SummaryDetail extends Component {
             fixLabelOverlap
             />
           <VictoryAxis dependentAxis
-            label="Hours of Sleep"
+            label="Hours"
             style={{
               axisLabel: { fontSize: 18 },
               transform: [{ rotate: '90deg'}]

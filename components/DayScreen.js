@@ -23,20 +23,23 @@ import styles from './style';
          in_out.push("0");
          ySleep.push(new Date(this.props.boards[this.props.picked].exited[i]));
        }
-       if (i+1 < this.props.boards[this.props.picked].enters.length) {
-         //For line graph
-         in_out.push("0"); //0 represents out of bed
-         ySleep.push(new Date(this.props.boards[this.props.picked].exited[i]));
-         in_out.push("1");
-         ySleep.push(new Date(this.props.boards[this.props.picked].enters[i+1]));
-       }
      }
      //If no data for sleep, set up fake data
      if (ySleep.length == 0) {
        ySleep = [new Date(), new Date()];
        in_out = [0, 0]
      }
-
+     console.log(this.props.boards[this.props.picked].day)
+     let sleepData = [];
+     for (i=0; i<ySleep.length; i++) {
+       sleepData.push({x: ySleep[i], y: in_out[i]});
+       //ySleep[i] = ySleep[i].getTime();
+     }
+     console.log(sleepData)
+     let restlessData = [];
+     for (i=0; i<this.props.boards[this.props.picked].restNum.length; i++) {
+       restlessData.push({x: this.props.boards[this.props.picked].restTime[i], y: this.props.boards[this.props.picked].restNum[i]});
+     }
 
      //Build text to display for bedwetting table
      let bedWetContent;
@@ -76,12 +79,13 @@ import styles from './style';
     <VictoryChart
       height={130}
       animate={{ duration: 10 }}
-      //scale={{x: 'time'}}
-      //domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [0, 1.5]}}
+      scale={{x: 'time', y: 'linear'}}
+      domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [1.1, 2]}}
       >
       <VictoryArea
-        data={ySleep, in_out}
-        interpolation="step"
+        data={sleepData}
+          x="x" y="y"
+        interpolation="stepBefore"
         style={{
           data: { stroke: "steelblue", fill: "steelblue" },
         }}
@@ -89,9 +93,11 @@ import styles from './style';
       <VictoryAxis
         label="Time"
         style={{fontSize: 16, axisLabel: { padding: 30 }}}
+        tickFormat={(d) => this.props.formatTime(d)}
         //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
         fixLabelOverlap
         />
+
     </VictoryChart>
 
     <View style={styles.appContainer}>
@@ -118,12 +124,12 @@ import styles from './style';
         style={{
           data: { stroke: "steelblue" },
         }}
-        data = {this.props.boards[this.props.picked].restTime, this.props.boards[this.props.picked].restNum}
+        data = {restlessData}
         />
       <VictoryAxis
         label={"Time"}
         //tickFormat={restlessXLabel}
-        //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
+        tickFormat={(d) => this.props.formatTime(d)}
         fixLabelOverlap
         />
       <VictoryAxis dependentAxis

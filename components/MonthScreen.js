@@ -96,7 +96,7 @@ class MonthDetail extends Component {
             fixLabelOverlap
             />
           <VictoryAxis dependentAxis
-            label="Hours of Sleep"
+            label="Sleep"
             style={{
               axisLabel: { fontSize: 18 },
               transform: [{ rotate: '90deg'}]
