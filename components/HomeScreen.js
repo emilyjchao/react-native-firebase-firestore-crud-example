@@ -544,8 +544,6 @@ class HomeScreen extends Component {
 
       //If only one day in currBoards
       if (!currBoards.length) {
-        console.log(currBoards.restNum.length);
-
         for (j=0; j<currBoards.restNum.length; j++) {
           avgTRestless = avgTRestless + currBoards.restNum[j];
           restCounter++;

@@ -74,8 +74,9 @@ import styles from './style';
     </View>
     <VictoryChart
       height={130}
-      scale={{ x: "time" }}
       animate={{ duration: 10 }}
+      scale={{x: 'time'}}
+      //domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [0, 1.5]}}
       >
       <VictoryArea
         data={ySleep, in_out}
@@ -84,16 +85,14 @@ import styles from './style';
           data: { stroke: "steelblue", fill: "steelblue" },
         }}
         />
-      <VictoryAxis domain={{x: [new Date(this.props.boards[this.props.picked].enters[0]), new Date((new Date(this.props.boards[this.props.picked].enters[0]))+(13*3600000))]}} label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
-      <VictoryAxis dependentAxis
-        style={{
-          axisLabel: { padding: 10},
-          fontSize: 16,
-          transform: [{ rotate: '90deg'}]
-        }}
-        tickFormat={() => ''}
+      <VictoryAxis
+        label="Time"
+        style={{fontSize: 16, axisLabel: { padding: 30 }}}
+        //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
+        fixLabelOverlap
         />
     </VictoryChart>
+
     <View style={styles.appContainer}>
       <TouchableOpacity
         onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
@@ -109,7 +108,8 @@ import styles from './style';
     <VictoryChart
       height={150}
       domainPadding={{ x : [20, 20] }}
-      scale={{ x: "time" }}
+      //scale={{ x: "time" }}
+      domain={{x: [this.props.boards[this.props.picked].restTime[0], this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1]]}}
       animate={{ duration: 10 }}
       >
       <VictoryLine
@@ -122,6 +122,7 @@ import styles from './style';
       <VictoryAxis
         label={"Time"}
         //tickFormat={restlessXLabel}
+        tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
         fixLabelOverlap
         />
       <VictoryAxis dependentAxis
