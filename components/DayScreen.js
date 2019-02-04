@@ -94,6 +94,7 @@ import styles from './style';
         label="Time"
         style={{fontSize: 16, axisLabel: { padding: 30 }}}
         tickFormat={(d) => this.props.formatTime(d)}
+        tickComponent={<LineSegment type={"tick"}/>}
         //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
         fixLabelOverlap
         />
@@ -116,7 +117,6 @@ import styles from './style';
       height={150}
       domainPadding={{ x : [20, 20] }}
       scale={{ x: "time" }}
-      //domain={{x: [this.props.boards[this.props.picked].restTime[0], this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1]]}}
       animate={{ duration: 10 }}
       >
       <VictoryLine
@@ -128,7 +128,6 @@ import styles from './style';
         />
       <VictoryAxis
         label={"Time"}
-        //tickFormat={restlessXLabel}
         tickFormat={(d) => this.props.formatTime(d)}
         fixLabelOverlap
         />
