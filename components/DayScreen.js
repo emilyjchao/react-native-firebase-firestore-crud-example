@@ -62,8 +62,16 @@ import styles from './style';
         onPress={() => this.props.changePicked(1)}
       />
     </View>
-    <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
-    //Chart of daily sleep length
+    <View style={styles.appContainer}>
+      <TouchableOpacity
+        onPress={() => {Alert.alert('Shaded areas show time in bed asleep. Unshaded areas show time out of bed.')}}
+        style={styles.button1}>
+        <View style={styles.btnContainer}>
+          <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
+          <Image source={require('./about.png')} style={styles.icon} />
+        </View>
+      </TouchableOpacity>
+    </View>
     <VictoryChart
       height={130}
       scale={{ x: "time" }}
@@ -76,7 +84,7 @@ import styles from './style';
           data: { stroke: "steelblue", fill: "steelblue" },
         }}
         />
-      <VictoryAxis label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
+      <VictoryAxis domain={{x: [new Date(this.props.boards[this.props.picked].enters[0]), new Date((new Date(this.props.boards[this.props.picked].enters[0]))+(13*3600000))]}} label="Time" style={{fontSize: 16, axisLabel: { padding: 30 }}}/>
       <VictoryAxis dependentAxis
         style={{
           axisLabel: { padding: 10},
