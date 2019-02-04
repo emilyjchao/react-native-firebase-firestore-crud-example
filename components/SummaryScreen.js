@@ -65,6 +65,13 @@ class SummaryDetail extends Component {
           <VictoryScatter
             data = {this.props.boards}
             x="dateLabel" y="inBed"
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: () => {
+                 Alert.alert('Black line shows total time in bed')
+               }
+             }}]}
             />
           <VictoryBar
             data = {this.props.boards}
@@ -87,6 +94,13 @@ class SummaryDetail extends Component {
           <VictoryLine
             data = {this.props.boards}
             x="dateLabel" y="inBed"
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: () => {
+                 Alert.alert('Black line shows total time in bed')
+               }
+             }}]}
             style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
