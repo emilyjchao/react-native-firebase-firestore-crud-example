@@ -240,6 +240,7 @@ class AllDetail extends Component {
 
           />
         </View>
+        <Text>{'\n\n'}</Text>
       </ScrollView>)
 
     }

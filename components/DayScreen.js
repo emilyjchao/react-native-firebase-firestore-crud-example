@@ -108,8 +108,8 @@ import styles from './style';
     <VictoryChart
       height={150}
       domainPadding={{ x : [20, 20] }}
-      //scale={{ x: "time" }}
-      domain={{x: [this.props.boards[this.props.picked].restTime[0], this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1]]}}
+      scale={{ x: "time" }}
+      //domain={{x: [this.props.boards[this.props.picked].restTime[0], this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1]]}}
       animate={{ duration: 10 }}
       >
       <VictoryLine
@@ -122,7 +122,7 @@ import styles from './style';
       <VictoryAxis
         label={"Time"}
         //tickFormat={restlessXLabel}
-        tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
+        //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
         fixLabelOverlap
         />
       <VictoryAxis dependentAxis
@@ -180,6 +180,8 @@ import styles from './style';
         })
       }
       </View>
+    <Text>{'\n\n'}</Text>
+
     </View>);
 
   }

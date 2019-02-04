@@ -60,6 +60,7 @@ class SummaryDetail extends Component {
           //minDomain={{x:0.5}}
           maxDomain={{x:7}}
           animate={{ duration: 10 }}
+
           >
           <VictoryScatter
             data = {this.props.boards}
@@ -167,6 +168,7 @@ class SummaryDetail extends Component {
         </View>
         </View>
       </View>
+      <Text>{'\n\n'}</Text>
     </View>);
     }
   }

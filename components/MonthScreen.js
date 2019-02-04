@@ -166,6 +166,7 @@ class MonthDetail extends Component {
         </View>
       </View>
       </View>
+      <Text>{'\n\n'}</Text>
       </View>);
     }
   }
