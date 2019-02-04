@@ -72,10 +72,11 @@ import styles from './style';
         </View>
       </TouchableOpacity>
     </View>
+
     <VictoryChart
       height={130}
       animate={{ duration: 10 }}
-      scale={{x: 'time'}}
+      //scale={{x: 'time'}}
       //domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [0, 1.5]}}
       >
       <VictoryArea

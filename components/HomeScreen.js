@@ -286,11 +286,11 @@ class HomeScreen extends Component {
           // add a day to prevDate
           //console.log(prevDate);
           prevDate = new Date(prevDate.getTime() + (24*60*60*1000));
-          console.log('missing day');
+          //console.log('missing day');
           // Now store an object of zeros
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
           let extradayOfWk = weekday[prevDate.getUTCDay()];
-          console.log(extraNightName);
+        //  console.log(extraNightName);
           nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
           //console.log(prevDate);
         }
@@ -381,7 +381,7 @@ class HomeScreen extends Component {
             inBedTime = inBedDiff / (3600000 );
           }
 
-          console.log('InBed: ' + inBedTime);
+          //console.log('InBed: ' + inBedTime);
 
           //Loop through exits and calculate sleep time (time in bed not counting exits)
           var sleep = 0;
@@ -403,7 +403,7 @@ class HomeScreen extends Component {
             //Add time in bed between each entrance and exit to sleep
             }
           }
-          console.log("Asleep: " + sleep);
+          //console.log("Asleep: " + sleep);
 
   // Todo: incorporate restlessness into judging sleep time
 
@@ -415,7 +415,7 @@ class HomeScreen extends Component {
           var bedwet = wets.length >= 1;
 
           // add these arrays to the array that will be boards
-          console.log('real: ' + nightName);
+          //console.log('real: ' + nightName);
           nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
 
 
