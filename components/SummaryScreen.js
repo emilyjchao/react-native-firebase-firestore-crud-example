@@ -124,10 +124,10 @@ class SummaryDetail extends Component {
         <View style={{flexDirection: 'column'}}>
         <View style={styles.appContainer}>
         <TouchableOpacity
-          onPress={() => {Alert.alert('Restlessness is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+          onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
           style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Restlessness</Text>
+              <Text style={styles.title}>Movement</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>

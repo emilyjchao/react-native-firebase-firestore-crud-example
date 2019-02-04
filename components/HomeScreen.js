@@ -291,7 +291,7 @@ class HomeScreen extends Component {
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
           let extradayOfWk = weekday[prevDate.getUTCDay()];
           console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [], "restNum": [], "inBed": 0, "dayLabel": extradayOfWk, });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [new Date(prevDate)], "enters": [new Date(prevDate)], "bedwet": [], "sleep": 0, "restTime": [new Date(prevDate), new Date(prevDate)], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
           //console.log(prevDate);
         }
 
@@ -364,6 +364,11 @@ class HomeScreen extends Component {
             restTime.push(new Date(parseInt(restlessSplit[0], 10)));
             restNum.push(parseInt(restlessSplit[1], 10));
           }
+          //To avoid graph errors, fill empty restless and sleep graph with fake data
+          if (restNum.length == 0) {
+            restNum = [0, 0];
+            restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
+          }
 
   // TODO: more accurate processing of sleep and awake time
           //Calculate time between first enter and last exit dates (time in bed)
@@ -410,6 +415,7 @@ class HomeScreen extends Component {
           console.log('real: ' + nightName);
           nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
 
+
         //} // end of checking if it was within the last 24 hrs
         // else {
         //   // add a day to prevDate
@@ -423,6 +429,7 @@ class HomeScreen extends Component {
         //   nightData.push({ "day": nightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": 0, "restNum": 0, "inBed": 0, "dayLabel": dayOfWk, });
         //   //console.log(prevDate);
         // }
+
         } // end of if checking its not current time or profile
 
     }) // end of looping through the nights of data
@@ -534,8 +541,11 @@ class HomeScreen extends Component {
       let avgTRestless = 0;
       let restCounter = 0;
 
+
       //If only one day in currBoards
       if (!currBoards.length) {
+        console.log(currBoards.restNum.length);
+
         for (j=0; j<currBoards.restNum.length; j++) {
           avgTRestless = avgTRestless + currBoards.restNum[j];
           restCounter++;
@@ -544,8 +554,11 @@ class HomeScreen extends Component {
       } else {
         for ( i=0; i<currBoards.length; i++) {
           for (j=0; j<currBoards[i].restNum.length; j++) {
-            avgTRestless = avgTRestless + currBoards[i].restNum[j];
-            restCounter++;
+            //Only count day if not fake data (2 placeholders)
+            if (currBoards[i].restNum.length != 2) {
+              avgTRestless = avgTRestless + currBoards[i].restNum[j];
+              restCounter++;
+            }
           }
         }
       }
