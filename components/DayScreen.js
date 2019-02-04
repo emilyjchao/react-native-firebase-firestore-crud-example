@@ -31,6 +31,13 @@ import styles from './style';
          ySleep.push(new Date(this.props.boards[this.props.picked].enters[i+1]));
        }
      }
+     //If no data for sleep, set up fake data
+     if (ySleep.length == 0) {
+       ySleep = [new Date(), new Date()];
+       in_out = [0, 0]
+     }
+
+
      //Build text to display for bedwetting table
      let bedWetContent;
      if(this.props.boards[this.props.picked].bedwet.length > 0){

@@ -291,7 +291,7 @@ class HomeScreen extends Component {
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
           let extradayOfWk = weekday[prevDate.getUTCDay()];
           console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [new Date(prevDate)], "enters": [new Date(prevDate)], "bedwet": [], "sleep": 0, "restTime": [new Date(prevDate), new Date(prevDate)], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
           //console.log(prevDate);
         }
 
@@ -554,7 +554,7 @@ class HomeScreen extends Component {
       } else {
         for ( i=0; i<currBoards.length; i++) {
           for (j=0; j<currBoards[i].restNum.length; j++) {
-            //Only count day if not fake data (2 placeholders)
+            //Check to make sure that you're not counting fake data
             if (currBoards[i].restNum.length != 2) {
               avgTRestless = avgTRestless + currBoards[i].restNum[j];
               restCounter++;
