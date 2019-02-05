@@ -28,7 +28,7 @@ class MonthDetail extends Component {
       dateLabels.push(splitDate[0] + '/' + splitDate[1]);
     }
 
-
+    console.log(this.props.boards)
     return(
       <View>
       <View style={styles.triplet}>

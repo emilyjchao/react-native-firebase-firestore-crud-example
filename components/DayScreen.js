@@ -95,7 +95,6 @@ import styles from './style';
         style={{fontSize: 16, axisLabel: { padding: 30 }}}
         tickFormat={(d) => this.props.formatTime(d)}
         tickComponent={<LineSegment type={"tick"}/>}
-        //tickFormat={(d) => (new Date(d)).getHours() + ":" + ((new Date(d)).getMinutes()<10?'0':'') + (new Date(d)).getMinutes()}
         fixLabelOverlap
         />
 

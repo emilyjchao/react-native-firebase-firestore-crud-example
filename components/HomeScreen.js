@@ -159,7 +159,7 @@ class HomeScreen extends Component {
     let newBoards = [];
     //Find the index of the first day of the current week in dateDic
     let index = this.state.dateDic.indexOf(this.state.monthBoards[0].day);
-    let monthIndex = 0;
+    let monthIndex = -1;
 
     //If go back a week
     if (direction == -1) {
@@ -172,7 +172,7 @@ class HomeScreen extends Component {
         }
       }
       //If previous month found
-      if (monthIndex != 0) {
+      if (monthIndex != -1) {
         let splitDate1 = this.state.dates[monthIndex].split("-");
         //Loop through dates to find boards that match the previous month
         for (i=0; i<this.state.dates.length; i++) {
@@ -200,7 +200,7 @@ class HomeScreen extends Component {
         }
       }
       //If previous month found
-      if (monthIndex != 0) {
+      if (monthIndex != -1) {
         let splitDate1 = this.state.dates[monthIndex].split("-");
         //Loop through dates to find boards that match the previous month
         for (i=index; i<this.state.dates.length; i++) {
@@ -456,7 +456,7 @@ class HomeScreen extends Component {
     let count = dates.length-1;
     //find most recent day with data
     while (count >= 0) {
-      if (nightData[count].enters.length > 0) {
+      if (nightData[count].enters.length > 0 && nightData[count].exited.length > 0) {
         splitDate1 = dates[count].split("-");
         count = -1;
       } else {
