@@ -62,6 +62,7 @@ class HomeScreen extends Component {
 
   //wrapper so that state can be set from onFetchData
   fetchData() {
+    //Change function to on or once to change data receiving options
     firebase.database().ref().on('value', this.onFetchData);
   }
 
@@ -271,8 +272,7 @@ class HomeScreen extends Component {
     }
 
     //console.log(nights);
-    // loop through each night and sort the data into arrays and objects
-    // to store in state
+    // loop through each night and sort the data into arrays and objects to store in state
     // try to ensure that there are at least zeros for missing nights
     let prevDate = new Date(nights[0].split("-")[2], nights[0].split("-")[0] - 1, nights[0].split("-")[1]);
     //console.log(prevDate);
@@ -290,7 +290,6 @@ class HomeScreen extends Component {
           //console.log('missing day');
           // Now store an object of zeros
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
-//IS this correct? I added this????
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
@@ -440,10 +439,11 @@ class HomeScreen extends Component {
 
     }) // end of looping through the nights of data
 
-
+    //Set week, month boards
+    let displayData = []
+    let monthData = [];
     //Set up boards for weekly display view (take most recent numDisplay days)
     let numDisplay = 7;
-    let displayData = []
     //if fewer data days than the user wants to display, only show available data
     if (dates.length <= numDisplay) {
       displayData = nightData
@@ -467,7 +467,6 @@ class HomeScreen extends Component {
       }
     }
     //add all days to monthData that have same month as most recent day with data
-    let monthData = [];
     for (i=0; i<dates.length; i++) {
       let splitDate2 = dates[i].split("-");
       if (splitDate1[0] == splitDate2[0]) {
@@ -549,7 +548,7 @@ class HomeScreen extends Component {
 
 
       //If only one day in currBoards
-      if (!currBoards.length) {
+      if (!Array.isArray(currBoards)) {
         for (j=0; j<currBoards.restNum.length; j++) {
           avgTRestless = avgTRestless + currBoards.restNum[j];
           restCounter++;
