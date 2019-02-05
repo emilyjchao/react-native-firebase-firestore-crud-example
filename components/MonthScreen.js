@@ -60,10 +60,6 @@ class MonthDetail extends Component {
           //maxDomain={{x:8}}
           animate={{ duration: 10 }}
           >
-          <VictoryScatter
-            data = {this.props.boards}
-            x="dateLabel" y="inBed"
-            />
           <VictoryBar
             data = {this.props.boards}
             x="dateLabel" y="sleep"
@@ -81,6 +77,10 @@ class MonthDetail extends Component {
                  return [{target: "data",}];
                }
              }}]}
+            />
+          <VictoryScatter
+            data = {this.props.boards}
+            x="dateLabel" y="inBed"
             />
           <VictoryLine
             data = {this.props.boards}
