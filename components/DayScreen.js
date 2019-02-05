@@ -47,6 +47,14 @@ import styles from './style';
      let label3 = new Date(label2.getTime() + increment);
      let sleepLabel = [label1, label2, label3, label4];
 
+     //Set up labels for restlessness
+     label1 = this.props.boards[this.props.picked].restTime[0];
+     label4 = this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1];
+     increment = Math.floor((this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1].getTime()-this.props.boards[this.props.picked].restTime[0].getTime())/3);
+     label2 = new Date(label1.getTime() + increment);
+     label3 = new Date(label2.getTime() + increment);
+     let restlessLabel = [label1, label2, label3, label4];
+
      //Build text to display for bedwetting table
      let bedWetContent;
      if(this.props.boards[this.props.picked].bedwet.length > 0){
@@ -100,8 +108,10 @@ import styles from './style';
         label="Time"
         style={{fontSize: 16, axisLabel: { padding: 30 }}}
         tickFormat={(d) => this.props.formatTime(d)}
-        //tickComponent={<LineSegment type={"tick"}/>}
         tickValues={sleepLabel}
+        style={{
+          ticks: {stroke: "black", size: 7},
+        }}
         fixLabelOverlap
         />
 
@@ -135,6 +145,10 @@ import styles from './style';
       <VictoryAxis
         label={"Time"}
         tickFormat={(d) => this.props.formatTime(d)}
+        tickValues={restlessLabel}
+        style={{
+          ticks: {stroke: "black", size: 7},
+        }}
         fixLabelOverlap
         />
       <VictoryAxis dependentAxis
