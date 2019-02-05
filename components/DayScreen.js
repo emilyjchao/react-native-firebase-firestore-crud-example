@@ -162,27 +162,28 @@ import styles from './style';
         </View>
       </TouchableOpacity>
     </View>
-    <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-    // This code for rendering table is from:
-    // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {
-        this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
-          if (index != this.props.boards[this.props.picked].exited.length-1){
-          var exitTime = new Date(time);
-          var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
-          var dif = new Date(enterTime-exitTime);
-          var timeOut = dif / (60000);
+      <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
+      // This code for rendering table is from:
+      // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {
+          this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
+            if (index != this.props.boards[this.props.picked].exited.length-1){
+            var exitTime = new Date(time);
+            var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
+            var dif = new Date(enterTime-exitTime);
+            var timeOut = dif / (60000);
 
-          return (
-              <Text key={time} style={styles.brightTextLeft}>
-                {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
-              </Text>
-          );
-          }
-        })
-      }
-      </View>
+            return (
+                <Text key={time} style={styles.brightTextLeft}>
+                  {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
+                </Text>
+            );
+            }
+          })
+        }
+        </View>
+
     <Text>{'\n\n'}</Text>
 
     </View>);
