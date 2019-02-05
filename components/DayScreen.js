@@ -29,13 +29,11 @@ import styles from './style';
        ySleep = [new Date(), new Date()];
        in_out = [0, 0]
      }
-     console.log(this.props.boards[this.props.picked].day)
      let sleepData = [];
      for (i=0; i<ySleep.length; i++) {
        sleepData.push({x: ySleep[i], y: in_out[i]});
        //ySleep[i] = ySleep[i].getTime();
      }
-     console.log(sleepData)
      let restlessData = [];
      for (i=0; i<this.props.boards[this.props.picked].restNum.length; i++) {
        restlessData.push({x: this.props.boards[this.props.picked].restTime[i], y: this.props.boards[this.props.picked].restNum[i]});

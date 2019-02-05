@@ -42,6 +42,7 @@ class HomeScreen extends Component {
       monthBoards: [],  //the display of nights on the monthly summary
       picked: 0,        // the index in boards of the currently selected night
       dateDic: [],      // dictionary of all the dates --> to speed finding of a specific night's index
+      firstRun: 1,
       day: 2,       // day v. week view --> should  be removed if using separate pages
     };
     this.onFetchData = this.onFetchData.bind(this);
@@ -439,40 +440,47 @@ class HomeScreen extends Component {
 
     }) // end of looping through the nights of data
 
-    //Set week, month boards
-    let displayData = []
-    let monthData = [];
-    //Set up boards for weekly display view (take most recent numDisplay days)
-    let numDisplay = 7;
-    //if fewer data days than the user wants to display, only show available data
-    if (dates.length <= numDisplay) {
-      displayData = nightData
-    //else show last numDisplay days
-    } else {
-      for (i = numDisplay; i>0; i--) {
-        displayData.push(nightData[dates.length-i]);
-      }
-    }
-
-    //Set up boards for monthly display view (take only boards with same month)
-    let splitDate1 = 0;
-    let count = dates.length-1;
-    //find most recent day with data
-    while (count >= 0) {
-      if (nightData[count].enters.length > 0 && nightData[count].exited.length > 0) {
-        splitDate1 = dates[count].split("-");
-        count = -1;
+    //Only set day, week, and month default view once
+    let pickData = this.state.picked;
+    let displayData = this.state.displayBoards;
+    let monthData = this.state.monthBoards;
+    if (this.state.firstRun == 1) {
+      //Set day, week, month boards
+      pickData = dates.length-1;
+      displayData = [];
+      monthData = [];
+      //Set up boards for weekly display view (take most recent numDisplay days)
+      let numDisplay = 7;
+      //if fewer data days than the user wants to display, only show available data
+      if (dates.length <= numDisplay) {
+        displayData = nightData
+      //else show last numDisplay days
       } else {
-        count--;
+        for (i = numDisplay; i>0; i--) {
+          displayData.push(nightData[dates.length-i]);
+        }
       }
-    }
-    //add all days to monthData that have same month as most recent day with data
-    for (i=0; i<dates.length; i++) {
-      let splitDate2 = dates[i].split("-");
-      if (splitDate1[0] == splitDate2[0]) {
-        monthData.push(nightData[i]);
+
+      //Set up boards for monthly display view (take only boards with same month)
+      let splitDate1 = 0;
+      let count = dates.length-1;
+      //find most recent day with data
+      while (count >= 0) {
+        if (nightData[count].enters.length > 0 && nightData[count].exited.length > 0) {
+          splitDate1 = dates[count].split("-");
+          count = -1;
+        } else {
+          count--;
+        }
       }
-    }
+      //add all days to monthData that have same month as most recent day with data
+      for (i=0; i<dates.length; i++) {
+        let splitDate2 = dates[i].split("-");
+        if (splitDate1[0] == splitDate2[0]) {
+          monthData.push(nightData[i]);
+        }
+      }
+    } //end setting of displays for first time app is loaded
 
     //Set state with all of newly processed variables
     this.setState({
@@ -480,7 +488,8 @@ class HomeScreen extends Component {
       displayBoards: displayData,
       monthBoards: monthData,
       dateDic: dates,
-      picked: dates.length-1,
+      picked: pickData,
+      firstRun: 0,
       isLoading: false, // update so components render
     });
   }
