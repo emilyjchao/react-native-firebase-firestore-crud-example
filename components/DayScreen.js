@@ -39,6 +39,14 @@ import styles from './style';
        restlessData.push({x: this.props.boards[this.props.picked].restTime[i], y: this.props.boards[this.props.picked].restNum[i]});
      }
 
+     //Set up labels for sleep chart
+     let label1 = ySleep[0];
+     let label4 = ySleep[ySleep.length-1];
+     let increment = Math.floor((ySleep[ySleep.length-1].getTime()-ySleep[0].getTime())/3);
+     let label2 = new Date(label1.getTime() + increment);
+     let label3 = new Date(label2.getTime() + increment);
+     let sleepLabel = [label1, label2, label3, label4];
+
      //Build text to display for bedwetting table
      let bedWetContent;
      if(this.props.boards[this.props.picked].bedwet.length > 0){
@@ -92,7 +100,8 @@ import styles from './style';
         label="Time"
         style={{fontSize: 16, axisLabel: { padding: 30 }}}
         tickFormat={(d) => this.props.formatTime(d)}
-        tickComponent={<LineSegment type={"tick"}/>}
+        //tickComponent={<LineSegment type={"tick"}/>}
+        tickValues={sleepLabel}
         fixLabelOverlap
         />
 
