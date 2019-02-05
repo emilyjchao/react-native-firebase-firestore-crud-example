@@ -244,12 +244,13 @@ class HomeScreen extends Component {
     let splitDate = "";
     for (i=0; i<nights.length; i++){
       //Check that key is in date format with two '-'
-      if (nights[i].split("-").length - 1 == 2) {
+      if (nights[i].split("-").length == 3) {
         splitDate = nights[i].split("-");
         nights[i] = new Date(splitDate[2], splitDate[0] - 1, splitDate[1]);
       }
       else {
         nights.splice(i, 1);
+        i--;
       }
     }
 
