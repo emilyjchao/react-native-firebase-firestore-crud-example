@@ -173,10 +173,10 @@ class HomeScreen extends Component {
       }
       //If previous month found
       if (monthIndex != -1) {
-        let splitDate1 = this.state.dates[monthIndex].split("-");
+        let splitDate1 = this.state.dateDic[monthIndex].split("-");
         //Loop through dates to find boards that match the previous month
-        for (i=0; i<this.state.dates.length; i++) {
-          let splitDate2 = dates[i].split("-");
+        for (i=0; i<this.state.dateDic.length; i++) {
+          let splitDate2 = this.state.dateDic[i].split("-");
           //If they match the month we're looking for, add them to display
           if (splitDate1[0] == splitDate2[0]) {
             newBoards.push(this.state.boards[i]);
@@ -192,11 +192,11 @@ class HomeScreen extends Component {
     //If go forward a week
     else if (direction == 1) {
       //Check if a month exists after  displayed month
-      for (i=index; i<this.state.boards.length; i++) {
+      for (i=index; i<this.state.dateDic.length; i++) {
         //Check when month of current date is different from month in dateDic
         if (this.state.dateDic[i].split("-")[0] != this.state.monthBoards[0].day.split("-")[0]) {
           monthIndex = i;
-          i = -1;
+          i = this.state.dateDic.length+1;
         }
       }
       //If previous month found
@@ -290,6 +290,8 @@ class HomeScreen extends Component {
           //console.log('missing day');
           // Now store an object of zeros
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
+//IS this correct? I added this????
+          dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
           nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
