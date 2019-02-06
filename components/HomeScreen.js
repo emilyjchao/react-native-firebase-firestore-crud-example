@@ -377,7 +377,7 @@ class HomeScreen extends Component {
           //Calculate time between first enter and last exit dates (time in bed)
           var enter1 = new Date(enters[0]);
           var exit2 = new Date(exits[exits.length-1]);
-          var inBedDiff = new Date((exit2-enter1));
+          var inBedDiff = new Date((exit2.getTime() - enter1.getTime()));
           //Calculate time in bed
           var inBedTime = 0;
           if (inBedDiff) {
