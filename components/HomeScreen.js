@@ -384,7 +384,7 @@ class HomeScreen extends Component {
             inBedTime = inBedDiff / (3600000 );
           }
 
-          //console.log('InBed: ' + inBedTime);
+          console.log('InBed: ' + inBedTime);
 
           //Loop through exits and calculate sleep time (time in bed not counting exits)
           var sleep = 0;
@@ -392,11 +392,15 @@ class HomeScreen extends Component {
           // amount of time that within exits and enters do not count towards Sleep
           const asleepThresh = .01;
           let asleep = false;
+          console.log(enters.length);
+          console.log(exits.length);
           for (i=0; i < enters.length; i++){
-            var inTime = new Date(enters[i]);
-            var outTime = new Date(exits[i]);
-            var timeIn = new Date(outTime-inTime) / (3600000);
-
+            var inTime = enters[i];
+            var outTime = exits[i];
+            var timeIn = (outTime - inTime) / (60*60*1000);
+            var enter1Time = new Date(inTime);
+            var exit1Time = new Date(outTime);
+            console.log(enter1Time.getHours() + " : " + exit1Time.getHours() + " : " + timeIn);
             // if not asleep yet, don't count, check if asleep
             if (timeIn) {
               if (timeIn > asleepThresh) {
@@ -406,7 +410,7 @@ class HomeScreen extends Component {
             //Add time in bed between each entrance and exit to sleep
             }
           }
-          //console.log("Asleep: " + sleep);
+          console.log("Asleep: " + sleep);
 
   // Todo: incorporate restlessness into judging sleep time
 
