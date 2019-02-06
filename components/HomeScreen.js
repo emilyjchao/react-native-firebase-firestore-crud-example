@@ -64,7 +64,7 @@ class HomeScreen extends Component {
   //wrapper so that state can be set from onFetchData
   fetchData() {
     //Change function to on or once to change data receiving options
-    firebase.database().ref().on('value', this.onFetchData);
+    firebase.database().ref().once('value', this.onFetchData);
   }
 
   // increment or decrement the picked by the amount given in updown
