@@ -39,6 +39,26 @@ import styles from './style';
        restlessData.push({x: this.props.boards[this.props.picked].restTime[i], y: this.props.boards[this.props.picked].restNum[i]});
      }
 
+     //Set up labels for sleep chart
+     let label1 = ySleep[0];
+     let label4 = ySleep[ySleep.length-1];
+     let increment = Math.floor((ySleep[ySleep.length-1].getTime()-ySleep[0].getTime())/3);
+     let label2 = new Date(label1.getTime() + increment);
+     let label3 = new Date(label2.getTime() + increment);
+     let sleepLabel = [label1, label2, label3, label4];
+
+     //Set up labels for restlessness
+     let restlessLabel = []
+     //Add to array if restlessness is longer than 1 hour
+     if ((this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1].getTime() - this.props.boards[this.props.picked].restTime[0].getTime()) <= 60000) {
+      label1 = this.props.boards[this.props.picked].restTime[0];
+      label4 = this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1];
+      increment = Math.floor((this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1].getTime()-this.props.boards[this.props.picked].restTime[0].getTime())/3);
+      label2 = new Date(label1.getTime() + increment);
+      label3 = new Date(label2.getTime() + increment);
+      restlessLabel = [label1, label2, label3, label4];
+     }
+
      //Build text to display for bedwetting table
      let bedWetContent;
      if(this.props.boards[this.props.picked].bedwet.length > 0){
@@ -90,9 +110,11 @@ import styles from './style';
         />
       <VictoryAxis
         label="Time"
-        style={{fontSize: 16, axisLabel: { padding: 30 }}}
         tickFormat={(d) => this.props.formatTime(d)}
-        tickComponent={<LineSegment type={"tick"}/>}
+        tickValues={sleepLabel}
+        style={{fontSize: 16, axisLabel: { padding: 35 },
+            ticks: {stroke: "black", size: 7},
+          }}
         fixLabelOverlap
         />
 
@@ -126,6 +148,10 @@ import styles from './style';
       <VictoryAxis
         label={"Time"}
         tickFormat={(d) => this.props.formatTime(d)}
+        tickValues={restlessLabel}
+        style={{fontSize: 16, axisLabel: { padding: 35 },
+            ticks: {stroke: "black", size: 7},
+          }}
         fixLabelOverlap
         />
       <VictoryAxis dependentAxis
@@ -168,17 +194,23 @@ import styles from './style';
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         {
           this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
-            if (index != this.props.boards[this.props.picked].exited.length-1){
-            var exitTime = new Date(time);
-            var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
-            var dif = new Date(enterTime-exitTime);
-            var timeOut = dif / (60000);
-
-            return (
-                <Text key={time} style={styles.brightTextLeft}>
-                  {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
-                </Text>
-            );
+            if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
+              return (
+                  <Text key={time} style={styles.brightTextLeft}>
+                    {'                         '}{'--'}{'                     '}{'--'}
+                  </Text>
+              );
+            }
+            else if (index != this.props.boards[this.props.picked].exited.length-1){
+              var exitTime = new Date(time);
+              var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
+              var dif = new Date(enterTime-exitTime);
+              var timeOut = dif / (60000);
+              return (
+                  <Text key={time} style={styles.brightTextLeft}>
+                    {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
+                  </Text>
+              );
             }
           })
         }

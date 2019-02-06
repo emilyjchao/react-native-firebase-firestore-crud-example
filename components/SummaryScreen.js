@@ -62,17 +62,6 @@ class SummaryDetail extends Component {
           animate={{ duration: 10 }}
 
           >
-          <VictoryScatter
-            data = {this.props.boards}
-            x="dateLabel" y="inBed"
-            events={[{
-              target: "data",
-              eventHandlers: {
-              onPressIn: () => {
-                 Alert.alert('Black line shows total time in bed')
-               }
-             }}]}
-            />
           <VictoryBar
             data = {this.props.boards}
             x="dateLabel" y="sleep"
@@ -88,6 +77,17 @@ class SummaryDetail extends Component {
               onPressIn: (event, data) => {
                  this.props.selectDay(data.datum.day);
                  return [{target: "data",}];
+               }
+             }}]}
+            />
+          <VictoryScatter
+            data = {this.props.boards}
+            x="dateLabel" y="inBed"
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: () => {
+                 Alert.alert('Black line shows total time in bed')
                }
              }}]}
             />
