@@ -8,6 +8,7 @@ import ChildDetailsScreen from './components/ChildDetailsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import CalibrateScreen from './components/CalibrateScreen';
 import TutorialScreen from './components/TutorialScreen';
+import AveragesScreen from './components/AveragesScreen';
 import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
 import SummaryScreen from './components/SummaryScreen';
@@ -34,6 +35,7 @@ const RootStack = createStackNavigator(
     Settings: SettingsScreen,
     Calibrate: CalibrateScreen,
     Tutorial: TutorialScreen,
+    Averages: AveragesScreen,
   },
   {
     initialRouteName: 'Home',

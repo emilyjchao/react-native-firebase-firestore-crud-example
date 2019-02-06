@@ -25,7 +25,6 @@ class AllDetail extends Component {
           </TouchableOpacity>
           //Display line graph of all sleep time
           <VictoryChart
-            animate={{ duration: 10 }}
             //helps so that chart is not cut off on right
             domainPadding={{ x : [30, 30] }}
             containerComponent={
@@ -137,17 +136,10 @@ class AllDetail extends Component {
               </View>
               </View>
 
-              <View
-                style={{
-                  borderBottomColor: 'black',
-                  borderBottomWidth: 1,
-                }}
-              />
+
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
-              this.props.sleepAVG
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 5 }}
                 >
                 <VictoryLabel text="Total Hours of Sleep" x={245} y={30} textAnchor="end" />
                 <VictoryBar
@@ -170,7 +162,6 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 5 }}
                 >
                 <VictoryLabel text="Movement" x={225} y={30} textAnchor="end" />
                 <VictoryBar
@@ -180,7 +171,7 @@ class AllDetail extends Component {
                   }}
                   data = {[
                     {x: "Your Child", y: parseFloat(this.props.avgRestless)},
-                    {x: "National Average", y: 1.1}
+                    {x: "National Average", y: 50}
                   ]}
                   style={{
                     data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
@@ -193,7 +184,6 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
                 <VictoryBar
@@ -216,7 +206,6 @@ class AllDetail extends Component {
               </VictoryChart>
               <VictoryChart
                 domainPadding={80}
-                animate={{ duration: 10 }}
                 >
                 <VictoryLabel text="Bed Exits Per Night" x={250} y={30} fontSize={60} textAnchor="end"/>
                 <VictoryBar

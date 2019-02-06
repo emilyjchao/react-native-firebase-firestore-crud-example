@@ -96,7 +96,6 @@ import styles from './style';
 
     <VictoryChart
       height={130}
-      animate={{ duration: 10 }}
       scale={{x: 'time', y: 'linear'}}
       domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [1.1, 2]}}
       >
@@ -136,7 +135,6 @@ import styles from './style';
       height={150}
       domainPadding={{ x : [20, 20] }}
       scale={{ x: "time" }}
-      animate={{ duration: 10 }}
       >
       <VictoryLine
         interpolation="natural"

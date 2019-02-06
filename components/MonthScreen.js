@@ -58,7 +58,6 @@ class MonthDetail extends Component {
           domainPadding={{ x: 15 }}
           //minDomain={{x:0.5}}
           //maxDomain={{x:8}}
-          animate={{ duration: 10 }}
           >
           <VictoryBar
             data = {this.props.boards}

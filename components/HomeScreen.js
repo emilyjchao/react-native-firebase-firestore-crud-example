@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
-import { List, ListItem, Button, Icon } from 'react-native-elements';
+import { List, ListItem, Button } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import DayDetail from './DayScreen';
 import SummaryDetail from './SummaryScreen';
 import MonthDetail from './MonthScreen';
 import Tutorial from './TutorialScreen';
 import Settings from './SettingsScreen';
+import Averages from './AveragesScreen';
 import AllDetail from './AllScreen';
 import firebase from '../Firebase';
 import styles from './style';
@@ -16,11 +17,18 @@ class HomeScreen extends Component {
     return {
       //Draw settings and add child buttons on header of screen
       title: 'Sleep Report',
-      headerRight:  (<Button
+      headerRight:  (<View style={styles.btnContainer}>
+        <Button
+          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+          icon={{ name: 'wifi', style: { marginRight: -20, fontSize: 28 } }}
+          onPress={() => { navigation.push('Averages') }}
+        />
+        <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
           onPress={() => { navigation.push('Settings') }}
         />
+        </View>
       ),
       headerLeft: (
         <Button
@@ -687,7 +695,7 @@ class HomeScreen extends Component {
       boards={this.state.displayBoards}
       sleepAVG={calcSleepAvg(this.state.displayBoards).toFixed(2)}
       restlessDescription={findRestlessWord(calcRestless(this.state.displayBoards))}
-      avgRestless={calcRestless(this.state.displayBoards).toFixed(2)}
+      avgRestless={calcRestless(this.state.displayBoards).toFixed(1)}
       sumWets={calcBedwetting(this.state.displayBoards).toFixed(1)}
       avgExits={calcExits(this.state.displayBoards).toFixed(1)}
       selectDay={this.goToDay}
@@ -700,7 +708,7 @@ class HomeScreen extends Component {
       boards={this.state.monthBoards}
       sleepAVG={calcSleepAvg(this.state.monthBoards).toFixed(2)}
       restlessDescription={findRestlessWord(calcRestless(this.state.monthBoards))}
-      avgRestless={calcRestless(this.state.monthBoards).toFixed(2)}
+      avgRestless={calcRestless(this.state.monthBoards).toFixed(1)}
       sumWets={calcBedwetting(this.state.monthBoards).toFixed(1)}
       avgExits={calcExits(this.state.monthBoards).toFixed(1)}
       selectDay={this.goToDay}
@@ -713,7 +721,7 @@ class HomeScreen extends Component {
       boards={this.state.boards}
       sleepAVG={calcSleepAvg(this.state.boards).toFixed(2)}
       restlessDescription={findRestlessWord(calcRestless(this.state.boards))}
-      avgRestless={calcRestless(this.state.boards).toFixed(2)}
+      avgRestless={calcRestless(this.state.boards).toFixed(1)}
       sumWets={calcBedwetting(this.state.boards).toFixed(1)}
       avgExits={calcExits(this.state.boards).toFixed(1)}
       selectDay={this.goToDay}

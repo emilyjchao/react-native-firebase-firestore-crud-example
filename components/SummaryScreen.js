@@ -61,7 +61,6 @@ class SummaryDetail extends Component {
             domainPadding={{ x: 15 }}
             //minDomain={{x:0.5}}
             maxDomain={{x:7}}
-            animate={{ duration: 1 }}
             height={300}
             >
             <VictoryBar
