@@ -351,11 +351,60 @@ class HomeScreen extends Component {
           // console.log('new exits:');
           // console.log(exits);
 
+        // Check the data and fill in missing exits or enters
+          // check the number of exits and enters
+          if (exits.length > 1){
+            //Check that first enter comes before first exit
+            if (exits[0] < enters[0]) {
+              //Remove first exit if came before first enter
+              exits.splice(0, 1);
+            }
+          }
 
-          //Check that first enter comes before first exit
-          if (exits[0] < enters[0]) {
-            //Remove first exit if came before first enter
-            exits.splice(0, 1);
+          // fill in missing exits/enters
+          if (exits.length < enters.length) {
+            //console.log('Adding exits...');
+            for (i=1; i < enters.length; i++){
+            //  console.log('Check for consecutive enters');
+              // check for consecutive enters
+              if (enters[i] < exits[i-1]) {
+              //  console.log('adding exit.');
+                // put the average of the two consequative enters
+                let addedExit = Math.floor((enters[i] + enters[i-1]) / 2);
+              //  console.log(addedExit);
+                exits.splice(i-1, 0, addedExit);
+              //  console.log('added.');
+              }
+            }
+            // if the enters is still longer, drop the final enter
+            if (enters.length - exits.length == 1) {
+              enters.pop();
+            }
+            //console.log('enters then exits length: ' + enters.length + exits.length);
+          }
+          else if (exits.length > enters.length) {
+            console.log('Adding enters...');
+            for (i=1; i < exits.length; i++){
+            //  console.log('Check for consecutive enters');
+              // check for consecutive enters
+              if (exits[i] < enters[i]) {
+              //  console.log('adding exit.');
+                // put the average of the two consequative enters
+                let addedEnter = Math.floor((exits[i] + exits[i-1]) / 2);
+              //  console.log(addedExit);
+                enters.splice(i, 0, addedEnter);
+              //  console.log('added.');
+              }
+            }
+            // if the enters is still longer, drop the final enter
+            if (exits.length - enters.length  == 1) {
+              exits.pop();
+            }
+            //console.log('enters then exits length: ' + enters.length + exits.length);
+
+          }
+          else {
+            console.log('Equal or empty: ' + exits.length + "..." + enters.length);
           }
 
           //Split timestamp from restlessness rating
