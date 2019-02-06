@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 10,
   },
   btnContainer: {
     paddingHorizontal: 5,
@@ -14,6 +15,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'transparent',
+  },
+  chart: {
+    marginBottom: 35,
   },
   container: {
    flex: 1,
@@ -72,16 +76,8 @@ const styles = StyleSheet.create({
   brightText: {
     textAlign: 'center',
     fontSize: 18,
-    marginTop: 5,
     marginBottom: 0,
     color: 'teal',
-  },
-  title: {
-  //brightText: {
-    textAlign: 'center',
-    fontSize: 24,
-    color: 'steelblue',
-    marginTop: 5,
   },
   // brightTextLeft: {
   //   textAlign: 'left',
@@ -121,6 +117,13 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: 24,
   },
+  title: {
+  //brightText: {
+    textAlign: 'center',
+    fontSize: 30,
+    color: 'steelblue',
+    marginTop: 5,
+  },
   triplet: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -128,6 +131,14 @@ const styles = StyleSheet.create({
   },
   tripleToggle: {
     flexDirection: 'row',
+  },
+  twoColumnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  twoColumnColumn: {
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   icon: {
     width: 10,
