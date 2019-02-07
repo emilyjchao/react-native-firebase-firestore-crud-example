@@ -319,18 +319,19 @@ class HomeScreen extends Component {
 
           //  fill arrays by iterating over each list from firebase
           if (night["enters"])  {
-            enters = parseInt(Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])}), 10);
+            enters = (Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])}));
           }
           if (night["exits"])  {
-            exits  = parseInt(Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])}), 10);
+            exits  = (Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])}));
           }
           if (night["wets"])  {
-            wets = parseInt(Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])}), 10);
+            wets = (Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])}));
           }
           if (night["movement"])  {
             restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
           }
 
+          console.log("Wets " + wets);
           // Check that there are exits and if not check if it is from
           // today/yesterday if it is from today then set exit as current
           // time, if it is not then set the exit to right after the enter
