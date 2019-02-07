@@ -75,66 +75,56 @@ class AllDetail extends Component {
               />
               </VictoryChart>
 
-              <Text>{"\n"}</Text>
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <View style={{flexDirection: 'column'}}>
-                <View style={styles.appContainer}>
-                <TouchableOpacity
-                  onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
-                  style={styles.button1}>
-                    <View style={styles.btnContainer}>
-                      <Text style={styles.title}>Sleep</Text>
-                      <Image source={require('./about.png')} style={styles.icon} />
-                    </View>
-                  </TouchableOpacity>
+              <View style={styles.twoColumnContainer}>
+                <View style={styles.twoColumnColumn}>
+                  <View style={styles.appContainer}>
+                    <Text style={styles.title}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
+                    <TouchableOpacity
+                      onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+                      style={styles.button1}>
+                      <View style={styles.btnContainer}>
+                        <Text style={styles.brightText}>sleep per night</Text>
+                        <Image source={require('./about.png')} style={styles.icon} />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.appContainer}>
+                    <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
+                    <TouchableOpacity
+                      onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+                      style={styles.button1}>
+                      <View style={styles.btnContainer}>
+                        <Text style={styles.brightText}>movement average</Text>
+                        <Image source={require('./about.png')} style={styles.icon} />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Text style={styles.brightText}>{this.props.hrToMin(this.props.sleepAVG)}{"\n"}</Text>
-              </View>
-
-              <View style={{flexDirection: 'column'}}>
-                <View style={styles.appContainer}>
-                <TouchableOpacity
-                  onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
-                  style={styles.button1}>
-                    <View style={styles.btnContainer}>
-                      <Text style={styles.title}>Movement</Text>
-                      <Image source={require('./about.png')} style={styles.icon} />
-                    </View>
-                  </TouchableOpacity>
+                <View style={styles.twoColumnColumn}>
+                  <View style={styles.appContainer}>
+                    <Text style={styles.title}>{this.props.sumWets}</Text>
+                    <TouchableOpacity
+                    onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
+                    style={styles.button1}>
+                      <View style={styles.btnContainer}>
+                        <Text style={styles.brightText}>total bedwets</Text>
+                        <Image source={require('./about.png')} style={styles.icon} />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.appContainer}>
+                    <Text style={styles.title}>{this.props.avgExits}</Text>
+                    <TouchableOpacity
+                      onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+                      style={styles.button1}>
+                      <View style={styles.btnContainer}>
+                        <Text style={styles.brightText}>exits per night</Text>
+                        <Image source={require('./about.png')} style={styles.icon} />
+                      </View>
+                    </TouchableOpacity>
                 </View>
-                <Text style={styles.brightText}>{this.props.restlessDescription}: {this.props.avgRestless}{"\n"}</Text>
-              </View>
-              </View>
-
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <View style={{flexDirection: 'column'}}>
-                <View style={styles.appContainer}>
-                <TouchableOpacity
-                  onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
-                  style={styles.button1}>
-                    <View style={styles.btnContainer}>
-                      <Text style={styles.title}>Bedwets</Text>
-                      <Image source={require('./about.png')} style={styles.icon} />
-                    </View>
-                  </TouchableOpacity>
                 </View>
-                <Text style={styles.brightText}>{this.props.sumWets}{"\n"}</Text>
-              </View>
-
-              <View style={{flexDirection: 'column'}}>
-                <View style={styles.appContainer}>
-                <TouchableOpacity
-                  onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
-                  style={styles.button1}>
-                    <View style={styles.btnContainer}>
-                      <Text style={styles.title}>Bed Exits</Text>
-                      <Image source={require('./about.png')} style={styles.icon} />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.brightText}>{this.props.avgExits}{"\n"}</Text>
-              </View>
-              </View>
+              </View> // averages sections end
 
 
               <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
