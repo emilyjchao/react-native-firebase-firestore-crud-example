@@ -319,13 +319,13 @@ class HomeScreen extends Component {
 
           //  fill arrays by iterating over each list from firebase
           if (night["enters"])  {
-            enters = Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])});
+            enters = parseInt(Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])}), 10);
           }
           if (night["exits"])  {
-            exits  = Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])});
+            exits  = parseInt(Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])}), 10);
           }
           if (night["wets"])  {
-            wets = Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])});
+            wets = parseInt(Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])}), 10);
           }
           if (night["movement"])  {
             restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
