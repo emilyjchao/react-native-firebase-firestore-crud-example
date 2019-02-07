@@ -21,8 +21,7 @@ class HomeScreen extends Component {
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginRight: -20}}
           icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Averages')}
-        }
+          onPress={() => { navigation.push('Averages')}}
         />
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
