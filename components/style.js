@@ -10,11 +10,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   btnContainer: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 0,
     paddingVertical: 0,
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'transparent',
+    marginHorizontal: 0,
   },
   chart: {
     marginBottom: 35,

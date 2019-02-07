@@ -4,22 +4,27 @@ import { Alert, StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text
 import styles from './style';
 
 // Create and export Averages screen component
-class AveragesScreen extends React.Component {
+export default class AveragesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Averages',
+      title: 'National Averages',
     }
   }
   constructor(props) {
     super(props);
-    //Needed to navigate to other pages from Averages Screen
-    const {navigate} = this.props.navigation;
     this.state = {
-      isLoading: true,
+      isLoading: true,  // check for whether initial data has been received
     };
    }
 
+   componentDidMount() {
+     // Set loading to false
+     this.setState({isLoading: false,});
+   }
+
+
   render() {
+    const {navigate} = this.props.navigation;
     //Check if loading = true
     if(this.state.isLoading){
       return(
@@ -28,6 +33,7 @@ class AveragesScreen extends React.Component {
         </View>
       )
     }
+
     return (
       //Display the averages
       <View>
@@ -38,12 +44,7 @@ class AveragesScreen extends React.Component {
           Once your child is lying on the bed in a sleep position, press 'Calibrate'.
           This will set the default night-time bed weight.{"\n"}{"\n"}
         </Text>
-
       </View>
-
     )
+  }
 }
-
-}
-
-export default AveragesScreen;

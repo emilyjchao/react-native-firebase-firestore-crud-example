@@ -16,12 +16,13 @@ class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       //Draw settings and add child buttons on header of screen
-      title: 'Sleep Report',
+      title: 'Serta Simmons',
       headerRight:  (<View style={styles.btnContainer}>
         <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'wifi', style: { marginRight: -20, fontSize: 28 } }}
-          onPress={() => { navigation.push('Averages') }}
+          buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginRight: -20}}
+          icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
+          onPress={() => { navigation.push('Averages')}
+        }
         />
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
@@ -211,10 +212,10 @@ class HomeScreen extends Component {
       }
       //If previous month found
       if (monthIndex != -1) {
-        let splitDate1 = this.state.dates[monthIndex].split("-");
+        let splitDate1 = this.state.dateDic[monthIndex].split("-");
         //Loop through dates to find boards that match the previous month
-        for (i=index; i<this.state.dates.length; i++) {
-          let splitDate2 = dates[i].split("-");
+        for (i=index; i<this.state.dateDic.length; i++) {
+          let splitDate2 = this.state.dateDic[i].split("-");
           //If they match the month we're looking for, display
           if (splitDate1[0] == splitDate2[0]) {
             newBoards.push(this.state.boards[i]);
@@ -557,6 +558,9 @@ class HomeScreen extends Component {
 
 
   render() {
+    //Needed to navigate to other pages from Home Screen
+    const {navigate} = this.props.navigation;
+
     //Check there is data loaded
     if(this.state.isLoading){
       return(
@@ -565,8 +569,6 @@ class HomeScreen extends Component {
         </View>
       )
     }
-    //Needed to navigate to other pages from Home Screen
-    const {navigate} = this.props.navigation;
 
     //Build text to display for bedwetting table
     let bedWetContent;
