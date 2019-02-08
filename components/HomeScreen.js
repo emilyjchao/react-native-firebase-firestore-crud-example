@@ -583,32 +583,42 @@ class HomeScreen extends Component {
     //Calculate sleep average
     function calcSleepAvg(currBoards) {
       let sleepAVG = 0;
+      let iCount =0;
       for ( i = 0; i < currBoards.length; i++){
-        sleepAVG += currBoards[i].sleep;
+        if (currBoards[i].sleep > 0.25) {
+          sleepAVG += currBoards[i].sleep;
+          iCount++;
+        }
       }
-      sleepAVG = sleepAVG/i;
+      sleepAVG = sleepAVG/iCount;
       return sleepAVG;
     }
 
     //Calculate bedwetting sum
     function calcBedwetting(currBoards) {
       let sumWets = 0;
-
+      let iCount =0;
       for ( i=0; i<currBoards.length; i++) {
-        sumWets = sumWets + currBoards[i].bedwet.length;
+        if (currBoards[i].sleep > 0.25) {
+          sumWets = sumWets + currBoards[i].bedwet.length;
+          iCount++;
+        }
       }
-      sumWets = sumWets/(i);
+      sumWets = sumWets/(iCount);
       return sumWets;
     }
 
     //Calculate average exits
     function calcExits(currBoards) {
       let avgExits = 0;
-
+      let iCount =0;
       for ( i=0; i<currBoards.length; i++) {
-        avgExits = avgExits + currBoards[i].exited.length-1;
+        if (currBoards[i].sleep > 0.25) {
+          avgExits = avgExits + currBoards[i].exited.length-1;
+          iCount++;
+        }
       }
-      avgExits = avgExits/(i);
+      avgExits = avgExits/(iCount);
       return avgExits;
 
     }
@@ -617,7 +627,6 @@ class HomeScreen extends Component {
     function calcRestless(currBoards) {
       let avgTRestless = 0;
       let restCounter = 0;
-
 
       //If only one day in currBoards
       if (!Array.isArray(currBoards)) {
@@ -628,11 +637,14 @@ class HomeScreen extends Component {
       //If multiple days in currBoards
       } else {
         for ( i=0; i<currBoards.length; i++) {
-          for (j=0; j<currBoards[i].restNum.length; j++) {
-            //Check to make sure that you're not counting fake data
-            if (currBoards[i].restNum.length != 2) {
-              avgTRestless = avgTRestless + currBoards[i].restNum[j];
-              restCounter++;
+          //Only count if data has sleep info for the night
+          if (currBoards[i].sleep > 0.25) {
+            for (j=0; j<currBoards[i].restNum.length; j++) {
+              //Check to make sure that you're not counting fake data
+              if (currBoards[i].restNum.length != 2) {
+                avgTRestless = avgTRestless + currBoards[i].restNum[j];
+                restCounter++;
+              }
             }
           }
         }
