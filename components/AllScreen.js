@@ -52,10 +52,17 @@ class AllDetail extends Component {
               x="dateLabel" y="inBed"
               style={{ labels: { textAlign: 'left', marginRight: 30} }}
               />
-              <VictoryScatter
-                data = {this.props.boards}
-                x="dateLabel" y="inBed"
-                />
+            <VictoryScatter
+              data = {this.props.boards}
+              x="dateLabel" y="inBed"
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: () => {
+                   Alert.alert('Black line shows total time in bed')
+                 }
+               }}]}
+              />
               <VictoryAxis
                 label="Day"
                 style={{

@@ -81,6 +81,13 @@ class MonthDetail extends Component {
           <VictoryScatter
             data = {this.props.boards}
             x="dateLabel" y="inBed"
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: () => {
+                 Alert.alert('Black line shows total time in bed')
+               }
+             }}]}
             />
           <VictoryLine
             data = {this.props.boards}
@@ -131,7 +138,7 @@ class MonthDetail extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          
+
           <View style={styles.twoColumnColumn}>
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.sumWets}</Text>
