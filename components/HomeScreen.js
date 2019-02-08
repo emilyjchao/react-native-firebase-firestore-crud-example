@@ -25,7 +25,6 @@ class HomeScreen extends Component {
               icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
                onPress={() => {
                  navigation.navigate('Averages', {
-                   hello: "hi",
                    sleepAVG: params.sleepAVG,
                    restlessAVG: params.restlessAVG,
                    bedwetsAVG: params.bedwetsAVG,

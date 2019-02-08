@@ -26,7 +26,6 @@ export default class AveragesScreen extends React.Component {
 
   render() {
     const {navigation} = this.props;
-    const greeting = navigation.getParam('hello', 'bye');
     const sleepAVG = navigation.getParam('sleepAVG', 0);
     const restlessAVG = navigation.getParam('restlessAVG', 0);
     const bedwetsAVG = navigation.getParam('bedwetsAVG', 0);
@@ -56,8 +55,8 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: sleepAVG},
-              {x: "National Average", y: 10}
+              {x: "Your Child", y: parseFloat(sleepAVG)},
+              {x: "National Average", y: 10.2}
             ]}
             style={{
               data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "steelblue", }, labels: { fill: "white" }
@@ -78,7 +77,7 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: restlessAVG},
+              {x: "Your Child", y: parseFloat(restlessAVG)},
               {x: "National Average", y: 40}
             ]}
             style={{
@@ -100,7 +99,7 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: bedwetsAVG},
+              {x: "Your Child", y: parseFloat(bedwetsAVG)},
               {x: "National Average", y: 0.7}
             ]}
             style={{
@@ -122,8 +121,8 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: exitsAVG},
-              {x: "National Average", y: 0.63}
+              {x: "Your Child", y: parseFloat(exitsAVG)},
+              {x: "National Average", y: 1.2}
             ]}
             style={{
               data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "steelblue", }, labels: { fill: "white" }
