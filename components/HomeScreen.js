@@ -314,15 +314,16 @@ class HomeScreen extends Component {
       }
     }
     avgTRestless = avgTRestless/(restCounter);
-    return avgTRestless;
+    //normalize restless on scale 0-1
+    return avgTRestless/73*10;
   }
 
   //Set up qualitative descriptions of restlessness
   findRestlessWord(avgTRestless) {
     let restlessDescription = "";
-    if (avgTRestless < 1.3) {
+    if (avgTRestless < 5) {
       restlessDescription = "Normal";
-    } else if (avgTRestless < 1.75) {
+    } else if (avgTRestless < 8) {
       restlessDescription = "Moderate";
     } else {
       restlessDescription = "High";

@@ -16,8 +16,7 @@ class AllDetail extends Component {
         <View style={styles.subContainer}>
         <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
-            style={styles.button1}>
+            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.title}>Sleep History</Text>
               <Image source={require('./about.png')} style={styles.icon} />
@@ -59,7 +58,7 @@ class AllDetail extends Component {
                 target: "data",
                 eventHandlers: {
                 onPressIn: () => {
-                   Alert.alert('Black line shows total time in bed')
+                   Alert.alert('Total time in bed')
                  }
                }}]}
               />
@@ -89,7 +88,7 @@ class AllDetail extends Component {
                   <View style={styles.appContainer}>
                     <Text style={styles.title}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
                     <TouchableOpacity
-                      onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+                      onPress={() => {Alert.alert('Average hours of sleep this week')}}
                       style={styles.button1}>
                       <View style={styles.btnContainer}>
                         <Text style={styles.brightText}>sleep per night</Text>
@@ -100,7 +99,7 @@ class AllDetail extends Component {
                   <View style={styles.appContainer}>
                     <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
                     <TouchableOpacity
-                      onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+                      onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 10 (high)')}}
                       style={styles.button1}>
                       <View style={styles.btnContainer}>
                         <Text style={styles.brightText}>movement average</Text>
@@ -113,8 +112,8 @@ class AllDetail extends Component {
                   <View style={styles.appContainer}>
                     <Text style={styles.title}>{this.props.sumWets}</Text>
                     <TouchableOpacity
-                    onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
-                    style={styles.button1}>
+                      onPress={() => {Alert.alert('Total bed wets this week')}}
+                      style={styles.button1}>
                       <View style={styles.btnContainer}>
                         <Text style={styles.brightText}>total bedwets</Text>
                         <Image source={require('./about.png')} style={styles.icon} />
@@ -124,7 +123,7 @@ class AllDetail extends Component {
                   <View style={styles.appContainer}>
                     <Text style={styles.title}>{this.props.avgExits}</Text>
                     <TouchableOpacity
-                      onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+                      onPress={() => {Alert.alert('Average bed exits per night this week')}}
                       style={styles.button1}>
                       <View style={styles.btnContainer}>
                         <Text style={styles.brightText}>exits per night</Text>
@@ -134,101 +133,7 @@ class AllDetail extends Component {
                 </View>
                 </View>
               </View> // averages sections end
-
-
-              <Text style={styles.blackText}>{"\n"}National Data for 4 Year-Olds</Text>
-              <VictoryChart
-                domainPadding={80}
-                >
-                <VictoryLabel text="Total Hours of Sleep" x={245} y={30} textAnchor="end" />
-                <VictoryBar
-                  barRatio={0.8}
-                  categories={{
-                    x: ["Your Child", "National Average"]
-                  }}
-                  data = {[
-                    {x: "Your Child", y: parseFloat(this.props.sleepAVG)},
-                    {x: "National Average", y: 10}
-                  ]}
-                  style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
-                  }}
-                  labels={(d) => d.y}
-                  labelComponent={<VictoryLabel dy={30}/>}
-                />
-                <VictoryAxis dependentAxis tickFormat={() => ''} />
-                <VictoryAxis independentAxis tickFormat={(x) => x} />
-              </VictoryChart>
-              <VictoryChart
-                domainPadding={80}
-                >
-                <VictoryLabel text="Movement" x={225} y={30} textAnchor="end" />
-                <VictoryBar
-                  barRatio={0.8}
-                  categories={{
-                    x: ["Your Child", "National Average"]
-                  }}
-                  data = {[
-                    {x: "Your Child", y: parseFloat(this.props.avgRestless)},
-                    {x: "National Average", y: 50}
-                  ]}
-                  style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
-                  }}
-                  labels={(d) => d.y}
-                  labelComponent={<VictoryLabel dy={30}/>}
-                />
-                <VictoryAxis dependentAxis tickFormat={() => ''} />
-                <VictoryAxis independentAxis tickFormat={(x) => x} />
-              </VictoryChart>
-              <VictoryChart
-                domainPadding={80}
-                >
-                <VictoryLabel text="Bedwets Per Night" x={200} y={30} textAnchor="middle"/>
-                <VictoryBar
-                  barRatio={0.8}
-                  categories={{
-                    x: ["Your Child", "National Average"]
-                  }}
-                  data = {[
-                    {x: "Your Child", y: parseFloat(this.props.sumWets)},
-                    {x: "National Average", y: 0.7}
-                  ]}
-                  style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
-                  }}
-                  labels={(d) => d.y}
-                  labelComponent={<VictoryLabel dy={30}/>}
-                />
-                <VictoryAxis dependentAxis tickFormat={() => ''} />
-                <VictoryAxis independentAxis tickFormat={(x) => x} />
-              </VictoryChart>
-              <VictoryChart
-                domainPadding={80}
-                >
-                <VictoryLabel text="Bed Exits Per Night" x={250} y={30} fontSize={60} textAnchor="end"/>
-                <VictoryBar
-                  barRatio={0.8}
-                  categories={{
-                    x: ["Your Child", "National Average"]
-                  }}
-                  data = {[
-                    {x: "Your Child", y: parseFloat(this.props.avgExits)},
-                    {x: "National Average", y: 0.63}
-                  ]}
-                  style={{
-                    data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "#c43a31", }, labels: { fill: "white" }
-                  }}
-                  labels={(d) => d.y}
-                  labelComponent={<VictoryLabel dy={30}/>}
-                />
-                <VictoryAxis dependentAxis tickFormat={() => ''} />
-                <VictoryAxis independentAxis tickFormat={(x) => x} />
-              </VictoryChart>
-
-          />
-        </View>
-        <Text>{'\n\n'}</Text>
+            </View>
       </ScrollView>)
 
     }

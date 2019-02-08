@@ -85,7 +85,7 @@ import styles from './style';
     </View>
     <View style={styles.appContainer}>
       <TouchableOpacity
-        onPress={() => {Alert.alert('Shaded areas show time in bed asleep. Unshaded areas show time out of bed.')}}
+        onPress={() => {Alert.alert('Shaded = time in bed asleep \n Unshaded = time out of bed')}}
         style={styles.button1}>
         <View style={styles.btnContainer}>
           <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
@@ -122,7 +122,7 @@ import styles from './style';
     <View style={styles.appContainer}>
     <Text>{'\n'}</Text>
       <TouchableOpacity
-        onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+        onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 10 (high)')}}
         style={styles.button1}>
         <View style={styles.btnContainer}>
           <Text style={styles.title}>Movement</Text>
@@ -167,7 +167,7 @@ import styles from './style';
     <View style={styles.appContainer}>
     <Text>{'\n'}</Text>
     <TouchableOpacity
-      onPress={() => {Alert.alert('The Bedwet section shows the time of a bedwetting incident if there was one.')}}
+      onPress={() => {Alert.alert('Times of bed wets')}}
       style={styles.button1}>
         <View style={styles.btnContainer}>
           <Text style={styles.title}>Bedwets</Text>
@@ -181,7 +181,7 @@ import styles from './style';
     <View style={styles.appContainer}>
     <Text>{'\n'}</Text>
     <TouchableOpacity
-      onPress={() => {Alert.alert('The Bed Exit section displays the time and duration of each time your child exited the bed.')}}
+      onPress={() => {Alert.alert('Times and durations of bed exits')}}
       style={styles.button1}>
         <View style={styles.btnContainer}>
           <Text style={styles.title}>Bed Exits</Text>

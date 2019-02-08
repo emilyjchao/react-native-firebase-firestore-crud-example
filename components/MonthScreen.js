@@ -47,8 +47,7 @@ class MonthDetail extends Component {
       <View>
         <View style={styles.appContainer}>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Click on any bar to see daily details. The bars represent the hours your child slept each night, and the black line represents the number of hours your child spent in bed each night.')}}
-            style={styles.button1}>
+            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.title}>Sleep History</Text>
               <Image source={require('./about.png')} style={styles.icon} />
@@ -85,7 +84,7 @@ class MonthDetail extends Component {
               target: "data",
               eventHandlers: {
               onPressIn: () => {
-                 Alert.alert('Black line shows total time in bed')
+                 Alert.alert('Total time in bed')
                }
              }}]}
             />
@@ -118,7 +117,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('This is the average number of hours your child slept this week. Your child should aim to sleep 10 hours a night.')}}
+                onPress={() => {Alert.alert('Average hours of sleep this week')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>sleep per night</Text>
@@ -129,7 +128,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
+                onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 10 (high)')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>movement average</Text>
@@ -143,8 +142,8 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.sumWets}</Text>
               <TouchableOpacity
-              onPress={() => {Alert.alert('This is the average number of times your child wet the bed per night this week.')}}
-              style={styles.button1}>
+                onPress={() => {Alert.alert('Total bed wets this week')}}
+                style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>total bedwets</Text>
                   <Image source={require('./about.png')} style={styles.icon} />
@@ -154,7 +153,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.avgExits}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('This is the average number of times your child left the bed per night this week.')}}
+                onPress={() => {Alert.alert('Average bed exits per night this week')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>exits per night</Text>
