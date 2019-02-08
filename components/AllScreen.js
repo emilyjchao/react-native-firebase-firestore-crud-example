@@ -75,6 +75,8 @@ class AllDetail extends Component {
               />
               </VictoryChart>
 
+              <Text>{"\n"}</Text>
+
               <View style={styles.twoColumnContainer}>
                 <View style={styles.twoColumnColumn}>
                   <View style={styles.appContainer}>

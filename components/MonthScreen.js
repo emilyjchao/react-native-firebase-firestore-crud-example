@@ -43,6 +43,7 @@ class MonthDetail extends Component {
           onPress={() => this.props.changeMonth(1)}
         />
       </View>
+
       <View>
         <View style={styles.appContainer}>
           <TouchableOpacity
@@ -103,6 +104,8 @@ class MonthDetail extends Component {
             />
         </VictoryChart>
 
+        <Text>{"\n"}</Text>
+
         <View style={styles.twoColumnContainer}>
           <View style={styles.twoColumnColumn}>
             <View style={styles.appContainer}>
@@ -128,6 +131,7 @@ class MonthDetail extends Component {
               </TouchableOpacity>
             </View>
           </View>
+          
           <View style={styles.twoColumnColumn}>
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.sumWets}</Text>

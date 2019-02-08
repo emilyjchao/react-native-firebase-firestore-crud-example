@@ -124,7 +124,7 @@ import styles from './style';
         onPress={() => {Alert.alert('Movement is rated on a score of 0 to 2. 0 corresponds to low movement, 1 to moderate movement, and 2 to high movement. Some restlessness is normal.')}}
         style={styles.button1}>
         <View style={styles.btnContainer}>
-          <Text style={styles.title}>Movement</Text>
+          <Text style={styles.title}>{"\n"}Movement</Text>
           <Image source={require('./about.png')} style={styles.icon} />
         </View>
       </TouchableOpacity>
@@ -168,7 +168,7 @@ import styles from './style';
       onPress={() => {Alert.alert('The Bedwet section shows the time of a bedwetting incident if there was one.')}}
       style={styles.button1}>
         <View style={styles.btnContainer}>
-          <Text style={styles.title}>Bedwets</Text>
+          <Text style={styles.title}>{"\n"}Bedwets</Text>
           <Image source={require('./about.png')} style={styles.icon} />
         </View>
       </TouchableOpacity>
@@ -181,7 +181,7 @@ import styles from './style';
       onPress={() => {Alert.alert('The Bed Exit section displays the time and duration of each time your child exited the bed.')}}
       style={styles.button1}>
         <View style={styles.btnContainer}>
-          <Text style={styles.title}>Bed Exits</Text>
+          <Text style={styles.title}>{"\n"}Bed Exits</Text>
           <Image source={require('./about.png')} style={styles.icon} />
         </View>
       </TouchableOpacity>

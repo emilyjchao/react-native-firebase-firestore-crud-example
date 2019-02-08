@@ -14,6 +14,7 @@ import styles from './style';
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    const {params = {}} = navigation.state;
     return {
       //Draw settings and add child buttons on header of screen
       title: 'Serta Simmons',
@@ -21,7 +22,13 @@ class HomeScreen extends Component {
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginRight: -20}}
           icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Averages')}}
+           onPress={() => { navigation.navigate('Averages', {
+               //boards: {this.state.boards},
+               boards: params.allBoards,
+          //     otherParam: 'anything you want here',
+             });
+          //onPress={() => { this.pushAverages
+          }}
         />
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
@@ -66,6 +73,9 @@ class HomeScreen extends Component {
     //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     // Realtime database connection
     this.fetchData();
+    this.props.navigation.setParams({
+            allBoards: this.state.day,
+        });
   }
 
 
@@ -228,6 +238,92 @@ class HomeScreen extends Component {
     }
     //Update displayBoards
     this.setState({monthBoards: newBoards,});
+  }
+
+  //Calculate sleep average
+  calcSleepAvg(currBoards) {
+    let sleepAVG = 0;
+    let iCount =0;
+    for ( i = 0; i < currBoards.length; i++){
+      if (currBoards[i].sleep > 0.25) {
+        sleepAVG += currBoards[i].sleep;
+        iCount++;
+      }
+    }
+    sleepAVG = sleepAVG/iCount;
+    return sleepAVG;
+  }
+
+  //Calculate bedwetting sum
+  calcBedwetting(currBoards) {
+    let sumWets = 0;
+    let iCount =0;
+    for ( i=0; i<currBoards.length; i++) {
+      if (currBoards[i].sleep > 0.25) {
+        sumWets = sumWets + currBoards[i].bedwet.length;
+        iCount++;
+      }
+    }
+    sumWets = sumWets/(iCount);
+    return sumWets;
+  }
+
+  //Calculate average exits
+  calcExits(currBoards) {
+    let avgExits = 0;
+    let iCount =0;
+    for ( i=0; i<currBoards.length; i++) {
+      if (currBoards[i].sleep > 0.25) {
+        avgExits = avgExits + currBoards[i].exited.length-1;
+        iCount++;
+      }
+    }
+    avgExits = avgExits/(iCount);
+    return avgExits;
+
+  }
+
+  //Calculate restlessness average
+  calcRestless(currBoards) {
+    let avgTRestless = 0;
+    let restCounter = 0;
+
+    //If only one day in currBoards
+    if (!Array.isArray(currBoards)) {
+      for (j=0; j<currBoards.restNum.length; j++) {
+        avgTRestless = avgTRestless + currBoards.restNum[j];
+        restCounter++;
+      }
+    //If multiple days in currBoards
+    } else {
+      for ( i=0; i<currBoards.length; i++) {
+        //Only count if data has sleep info for the night
+        if (currBoards[i].sleep > 0.25) {
+          for (j=0; j<currBoards[i].restNum.length; j++) {
+            //Check to make sure that you're not counting fake data
+            if (currBoards[i].restNum.length != 2) {
+              avgTRestless = avgTRestless + currBoards[i].restNum[j];
+              restCounter++;
+            }
+          }
+        }
+      }
+    }
+    avgTRestless = avgTRestless/(restCounter);
+    return avgTRestless;
+  }
+
+  //Set up qualitative descriptions of restlessness
+  findRestlessWord(avgTRestless) {
+    let restlessDescription = "";
+    if (avgTRestless < 1.3) {
+      restlessDescription = "Normal";
+    } else if (avgTRestless < 1.75) {
+      restlessDescription = "Moderate";
+    } else {
+      restlessDescription = "High";
+    }
+    return restlessDescription;
   }
 
   // process the incoming data
@@ -580,92 +676,6 @@ class HomeScreen extends Component {
       bedWetContent = "Dry";
     }
 
-    //Calculate sleep average
-    function calcSleepAvg(currBoards) {
-      let sleepAVG = 0;
-      let iCount =0;
-      for ( i = 0; i < currBoards.length; i++){
-        if (currBoards[i].sleep > 0.25) {
-          sleepAVG += currBoards[i].sleep;
-          iCount++;
-        }
-      }
-      sleepAVG = sleepAVG/iCount;
-      return sleepAVG;
-    }
-
-    //Calculate bedwetting sum
-    function calcBedwetting(currBoards) {
-      let sumWets = 0;
-      let iCount =0;
-      for ( i=0; i<currBoards.length; i++) {
-        if (currBoards[i].sleep > 0.25) {
-          sumWets = sumWets + currBoards[i].bedwet.length;
-          iCount++;
-        }
-      }
-      sumWets = sumWets/(iCount);
-      return sumWets;
-    }
-
-    //Calculate average exits
-    function calcExits(currBoards) {
-      let avgExits = 0;
-      let iCount =0;
-      for ( i=0; i<currBoards.length; i++) {
-        if (currBoards[i].sleep > 0.25) {
-          avgExits = avgExits + currBoards[i].exited.length-1;
-          iCount++;
-        }
-      }
-      avgExits = avgExits/(iCount);
-      return avgExits;
-
-    }
-
-    //Calculate restlessness average
-    function calcRestless(currBoards) {
-      let avgTRestless = 0;
-      let restCounter = 0;
-
-      //If only one day in currBoards
-      if (!Array.isArray(currBoards)) {
-        for (j=0; j<currBoards.restNum.length; j++) {
-          avgTRestless = avgTRestless + currBoards.restNum[j];
-          restCounter++;
-        }
-      //If multiple days in currBoards
-      } else {
-        for ( i=0; i<currBoards.length; i++) {
-          //Only count if data has sleep info for the night
-          if (currBoards[i].sleep > 0.25) {
-            for (j=0; j<currBoards[i].restNum.length; j++) {
-              //Check to make sure that you're not counting fake data
-              if (currBoards[i].restNum.length != 2) {
-                avgTRestless = avgTRestless + currBoards[i].restNum[j];
-                restCounter++;
-              }
-            }
-          }
-        }
-      }
-      avgTRestless = avgTRestless/(restCounter);
-      return avgTRestless;
-    }
-
-    //Set up qualitative descriptions of restlessness
-    function findRestlessWord(avgTRestless) {
-      let restlessDescription = "";
-      if (avgTRestless < 1.3) {
-        restlessDescription = "Normal";
-      } else if (avgTRestless < 1.75) {
-        restlessDescription = "Moderate";
-      } else {
-        restlessDescription = "High";
-      }
-      return restlessDescription;
-    }
-
     //Set up day of week labels
     let weekLabels = [];
     for (i=0; i<this.state.displayBoards.length; i++) {
@@ -698,8 +708,8 @@ class HomeScreen extends Component {
       reports = (<DayDetail boards={this.state.boards}
       picked={this.state.picked}
       changePicked={this.changeDay}
-      restlessDescription={findRestlessWord(calcRestless(this.state.boards[this.state.picked]))}
-      avgRestless={calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
+      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards[this.state.picked]))}
+      avgRestless={this.calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
       hrToMin={this.hrTohhmm}
       minToSec={this.minTommss}
       formatTime={this.formatAmPm}
@@ -707,11 +717,11 @@ class HomeScreen extends Component {
     else if (this.state.day == 2) {
       reports = (<SummaryDetail
       boards={this.state.displayBoards}
-      sleepAVG={calcSleepAvg(this.state.displayBoards).toFixed(2)}
-      restlessDescription={findRestlessWord(calcRestless(this.state.displayBoards))}
-      avgRestless={calcRestless(this.state.displayBoards).toFixed(1)}
-      sumWets={calcBedwetting(this.state.displayBoards).toFixed(1)}
-      avgExits={calcExits(this.state.displayBoards).toFixed(1)}
+      sleepAVG={this.calcSleepAvg(this.state.displayBoards).toFixed(2)}
+      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.displayBoards))}
+      avgRestless={this.calcRestless(this.state.displayBoards).toFixed(1)}
+      sumWets={this.calcBedwetting(this.state.displayBoards).toFixed(1)}
+      avgExits={this.calcExits(this.state.displayBoards).toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
       hrToMin={this.hrTohhmm}
@@ -720,11 +730,11 @@ class HomeScreen extends Component {
     else if (this.state.day == 3) {
       reports =(<MonthDetail
       boards={this.state.monthBoards}
-      sleepAVG={calcSleepAvg(this.state.monthBoards).toFixed(2)}
-      restlessDescription={findRestlessWord(calcRestless(this.state.monthBoards))}
-      avgRestless={calcRestless(this.state.monthBoards).toFixed(1)}
-      sumWets={calcBedwetting(this.state.monthBoards).toFixed(1)}
-      avgExits={calcExits(this.state.monthBoards).toFixed(1)}
+      sleepAVG={this.calcSleepAvg(this.state.monthBoards).toFixed(2)}
+      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.monthBoards))}
+      avgRestless={this.calcRestless(this.state.monthBoards).toFixed(1)}
+      sumWets={this.calcBedwetting(this.state.monthBoards).toFixed(1)}
+      avgExits={this.calcExits(this.state.monthBoards).toFixed(1)}
       selectDay={this.goToDay}
       navigation={this.props.navigation}
       hrToMin={this.hrTohhmm}
@@ -733,11 +743,11 @@ class HomeScreen extends Component {
     else if (this.state.day == 4) {
       reports =(<AllDetail
       boards={this.state.boards}
-      sleepAVG={calcSleepAvg(this.state.boards).toFixed(2)}
-      restlessDescription={findRestlessWord(calcRestless(this.state.boards))}
-      avgRestless={calcRestless(this.state.boards).toFixed(1)}
-      sumWets={calcBedwetting(this.state.boards).toFixed(1)}
-      avgExits={calcExits(this.state.boards).toFixed(1)}
+      sleepAVG={this.calcSleepAvg(this.state.boards).toFixed(2)}
+      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards))}
+      avgRestless={this.calcRestless(this.state.boards).toFixed(1)}
+      sumWets={this.calcBedwetting(this.state.boards).toFixed(1)}
+      avgExits={this.calcExits(this.state.boards).toFixed(1)}
       selectDay={this.goToDay}
       hrToMin={this.hrTohhmm}
     />);}

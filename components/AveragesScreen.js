@@ -51,7 +51,7 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: parseFloat(1)},
+              {x: "Your Child", y: this.props.boards},
               {x: "National Average", y: 10}
             ]}
             style={{
