@@ -25,7 +25,12 @@ export default class AveragesScreen extends React.Component {
 
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {navigation} = this.props;
+    const greeting = navigation.getParam('hello', 'bye');
+    const sleepAVG = navigation.getParam('sleepAVG', 0);
+    const restlessAVG = navigation.getParam('restlessAVG', 0);
+    const bedwetsAVG = navigation.getParam('bedwetsAVG', 0);
+    const exitsAVG = navigation.getParam('exitsAVG', 0);
     //Check if loading = true
     if(this.state.isLoading){
       return(
@@ -51,7 +56,7 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: this.props.boards},
+              {x: "Your Child", y: sleepAVG},
               {x: "National Average", y: 10}
             ]}
             style={{
@@ -73,8 +78,8 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: parseFloat(1)},
-              {x: "National Average", y: 50}
+              {x: "Your Child", y: restlessAVG},
+              {x: "National Average", y: 40}
             ]}
             style={{
               data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "steelblue", }, labels: { fill: "white" }
@@ -95,11 +100,11 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: parseFloat(1)},
+              {x: "Your Child", y: bedwetsAVG},
               {x: "National Average", y: 0.7}
             ]}
             style={{
-              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "#000000" : "steelblue", }, labels: { fill: "white" }
+              data: { fill: (d) => d.x === "National Average" ? "#000000" : "steelblue", }, labels: { fill: "white" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
@@ -117,7 +122,7 @@ export default class AveragesScreen extends React.Component {
               x: ["Your Child", "National Average"]
             }}
             data = {[
-              {x: "Your Child", y: parseFloat(1)},
+              {x: "Your Child", y: exitsAVG},
               {x: "National Average", y: 0.63}
             ]}
             style={{

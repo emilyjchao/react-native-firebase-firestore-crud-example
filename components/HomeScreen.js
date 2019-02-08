@@ -15,37 +15,41 @@ import styles from './style';
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const {params = {}} = navigation.state;
-    return {
-      //Draw settings and add child buttons on header of screen
-      title: 'Serta Simmons',
-      headerRight:  (<View style={styles.btnContainer}>
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginRight: -20}}
-          icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
-           onPress={() => { navigation.navigate('Averages', {
-               //boards: {this.state.boards},
-               boards: params.allBoards,
-          //     otherParam: 'anything you want here',
-             });
-          //onPress={() => { this.pushAverages
-          }}
-        />
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Settings') }}
-        />
-        </View>
-      ),
-      headerLeft: (
-        <Button
-          buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-          icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
-          onPress={() => { navigation.push('Tutorial') }}
-        />
-      ),
+      return {
+        //Draw settings and add child buttons on header of screen
+        title: 'Serta Simmons',
+        headerRight:  (
+          <View style={styles.btnContainer}>
+            <Button
+              buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginRight: -20}}
+              icon={{ name: 'insert-chart', style: { marginRight: 0, fontSize: 28 } }}
+               onPress={() => {
+                 navigation.navigate('Averages', {
+                   hello: "hi",
+                   sleepAVG: params.sleepAVG,
+                   restlessAVG: params.restlessAVG,
+                   bedwetsAVG: params.bedwetsAVG,
+                   exitsAVG: params.exitsAVG,
+                    });
+              }}
+            />
+            <Button
+              buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+              icon={{ name: 'settings', style: { marginRight: 0, fontSize: 28 } }}
+              onPress={() => { navigation.push('Settings') }}
+            />
+          </View>
+        ),
+        headerLeft: (
+          <Button
+            buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+            icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
+            onPress={() => { navigation.push('Tutorial') }}
+          />
+        ),
+      };
     };
-  };
+
   constructor() {
     super();
     this.ref = firebase.firestore().collection('days');
@@ -73,9 +77,10 @@ class HomeScreen extends Component {
     //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     // Realtime database connection
     this.fetchData();
-    this.props.navigation.setParams({
-            allBoards: this.state.day,
-        });
+    // this.props.navigation.setParams({
+    //         allBoards: this.state.day,
+    //         sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
+    //     });
   }
 
 
@@ -649,6 +654,14 @@ class HomeScreen extends Component {
       picked: pickData,
       firstRun: 0,
       isLoading: false, // update so components render
+    });
+
+    // set the parameters for going to the averages page
+    this.props.navigation.setParams({
+      sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
+      restlessAVG: this.calcRestless(this.state.boards).toFixed(2),
+      bedwetsAVG: this.calcBedwetting(this.state.boards).toFixed(2),
+      exitsAVG: this.calcExits(this.state.boards).toFixed(2),
     });
   }
 
