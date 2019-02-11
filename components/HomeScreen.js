@@ -324,7 +324,7 @@ class HomeScreen extends Component {
   }
 
   toggleTutorial() {
-    console.log('Toggling tutorial state');
+    //console.log('Toggling tutorial state');
     this.setState(prevState => ({tutorial: !prevState.tutorial} ))
   }
 
@@ -767,6 +767,7 @@ class HomeScreen extends Component {
       navigation={this.props.navigation}
       hrToMin={this.hrTohhmm}
       changeMonth={this.changeMonth}
+      tutorial={this.state.tutorial}
     />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail
@@ -778,6 +779,7 @@ class HomeScreen extends Component {
       avgExits={this.calcExits(this.state.boards).toFixed(1)}
       selectDay={this.goToDay}
       hrToMin={this.hrTohhmm}
+      tutorial={this.state.tutorial}
     />);}
 
     return (
