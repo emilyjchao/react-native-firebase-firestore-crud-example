@@ -131,10 +131,11 @@ class SummaryDetail extends Component {
         </View>
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>This section shows some averages and aggregates
+          <Text style={styles.smallText}>Click the i again to hide this. {"\n"}
+            This section shows some averages and aggregates
             for the week. First is the average hours of sleep per night, then the
             total number of bedwets, followed by the average restlessness and average
-            number of exits per night in the bottow row. 
+            number of exits per night in the bottow row.
           </Text> : ""
         }
         <View style={styles.twoColumnContainer}>

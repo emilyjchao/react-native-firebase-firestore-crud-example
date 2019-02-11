@@ -72,7 +72,8 @@ import styles from './style';
     return(
       <View>
       {this.props.tutorial ?
-        <Text style={styles.smallText}>{"\n"}This is the daily view, it shows
+        <Text style={styles.smallText}>{"\n"}Click the i again to hide this text. {"\n"}
+        This is the daily view, it shows
         more detailed information about the same metrics shown on the weekly page.
         Scroll through and have a look! You can scroll through the days with the
         arrows below. After you have seen a couple of days click on Month above.
