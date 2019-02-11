@@ -752,7 +752,8 @@ class HomeScreen extends Component {
           selectDay={this.goToDay}
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
-          changeWeek={this.changeWeek}/>);
+          changeWeek={this.changeWeek}
+          tutorial={this.state.tutorial}/>);
         }
     else if (this.state.day == 3) {
       reports =(<MonthDetail

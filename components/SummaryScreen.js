@@ -31,6 +31,14 @@ class SummaryDetail extends Component {
 
     return(
       <View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>This is the default, weekly view of your
+            child's sleep data. You'll find each night's sleep amount as well as
+            the average number of exits per night, the average restlessness and the
+            total number of bedwetting incidents from the past week. You can scroll to
+            past weeks with the arrows below.
+          </Text> : ""
+        }
         <View style={styles.triplet}>
         <Button
           buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
@@ -56,6 +64,12 @@ class SummaryDetail extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Each night's time spent in bed is shown by
+            the black dotted line, while the blue bars indicate the time asleep.
+            Check out the rest of this page first, but when you come back, you can click on
+            one of the blue bars  to see details about that day!
+          </Text> : ""}
         <View style={styles.chart}>
           <VictoryChart
             domainPadding={{ x: 15 }}
@@ -116,6 +130,13 @@ class SummaryDetail extends Component {
           </VictoryChart>
         </View>
 
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>This section shows some averages and aggregates
+            for the week. First is the average hours of sleep per night, then the
+            total number of bedwets, followed by the average restlessness and average
+            number of exits per night in the bottow row. 
+          </Text> : ""
+        }
         <View style={styles.twoColumnContainer}>
           <View style={styles.twoColumnColumn}>
             <View style={styles.appContainer}>

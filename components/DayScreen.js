@@ -75,8 +75,7 @@ import styles from './style';
         <Text style={styles.smallText}>{"\n"}This is the daily view, it shows
         more detailed information about the same metrics shown on the weekly page.
         Scroll through and have a look! You can scroll through the days with the
-        buttons below. After you have seen a couple of days click on Month above
-        to see other timespans of the data. 
+        arrows below. After you have seen a couple of days click on Month above.
       </Text> : ""}
         <View style={styles.triplet}>
           <Button
@@ -102,6 +101,9 @@ import styles from './style';
           </TouchableOpacity>
         </View>
 
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Last night's sleep, blue is time asleep and white is time out of bed.
+          </Text> : ""}
         <VictoryChart
           height={130}
           scale={{x: 'time', y: 'linear'}}
@@ -138,6 +140,11 @@ import styles from './style';
             </View>
           </TouchableOpacity>
         </View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Restless illustrates how much your child
+            moved while sleeping. It is divided into low, normal, and high indicating
+            the relative amount of movement.
+          </Text> : ""}
         <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
         <VictoryChart
@@ -183,7 +190,10 @@ import styles from './style';
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.brightText}>{bedWetContent}{"\n"}</Text>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Displays the time of a bedwetting incident.
+          </Text> : ""}
+        <Text style={styles.brightText}>{bedWetContent}</Text>
 
         //Table for bed exits
         <View style={styles.appContainer}>
@@ -191,42 +201,45 @@ import styles from './style';
         <TouchableOpacity
           onPress={() => {Alert.alert('Times and durations of bed exits')}}
           style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Bed Exits</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
+          <View style={styles.btnContainer}>
+            <Text style={styles.title}>Bed Exits</Text>
+            <Image source={require('./about.png')} style={styles.icon} />
+          </View>
+        </TouchableOpacity>
         </View>
-          <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-          // This code for rendering table is from:
-          // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {
-              this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
-                if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
-                  return (
-                      <Text key={time} style={styles.brightTextLeft}>
-                        {'                         '}{'--'}{'                     '}{'--'}
-                      </Text>
-                  );
-                }
-                else if (index != this.props.boards[this.props.picked].exited.length-1){
-                  var exitTime = new Date(time);
-                  var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
-                  var dif = new Date(enterTime-exitTime);
-                  var timeOut = dif / (60000);
-                  return (
-                      <Text key={time} style={styles.brightTextLeft}>
-                        {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
-                      </Text>
-                  );
-                }
-              })
-            }
-            </View>
-
-        <Text>{'\n\n'}</Text>
-
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Displays the time and duration of exits.
+          </Text> : ""}
+        <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
+        // This code for rendering table is from:
+        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {
+            this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
+              if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
+                return (
+                    <Text key={time} style={styles.brightTextLeft}>
+                      {'                         '}{'--'}{'                     '}{'--'}
+                    </Text>
+                );
+              }
+              else if (index != this.props.boards[this.props.picked].exited.length-1){
+                var exitTime = new Date(time);
+                var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
+                var dif = new Date(enterTime-exitTime);
+                var timeOut = dif / (60000);
+                return (
+                    <Text key={time} style={styles.brightTextLeft}>
+                      {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
+                    </Text>
+                );
+              }
+            })
+          }
+        </View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Scroll back to the top and check out the monthly view!
+          </Text> : ""}
         </View>);
 
   }
