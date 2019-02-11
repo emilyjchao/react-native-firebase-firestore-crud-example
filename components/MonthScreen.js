@@ -30,6 +30,11 @@ class MonthDetail extends Component {
 
     return(
       <View>
+      {this.props.tutorial ?
+        <Text style={styles.smallText}>The monthly view contains the same metrics
+          as the weekly view but is organized per month.
+        </Text> : ""
+      }
       <View style={styles.triplet}>
         <Button
           buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}

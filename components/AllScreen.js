@@ -14,6 +14,11 @@ class AllDetail extends Component {
     return(
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>The All view contains the same metrics
+            as the weekly view but shows all collected data. 
+          </Text> : ""
+        }
         <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
           <TouchableOpacity
             onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
