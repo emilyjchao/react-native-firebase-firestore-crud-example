@@ -43,7 +43,10 @@ class HomeScreen extends Component {
           <Button
             buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
             icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
-            onPress={() => { navigation.push('Tutorial') }}
+            onPress={() => {
+                params.setTutState();
+                //navigation.push('Tutorial')
+             }}
           />
         ),
       };
@@ -62,12 +65,14 @@ class HomeScreen extends Component {
       dateDic: [],      // dictionary of all the dates --> to speed finding of a specific night's index
       firstRun: 1,
       day: 2,       // day v. week view --> should  be removed if using separate pages
+      tutorial: false,
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
     this.changeDay = this.changeDay.bind(this);
     this.changeWeek = this.changeWeek.bind(this);
     this.changeMonth = this.changeMonth.bind(this);
+    this.toggleTutorial = this.toggleTutorial.bind(this);
 
   }
 
@@ -316,6 +321,11 @@ class HomeScreen extends Component {
     avgTRestless = avgTRestless/(restCounter);
     //normalize restless on scale 0-1
     return avgTRestless/73*10;
+  }
+
+  toggleTutorial() {
+    console.log('Toggling tutorial state');
+    this.setState(prevState => ({tutorial: !prevState.tutorial} ))
   }
 
   //Set up qualitative descriptions of restlessness
@@ -662,6 +672,7 @@ class HomeScreen extends Component {
       restlessAVG: this.calcRestless(this.state.boards).toFixed(2),
       bedwetsAVG: this.calcBedwetting(this.state.boards).toFixed(2),
       exitsAVG: this.calcExits(this.state.boards).toFixed(2),
+      setTutState: this.toggleTutorial,
     });
   }
 
@@ -718,28 +729,31 @@ class HomeScreen extends Component {
 
     let reports;
     if (this.state.day == 1){
-      reports = (<DayDetail boards={this.state.boards}
-      picked={this.state.picked}
-      changePicked={this.changeDay}
-      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards[this.state.picked]))}
-      avgRestless={this.calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
-      hrToMin={this.hrTohhmm}
-      minToSec={this.minTommss}
-      formatTime={this.formatAmPm}
-    />);}
+      reports = (
+        <DayDetail boards={this.state.boards}
+          picked={this.state.picked}
+          changePicked={this.changeDay}
+          restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards[this.state.picked]))}
+          avgRestless={this.calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
+          hrToMin={this.hrTohhmm}
+          minToSec={this.minTommss}
+          formatTime={this.formatAmPm}
+          tutorial={this.state.tutorial}/>);
+        }
     else if (this.state.day == 2) {
-      reports = (<SummaryDetail
-      boards={this.state.displayBoards}
-      sleepAVG={this.calcSleepAvg(this.state.displayBoards).toFixed(2)}
-      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.displayBoards))}
-      avgRestless={this.calcRestless(this.state.displayBoards).toFixed(1)}
-      sumWets={this.calcBedwetting(this.state.displayBoards).toFixed(1)}
-      avgExits={this.calcExits(this.state.displayBoards).toFixed(1)}
-      selectDay={this.goToDay}
-      navigation={this.props.navigation}
-      hrToMin={this.hrTohhmm}
-      changeWeek={this.changeWeek}
-    />);}
+      reports = (
+        <SummaryDetail
+          boards={this.state.displayBoards}
+          sleepAVG={this.calcSleepAvg(this.state.displayBoards).toFixed(2)}
+          restlessDescription={this.findRestlessWord(this.calcRestless(this.state.displayBoards))}
+          avgRestless={this.calcRestless(this.state.displayBoards).toFixed(1)}
+          sumWets={this.calcBedwetting(this.state.displayBoards).toFixed(1)}
+          avgExits={this.calcExits(this.state.displayBoards).toFixed(1)}
+          selectDay={this.goToDay}
+          navigation={this.props.navigation}
+          hrToMin={this.hrTohhmm}
+          changeWeek={this.changeWeek}/>);
+        }
     else if (this.state.day == 3) {
       reports =(<MonthDetail
       boards={this.state.monthBoards}

@@ -69,157 +69,165 @@ import styles from './style';
        bedWetContent = "Dry";
      }
 
-    return(<View>
-    <View style={styles.triplet}>
-      <Button
-        buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-        icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-        onPress={() => this.props.changePicked(-1)}
-      />
-      <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
-      <Button
-        buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-        icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-        onPress={() => this.props.changePicked(1)}
-      />
-    </View>
-    <View style={styles.appContainer}>
-      <TouchableOpacity
-        onPress={() => {Alert.alert('Shaded = time in bed asleep \n Unshaded = time out of bed')}}
-        style={styles.button1}>
-        <View style={styles.btnContainer}>
-          <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
-          <Image source={require('./about.png')} style={styles.icon} />
+    return(
+      <View>
+      {this.props.tutorial ?
+        <Text style={styles.smallText}>{"\n"}This is the daily view, it shows
+        more detailed information about the same metrics shown on the weekly page.
+        Scroll through and have a look! You can scroll through the days with the
+        buttons below. After you have seen a couple of days click on Month above
+        to see other timespans of the data. 
+      </Text> : ""}
+        <View style={styles.triplet}>
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changePicked(-1)}
+          />
+          <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changePicked(1)}
+          />
         </View>
-      </TouchableOpacity>
-    </View>
-
-    <VictoryChart
-      height={130}
-      scale={{x: 'time', y: 'linear'}}
-      domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [1.1, 2]}}
-      >
-      <VictoryArea
-        data={sleepData}
-          x="x" y="y"
-        interpolation="stepBefore"
-        style={{
-          data: { stroke: "steelblue", fill: "steelblue" },
-        }}
-        />
-      <VictoryAxis
-        label="Time"
-        tickFormat={(d) => this.props.formatTime(d)}
-        tickValues={sleepLabel}
-        style={{fontSize: 16, axisLabel: { padding: 35 },
-            ticks: {stroke: "black", size: 7},
-          }}
-        fixLabelOverlap
-        />
-
-    </VictoryChart>
-
-    <View style={styles.appContainer}>
-    <Text>{'\n'}</Text>
-      <TouchableOpacity
-        onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 10 (high)')}}
-        style={styles.button1}>
-        <View style={styles.btnContainer}>
-          <Text style={styles.title}>Movement</Text>
-          <Image source={require('./about.png')} style={styles.icon} />
+        <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Shaded = time in bed asleep \n Unshaded = time out of bed')}}
+            style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
-    //Line graph of restlessness
-    <VictoryChart
-      height={150}
-      domainPadding={{ x : [20, 20] }}
-      scale={{ x: "time" }}
-      >
-      <VictoryLine
-        interpolation="natural"
-        style={{
-          data: { stroke: "steelblue" },
-        }}
-        data = {restlessData}
-        />
-      <VictoryAxis
-        label={"Time"}
-        tickFormat={(d) => this.props.formatTime(d)}
-        tickValues={restlessLabel}
-        style={{fontSize: 16, axisLabel: { padding: 35 },
-            ticks: {stroke: "black", size: 7},
-          }}
-        fixLabelOverlap
-        />
-      <VictoryAxis dependentAxis
-        label="Low     High"
-        style={{
-          axisLabel: { padding: 10},
-          fontSize: 16,
-          transform: [{ rotate: '90deg'}]
-        }}
-        tickFormat={() => ''}
-        />
-    </VictoryChart>
 
-    <View style={styles.appContainer}>
-    <Text>{'\n'}</Text>
-    <TouchableOpacity
-      onPress={() => {Alert.alert('Times of bed wets')}}
-      style={styles.button1}>
-        <View style={styles.btnContainer}>
-          <Text style={styles.title}>Bedwets</Text>
-          <Image source={require('./about.png')} style={styles.icon} />
-        </View>
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.brightText}>{bedWetContent}{"\n"}</Text>
+        <VictoryChart
+          height={130}
+          scale={{x: 'time', y: 'linear'}}
+          domain={{x: [ySleep[0], ySleep[ySleep.length-1]], y: [1.1, 2]}}
+          >
+          <VictoryArea
+            data={sleepData}
+              x="x" y="y"
+            interpolation="stepBefore"
+            style={{
+              data: { stroke: "steelblue", fill: "steelblue" },
+            }}
+            />
+          <VictoryAxis
+            label="Time"
+            tickFormat={(d) => this.props.formatTime(d)}
+            tickValues={sleepLabel}
+            style={{fontSize: 16, axisLabel: { padding: 35 },
+                ticks: {stroke: "black", size: 7},
+              }}
+            fixLabelOverlap
+            />
 
-    //Table for bed exits
-    <View style={styles.appContainer}>
-    <Text>{'\n'}</Text>
-    <TouchableOpacity
-      onPress={() => {Alert.alert('Times and durations of bed exits')}}
-      style={styles.button1}>
-        <View style={styles.btnContainer}>
-          <Text style={styles.title}>Bed Exits</Text>
-          <Image source={require('./about.png')} style={styles.icon} />
+        </VictoryChart>
+
+        <View style={styles.appContainer}>
+        <Text>{'\n'}</Text>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 10 (high)')}}
+            style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Movement</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-    </View>
-      <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-      // This code for rendering table is from:
-      // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {
-          this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
-            if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
-              return (
-                  <Text key={time} style={styles.brightTextLeft}>
-                    {'                         '}{'--'}{'                     '}{'--'}
-                  </Text>
-              );
+        <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
+        //Line graph of restlessness
+        <VictoryChart
+          height={150}
+          domainPadding={{ x : [20, 20] }}
+          scale={{ x: "time" }}
+          >
+          <VictoryLine
+            interpolation="natural"
+            style={{
+              data: { stroke: "steelblue" },
+            }}
+            data = {restlessData}
+            />
+          <VictoryAxis
+            label={"Time"}
+            tickFormat={(d) => this.props.formatTime(d)}
+            tickValues={restlessLabel}
+            style={{fontSize: 16, axisLabel: { padding: 35 },
+                ticks: {stroke: "black", size: 7},
+              }}
+            fixLabelOverlap
+            />
+          <VictoryAxis dependentAxis
+            label="Low     High"
+            style={{
+              axisLabel: { padding: 10},
+              fontSize: 16,
+              transform: [{ rotate: '90deg'}]
+            }}
+            tickFormat={() => ''}
+            />
+        </VictoryChart>
+
+        <View style={styles.appContainer}>
+        <Text>{'\n'}</Text>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('Times of bed wets')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Bedwets</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.brightText}>{bedWetContent}{"\n"}</Text>
+
+        //Table for bed exits
+        <View style={styles.appContainer}>
+        <Text>{'\n'}</Text>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('Times and durations of bed exits')}}
+          style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Bed Exits</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+          <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
+          // This code for rendering table is from:
+          // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
+                if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
+                  return (
+                      <Text key={time} style={styles.brightTextLeft}>
+                        {'                         '}{'--'}{'                     '}{'--'}
+                      </Text>
+                  );
+                }
+                else if (index != this.props.boards[this.props.picked].exited.length-1){
+                  var exitTime = new Date(time);
+                  var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
+                  var dif = new Date(enterTime-exitTime);
+                  var timeOut = dif / (60000);
+                  return (
+                      <Text key={time} style={styles.brightTextLeft}>
+                        {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
+                      </Text>
+                  );
+                }
+              })
             }
-            else if (index != this.props.boards[this.props.picked].exited.length-1){
-              var exitTime = new Date(time);
-              var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
-              var dif = new Date(enterTime-exitTime);
-              var timeOut = dif / (60000);
-              return (
-                  <Text key={time} style={styles.brightTextLeft}>
-                    {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
-                  </Text>
-              );
-            }
-          })
-        }
-        </View>
+            </View>
 
-    <Text>{'\n\n'}</Text>
+        <Text>{'\n\n'}</Text>
 
-    </View>);
+        </View>);
 
   }
 }
