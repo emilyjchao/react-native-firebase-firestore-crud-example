@@ -458,7 +458,7 @@ class HomeScreen extends Component {
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0 });
           //console.log(prevDate);
         }
 
@@ -508,6 +508,7 @@ class HomeScreen extends Component {
             timeDif = (currTime - nightDate)/(60*60*1000);
             if ( timeDif < 24 ) {
               exits = [currTime];
+              console.log("Night without any exits: " + nightName)
             }
             else {
               exits = [enters[0]];
@@ -600,6 +601,7 @@ class HomeScreen extends Component {
 
   // TODO: more accurate processing of sleep and awake time
           //Calculate time between first enter and last exit dates (time in bed)
+          console.log(enters[0] + " - " + exits[exits.length-1])
           var enter1 = new Date(enters[0]);
           var exit2 = new Date(exits[exits.length-1]);
           var inBedDiff = new Date((exit2.getTime() - enter1.getTime()));
@@ -648,7 +650,7 @@ class HomeScreen extends Component {
 
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep});
 
 
         //} // end of checking if it was within the last 24 hrs

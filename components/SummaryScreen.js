@@ -204,6 +204,45 @@ class SummaryDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
+        //If delete this, delete "awake" in HomeScreen
+        <VictoryStack
+          colorScale={["tomato", "orange"]}
+          >
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="sleep"
+            barRatio={.75}
+            style={{
+              data: { fill: 'slategray'}, labels: { fill: "white" }
+            }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 this.props.selectDay(data.datum.day);
+                 return [{target: "data",}];
+               }
+             }}]}
+            />
+            <VictoryBar
+              data = {this.props.boards}
+              x="dateLabel" y="awake"
+              labels={weekLabels}
+              barRatio={.75}
+              style={{
+                data: { fill: "steelblue"}, labels: { fill: "white" }
+              }}
+              labelComponent={<VictoryLabel dy={30}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
+               }}]}
+              />
+          </VictoryStack>
         </View> // whole view after arrows tripleToggle
       </View>
     );
