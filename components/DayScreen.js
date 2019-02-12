@@ -70,15 +70,16 @@ import styles from './style';
      }
 
     return(
-      <View>
+      <View style={styles.headerWrapper}>
       {this.props.tutorial ?
-        <Text style={styles.smallText}>{"\n"}This is the daily view, it shows
-        more detailed information about the same metrics shown on the weekly page.
-        Scroll through and have a look! You can scroll through the days with the
-        arrows below. After you have seen a couple of days click on Month above.
+        <Text style={styles.smallText}>Press the i button to turn
+        Tutorial Mode off. {"\n"}The daily view shows
+        more detailed information about the metrics from the weekly page.
+        Use the arrows below to scroll through different days. Have a look
+        around and then click on Month above.
       </Text> : ""}
         <View style={styles.triplet}>
-        {this.props.moreDays ?
+        {this.props.moreDays(-1) ?
             <Button
               buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
               icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
@@ -91,7 +92,7 @@ import styles from './style';
             />
           }
           <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
-          {this.props.moreDays ?
+          {this.props.moreDays(1) ?
             <Button
               buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
               icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}

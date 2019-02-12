@@ -30,14 +30,15 @@ class SummaryDetail extends Component {
 
 
     return(
-      <View>
+      <View style={styles.headerWrapper}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Click the i again to hide this. {"\n"}
+          <Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off. {"\n"}
             This is the default, weekly view of your
-            child's sleep data. You'll find each night's sleep amount as well as
-            the average number of exits per night, the average restlessness and the
+            child's sleep data. You'll find each night's sleep hours as well as
+            the average number of bed exits per night, the average restlessness, and the
             total number of bedwetting incidents from the past week. You can scroll to
-            past weeks with the arrows below.
+            past weeks using the arrows below.
           </Text> : ""
         }
         <View style={styles.triplet}>
@@ -203,8 +204,6 @@ class SummaryDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
-
-
         </View> // whole view after arrows tripleToggle
       </View>
     );

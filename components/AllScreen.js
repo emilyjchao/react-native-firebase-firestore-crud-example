@@ -13,10 +13,12 @@ class AllDetail extends Component {
   render () {
     return(
       <ScrollView style={styles.container}>
+      <View style={styles.headerWrapper}>
         <View style={styles.subContainer}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>The All view contains the same metrics
-            as the weekly view but shows all collected data. 
+          <Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off. {"\n"}The All view contains the same metrics
+            as the weekly view but shows all collected data.
           </Text> : ""
         }
         <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
@@ -139,8 +141,8 @@ class AllDetail extends Component {
                 </View>
               </View> // averages sections end
             </View>
+          </View>
       </ScrollView>)
-
     }
 }
 

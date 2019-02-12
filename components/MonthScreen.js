@@ -29,10 +29,11 @@ class MonthDetail extends Component {
     }
 
     return(
-      <View>
+      <View style={styles.headerWrapper}>
       {this.props.tutorial ?
-        <Text style={styles.smallText}>The monthly view contains the same metrics
-          as the weekly view but is organized per month.
+        <Text style={styles.smallText}>Press the i button to turn
+        Tutorial Mode off. {"\n"} The monthly view contains the same metrics
+          as the weekly view but is organized by month.
         </Text> : ""
       }
       <View style={styles.triplet}>
@@ -182,8 +183,6 @@ class MonthDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
-
-
         </View> // whole view after arrows tripleToggle
       </View>
     );

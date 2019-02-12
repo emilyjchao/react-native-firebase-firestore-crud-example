@@ -138,7 +138,10 @@ const styles = StyleSheet.create({
     height: 10,
     position: 'relative',
     right: -2, // Keep some space between your left border and Image
-  }
+  },
+  headerWrapper: {
+    marginBottom: 50,
+  },
 })
 
 export default styles;

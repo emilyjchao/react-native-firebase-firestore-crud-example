@@ -572,6 +572,17 @@ class HomeScreen extends Component {
             console.log('Equal or empty: ' + exits.length + "..." + enters.length);
           }
 
+          //Splice 0 minute exits-->enters
+          for (i=0; i<exits.length-2; i++) {
+            //Check if exit is less than a minute in length
+            if (new Date((new Date(enters[i+1]).getTime())-(new Date(exits[i]).getTime()))/60000 < 1) {
+              //Remove relevant enter/exit
+              exits.splice(i, 1);
+              enters.splice(i+1, 1);
+              i--;
+            }
+          }
+
           //Split timestamp from restlessness rating
           let restTime = [];  //time in day/hr/min/set
           let restNum = [];   //movement on scale 0-2
