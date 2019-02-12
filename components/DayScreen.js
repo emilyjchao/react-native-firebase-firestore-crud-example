@@ -78,17 +78,31 @@ import styles from './style';
         arrows below. After you have seen a couple of days click on Month above.
       </Text> : ""}
         <View style={styles.triplet}>
-          <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-            onPress={() => this.props.changePicked(-1)}
-          />
+        {this.props.moreDays ?
+            <Button
+              buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+              icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+              onPress={() => this.props.changePicked(-1)}
+            /> :
+            <Button
+              buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+              icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+              onPress={() => this.props.changePicked(-1)}
+            />
+          }
           <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
-          <Button
-            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-            onPress={() => this.props.changePicked(1)}
-          />
+          {this.props.moreDays ?
+            <Button
+              buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+              icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+              onPress={() => this.props.changePicked(1)}
+            /> :
+            <Button
+              buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+              icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+              onPress={() => this.props.changePicked(1)}
+            />
+          }
         </View>
         <View style={styles.appContainer}>
           <TouchableOpacity

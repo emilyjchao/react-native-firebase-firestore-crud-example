@@ -41,17 +41,31 @@ class SummaryDetail extends Component {
           </Text> : ""
         }
         <View style={styles.triplet}>
-        <Button
-          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(-1)}
-        />
+        {this.props.moreWeeks(-1) ?
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          />
+        }
         <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
-        <Button
-          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(1)}
-        />
+        {this.props.moreWeeks(1) ?
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(1)}
+          />
+        }
         </View> // end of triplets view
 
         <View>

@@ -36,17 +36,31 @@ class MonthDetail extends Component {
         </Text> : ""
       }
       <View style={styles.triplet}>
-        <Button
-          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeMonth(-1)}
-        />
+        {this.props.moreMonths(-1) ?
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeMonth(-1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeMonth(-1)}
+          />
+        }
         <Text style={styles.blackText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
-        <Button
-          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeMonth(1)}
-        />
+        {this.props.moreMonths(1) ?
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeMonth(1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeMonth(1)}
+          />
+        }
       </View>
 
       <View>
