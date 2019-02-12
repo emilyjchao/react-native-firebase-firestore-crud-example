@@ -42,7 +42,7 @@ export default class AveragesScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
       //Display the averages
-      <View>
+      <View style={styles.headerWrapper}>
         //Display instructions
         <Text style={styles.blackText}>{"\n"}Data for 4 Year-Olds</Text>
         <VictoryChart
@@ -147,9 +147,7 @@ export default class AveragesScreen extends React.Component {
           <VictoryAxis dependentAxis tickFormat={() => ''} />
           <VictoryAxis independentAxis tickFormat={(x) => x} />
         </VictoryChart>
-        <Text>{"\n\n"}</Text>
       </View>
-
       </ScrollView>
     )
   }

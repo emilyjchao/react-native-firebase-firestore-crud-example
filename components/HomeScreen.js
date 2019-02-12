@@ -72,6 +72,9 @@ class HomeScreen extends Component {
     this.changeDay = this.changeDay.bind(this);
     this.changeWeek = this.changeWeek.bind(this);
     this.changeMonth = this.changeMonth.bind(this);
+    this.moreMonths = this.moreMonths.bind(this);
+    this.moreWeeks = this.moreWeeks.bind(this);
+    this.moreDays = this.moreDays.bind(this);
     this.toggleTutorial = this.toggleTutorial.bind(this);
 
   }
@@ -99,6 +102,13 @@ class HomeScreen extends Component {
     if((this.state.picked + upDown < this.state.boards.length) && (this.state.picked + upDown >= 0)) {
       this.setState(prevState => ({picked: prevState.picked + upDown} ))
     }
+  }
+  // Check if more days
+  moreDays(upDown) {
+    if((this.state.picked + upDown < this.state.boards.length) && (this.state.picked + upDown >= 0)) {
+      return 1;
+    }
+    return 0;
   }
 
   goToDay(dayString) {
@@ -138,6 +148,23 @@ class HomeScreen extends Component {
     m = m < 10 ? "0" + m : m;
     var replacement = h + ":" + m + " " + dd;
     return replacement;
+  }
+  //Check if more weeks to toggle
+  moreWeeks(direction) {
+    //Find the index of the first day of the current week in dateDic
+    let index = this.state.dateDic.indexOf(this.state.displayBoards[0].day);
+    //If go back a week but first day already displayed
+    if (direction == -1 && index == 0) {
+      //Return 0
+      return 0;
+    }
+    //If go forward a week but last week of data displayed
+    else if (direction == 1 && index == this.state.boards.length-7)  {
+      //Return 0
+      return 0;
+    }
+    //If can toggle week, return 1
+    return 1;
   }
   //Change week view for summary screen
   changeWeek(direction) {
@@ -183,6 +210,24 @@ class HomeScreen extends Component {
     this.setState({displayBoards: newBoards,});
   }
 
+  //Check if more months to step through
+  moreMonths(direction) {
+    //If go back a month
+    if (direction == -1) {
+      //Check if first day of month is first day of data
+      if (this.state.boards[0].day == this.state.monthBoards[0].day) {
+        return 0;
+      }
+    }
+    //If go forward a week
+    else if (direction == 1) {
+      //Check if current month is last in database
+      if (this.state.dateDic[this.state.dateDic.length-1].split("-")[0] == this.state.monthBoards[0].day.split("-")[0]) {
+        return 0;
+      }
+    }
+    return 1;
+  }
   //Change week view for summary screen
   changeMonth(direction) {
     let newBoards = [];
@@ -413,7 +458,7 @@ class HomeScreen extends Component {
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0 });
           //console.log(prevDate);
         }
 
@@ -463,6 +508,7 @@ class HomeScreen extends Component {
             timeDif = (currTime - nightDate)/(60*60*1000);
             if ( timeDif < 24 ) {
               exits = [currTime];
+              console.log("Night without any exits: " + nightName)
             }
             else {
               exits = [enters[0]];
@@ -527,6 +573,17 @@ class HomeScreen extends Component {
             console.log('Equal or empty: ' + exits.length + "..." + enters.length);
           }
 
+          //Splice 0 minute exits-->enters
+          for (i=0; i<exits.length-2; i++) {
+            //Check if exit is less than a minute in length
+            if (new Date((new Date(enters[i+1]).getTime())-(new Date(exits[i]).getTime()))/60000 < 1) {
+              //Remove relevant enter/exit
+              exits.splice(i, 1);
+              enters.splice(i+1, 1);
+              i--;
+            }
+          }
+
           //Split timestamp from restlessness rating
           let restTime = [];  //time in day/hr/min/set
           let restNum = [];   //movement on scale 0-2
@@ -544,6 +601,7 @@ class HomeScreen extends Component {
 
   // TODO: more accurate processing of sleep and awake time
           //Calculate time between first enter and last exit dates (time in bed)
+          console.log(enters[0] + " - " + exits[exits.length-1])
           var enter1 = new Date(enters[0]);
           var exit2 = new Date(exits[exits.length-1]);
           var inBedDiff = new Date((exit2.getTime() - enter1.getTime()));
@@ -592,7 +650,7 @@ class HomeScreen extends Component {
 
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, });
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep});
 
 
         //} // end of checking if it was within the last 24 hrs
@@ -738,7 +796,8 @@ class HomeScreen extends Component {
           hrToMin={this.hrTohhmm}
           minToSec={this.minTommss}
           formatTime={this.formatAmPm}
-          tutorial={this.state.tutorial}/>);
+          tutorial={this.state.tutorial}
+          moreDays={this.moreDays}/>);
         }
     else if (this.state.day == 2) {
       reports = (
@@ -753,7 +812,8 @@ class HomeScreen extends Component {
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
           changeWeek={this.changeWeek}
-          tutorial={this.state.tutorial}/>);
+          tutorial={this.state.tutorial}
+          moreWeeks={this.moreWeeks}/>);
         }
     else if (this.state.day == 3) {
       reports =(<MonthDetail
@@ -768,6 +828,7 @@ class HomeScreen extends Component {
       hrToMin={this.hrTohhmm}
       changeMonth={this.changeMonth}
       tutorial={this.state.tutorial}
+      moreMonths={this.moreMonths}
     />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail

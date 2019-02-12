@@ -30,28 +30,43 @@ class SummaryDetail extends Component {
 
 
     return(
-      <View>
+      <View style={styles.headerWrapper}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Click the i again to hide this. {"\n"}
+          <Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off. {"\n"}
             This is the default, weekly view of your
-            child's sleep data. You'll find each night's sleep amount as well as
-            the average number of exits per night, the average restlessness and the
+            child's sleep data. You'll find each night's sleep hours as well as
+            the average number of bed exits per night, the average restlessness, and the
             total number of bedwetting incidents from the past week. You can scroll to
-            past weeks with the arrows below.
+            past weeks using the arrows below.
           </Text> : ""
         }
         <View style={styles.triplet}>
-        <Button
-          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(-1)}
-        />
+        {this.props.moreWeeks(-1) ?
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          />
+        }
         <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
-        <Button
-          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeWeek(1)}
-        />
+        {this.props.moreWeeks(1) ?
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(1)}
+          />
+        }
         </View> // end of triplets view
 
         <View>
@@ -193,8 +208,45 @@ class SummaryDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
-
-
+        //If delete this, delete "awake" in HomeScreen
+        <VictoryStack
+          colorScale={["tomato", "orange"]}
+          >
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="sleep"
+            barRatio={.75}
+            style={{
+              data: { fill: 'slategray'}, labels: { fill: "white" }
+            }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 this.props.selectDay(data.datum.day);
+                 return [{target: "data",}];
+               }
+             }}]}
+            />
+            <VictoryBar
+              data = {this.props.boards}
+              x="dateLabel" y="awake"
+              labels={weekLabels}
+              barRatio={.75}
+              style={{
+                data: { fill: "steelblue"}, labels: { fill: "white" }
+              }}
+              labelComponent={<VictoryLabel dy={30}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
+               }}]}
+              />
+          </VictoryStack>
         </View> // whole view after arrows tripleToggle
       </View>
     );

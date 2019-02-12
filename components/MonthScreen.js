@@ -29,24 +29,39 @@ class MonthDetail extends Component {
     }
 
     return(
-      <View>
+      <View style={styles.headerWrapper}>
       {this.props.tutorial ?
-        <Text style={styles.smallText}>The monthly view contains the same metrics
-          as the weekly view but is organized per month.
+        <Text style={styles.smallText}>Press the i button to turn
+        Tutorial Mode off. {"\n"} The monthly view contains the same metrics
+          as the weekly view but is organized by month.
         </Text> : ""
       }
       <View style={styles.triplet}>
-        <Button
-          buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeMonth(-1)}
-        />
+        {this.props.moreMonths(-1) ?
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeMonth(-1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeMonth(-1)}
+          />
+        }
         <Text style={styles.blackText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
-        <Button
-          buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-          icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-          onPress={() => this.props.changeMonth(1)}
-        />
+        {this.props.moreMonths(1) ?
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeMonth(1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeMonth(1)}
+          />
+        }
       </View>
 
       <View>
@@ -168,8 +183,6 @@ class MonthDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
-
-
         </View> // whole view after arrows tripleToggle
       </View>
     );
