@@ -110,7 +110,7 @@ class SummaryDetail extends Component {
             ]}
           />
           <VictoryStack
-            domainPadding={{ x: 15 }}
+            domainPadding={{ x: 5 }}
             maxDomain={{x:7}}
             height={300}
           >
@@ -168,6 +168,73 @@ class SummaryDetail extends Component {
             </VictoryStack>
             </VictoryChart>
           </View>);
+    }
+    else if (this.props.AB == 2) {
+      graph = (
+        <View style={styles.chart}>
+          <VictoryChart
+            domainPadding={{ x: 15 }}
+            //minDomain={{x:0.5}}
+            maxDomain={{x:7}}
+            height={300}
+          >
+            <VictoryBar
+              data = {this.props.boards}
+              x="dateLabel" y="sleep"
+              labels={weekLabels}
+              barRatio={.75}
+              style={{
+                data: { fill: "steelblue"}, labels: { fill: "white" }
+              }}
+              labelComponent={<VictoryLabel dy={30}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                // onPressIn: (event, data) => {
+                //    this.props.selectDay(data.datum.day);
+                //    return [{target: "data",}];
+                // },
+                onLongPress: (event, data) => {
+                  Alert.alert("you long pressed this day: " + data.datum.day);
+                  console.log("ACTIVATED Long press");
+                }
+               }}]}
+              />
+            <VictoryScatter
+              data = {this.props.boards}
+              x="dateLabel" y="inBed"
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: () => {
+                   Alert.alert('Total time in bed')
+                 }
+               }}]}
+            />
+            <VictoryLine
+              data = {this.props.boards}
+              x="dateLabel" y="inBed"
+
+              style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
+              />
+            <VictoryAxis
+              label={"Day"}
+              style={{
+                axisLabel: { padding: 30, fontSize: 18 },
+              }}
+              fixLabelOverlap
+              />
+            <VictoryAxis dependentAxis
+              label="Hours"
+              domain={[0, 14]}
+              style={{
+                axisLabel: { fontSize: 18 },
+                transform: [{ rotate: '90deg'}]
+              }}
+              fixLabelOverlap
+              />
+          </VictoryChart>
+        </View>);
     }
 
     return(

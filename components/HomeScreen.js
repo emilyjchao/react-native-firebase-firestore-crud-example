@@ -391,7 +391,7 @@ class HomeScreen extends Component {
   toggleABtest() {
     // if max set to 0
     // CHANGE if changing number of views
-    const MaxABtest = 1;
+    const MaxABtest = 2;
     if (this.state.ABtest == MaxABtest) {
       this.setState({ABtest: 0});
       this.props.navigation.setParams({ ABtest: 0 });
