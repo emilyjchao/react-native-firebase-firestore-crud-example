@@ -28,64 +28,10 @@ class SummaryDetail extends Component {
       dateLabels.push(splitDate[0] + '/' + splitDate[1]);
     }
 
-
-    return(
-      <View style={styles.headerWrapper}>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}>Press the i button to turn
-          Tutorial Mode off. {"\n"}
-            This is the default, weekly view of your
-            child's sleep data. You'll find each night's sleep hours as well as
-            the average number of bed exits per night, the average restlessness, and the
-            total number of bedwetting incidents from the past week. You can scroll to
-            past weeks using the arrows below.
-          </Text> : ""
-        }
-        <View style={styles.triplet}>
-        {this.props.moreWeeks(-1) ?
-          <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-            onPress={() => this.props.changeWeek(-1)}
-          /> :
-          <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
-            onPress={() => this.props.changeWeek(-1)}
-          />
-        }
-        <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
-        {this.props.moreWeeks(1) ?
-          <Button
-            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
-            onPress={() => this.props.changeWeek(1)}
-          /> :
-          <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
-            onPress={() => this.props.changeWeek(1)}
-          />
-        }
-        </View> // end of triplets view
-
-        <View>
-        <View style={styles.appContainer}>
-          <TouchableOpacity
-            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}
-            style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep History</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
-        </View>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}><Text style={{fontWeight: "bold"}}>Each night's time spent in bed is shown by
-            the black dotted line, while the blue bars indicate the time asleep.</Text>
-            Check out the rest of this page first, but when you come back, you can click on
-            one of the blue bars  to see details about that day!
-          </Text> : ""}
+    let graph;
+    // display the graph based on what AB for ABtesting is
+    if (this.props.AB == 0) {
+      graph = (
         <View style={styles.chart}>
           <VictoryChart
             domainPadding={{ x: 15 }}
@@ -149,7 +95,138 @@ class SummaryDetail extends Component {
               fixLabelOverlap
               />
           </VictoryChart>
+        </View>);
+    }
+    else if (this.props.AB == 1) {
+      graph=(
+        <View style={styles.chart}>
+          <VictoryStack
+            domainPadding={{ x: 15 }}
+            maxDomain={{x:7}}
+            height={300}
+            colorscale= {['steelblue', 'slategray']}
+          >
+            <VictoryBar
+              data = {this.props.boards}
+              x="dateLabel" y="sleep"
+              barRatio={.75}
+              style={{
+                data: { fill: 'steelblue'}
+              }}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
+               }}]}
+               style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
+              />
+              <VictoryBar
+                data = {this.props.boards}
+                x="dateLabel" y="awake"
+                labels={weekLabels}
+                barRatio={.75}
+                style={{
+                  data: { fill: "slategray"}, labels: { fill: "white" }
+                }}
+                labelComponent={<VictoryLabel dy={30}/>}
+                events={[{
+                  target: "data",
+                  eventHandlers: {
+                  onPressIn: (event, data) => {
+                     this.props.selectDay(data.datum.day);
+                     return [{target: "data",}];
+                   }
+                 }}]}
+                />
+              <VictoryAxis
+                label={"Day"}
+                style={{
+                  axisLabel: { padding: 30, fontSize: 18 },
+                }}
+                fixLabelOverlap
+              />
+              <VictoryAxis dependentAxis
+                label="Hours"
+                domain={[0, 14]}
+                style={{
+                  axisLabel: { fontSize: 18 },
+                  transform: [{ rotate: '90deg'}]
+                }}
+                fixLabelOverlap
+              />
+              <VictoryLegend x={125} y={10}
+                orientation="horizontal"
+                gutter={20}
+                colorScale={[ "steelblue", "slategray" ]}
+                data={[
+                  { name: "Asleep" }, { name: "Awake" }
+                ]}
+              />
+            </VictoryStack>
+          </View>);
+    }
+
+    return(
+      <View style={styles.headerWrapper}>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off. {"\n"}
+            This is the default, weekly view of your
+            child's sleep data. You'll find each night's sleep hours as well as
+            the average number of bed exits per night, the average restlessness, and the
+            total number of bedwetting incidents from the past week. You can scroll to
+            past weeks using the arrows below.
+          </Text> : ""
+        }
+        <View style={styles.triplet}>
+        {this.props.moreWeeks(-1) ?
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(-1)}
+          />
+        }
+        <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
+        {this.props.moreWeeks(1) ?
+          <Button
+            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            onPress={() => this.props.changeWeek(1)}
+          /> :
+          <Button
+            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
+            onPress={() => this.props.changeWeek(1)}
+          />
+        }
+        </View> // end of triplets view
+
+        <View>
+        <View style={styles.appContainer}>
+          <TouchableOpacity
+            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}
+            style={styles.button1}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.title}>Sleep History</Text>
+              <Image source={require('./about.png')} style={styles.icon} />
+            </View>
+          </TouchableOpacity>
         </View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}><Text style={{fontWeight: "bold"}}>Each night's time spent in bed is shown by
+            the black dotted line, while the blue bars indicate the time asleep.</Text>
+            Check out the rest of this page first, but when you come back, you can click on
+            one of the blue bars  to see details about that day!
+          </Text> : ""}
+      {graph}
 
         {this.props.tutorial ?
           <Text style={styles.smallText}>
@@ -210,6 +287,7 @@ class SummaryDetail extends Component {
           </View>
         </View> // averages sections end
         //If delete this, delete "awake" in HomeScreen
+
         <VictoryStack
           domainPadding={{ x: 15 }}
           maxDomain={{x:7}}
