@@ -18,8 +18,10 @@ class SummaryDetail extends Component {
     //Set up graph labels
     //Set up day of week labels
     let weekLabels = [];
+    let weekSleep = [];
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
+      weekSleep.push(this.props.boards[i].sleep.toFixed(1) + " hr");
     }
 
     //Set up data for offset bar graph
@@ -55,7 +57,7 @@ class SummaryDetail extends Component {
       sleeptimes.push(new Date(pushNum2));
 
       //Store data in offsetData
-      offsetData.push({"x": splitDate, "y": pushNum, "y0": pushNum2, "day": this.props.boards[i].day})
+      offsetData.push({"x": weekLabels[i], "y": pushNum, "y0": pushNum2, "day": this.props.boards[i].day})
     }
 
     console.log("Bedtime\n")
@@ -223,12 +225,12 @@ class SummaryDetail extends Component {
           >
             <VictoryBar
               data = {offsetData}
-              labels={weekLabels}
+              labels={weekSleep}
               barRatio={.75}
               style={{
                 data: { fill: "steelblue"}, labels: { fill: "white" }
               }}
-              labelComponent={<VictoryLabel dy={30}/>}
+              labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
                 target: "data",
                 eventHandlers: {
