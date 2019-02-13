@@ -24,10 +24,10 @@ class SummaryDetail extends Component {
     //Set up date mm/dd labels
     let dateLabels = [];
     for (i=0; i<this.props.boards.length; i++) {
-      splitDate = this.props.boards[i].day.split("-");
-      dateLabels.push(splitDate[0] + '/' + splitDate[1]);
+      splitDate = this.props.boards[i].dateLabel;
+      dateLabels.push(splitDate);
     }
-
+    console.log(dateLabels)
     let graph;
     // display the graph based on what AB for ABtesting is
     if (this.props.AB == 0) {
@@ -111,7 +111,7 @@ class SummaryDetail extends Component {
           />
           <VictoryStack
             domainPadding={{ x: 15 }}
-            //maxDomain={{x:7}}
+            maxDomain={{x:7}}
             height={300}
           >
             <VictoryBar
@@ -150,10 +150,10 @@ class SummaryDetail extends Component {
                 />
               <VictoryAxis
                 label={"Day"}
+                tickValues={dateLabels}
                 style={{
                   axisLabel: { padding: 30, fontSize: 18 },
                 }}
-                tickValues={dateLabels}
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
