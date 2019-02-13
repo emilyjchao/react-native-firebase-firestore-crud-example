@@ -100,18 +100,26 @@ class SummaryDetail extends Component {
     else if (this.props.AB == 1) {
       graph=(
         <View style={styles.chart}>
+        <VictoryChart>
+          <VictoryLegend x={125} y={10}
+            orientation="horizontal"
+            gutter={20}
+            data={[
+              { name: "Asleep", symbol: { fill: "steelblue" } },
+              { name: "Awake", symbol: { fill: "slategray" } }
+            ]}
+          />
           <VictoryStack
             domainPadding={{ x: 15 }}
-            maxDomain={{x:7}}
+            //maxDomain={{x:7}}
             height={300}
-            colorscale= {['steelblue', 'slategray']}
           >
             <VictoryBar
               data = {this.props.boards}
               x="dateLabel" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: 'steelblue'}
+                data: { fill: 'steelblue'}, labels: {fill: "white"}
               }}
               events={[{
                 target: "data",
@@ -121,7 +129,6 @@ class SummaryDetail extends Component {
                    return [{target: "data",}];
                  }
                }}]}
-               style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
               />
               <VictoryBar
                 data = {this.props.boards}
@@ -146,6 +153,7 @@ class SummaryDetail extends Component {
                 style={{
                   axisLabel: { padding: 30, fontSize: 18 },
                 }}
+                tickValues={dateLabels}
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
@@ -157,15 +165,8 @@ class SummaryDetail extends Component {
                 }}
                 fixLabelOverlap
               />
-              <VictoryLegend x={125} y={10}
-                orientation="horizontal"
-                gutter={20}
-                colorScale={[ "steelblue", "slategray" ]}
-                data={[
-                  { name: "Asleep" }, { name: "Awake" }
-                ]}
-              />
             </VictoryStack>
+            </VictoryChart>
           </View>);
     }
 
@@ -286,74 +287,6 @@ class SummaryDetail extends Component {
           </View>
           </View>
         </View> // averages sections end
-        //If delete this, delete "awake" in HomeScreen
-
-        <VictoryStack
-          domainPadding={{ x: 15 }}
-          maxDomain={{x:7}}
-          height={300}
-          colorscale= {['steelblue', 'slategray']}
-        >
-          <VictoryBar
-            data = {this.props.boards}
-            x="dateLabel" y="sleep"
-            barRatio={.75}
-            style={{
-              data: { fill: 'steelblue'}
-            }}
-            events={[{
-              target: "data",
-              eventHandlers: {
-              onPressIn: (event, data) => {
-                 this.props.selectDay(data.datum.day);
-                 return [{target: "data",}];
-               }
-             }}]}
-             style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
-            />
-            <VictoryBar
-              data = {this.props.boards}
-              x="dateLabel" y="awake"
-              labels={weekLabels}
-              barRatio={.75}
-              style={{
-                data: { fill: "slategray"}, labels: { fill: "white" }
-              }}
-              labelComponent={<VictoryLabel dy={30}/>}
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
-                   return [{target: "data",}];
-                 }
-               }}]}
-              />
-            <VictoryAxis
-              label={"Day"}
-              style={{
-                axisLabel: { padding: 30, fontSize: 18 },
-              }}
-              fixLabelOverlap
-            />
-            <VictoryAxis dependentAxis
-              label="Hours"
-              domain={[0, 14]}
-              style={{
-                axisLabel: { fontSize: 18 },
-                transform: [{ rotate: '90deg'}]
-              }}
-              fixLabelOverlap
-            />
-            <VictoryLegend x={125} y={10}
-              orientation="horizontal"
-              gutter={20}
-              colorScale={[ "steelblue", "slategray" ]}
-              data={[
-                { name: "Asleep" }, { name: "Awake" }
-              ]}
-            />
-          </VictoryStack>
         </View> // whole view after arrows tripleToggle
       </View>
     );
