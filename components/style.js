@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     borderRadius: 3,
-    borderColor: 'black',
+    borderColor: '#4C8C7B',
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
@@ -52,12 +52,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     borderRadius: 3,
-    borderColor: 'black',
+    borderColor: '#4C8C7B',
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 5,
-    backgroundColor: 'grey',
+    //backgroundColor: '#F4E8C1',
+    backgroundColor: '#B1CCC5',
   },
   button1: {
     flex: 1,
@@ -72,12 +73,15 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontSize: 24,
+    //color: '#393E41',
+    color: '#4C8C7B',
   },
   brightText: {
     textAlign: 'center',
     fontSize: 18,
     marginBottom: 0,
-    color: 'teal',
+    //color: '#44D197',
+    color: '#4C8C7B',
   },
   brightTextLeft: {
     textAlign: 'left',
@@ -88,14 +92,14 @@ const styles = StyleSheet.create({
   blackText: {
     textAlign: 'center',
     fontSize: 24,
-    color: 'black',
+    color: '#4C8C7B',
     paddingTop: 0,
     marginTop: 0,
   },
   blackTextPadding: {
     textAlign: 'center',
     fontSize: 24,
-    color: 'black',
+    color: '#4C8C7B',
     paddingTop: 13,
     paddingBottom: 13,
     marginTop: 0,
@@ -103,8 +107,14 @@ const styles = StyleSheet.create({
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
-    color: 'teal',
+    color: '#4C8C7B',
   },
+  // chartData: {
+  //   fill: '#39BAB1',
+  // },
+  // chartLabels: {
+  //   labels: { fill: "white" }
+  // },
   smallText: {
     textAlign: 'center',
   },
@@ -114,7 +124,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 30,
-    color: 'steelblue',
+    color: '#39BAB1',
     marginTop: 5,
   },
   triplet: {
