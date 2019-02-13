@@ -92,7 +92,7 @@ class SummaryDetail extends Component {
             //minDomain={{x:0.5}}
             maxDomain={{x:7}}
             height={300}
-            >
+          >
             <VictoryBar
               data = {this.props.boards}
               x="dateLabel" y="sleep"
@@ -125,7 +125,7 @@ class SummaryDetail extends Component {
                    Alert.alert('Total time in bed')
                  }
                }}]}
-              />
+            />
             <VictoryLine
               data = {this.props.boards}
               x="dateLabel" y="inBed"
@@ -215,7 +215,7 @@ class SummaryDetail extends Component {
           maxDomain={{x:7}}
           height={300}
           colorscale= {['steelblue', 'slategray']}
-          >
+        >
           <VictoryBar
             data = {this.props.boards}
             x="dateLabel" y="sleep"
@@ -233,39 +233,39 @@ class SummaryDetail extends Component {
              }}]}
              style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
-          <VictoryBar
-            data = {this.props.boards}
-            x="dateLabel" y="awake"
-            labels={weekLabels}
-            barRatio={.75}
-            style={{
-              data: { fill: "slategray"}, labels: { fill: "white" }
-            }}
-            labelComponent={<VictoryLabel dy={30}/>}
-            events={[{
-              target: "data",
-              eventHandlers: {
-              onPressIn: (event, data) => {
-                 this.props.selectDay(data.datum.day);
-                 return [{target: "data",}];
-               }
-             }}]}
+            <VictoryBar
+              data = {this.props.boards}
+              x="dateLabel" y="awake"
+              labels={weekLabels}
+              barRatio={.75}
+              style={{
+                data: { fill: "slategray"}, labels: { fill: "white" }
+              }}
+              labelComponent={<VictoryLabel dy={30}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
+               }}]}
+              />
+            <VictoryAxis
+              label={"Day"}
+              style={{
+                axisLabel: { padding: 30, fontSize: 18 },
+              }}
+              fixLabelOverlap
             />
-          <VictoryAxis
-            label={"Day"}
-            style={{
-              axisLabel: { padding: 30, fontSize: 18 },
-            }}
-            fixLabelOverlap
-            />
-          <VictoryAxis dependentAxis
-            label="Hours"
-            domain={[0, 14]}
-            style={{
-              axisLabel: { fontSize: 18 },
-              transform: [{ rotate: '90deg'}]
-            }}
-            fixLabelOverlap
+            <VictoryAxis dependentAxis
+              label="Hours"
+              domain={[0, 14]}
+              style={{
+                axisLabel: { fontSize: 18 },
+                transform: [{ rotate: '90deg'}]
+              }}
+              fixLabelOverlap
             />
             <VictoryLegend x={125} y={10}
               orientation="horizontal"

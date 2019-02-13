@@ -40,14 +40,24 @@ class HomeScreen extends Component {
           </View>
         ),
         headerLeft: (
-          <Button
+          <View style={styles.btnContainer}>
+            <Button
+              buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
+              icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
+              onPress={() => {
+                  params.setTutState();
+                  //navigation.push('Tutorial')
+               }}
+            />
+            <Button
             buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-            icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
+            icon={{ name: 'switch-camera', style: { marginRight: 0, fontSize: 28 } }}
             onPress={() => {
-                params.setTutState();
+                params.toggleAB();
                 //navigation.push('Tutorial')
              }}
-          />
+            />
+          </View>
         ),
       };
     };
@@ -66,6 +76,7 @@ class HomeScreen extends Component {
       firstRun: 1,
       day: 2,       // day v. week view --> should  be removed if using separate pages
       tutorial: false,
+      ABtest: 0,  // AB testing variable, 0 or 1 for now, could include 2
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -76,6 +87,7 @@ class HomeScreen extends Component {
     this.moreWeeks = this.moreWeeks.bind(this);
     this.moreDays = this.moreDays.bind(this);
     this.toggleTutorial = this.toggleTutorial.bind(this);
+    this.toggleABtest = this.toggleABtest.bind(this);
 
   }
 
@@ -371,6 +383,20 @@ class HomeScreen extends Component {
   toggleTutorial() {
     //console.log('Toggling tutorial state');
     this.setState(prevState => ({tutorial: !prevState.tutorial} ))
+  }
+
+  // toggle the ABtest variable to display different graphics
+  // change 'MaxABtest' to maximum desired number of views
+  toggleABtest() {
+    // if max set to 0
+    // CHANGE if changing number of views
+    const MaxABtest = 1;
+    if (this.state.ABtest == MaxABtest) {
+      this.setState({ABtest: 0});
+    }
+    else {
+      this.setState(prevState => ({ABtest: prevState.ABtest + 1}));
+    }
   }
 
   //Set up qualitative descriptions of restlessness
@@ -749,6 +775,7 @@ class HomeScreen extends Component {
       bedwetsAVG: this.calcBedwetting(this.state.boards).toFixed(2),
       exitsAVG: this.calcExits(this.state.boards).toFixed(2),
       setTutState: this.toggleTutorial,
+      toggleAB: this.toggleABtest,
     });
   }
 
@@ -831,23 +858,25 @@ class HomeScreen extends Component {
           hrToMin={this.hrTohhmm}
           changeWeek={this.changeWeek}
           tutorial={this.state.tutorial}
-          moreWeeks={this.moreWeeks}/>);
+          moreWeeks={this.moreWeeks}
+          AB={this.state.ABtest}/>);
         }
     else if (this.state.day == 3) {
-      reports =(<MonthDetail
-      boards={this.state.monthBoards}
-      sleepAVG={this.calcSleepAvg(this.state.monthBoards).toFixed(2)}
-      restlessDescription={this.findRestlessWord(this.calcRestless(this.state.monthBoards))}
-      avgRestless={this.calcRestless(this.state.monthBoards).toFixed(1)}
-      sumWets={this.calcBedwetting(this.state.monthBoards).toFixed(1)}
-      avgExits={this.calcExits(this.state.monthBoards).toFixed(1)}
-      selectDay={this.goToDay}
-      navigation={this.props.navigation}
-      hrToMin={this.hrTohhmm}
-      changeMonth={this.changeMonth}
-      tutorial={this.state.tutorial}
-      moreMonths={this.moreMonths}
-    />);}
+      reports =(
+        <MonthDetail
+          boards={this.state.monthBoards}
+          sleepAVG={this.calcSleepAvg(this.state.monthBoards).toFixed(2)}
+          restlessDescription={this.findRestlessWord(this.calcRestless(this.state.monthBoards))}
+          avgRestless={this.calcRestless(this.state.monthBoards).toFixed(1)}
+          sumWets={this.calcBedwetting(this.state.monthBoards).toFixed(1)}
+          avgExits={this.calcExits(this.state.monthBoards).toFixed(1)}
+          selectDay={this.goToDay}
+          navigation={this.props.navigation}
+          hrToMin={this.hrTohhmm}
+          changeMonth={this.changeMonth}
+          tutorial={this.state.tutorial}
+          moreMonths={this.moreMonths}
+        />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail
       boards={this.state.boards}
