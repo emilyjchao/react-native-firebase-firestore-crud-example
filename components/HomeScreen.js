@@ -57,6 +57,7 @@ class HomeScreen extends Component {
                 //navigation.push('Tutorial')
              }}
             />
+            <Text>{params.ABtest}</Text>
           </View>
         ),
       };
@@ -393,10 +394,14 @@ class HomeScreen extends Component {
     const MaxABtest = 1;
     if (this.state.ABtest == MaxABtest) {
       this.setState({ABtest: 0});
+      this.props.navigation.setParams({ ABtest: 0 });
     }
     else {
       this.setState(prevState => ({ABtest: prevState.ABtest + 1}));
+      // set the parameters for header
+      this.props.navigation.setParams({ ABtest: this.state.ABtest + 1 });
     }
+
   }
 
   //Set up qualitative descriptions of restlessness
@@ -776,6 +781,7 @@ class HomeScreen extends Component {
       exitsAVG: this.calcExits(this.state.boards).toFixed(2),
       setTutState: this.toggleTutorial,
       toggleAB: this.toggleABtest,
+      ABtest: this.state.ABtest,
     });
   }
 
