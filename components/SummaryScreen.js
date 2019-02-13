@@ -74,6 +74,14 @@ class SummaryDetail extends Component {
             maxDomain={{x:7}}
             height={300}
           >
+            <VictoryLegend x={125} y={10}
+              orientation="horizontal"
+              gutter={20}
+              data={[
+                { name: "Sleep", symbol: { fill: "steelblue"} },
+                { name: "Time in Bed", symbol: { fill: "black"} }
+              ]}
+            />
             <VictoryBar
               data = {this.props.boards}
               x="dateLabel" y="sleep"
