@@ -105,10 +105,14 @@ class SummaryDetail extends Component {
               events={[{
                 target: "data",
                 eventHandlers: {
-                onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
-                   return [{target: "data",}];
-                 }
+                // onPressIn: (event, data) => {
+                //    this.props.selectDay(data.datum.day);
+                //    return [{target: "data",}];
+                // },
+                onLongPress: (event, data) => {
+                  Alert.alert("you long pressed this day: " + data.datum.day);
+                  console.log("ACTIVATED Long press");
+                }
                }}]}
               />
             <VictoryScatter
