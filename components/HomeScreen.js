@@ -488,6 +488,16 @@ class HomeScreen extends Component {
           }
 
           console.log("Wets " + wets);
+
+          //Check that there are enters if other data exists
+          if (!enters) {
+            //Fill all arrays with 0s
+            console.log('No enters')
+            enters = [];
+            exits = [];
+            wets = [];
+          }
+
           // Check that there are exits and if not check if it is from
           // today/yesterday if it is from today then set exit as current
           // time, if it is not then set the exit to right after the enter
@@ -517,7 +527,7 @@ class HomeScreen extends Component {
           // console.log('new exits:');
           // console.log(exits);
 
-        // Check the data and fill in missing exits or enters
+        // Check the data and fill in missing exits and enters
           // check the number of exits and enters
           if (exits.length > 1){
             //Check that first enter comes before first exit
@@ -597,6 +607,14 @@ class HomeScreen extends Component {
           if (restNum.length == 0) {
             restNum = [0, 0];
             restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
+          }
+
+          //Fill empty enters and exits with a 0
+          if (enters.length == 0) {
+            enters = [0];
+          }
+          if (exits.length == 0) {
+            exits = [0];
           }
 
   // TODO: more accurate processing of sleep and awake time

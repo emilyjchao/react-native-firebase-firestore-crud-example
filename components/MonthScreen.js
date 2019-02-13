@@ -122,6 +122,7 @@ class MonthDetail extends Component {
             />
           <VictoryAxis dependentAxis
             label="Sleep"
+            domain={[0, 14]}
             style={{
               axisLabel: { fontSize: 18 },
               transform: [{ rotate: '90deg'}]

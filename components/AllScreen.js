@@ -79,6 +79,7 @@ class AllDetail extends Component {
               />
               <VictoryAxis dependentAxis
                 label="Sleep"
+                domain={[0, 14]}
                 style={{
                   axisLabel: { padding: 35},
                   fontSize: 16,
