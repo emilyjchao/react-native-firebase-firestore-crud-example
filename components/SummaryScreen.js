@@ -44,7 +44,7 @@ class SummaryDetail extends Component {
         pushNum = 0;
       }
       //Calling new Date(bedtime[i]) gives 1/1/1970 and hr:mm:ss:ms of bedtime
-      bedtimes.push(pushNum);
+      bedtimes.push(new Date(pushNum));
 
       //Convert sleep times in hr to ms
       let pushNum2 = this.props.boards[i].sleep * 1000 * 60 * 60;
@@ -52,11 +52,16 @@ class SummaryDetail extends Component {
         pushNum2 = 0;
       }
       //Store sleep times in ms
-      sleeptimes.push(pushNum2);
+      sleeptimes.push(new Date(pushNum2));
 
       //Store data in offsetData
-      offsetData.push({"x": splitDate, "y": pushNum, "y0": pushNum2})
+      offsetData.push({"x": splitDate, "y": pushNum, "y0": pushNum2, "day": this.props.boards[i].day})
     }
+
+    console.log("Bedtime\n")
+    console.log(bedtimes)
+    console.log("Sleeptime\n")
+    console.log(sleeptimes)
 
     let graph;
     // display the graph based on what AB for ABtesting is
@@ -81,14 +86,14 @@ class SummaryDetail extends Component {
               events={[{
                 target: "data",
                 eventHandlers: {
-                // onPressIn: (event, data) => {
-                //    this.props.selectDay(data.datum.day);
-                //    return [{target: "data",}];
-                // },
-                onLongPress: (event, data) => {
-                  Alert.alert("you long pressed this day: " + data.datum.day);
-                  console.log("ACTIVATED Long press");
-                }
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                },
+                // onLongPress: (event, data) => {
+                //   Alert.alert("you long pressed this day: " + data.datum.day);
+                //   console.log("ACTIVATED Long press");
+                // }
                }}]}
               />
             <VictoryScatter
@@ -219,14 +224,10 @@ class SummaryDetail extends Component {
               events={[{
                 target: "data",
                 eventHandlers: {
-                // onPressIn: (event, data) => {
-                //    this.props.selectDay(data.datum.day);
-                //    return [{target: "data",}];
-                // },
-                onLongPress: (event, data) => {
-                  Alert.alert("you long pressed this day: " + data.datum.day);
-                  console.log("ACTIVATED Long press");
-                }
+                onPressIn: (event, data) => {
+                   this.props.selectDay(data.datum.day);
+                   return [{target: "data",}];
+                 }
                }}]}
               />
             <VictoryAxis
@@ -237,8 +238,7 @@ class SummaryDetail extends Component {
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
-              label="Hours"
-              domain={[0, 14]}
+              scale={"time"}
               style={{
                 axisLabel: { fontSize: 18 },
                 transform: [{ rotate: '90deg'}]
