@@ -21,13 +21,43 @@ class SummaryDetail extends Component {
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
     }
-    //Set up date mm/dd labels
+
+    //Set up data for offset bar graph
+    //Combine data into array in readable format
+    let offsetData = [];
+    //Store x in dateLabels
     let dateLabels = [];
+    //Store y in sleeptimes
+    let sleeptimes = []
+    //Store y0 in bedtimes
+    let bedtimes = [];
+    const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
+      //Set up x data
       splitDate = this.props.boards[i].dateLabel;
       dateLabels.push(splitDate);
+
+      //Push 13 digit timestamps or undefined data
+      //Convert timestamp to only include hrs/min/sec (day is Jan 1, 1970)
+      let pushNum = this.props.boards[i].enters[0] % interval;
+      if (isNaN(pushNum)){
+        pushNum = 0;
+      }
+      //Calling new Date(bedtime[i]) gives 1/1/1970 and hr:mm:ss:ms of bedtime
+      bedtimes.push(pushNum);
+
+      //Convert sleep times in hr to ms
+      let pushNum2 = this.props.boards[i].sleep * 1000 * 60 * 60;
+      if (isNaN(pushNum2)){
+        pushNum2 = 0;
+      }
+      //Store sleep times in ms
+      sleeptimes.push(pushNum2);
+
+      //Store data in offsetData
+      offsetData.push({"x": splitDate, "y": pushNum, "y0": pushNum2})
     }
-    console.log(dateLabels)
+
     let graph;
     // display the graph based on what AB for ABtesting is
     if (this.props.AB == 0) {
@@ -110,7 +140,7 @@ class SummaryDetail extends Component {
             ]}
           />
           <VictoryStack
-            domainPadding={{ x: 15 }}
+            domainPadding={{ x: 5 }}
             maxDomain={{x:7}}
             height={300}
           >
@@ -168,6 +198,55 @@ class SummaryDetail extends Component {
             </VictoryStack>
             </VictoryChart>
           </View>);
+    }
+    else if (this.props.AB == 2) {
+      graph = (
+        <View style={styles.chart}>
+          <VictoryChart
+            domainPadding={{ x: 15 }}
+            //minDomain={{x:0.5}}
+            maxDomain={{x:7}}
+            height={300}
+          >
+            <VictoryBar
+              data = {offsetData}
+              labels={weekLabels}
+              barRatio={.75}
+              style={{
+                data: { fill: "steelblue"}, labels: { fill: "white" }
+              }}
+              labelComponent={<VictoryLabel dy={30}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                // onPressIn: (event, data) => {
+                //    this.props.selectDay(data.datum.day);
+                //    return [{target: "data",}];
+                // },
+                onLongPress: (event, data) => {
+                  Alert.alert("you long pressed this day: " + data.datum.day);
+                  console.log("ACTIVATED Long press");
+                }
+               }}]}
+              />
+            <VictoryAxis
+              label={"Day"}
+              style={{
+                axisLabel: { padding: 30, fontSize: 18 },
+              }}
+              fixLabelOverlap
+              />
+            <VictoryAxis dependentAxis
+              label="Hours"
+              domain={[0, 14]}
+              style={{
+                axisLabel: { fontSize: 18 },
+                transform: [{ rotate: '90deg'}]
+              }}
+              fixLabelOverlap
+              />
+          </VictoryChart>
+        </View>);
     }
 
     return(
