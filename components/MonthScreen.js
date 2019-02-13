@@ -40,7 +40,7 @@ class MonthDetail extends Component {
         {this.props.moreMonths(-1) ?
           <Button
             buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: '#4C8C7B'} }}
             onPress={() => this.props.changeMonth(-1)}
           /> :
           <Button
@@ -53,7 +53,7 @@ class MonthDetail extends Component {
         {this.props.moreMonths(1) ?
           <Button
             buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: '#4C8C7B'} }}
             onPress={() => this.props.changeMonth(1)}
           /> :
           <Button
@@ -85,7 +85,7 @@ class MonthDetail extends Component {
             //labels={weekLabels}
             barRatio={.75}
             style={{
-              data: { fill: "steelblue"}, labels: { fill: "white" }
+              data: { fill: "#39BAB1"}, labels: { fill: "white" }
             }}
             labelComponent={<VictoryLabel dy={30}/>}
             events={[{
@@ -100,6 +100,7 @@ class MonthDetail extends Component {
           <VictoryScatter
             data = {this.props.boards}
             x="dateLabel" y="inBed"
+            style={{ data: {fill: '#44D197'}}}
             events={[{
               target: "data",
               eventHandlers: {
@@ -111,12 +112,14 @@ class MonthDetail extends Component {
           <VictoryLine
             data = {this.props.boards}
             x="dateLabel" y="inBed"
-            style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
+            style={{ data: {stroke: '#44D197'}, labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
             />
           <VictoryAxis
             label={"Day"}
             style={{
-              axisLabel: { padding: 30, fontSize: 18 },
+              axis: {stroke: "#4C8C7B"},
+              tickLabels: {fill: "#4C8C7B"},
+              axisLabel: { padding: 30, fontSize: 18, fill: '#4C8C7B' },
             }}
             fixLabelOverlap
             />
@@ -124,7 +127,9 @@ class MonthDetail extends Component {
             label="Sleep"
             domain={[0, 14]}
             style={{
-              axisLabel: { fontSize: 18 },
+              axis: {stroke: "#4C8C7B"},
+              tickLabels: {fill: "#4C8C7B"},
+              axisLabel: { fontSize: 18, fill: '#4C8C7B' },
               transform: [{ rotate: '90deg'}]
             }}
             fixLabelOverlap
