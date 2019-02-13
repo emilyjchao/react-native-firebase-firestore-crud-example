@@ -21,13 +21,43 @@ class SummaryDetail extends Component {
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
     }
-    //Set up date mm/dd labels
+
+    //Set up data for offset bar graph
+    //Combine data into array in readable format
+    let offsetData = [];
+    //Store x in dateLabels
     let dateLabels = [];
+    //Store y in sleeptimes
+    let sleeptimes = []
+    //Store y0 in bedtimes
+    let bedtimes = [];
+    const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
+      //Set up x data
       splitDate = this.props.boards[i].dateLabel;
       dateLabels.push(splitDate);
+
+      //Push 13 digit timestamps or undefined data
+      //Convert timestamp to only include hrs/min/sec (day is Jan 1, 1970)
+      let pushNum = this.props.boards[i].enters[0] % interval;
+      if (isNaN(pushNum)){
+        pushNum = 0;
+      }
+      //Calling new Date(bedtime[i]) gives 1/1/1970 and hr:mm:ss:ms of bedtime
+      bedtimes.push(pushNum);
+
+      //Convert sleep times in hr to ms
+      let pushNum2 = this.props.boards[i].sleep * 1000 * 60 * 60;
+      if (isNaN(pushNum2)){
+        pushNum2 = 0;
+      }
+      //Store sleep times in ms
+      sleeptimes.push(pushNum2);
+
+      //Store data in offsetData
+      offsetData.push({"x": splitDate, "y": pushNum, "y0": pushNum2})
     }
-    console.log(dateLabels)
+
     let graph;
     // display the graph based on what AB for ABtesting is
     if (this.props.AB == 0) {
@@ -179,8 +209,7 @@ class SummaryDetail extends Component {
             height={300}
           >
             <VictoryBar
-              data = {this.props.boards}
-              x="dateLabel" y="sleep"
+              data = {offsetData}
               labels={weekLabels}
               barRatio={.75}
               style={{
@@ -199,23 +228,6 @@ class SummaryDetail extends Component {
                   console.log("ACTIVATED Long press");
                 }
                }}]}
-              />
-            <VictoryScatter
-              data = {this.props.boards}
-              x="dateLabel" y="inBed"
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: () => {
-                   Alert.alert('Total time in bed')
-                 }
-               }}]}
-            />
-            <VictoryLine
-              data = {this.props.boards}
-              x="dateLabel" y="inBed"
-
-              style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
               />
             <VictoryAxis
               label={"Day"}
