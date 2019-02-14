@@ -151,7 +151,7 @@ class SummaryDetail extends Component {
             gutter={20}
             data={[
               { name: "Asleep", symbol: { fill: "steelblue" } },
-              { name: "Awake", symbol: { fill: "slategray" } }
+              { name: "Awake", symbol: { fill: "black" } }
             ]}
           />
           <VictoryStack
@@ -181,7 +181,7 @@ class SummaryDetail extends Component {
                 labels={weekLabels}
                 barRatio={.75}
                 style={{
-                  data: { fill: "slategray"}, labels: { fill: "white" }
+                  data: { fill: "black"}, labels: { fill: "white" }
                 }}
                 labelComponent={<VictoryLabel dy={30}/>}
                 events={[{
