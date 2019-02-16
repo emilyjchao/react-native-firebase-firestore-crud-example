@@ -72,7 +72,7 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 10.6},
             ]}
             style={{
-              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "steelblue", }, labels: { fill: "white" }
+              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "#39BAB1", }, labels: { fill: "white" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
@@ -95,7 +95,7 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 4.6}
             ]}
             style={{
-              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "steelblue", }, labels: { fill: "white" }
+              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "#39BAB1", }, labels: { fill: "white" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
@@ -117,7 +117,7 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 0.7}
             ]}
             style={{
-              data: { fill: (d) => d.x === "National Average" ? "slategray" : "steelblue", }, labels: { fill: "white" }
+              data: { fill: (d) => d.x === "National Average" ? "slategray" : "#39BAB1", }, labels: { fill: "white" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
@@ -139,7 +139,7 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 1.2}
             ]}
             style={{
-              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "steelblue", }, labels: { fill: "white" }
+              data: { fill: "#c43a31", fill: (d) => d.x === "National Average" ? "slategray" : "#39BAB1", }, labels: { fill: "white" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}

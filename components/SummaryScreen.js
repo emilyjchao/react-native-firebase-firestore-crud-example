@@ -34,6 +34,7 @@ class SummaryDetail extends Component {
     let sleeptimes = []
     //Store y0 in bedtimes
     let bedtimes = [];
+    let waketimes = [];
     const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
       //Set up x data
@@ -58,14 +59,22 @@ class SummaryDetail extends Component {
       //Store sleep times in ms
       sleeptimes.push(new Date(pushNum2));
 
+      //Store waketimes for testing
+      waketimes.push(new Date (pushNum + pushNum2))
+
       //Store data in offsetData
-      offsetData.push({"x": weekLabels[i], "y": pushNum, "y0": pushNum2, "day": this.props.boards[i].day})
+      offsetData.push({"x": weekLabels[i], "y0": new Date(pushNum), "y": pushNum2, "day": this.props.boards[i].day})
     }
 
+    console.log("Offset\n")
+    console.log(offsetData)
     console.log("Bedtime\n")
     console.log(bedtimes)
     console.log("Sleeptime\n")
     console.log(sleeptimes)
+    console.log("Waketime\n")
+    console.log(waketimes)
+
 
     let graph;
     // display the graph based on what AB for ABtesting is
