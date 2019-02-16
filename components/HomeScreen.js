@@ -50,14 +50,13 @@ class HomeScreen extends Component {
                }}
             />
             <Button
-            buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
-            icon={{ name: 'switch-camera', style: { marginRight: 0, fontSize: 28 } }}
+            buttonStyle={{ padding: 0, backgroundColor: 'transparent', marginLeft: -20 }}
+            icon={{ name: 'view-carousel', style: { marginRight: 0, fontSize: 28 } }}
             onPress={() => {
                 params.toggleAB();
                 //navigation.push('Tutorial')
              }}
             />
-            <Text>{params.ABtest}</Text>
           </View>
         ),
       };
@@ -77,7 +76,7 @@ class HomeScreen extends Component {
       firstRun: 1,
       day: 2,       // day v. week view --> should  be removed if using separate pages
       tutorial: false,
-      ABtest: 0,  // AB testing variable, 0 or 1 for now, could include 2
+      ABtest: 1,  // AB testing variable, 1 or 2
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -358,8 +357,10 @@ class HomeScreen extends Component {
     //If only one day in currBoards
     if (!Array.isArray(currBoards)) {
       for (j=0; j<currBoards.restNum.length; j++) {
-        avgTRestless = avgTRestless + currBoards.restNum[j];
-        restCounter++;
+        if (!isNaN(currBoards.restNum[j])) {
+          avgTRestless = avgTRestless + currBoards.restNum[j];
+          restCounter++;
+        }
       }
     //If multiple days in currBoards
     } else {
@@ -369,8 +370,10 @@ class HomeScreen extends Component {
           for (j=0; j<currBoards[i].restNum.length; j++) {
             //Check to make sure that you're not counting fake data
             if (currBoards[i].restNum.length != 2) {
-              avgTRestless = avgTRestless + currBoards[i].restNum[j];
-              restCounter++;
+              if (!isNaN(currBoards[i].restNum[j])) {
+                avgTRestless = avgTRestless + currBoards[i].restNum[j];
+                restCounter++;
+              }
             }
           }
         }
@@ -378,7 +381,12 @@ class HomeScreen extends Component {
     }
     avgTRestless = avgTRestless/(restCounter);
     //normalize restless on scale 0-1
-    return avgTRestless/73*10;
+    avgTRestless = avgTRestless/73*100;
+
+    if (isNaN(avgTRestless)) {
+      return "--";
+    }
+    return avgTRestless.toFixed(0);
   }
 
   toggleTutorial() {
@@ -393,8 +401,8 @@ class HomeScreen extends Component {
     // CHANGE if changing number of views
     const MaxABtest = 2;
     if (this.state.ABtest == MaxABtest) {
-      this.setState({ABtest: 0});
-      this.props.navigation.setParams({ ABtest: 0 });
+      this.setState({ABtest: 1});
+      this.props.navigation.setParams({ ABtest: 1 });
     }
     else {
       this.setState(prevState => ({ABtest: prevState.ABtest + 1}));
@@ -406,12 +414,12 @@ class HomeScreen extends Component {
 
   //Set up qualitative descriptions of restlessness
   findRestlessWord(avgTRestless) {
-    let restlessDescription = "";
-    if (avgTRestless < 5) {
+    let restlessDescription = "N/A";
+    if (avgTRestless < 50) {
       restlessDescription = "Normal";
-    } else if (avgTRestless < 8) {
+    } else if (avgTRestless < 80) {
       restlessDescription = "Moderate";
-    } else {
+    } else if (avgTRestless <=100 ){
       restlessDescription = "High";
     }
     return restlessDescription;
@@ -506,16 +514,36 @@ class HomeScreen extends Component {
 
           //  fill arrays by iterating over each list from firebase
           if (night["enters"])  {
-            enters = (Object.keys(night["enters"]).map( (key) => { return( night["enters"][key])}));
+            enters = (Object.keys(night["enters"]).map( (key) => {
+              if (night["enters"][key].toString().length < 13) {
+                return night["enters"][key]*1000;
+              }
+              return( night["enters"][key])
+            }));
           }
           if (night["exits"])  {
-            exits  = (Object.keys(night["exits"]).map( (key) => { return( night["exits"][key])}));
+            exits  = (Object.keys(night["exits"]).map( (key) => {
+              if (night["exits"][key].toString().length < 13) {
+                return night["exits"][key]*1000;
+              }
+              return( night["exits"][key])
+            }));
           }
           if (night["wets"])  {
-            wets = (Object.keys(night["wets"]).map( (key) => { return( night["wets"][key])}));
+            wets = (Object.keys(night["wets"]).map( (key) => {
+              if (night["wets"][key].toString().length < 13) {
+                return night["wets"][key]*1000;
+              }
+              return( night["wets"][key])
+            }));
           }
           if (night["movement"])  {
-            restless = Object.keys(night["movement"]).map( (key) => { return( night["movement"][key])});
+            restless = Object.keys(night["movement"]).map( (key) => {
+              if (night["movement"][key].toString().length < 13) {
+                return night["movement"][key]*1000;
+              }
+              return( night["movement"][key])
+            });
           }
 
           console.log("Wets " + wets);
@@ -776,7 +804,7 @@ class HomeScreen extends Component {
     // set the parameters for going to the averages page
     this.props.navigation.setParams({
       sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
-      restlessAVG: this.calcRestless(this.state.boards).toFixed(2),
+      restlessAVG: this.calcRestless(this.state.boards),
       bedwetsAVG: this.calcBedwetting(this.state.boards).toFixed(2),
       exitsAVG: this.calcExits(this.state.boards).toFixed(2),
       setTutState: this.toggleTutorial,
@@ -799,43 +827,6 @@ class HomeScreen extends Component {
       )
     }
 
-    //Build text to display for bedwetting table
-    let bedWetContent;
-    if(this.state.boards[this.state.picked].bedwet.length > 0){
-      let wetTime = new Date(this.state.boards[this.state.picked].bedwet[0]);
-      bedWetContent = "Wet     " + wetTime.getHours() + ":" + (wetTime.getMinutes()<10?'0':'') + wetTime.getMinutes() ;
-    }
-    else {
-      bedWetContent = "Dry";
-    }
-
-    //Set up day of week labels
-    let weekLabels = [];
-    for (i=0; i<this.state.displayBoards.length; i++) {
-      weekLabels.push(this.state.displayBoards[i].dayLabel);
-    }
-
-    //Set up stack daily view sleep data
-    let ySleep = [];
-    let in_out = [];
-    for (i=0; i<this.state.boards[this.state.picked].enters.length; i++) {
-      //Set x and y data arrays
-      if (this.state.boards[this.state.picked].exited[i]) {
-        //For line graph
-        in_out.push("1"); //1 represents in bed
-        ySleep.push(new Date(this.state.boards[this.state.picked].enters[i]));
-        in_out.push("0");
-        ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
-      }
-      if (i+1 < this.state.boards[this.state.picked].enters.length) {
-        //For line graph
-        in_out.push("0"); //0 represents out of bed
-        ySleep.push(new Date(this.state.boards[this.state.picked].exited[i]));
-        in_out.push("1");
-        ySleep.push(new Date(this.state.boards[this.state.picked].enters[i+1]));
-      }
-    }
-
     let reports;
     if (this.state.day == 1){
       reports = (
@@ -843,7 +834,7 @@ class HomeScreen extends Component {
           picked={this.state.picked}
           changePicked={this.changeDay}
           restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards[this.state.picked]))}
-          avgRestless={this.calcRestless(this.state.boards[this.state.picked]).toFixed(2)}
+          avgRestless={this.calcRestless(this.state.boards[this.state.picked])}
           hrToMin={this.hrTohhmm}
           minToSec={this.minTommss}
           formatTime={this.formatAmPm}
@@ -856,7 +847,7 @@ class HomeScreen extends Component {
           boards={this.state.displayBoards}
           sleepAVG={this.calcSleepAvg(this.state.displayBoards).toFixed(2)}
           restlessDescription={this.findRestlessWord(this.calcRestless(this.state.displayBoards))}
-          avgRestless={this.calcRestless(this.state.displayBoards).toFixed(1)}
+          avgRestless={this.calcRestless(this.state.displayBoards)}
           sumWets={this.calcBedwetting(this.state.displayBoards).toFixed(1)}
           avgExits={this.calcExits(this.state.displayBoards).toFixed(1)}
           selectDay={this.goToDay}
@@ -865,15 +856,15 @@ class HomeScreen extends Component {
           changeWeek={this.changeWeek}
           tutorial={this.state.tutorial}
           moreWeeks={this.moreWeeks}
-          AB={this.state.ABtest}/>);
-        }
+          AB={this.state.ABtest}
+        />);}
     else if (this.state.day == 3) {
       reports =(
         <MonthDetail
           boards={this.state.monthBoards}
           sleepAVG={this.calcSleepAvg(this.state.monthBoards).toFixed(2)}
           restlessDescription={this.findRestlessWord(this.calcRestless(this.state.monthBoards))}
-          avgRestless={this.calcRestless(this.state.monthBoards).toFixed(1)}
+          avgRestless={this.calcRestless(this.state.monthBoards)}
           sumWets={this.calcBedwetting(this.state.monthBoards).toFixed(1)}
           avgExits={this.calcExits(this.state.monthBoards).toFixed(1)}
           selectDay={this.goToDay}
@@ -882,13 +873,14 @@ class HomeScreen extends Component {
           changeMonth={this.changeMonth}
           tutorial={this.state.tutorial}
           moreMonths={this.moreMonths}
+          AB={this.state.ABtest}
         />);}
     else if (this.state.day == 4) {
       reports =(<AllDetail
       boards={this.state.boards}
       sleepAVG={this.calcSleepAvg(this.state.boards).toFixed(2)}
       restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards))}
-      avgRestless={this.calcRestless(this.state.boards).toFixed(1)}
+      avgRestless={this.calcRestless(this.state.boards)}
       sumWets={this.calcBedwetting(this.state.boards).toFixed(1)}
       avgExits={this.calcExits(this.state.boards).toFixed(1)}
       selectDay={this.goToDay}

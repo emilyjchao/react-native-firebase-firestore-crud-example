@@ -129,7 +129,7 @@ import styles from './style';
               x="x" y="y"
             interpolation="stepBefore"
             style={{
-              data: { stroke: "steelblue", fill: "steelblue" },
+              data: { stroke: "#39BAB1", fill: "#39BAB1" },
             }}
             />
           <VictoryAxis
@@ -147,7 +147,7 @@ import styles from './style';
         <View style={styles.appContainer}>
         <Text>{'\n'}</Text>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 10 (high)')}}
+            onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 100 (high)')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.title}>Movement</Text>
@@ -170,7 +170,7 @@ import styles from './style';
           <VictoryLine
             interpolation="natural"
             style={{
-              data: { stroke: "steelblue" },
+              data: { stroke: "#39BAB1" },
             }}
             data = {restlessData}
             />

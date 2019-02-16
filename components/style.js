@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tripleToggle: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   twoColumnContainer: {
     flexDirection: 'row',

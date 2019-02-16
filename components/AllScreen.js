@@ -42,7 +42,7 @@ class AllDetail extends Component {
               x="dateLabel" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: "steelblue"}
+                data: { fill: "#39BAB1"}
               }}
               events={[{
                 target: "data",
@@ -107,10 +107,10 @@ class AllDetail extends Component {
                   <View style={styles.appContainer}>
                     <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
                     <TouchableOpacity
-                      onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 10 (high)')}}
+                      onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 100 (high)')}}
                       style={styles.button1}>
                       <View style={styles.btnContainer}>
-                        <Text style={styles.brightText}>movement average</Text>
+                        <Text style={styles.brightText}>movement score</Text>
                         <Image source={require('./about.png')} style={styles.icon} />
                       </View>
                     </TouchableOpacity>

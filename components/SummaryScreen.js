@@ -27,8 +27,9 @@ class SummaryDetail extends Component {
     //Set up data for offset bar graph
     //Combine data into array in readable format
     let offsetData = [];
-    //Store x in dateLabels
+    //Store x in dateLabels and dayLabels
     let dateLabels = [];
+    let dayLabels = [];
     //Store y in sleeptimes
     let sleeptimes = []
     //Store y0 in bedtimes
@@ -38,6 +39,7 @@ class SummaryDetail extends Component {
       //Set up x data
       splitDate = this.props.boards[i].dateLabel;
       dateLabels.push(splitDate);
+      dayLabels.push(this.props.boards[i].dayLabel);
 
       //Push 13 digit timestamps or undefined data
       //Convert timestamp to only include hrs/min/sec (day is Jan 1, 1970)
@@ -67,82 +69,82 @@ class SummaryDetail extends Component {
 
     let graph;
     // display the graph based on what AB for ABtesting is
-    if (this.props.AB == 0) {
-      graph = (
-        <View style={styles.chart}>
-          <VictoryChart
-            domainPadding={{ x: 15 }}
-            //minDomain={{x:0.5}}
-            maxDomain={{x:7}}
-            height={300}
-          >
-            <VictoryLegend x={125} y={10}
-              orientation="horizontal"
-              gutter={20}
-              data={[
-                { name: "Sleep", symbol: { fill: "steelblue"} },
-                { name: "Time in Bed", symbol: { fill: "black"} }
-              ]}
-            />
-            <VictoryBar
-              data = {this.props.boards}
-              x="dateLabel" y="sleep"
-              labels={weekLabels}
-              barRatio={.75}
-              style={{
-                data: { fill: "steelblue"}, labels: { fill: "white" }
-              }}
-              labelComponent={<VictoryLabel dy={30}/>}
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
-                   return [{target: "data",}];
-                },
-                // onLongPress: (event, data) => {
-                //   Alert.alert("you long pressed this day: " + data.datum.day);
-                //   console.log("ACTIVATED Long press");
-                // }
-               }}]}
-              />
-            <VictoryScatter
-              data = {this.props.boards}
-              x="dateLabel" y="inBed"
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: () => {
-                   Alert.alert('Total time in bed')
-                 }
-               }}]}
-            />
-            <VictoryLine
-              data = {this.props.boards}
-              x="dateLabel" y="inBed"
-
-              style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
-              />
-            <VictoryAxis
-              label={"Day"}
-              style={{
-                axisLabel: { padding: 30, fontSize: 18 },
-              }}
-              fixLabelOverlap
-              />
-            <VictoryAxis dependentAxis
-              label="Hours"
-              domain={[0, 14]}
-              style={{
-                axisLabel: { fontSize: 18 },
-                transform: [{ rotate: '90deg'}]
-              }}
-              fixLabelOverlap
-              />
-          </VictoryChart>
-        </View>);
-    }
-    else if (this.props.AB == 1) {
+    // if (this.props.AB == 0) {
+    //   graph = (
+    //     <View style={styles.chart}>
+    //       <VictoryChart
+    //         domainPadding={{ x: 15 }}
+    //         //minDomain={{x:0.5}}
+    //         maxDomain={{x:7}}
+    //         height={300}
+    //       >
+    //         <VictoryLegend x={125} y={10}
+    //           orientation="horizontal"
+    //           gutter={20}
+    //           data={[
+    //             { name: "Sleep", symbol: { fill: "steelblue"} },
+    //             { name: "Time in Bed", symbol: { fill: "black"} }
+    //           ]}
+    //         />
+    //         <VictoryBar
+    //           data = {this.props.boards}
+    //           x="dateLabel" y="sleep"
+    //           labels={weekLabels}
+    //           barRatio={.75}
+    //           style={{
+    //             data: { fill: "steelblue"}, labels: { fill: "white" }
+    //           }}
+    //           labelComponent={<VictoryLabel dy={30}/>}
+    //           events={[{
+    //             target: "data",
+    //             eventHandlers: {
+    //             onPressIn: (event, data) => {
+    //                this.props.selectDay(data.datum.day);
+    //                return [{target: "data",}];
+    //             },
+    //             // onLongPress: (event, data) => {
+    //             //   Alert.alert("you long pressed this day: " + data.datum.day);
+    //             //   console.log("ACTIVATED Long press");
+    //             // }
+    //            }}]}
+    //           />
+    //         <VictoryScatter
+    //           data = {this.props.boards}
+    //           x="dateLabel" y="inBed"
+    //           events={[{
+    //             target: "data",
+    //             eventHandlers: {
+    //             onPressIn: () => {
+    //                Alert.alert('Total time in bed')
+    //              }
+    //            }}]}
+    //         />
+    //         <VictoryLine
+    //           data = {this.props.boards}
+    //           x="dateLabel" y="inBed"
+    //
+    //           style={{ labels: { textAlign: 'left', marginRight: 30, alignSelf: 'bottom', fontSize: 20} }}
+    //           />
+    //         <VictoryAxis
+    //           label={"Day"}
+    //           style={{
+    //             axisLabel: { padding: 30, fontSize: 18 },
+    //           }}
+    //           fixLabelOverlap
+    //           />
+    //         <VictoryAxis dependentAxis
+    //           label="Hours"
+    //           domain={[0, 14]}
+    //           style={{
+    //             axisLabel: { fontSize: 18 },
+    //             transform: [{ rotate: '90deg'}]
+    //           }}
+    //           fixLabelOverlap
+    //           />
+    //       </VictoryChart>
+    //     </View>);
+    // }
+    if (this.props.AB == 1) {
       graph=(
         <View style={styles.chart}>
         <VictoryChart>
@@ -150,7 +152,7 @@ class SummaryDetail extends Component {
             orientation="horizontal"
             gutter={20}
             data={[
-              { name: "Asleep", symbol: { fill: "steelblue" } },
+              { name: "Asleep", symbol: { fill: "#39BAB1" } },
               { name: "Awake", symbol: { fill: "black" } }
             ]}
           />
@@ -161,10 +163,10 @@ class SummaryDetail extends Component {
           >
             <VictoryBar
               data = {this.props.boards}
-              x="dateLabel" y="sleep"
+              x="dayLabel" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: 'steelblue'}, labels: {fill: "white"}
+                data: { fill: '#39BAB1'}
               }}
               events={[{
                 target: "data",
@@ -177,13 +179,11 @@ class SummaryDetail extends Component {
               />
               <VictoryBar
                 data = {this.props.boards}
-                x="dateLabel" y="awake"
-                labels={weekLabels}
+                x="dayLabel" y="awake"
                 barRatio={.75}
                 style={{
-                  data: { fill: "black"}, labels: { fill: "white" }
+                  data: { fill: "black"}
                 }}
-                labelComponent={<VictoryLabel dy={30}/>}
                 events={[{
                   target: "data",
                   eventHandlers: {
@@ -195,7 +195,7 @@ class SummaryDetail extends Component {
                 />
               <VictoryAxis
                 label={"Day"}
-                tickValues={dateLabels}
+                tickValues={dayLabels}
                 style={{
                   axisLabel: { padding: 30, fontSize: 18 },
                 }}
@@ -228,7 +228,7 @@ class SummaryDetail extends Component {
               labels={weekSleep}
               barRatio={.75}
               style={{
-                data: { fill: "steelblue"}, labels: { fill: "white" }
+                data: { fill: "#39BAB1"}, labels: { fill: "white" }
               }}
               labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
@@ -342,10 +342,10 @@ class SummaryDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 10 (high)')}}
+                onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 100 (high)')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
-                  <Text style={styles.brightText}>movement average</Text>
+                  <Text style={styles.brightText}>movement score</Text>
                   <Image source={require('./about.png')} style={styles.icon} />
                 </View>
               </TouchableOpacity>
