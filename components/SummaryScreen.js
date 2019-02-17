@@ -3,6 +3,7 @@ import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, Touchabl
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryLegend, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import styles from './style';
+import colors from './colors';
 
 
 class SummaryDetail extends Component {
@@ -161,8 +162,8 @@ class SummaryDetail extends Component {
             orientation="horizontal"
             gutter={20}
             data={[
-              { name: "Asleep", symbol: { fill: "#39BAB1" } },
-              { name: "Awake", symbol: { fill: "black" } }
+              { name: "Asleep", symbol: { fill: colors.asleepBar } },
+              { name: "Awake", symbol: { fill: colors.awakeBar } }
             ]}
           />
           <VictoryStack
@@ -175,7 +176,7 @@ class SummaryDetail extends Component {
               x="dayLabel" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: '#39BAB1'}
+                data: { fill: colors.asleepBar}
               }}
               events={[{
                 target: "data",
@@ -191,7 +192,7 @@ class SummaryDetail extends Component {
                 x="dayLabel" y="awake"
                 barRatio={.75}
                 style={{
-                  data: { fill: "black"}
+                  data: { fill: colors.awakeBar}
                 }}
                 events={[{
                   target: "data",
@@ -206,16 +207,27 @@ class SummaryDetail extends Component {
                 label={"Day"}
                 tickValues={dayLabels}
                 style={{
-                  axisLabel: { padding: 30, fontSize: 18 },
+                  axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis}
                 }}
+                // style={{fontSize: 18, axisLabel: { padding: 30, fill: colors.axis },
+                //     ticks: {stroke: colors.axis, size: 7},
+                //     axis: {stroke: colors.axis},
+                //     tickLabels: { fill: colors.axis},
+                // }}
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
                 label="Hours"
                 domain={[0, 14]}
                 style={{
-                  axisLabel: { fontSize: 18 },
-                  transform: [{ rotate: '90deg'}]
+                  axisLabel: { padding: 30, fontSize: 18 },
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis},
+                  transform: [{ rotate: '90deg'}],
                 }}
                 fixLabelOverlap
               />
@@ -237,7 +249,7 @@ class SummaryDetail extends Component {
               labels={weekSleep}
               barRatio={.75}
               style={{
-                data: { fill: "#39BAB1"}, labels: { fill: "white" }
+                data: { fill: colors.asleepBar}, labels: { fill: "white" }
               }}
               labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
@@ -253,6 +265,9 @@ class SummaryDetail extends Component {
               label={"Day"}
               style={{
                 axisLabel: { padding: 30, fontSize: 18 },
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
               }}
               fixLabelOverlap
               />
@@ -260,7 +275,10 @@ class SummaryDetail extends Component {
               scale={"time"}
               style={{
                 axisLabel: { fontSize: 18 },
-                transform: [{ rotate: '90deg'}]
+                transform: [{ rotate: '90deg'}],
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
               }}
               fixLabelOverlap
               />
@@ -284,7 +302,7 @@ class SummaryDetail extends Component {
         {this.props.moreWeeks(-1) ?
           <Button
             buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeWeek(-1)}
           /> :
           <Button
@@ -293,11 +311,11 @@ class SummaryDetail extends Component {
             onPress={() => this.props.changeWeek(-1)}
           />
         }
-        <Text style={styles.blackText}>{"\n"}Week of {this.props.boards[0].day}</Text>
+        <Text style={styles.tripletText}>{"\n"}Week of {this.props.boards[0].day}</Text>
         {this.props.moreWeeks(1) ?
           <Button
             buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeWeek(1)}
           /> :
           <Button
@@ -314,7 +332,7 @@ class SummaryDetail extends Component {
             onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep History</Text>
+              <Text style={styles.title}>Sleep</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>

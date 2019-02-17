@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import colors from './colors';
 
 
 const styles = StyleSheet.create({
@@ -21,9 +22,13 @@ const styles = StyleSheet.create({
     marginBottom: 35,
   },
   container: {
-   flex: 1,
-   paddingBottom: 22
- },
+    flex: 1,
+    paddingBottom: 22,
+    backgroundColor: colors.background,
+  },
+  header: {
+    backgroundColor: colors.header,
+  },
   item: {
     padding: 10,
     fontSize: 18,
@@ -42,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     borderRadius: 3,
-    borderColor: '#4C8C7B',
+    borderColor: colors.tabs,
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
@@ -52,13 +57,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     borderRadius: 3,
-    borderColor: '#4C8C7B',
+    borderColor: colors.tabSel,
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 5,
     //backgroundColor: '#F4E8C1',
-    backgroundColor: '#B1CCC5',
+    backgroundColor: colors.tabSel,
   },
   button1: {
     flex: 1,
@@ -74,32 +79,32 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     //color: '#393E41',
-    color: '#4C8C7B',
+    color: colors.tabText,
   },
   brightText: {
     textAlign: 'center',
     fontSize: 18,
     marginBottom: 0,
     //color: '#44D197',
-    color: '#4C8C7B',
+    color: colors.descriptions,
   },
   brightTextLeft: {
     textAlign: 'left',
     fontSize: 18,
     alignSelf: 'stretch',
-    color: 'teal',
+    color: colors.data,
   },
   blackText: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#4C8C7B',
+    color: colors.descriptions,
     paddingTop: 0,
     marginTop: 0,
   },
   blackTextPadding: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#4C8C7B',
+    color: colors.descriptions,
     paddingTop: 13,
     paddingBottom: 13,
     marginTop: 0,
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
-    color: '#4C8C7B',
+    color: colors.descriptions,
   },
   // chartData: {
   //   fill: '#39BAB1',
@@ -124,13 +129,20 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 30,
-    color: '#39BAB1',
+    color: colors.data,
     marginTop: 5,
   },
   triplet: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  tripletText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: colors.triplet,
+    paddingTop: 0,
+    marginTop: 0,
   },
   tripleToggle: {
     flexDirection: 'row'

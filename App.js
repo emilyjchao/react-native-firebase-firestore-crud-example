@@ -12,7 +12,9 @@ import AveragesScreen from './components/AveragesScreen';
 import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
 import SummaryScreen from './components/SummaryScreen';
-import {Constants, Permissions, Notifications} from 'expo'
+import {Constants, Permissions, Notifications} from 'expo';
+//import {styles} from './componenents/style';
+import colors from './components/colors';
 
 async function register(){
   const {status: alertPermission} = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
@@ -42,7 +44,8 @@ const RootStack = createStackNavigator(
     navigationOptions: {
       headerStyle: {
         //backgroundColor: '#777777',
-        backgroundColor: '#4C8C7B',
+        //backgroundColor: '#4C8C7B',
+        backgroundColor: colors.medB,
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
@@ -73,7 +76,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.darkB,
     alignItems: 'center',
     justifyContent: 'center',
   },

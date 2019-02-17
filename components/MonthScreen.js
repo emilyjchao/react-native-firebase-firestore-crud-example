@@ -3,6 +3,7 @@ import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, Touchabl
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryLegend, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import styles from './style';
+import colors from './colors';
 
 
 class MonthDetail extends Component {
@@ -37,8 +38,8 @@ class MonthDetail extends Component {
           orientation="horizontal"
           gutter={20}
           data={[
-            { name: "Asleep", symbol: { fill: "#39BAB1" } },
-            { name: "Awake", symbol: { fill: "black" } }
+            { name: "Asleep", symbol: { fill: colors.asleepBar} },
+            { name: "Awake", symbol: { fill: colors.awakeBar } }
           ]}
         />
         <VictoryStack
@@ -52,7 +53,7 @@ class MonthDetail extends Component {
             //labels={weekLabels}
             barRatio={.75}
             style={{
-              data: { fill: "#39BAB1"}, labels: { fill: "white" }
+              data: { fill: colors.asleepBar}, labels: { fill: "white" }
             }}
             labelComponent={<VictoryLabel dy={30}/>}
             events={[{
@@ -69,7 +70,7 @@ class MonthDetail extends Component {
             x="dateLabel" y="awake"
             barRatio={.75}
             style={{
-              data: { fill: "black"}
+              data: { fill: colors.awakeBar}
             }}
             events={[{
               target: "data",
@@ -84,9 +85,9 @@ class MonthDetail extends Component {
             label={"Day"}
             tickValues={dateLabels}
             style={{
-              axis: {stroke: "#4C8C7B"},
-              tickLabels: {fill: "#4C8C7B"},
-              axisLabel: { padding: 30, fontSize: 18, fill: '#4C8C7B' },
+              axis: {stroke: colors.axis},
+              tickLabels: {fill: colors.axis},
+              axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
             }}
             fixLabelOverlap
             />
@@ -94,9 +95,9 @@ class MonthDetail extends Component {
             label="Sleep"
             domain={[0, 14]}
             style={{
-              axis: {stroke: "#4C8C7B"},
-              tickLabels: {fill: "#4C8C7B"},
-              axisLabel: { fontSize: 18, fill: '#4C8C7B' },
+              axis: {stroke: colors.axis},
+              tickLabels: {fill: colors.axis},
+              axisLabel: { fontSize: 18, fill: colors.axis },
               transform: [{ rotate: '90deg'}]
             }}
             fixLabelOverlap
@@ -118,7 +119,7 @@ class MonthDetail extends Component {
               labels={weekSleep}
               barRatio={.75}
               style={{
-                data: { fill: "steelblue"}, labels: { fill: "white" }
+                data: { fill: colors.asleepBar}, labels: { fill: "white" }
               }}
               labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
@@ -134,13 +135,19 @@ class MonthDetail extends Component {
               label={"Day"}
               style={{
                 axisLabel: { padding: 30, fontSize: 18 },
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
               }}
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
               scale={"time"}
               style={{
-                axisLabel: { fontSize: 18 },
+                axisLabel: { padding: 30, fontSize: 18 },
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis},
                 transform: [{ rotate: '90deg'}]
               }}
               fixLabelOverlap
@@ -161,7 +168,7 @@ class MonthDetail extends Component {
         {this.props.moreMonths(-1) ?
           <Button
             buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: '#4C8C7B'} }}
+            icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeMonth(-1)}
           /> :
           <Button
@@ -170,11 +177,11 @@ class MonthDetail extends Component {
             onPress={() => this.props.changeMonth(-1)}
           />
         }
-        <Text style={styles.blackText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
+        <Text style={styles.tripletText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
         {this.props.moreMonths(1) ?
           <Button
             buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: '#4C8C7B'} }}
+            icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeMonth(1)}
           /> :
           <Button

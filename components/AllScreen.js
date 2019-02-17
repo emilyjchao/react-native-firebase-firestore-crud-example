@@ -3,6 +3,7 @@ import { Alert, StyleSheet, ScrollView, Image, ActivityIndicator, View, Touchabl
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryZoomContainer, VictoryScatter, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import styles from './style';
+import colors from './colors';
 
 
 class AllDetail extends Component {
@@ -42,7 +43,7 @@ class AllDetail extends Component {
               x="dateLabel" y="sleep"
               barRatio={.75}
               style={{
-                data: { fill: "#39BAB1"}
+                data: { fill: colors.asleepBar}
               }}
               events={[{
                 target: "data",
@@ -72,8 +73,10 @@ class AllDetail extends Component {
               <VictoryAxis
                 label="Day"
                 style={{
-                  axisLabel: { padding: 30 },
-                  fontSize: 16,
+                  axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis}
                 }}
                 fixLabelOverlap
               />
@@ -81,8 +84,10 @@ class AllDetail extends Component {
                 label="Sleep"
                 domain={[0, 14]}
                 style={{
-                  axisLabel: { padding: 35},
-                  fontSize: 16,
+                  axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis},
                   transform: [{ rotate: '90deg'}]
                 }}
                 fixLabelOverlap

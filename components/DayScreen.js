@@ -3,6 +3,7 @@ import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, Touchabl
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import styles from './style';
+import colors from './colors';
 
 
  class DayDetail extends Component {
@@ -82,7 +83,7 @@ import styles from './style';
         {this.props.moreDays(-1) ?
             <Button
               buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
-              icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+              icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
               onPress={() => this.props.changePicked(-1)}
             /> :
             <Button
@@ -91,11 +92,11 @@ import styles from './style';
               onPress={() => this.props.changePicked(-1)}
             />
           }
-          <Text style={styles.blackText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
+          <Text style={styles.tripletText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
           {this.props.moreDays(1) ?
             <Button
               buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
-              icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'black'} }}
+              icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
               onPress={() => this.props.changePicked(1)}
             /> :
             <Button
@@ -129,15 +130,17 @@ import styles from './style';
               x="x" y="y"
             interpolation="stepBefore"
             style={{
-              data: { stroke: "#39BAB1", fill: "#39BAB1" },
+              data: { stroke: colors.asleepBar, fill: colors.asleepBar },
             }}
             />
           <VictoryAxis
             label="Time"
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={sleepLabel}
-            style={{fontSize: 16, axisLabel: { padding: 35 },
-                ticks: {stroke: "black", size: 7},
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
               }}
             fixLabelOverlap
             />
@@ -170,7 +173,7 @@ import styles from './style';
           <VictoryLine
             interpolation="natural"
             style={{
-              data: { stroke: "#39BAB1" },
+              data: { stroke: colors.awakeBar },
             }}
             data = {restlessData}
             />
@@ -178,16 +181,21 @@ import styles from './style';
             label={"Time"}
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={restlessLabel}
-            style={{fontSize: 16, axisLabel: { padding: 35 },
-                ticks: {stroke: "black", size: 7},
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
               }}
             fixLabelOverlap
             />
           <VictoryAxis dependentAxis
             label="Low     High"
             style={{
-              axisLabel: { padding: 10},
+              axisLabel: { padding: 10, fill: colors.axis},
+              tickLabels: { fill: colors.axis},
+              ticks: {stroke: colors.axis},
               fontSize: 16,
+              axis: {stroke: colors.axis},
               transform: [{ rotate: '90deg'}]
             }}
             tickFormat={() => ''}
