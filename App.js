@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './components/HomeScreen';
-import AllDetailScreen from './components/AllDetailScreen';
+import AllScreen from './components/AllScreen'
 import AddChildScreen from './components/AddChildScreen';
 import ChildDetailsScreen from './components/ChildDetailsScreen';
 import SettingsScreen from './components/SettingsScreen';
@@ -31,7 +31,7 @@ async function register(){
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    AllDetails: AllDetailScreen,
+    AllDetails: AllScreen,
     AddChild: AddChildScreen,
     ChildDetails: ChildDetailsScreen,
     Settings: SettingsScreen,

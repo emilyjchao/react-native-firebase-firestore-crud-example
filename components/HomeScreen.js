@@ -886,6 +886,7 @@ class HomeScreen extends Component {
       selectDay={this.goToDay}
       hrToMin={this.hrTohhmm}
       tutorial={this.state.tutorial}
+      AB={this.state.ABtest}
     />);}
 
     return (

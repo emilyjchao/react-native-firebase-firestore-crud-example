@@ -165,6 +165,9 @@ class SummaryDetail extends Component {
               { name: "Asleep", symbol: { fill: colors.asleepBar } },
               { name: "Awake", symbol: { fill: colors.awakeBar } }
             ]}
+            style={{
+              text: { stroke: colors.axis}
+            }}
           />
           <VictoryStack
             domainPadding={{ x: 5 }}
@@ -207,10 +210,10 @@ class SummaryDetail extends Component {
                 label={"Day"}
                 tickValues={dayLabels}
                 style={{
-                  axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                  axisLabel: { padding: 30, fontSize: 18, stroke: colors.axis },
                   ticks: {stroke: colors.axis, size: 7},
                   axis: {stroke: colors.axis},
-                  tickLabels: { fill: colors.axis}
+                  tickLabels: { stroke: colors.axis}
                 }}
                 // style={{fontSize: 18, axisLabel: { padding: 30, fill: colors.axis },
                 //     ticks: {stroke: colors.axis, size: 7},
@@ -267,7 +270,7 @@ class SummaryDetail extends Component {
                 axisLabel: { padding: 30, fontSize: 18 },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis},
               }}
               fixLabelOverlap
               />

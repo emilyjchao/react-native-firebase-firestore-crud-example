@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 10,
     height: 10,
+    tintColor: 'white',
     position: 'relative',
     right: -2, // Keep some space between your left border and Image
   },

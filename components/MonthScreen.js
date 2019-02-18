@@ -16,16 +16,48 @@ class MonthDetail extends Component {
   render() {
 
     const {navigate} = this.props.navigation;
-    //Set up graph labels
-    //Set up day of week labels
-    let weekLabels = [];
-    for (i=0; i<this.props.boards.length; i++) {
-      weekLabels.push(this.props.boards[i].dayLabel);
-    }
-    //Set up date mm/dd labels
+    //Set up data for offset bar graph
+    //Combine data into array in readable format
+    let offsetData = [];
+    //Store x in dateLabels
     let dateLabels = [];
+    //Store y in sleeptimes
+    let sleeptimes = []
+    //Store y0 in bedtimes
+    let bedtimes = [];
+    let waketimes = [];
+    //Store bar labels
+    let monthSleep = [];
+    const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
+      //Set up x data
       dateLabels.push(this.props.boards[i].dateLabel);
+
+      //Push 13 digit timestamps or undefined data
+      //Convert timestamp to only include hrs/min/sec (day is Jan 1, 1970)
+      let pushNum = this.props.boards[i].enters[0] % interval;
+      if (isNaN(pushNum)){
+        pushNum = 0;
+      }
+      //Calling new Date(bedtime[i]) gives 1/1/1970 and hr:mm:ss:ms of bedtime
+      bedtimes.push(new Date(pushNum));
+
+      //Convert sleep times in hr to ms
+      let pushNum2 = this.props.boards[i].sleep * 1000 * 60 * 60;
+      if (isNaN(pushNum2)){
+        pushNum2 = 0;
+      }
+      //Store sleep times in ms
+      sleeptimes.push(new Date(pushNum2));
+
+      //Store waketimes for testing
+      waketimes.push(new Date (pushNum + pushNum2))
+
+      //Store data in offsetData
+      offsetData.push({"x": dateLabels[i], "y0": new Date(pushNum), "y": pushNum2, "day": this.props.boards[i].day})
+
+      //Set up labels for each bar
+      monthSleep.push(this.props.boards[i].sleep.toFixed(1));
     }
 
 
@@ -50,7 +82,6 @@ class MonthDetail extends Component {
           <VictoryBar
             data = {this.props.boards}
             x="dateLabel" y="sleep"
-            //labels={weekLabels}
             barRatio={.75}
             style={{
               data: { fill: colors.asleepBar}, labels: { fill: "white" }
@@ -110,13 +141,11 @@ class MonthDetail extends Component {
         <View style={styles.chart}>
           <VictoryChart
             domainPadding={{ x: 15 }}
-            //minDomain={{x:0.5}}
-            maxDomain={{x:7}}
             height={300}
           >
             <VictoryBar
               data = {offsetData}
-              labels={weekSleep}
+              labels={monthSleep}
               barRatio={.75}
               style={{
                 data: { fill: colors.asleepBar}, labels: { fill: "white" }
