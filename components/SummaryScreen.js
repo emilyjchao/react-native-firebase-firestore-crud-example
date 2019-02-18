@@ -299,12 +299,12 @@ class SummaryDetail extends Component {
         <View style={styles.triplet}>
         {this.props.moreWeeks(-1) ?
           <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeWeek(-1)}
           /> :
           <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
             onPress={() => this.props.changeWeek(-1)}
           />
@@ -312,12 +312,12 @@ class SummaryDetail extends Component {
         <Text style={styles.tripletText}>{"\n"}Week of {this.props.boards[0].day}</Text>
         {this.props.moreWeeks(1) ?
           <Button
-            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeWeek(1)}
           /> :
           <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
             onPress={() => this.props.changeWeek(1)}
           />

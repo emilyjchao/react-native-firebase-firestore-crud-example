@@ -196,12 +196,12 @@ class MonthDetail extends Component {
       <View style={styles.triplet}>
         {this.props.moreMonths(-1) ?
           <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeMonth(-1)}
           /> :
           <Button
-            buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
             onPress={() => this.props.changeMonth(-1)}
           />
@@ -209,12 +209,12 @@ class MonthDetail extends Component {
         <Text style={styles.tripletText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
         {this.props.moreMonths(1) ?
           <Button
-            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
             onPress={() => this.props.changeMonth(1)}
           /> :
           <Button
-            buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+            buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
             onPress={() => this.props.changeMonth(1)}
           />

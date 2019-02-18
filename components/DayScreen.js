@@ -82,12 +82,12 @@ import colors from './colors';
         <View style={styles.triplet}>
         {this.props.moreDays(-1) ?
             <Button
-              buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+              buttonStyle={styles.tripletButton}
               icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
               onPress={() => this.props.changePicked(-1)}
             /> :
             <Button
-              buttonStyle={{ marginTop:  30, backgroundColor: 'transparent' }}
+              buttonStyle={styles.tripletButton}
               icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
               onPress={() => this.props.changePicked(-1)}
             />
@@ -95,12 +95,12 @@ import colors from './colors';
           <Text style={styles.tripletText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
           {this.props.moreDays(1) ?
             <Button
-              buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+              buttonStyle={styles.tripletButton}
               icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
               onPress={() => this.props.changePicked(1)}
             /> :
             <Button
-              buttonStyle={{ marginTop: 30, backgroundColor: 'transparent' }}
+              buttonStyle={styles.tripletButton}
               icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
               onPress={() => this.props.changePicked(1)}
             />
@@ -134,10 +134,9 @@ import colors from './colors';
             }}
             />
           <VictoryAxis
-            label="Time"
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={sleepLabel}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16,
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
                 tickLabels: { fill: colors.axis}

@@ -131,21 +131,28 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.data,
     marginTop: 5,
+    lineHeight: 30,
   },
   triplet: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    height: 60,
   },
   tripletText: {
     textAlign: 'center',
+    textAlignVertical: 'center',
     fontSize: 24,
     color: colors.triplet,
     paddingTop: 0,
-    marginTop: 0,
+    marginTop: -10,
   },
   tripleToggle: {
     flexDirection: 'row'
+  },
+  tripletButton: {
+    marginTop: 6,
+    backgroundColor: 'transparent'
   },
   twoColumnContainer: {
     flexDirection: 'row',
