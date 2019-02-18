@@ -133,6 +133,9 @@ class HomeScreen extends Component {
    var min = Math.floor(Math.abs(minutes));
    var sec = Math.floor((Math.abs(minutes) * 60) % 60);
    //return  min + "m " + sec + "s";
+   if (isNaN(min)) {
+     return "--"
+   }
    return min + " m"
   }
 
@@ -141,6 +144,9 @@ class HomeScreen extends Component {
    var hr = Math.floor(Math.abs(hours));
    var min = Math.floor((Math.abs(hours) * 60) % 60);
    min = min < 10 ? " " + min : min;
+   if (isNaN(hr) || isNaN(min)) {
+     return "--"
+   }
    return  hr + "h " + min + "m";
   }
 
@@ -318,7 +324,10 @@ class HomeScreen extends Component {
       }
     }
     sleepAVG = sleepAVG/iCount;
-    return sleepAVG;
+    if (isNaN(sleepAVG)) {
+      return "--";
+    }
+    return sleepAVG.toFixed(2);
   }
 
   //Calculate bedwetting sum
@@ -332,7 +341,10 @@ class HomeScreen extends Component {
       }
     }
     sumWets = sumWets/(iCount);
-    return sumWets;
+    if (isNaN(sumWets)) {
+      return "--";
+    }
+    return sumWets.toFixed(1);
   }
 
   //Calculate average exits
@@ -346,7 +358,10 @@ class HomeScreen extends Component {
       }
     }
     avgExits = avgExits/(iCount);
-    return avgExits;
+    if (isNaN(avgExits)) {
+      return "--";
+    }
+    return avgExits.toFixed(1);
 
   }
 
@@ -804,10 +819,10 @@ class HomeScreen extends Component {
 
     // set the parameters for going to the averages page
     this.props.navigation.setParams({
-      sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
+      sleepAVG: this.calcSleepAvg(this.state.boards),
       restlessAVG: this.calcRestless(this.state.boards),
-      bedwetsAVG: this.calcBedwetting(this.state.boards).toFixed(2),
-      exitsAVG: this.calcExits(this.state.boards).toFixed(2),
+      bedwetsAVG: this.calcBedwetting(this.state.boards),
+      exitsAVG: this.calcExits(this.state.boards),
       setTutState: this.toggleTutorial,
       toggleAB: this.toggleABtest,
       ABtest: this.state.ABtest,
@@ -846,11 +861,11 @@ class HomeScreen extends Component {
       reports = (
         <SummaryDetail
           boards={this.state.displayBoards}
-          sleepAVG={this.calcSleepAvg(this.state.displayBoards).toFixed(2)}
+          sleepAVG={this.calcSleepAvg(this.state.displayBoards)}
           restlessDescription={this.findRestlessWord(this.calcRestless(this.state.displayBoards))}
           avgRestless={this.calcRestless(this.state.displayBoards)}
-          sumWets={this.calcBedwetting(this.state.displayBoards).toFixed(1)}
-          avgExits={this.calcExits(this.state.displayBoards).toFixed(1)}
+          sumWets={this.calcBedwetting(this.state.displayBoards)}
+          avgExits={this.calcExits(this.state.displayBoards)}
           selectDay={this.goToDay}
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
@@ -863,11 +878,11 @@ class HomeScreen extends Component {
       reports =(
         <MonthDetail
           boards={this.state.monthBoards}
-          sleepAVG={this.calcSleepAvg(this.state.monthBoards).toFixed(2)}
+          sleepAVG={this.calcSleepAvg(this.state.monthBoards)}
           restlessDescription={this.findRestlessWord(this.calcRestless(this.state.monthBoards))}
           avgRestless={this.calcRestless(this.state.monthBoards)}
-          sumWets={this.calcBedwetting(this.state.monthBoards).toFixed(1)}
-          avgExits={this.calcExits(this.state.monthBoards).toFixed(1)}
+          sumWets={this.calcBedwetting(this.state.monthBoards)}
+          avgExits={this.calcExits(this.state.monthBoards)}
           selectDay={this.goToDay}
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
@@ -879,11 +894,11 @@ class HomeScreen extends Component {
     else if (this.state.day == 4) {
       reports =(<AllDetail
       boards={this.state.boards}
-      sleepAVG={this.calcSleepAvg(this.state.boards).toFixed(2)}
+      sleepAVG={this.calcSleepAvg(this.state.boards)}
       restlessDescription={this.findRestlessWord(this.calcRestless(this.state.boards))}
       avgRestless={this.calcRestless(this.state.boards)}
-      sumWets={this.calcBedwetting(this.state.boards).toFixed(1)}
-      avgExits={this.calcExits(this.state.boards).toFixed(1)}
+      sumWets={this.calcBedwetting(this.state.boards)}
+      avgExits={this.calcExits(this.state.boards)}
       selectDay={this.goToDay}
       hrToMin={this.hrTohhmm}
       tutorial={this.state.tutorial}

@@ -82,20 +82,16 @@ class AllDetail extends Component {
             as the weekly view but shows all collected data.
           </Text> : ""
         }
-        <Text style={styles.blackTextPadding}>Full Data Report</Text>
-          <TouchableOpacity
-            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
+        <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
+        <Text style={styles.title}>Sleep</Text>
+
           //Display line graph of all sleep time
           {graph}
 
           //Line graph of Bedwets
-          <Text style={styles.title}>Bedwets</Text>
+          <Text style={styles.title}>{"\n"}Bedwets</Text>
           <VictoryChart
+            marginTop={-100}
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
             >
@@ -130,7 +126,7 @@ class AllDetail extends Component {
           </VictoryChart>
 
           //Line graph of Exits
-          <Text style={styles.title}>Bed Exits</Text>
+          <Text style={styles.title}>{"\n"}Bed Exits</Text>
           <VictoryChart
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
