@@ -18,6 +18,7 @@ let colors = {
   tabSel: highlight,
   tabText: lightB,
   tabSelText: darkB,
+  natAvg: medB,
   darkB: '#0c2245',
   medB: '#0e4587',
   lightB: '#59aae0',

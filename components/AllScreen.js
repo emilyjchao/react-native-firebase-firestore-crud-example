@@ -28,7 +28,7 @@ class AllDetail extends Component {
           x="dateLabel" y="sleep"
           barRatio={.75}
           style={{
-            data: { fill: 'steelblue'}
+            data: { fill: colors.asleepBar}
           }}
           events={[{
             target: "data",

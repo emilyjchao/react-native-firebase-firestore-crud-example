@@ -115,7 +115,7 @@ import styles from './style';
               x="x" y="y"
             interpolation="stepBefore"
             style={{
-              data: { stroke: "steelblue", fill: "steelblue" },
+              data: { stroke: colors.asleepBar, fill: asleepBar },
             }}
             />
           <VictoryAxis
