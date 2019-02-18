@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
+import colors from './colors';
 
 
 class ChildDetailsScreen extends Component {
@@ -19,7 +20,7 @@ class ChildDetailsScreen extends Component {
     };
   }
   componentDidMount() {
-    //const { navigation } = this.props;
+    const { navigation } = this.props;
     // Realtime database connection
     this.fetchData();
   }
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 5,
     borderBottomWidth: 2,
-    borderBottomColor: '#CCCCCC',
+    borderBottomColor: colors.background,
   },
   activity: {
     position: 'absolute',

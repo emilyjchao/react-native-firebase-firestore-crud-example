@@ -41,13 +41,24 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: colors.background
   },
   button: {
     flex: 1,
     alignItems: 'center',
     borderRadius: 3,
     borderColor: colors.tabs,
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+  },
+  savebutton: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: 3,
+    borderColor: 'transparent',
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
