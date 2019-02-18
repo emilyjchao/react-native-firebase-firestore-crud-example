@@ -82,7 +82,7 @@ class AllDetail extends Component {
             as the weekly view but shows all collected data.
           </Text> : ""
         }
-        <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
+        <Text style={styles.blackTextPadding}>Full Data Report</Text>
           <TouchableOpacity
             onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
             <View style={styles.btnContainer}>
@@ -134,6 +134,7 @@ class AllDetail extends Component {
           <VictoryChart
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
+            clipPadding={{ top: 0, bottom: 0, left: 0, right: 0}}
             >
             <VictoryLine
               interpolation="natural"
