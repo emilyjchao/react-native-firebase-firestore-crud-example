@@ -114,11 +114,11 @@ class MonthDetail extends Component {
             />
           <VictoryAxis
             label={"Day"}
-            tickValues={dateLabels}
             style={{
-              axis: {stroke: colors.axis},
-              tickLabels: {fill: colors.axis},
               axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+              ticks: {stroke: colors.axis, size: 7},
+              axis: {stroke: colors.axis},
+              tickLabels: { fill: colors.axis},
             }}
             fixLabelOverlap
             />
@@ -163,7 +163,7 @@ class MonthDetail extends Component {
             <VictoryAxis
               label={"Day"}
               style={{
-                axisLabel: { padding: 30, fontSize: 18 },
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
                 tickLabels: { fill: colors.axis}

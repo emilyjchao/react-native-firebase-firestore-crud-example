@@ -215,22 +215,17 @@ class SummaryDetail extends Component {
                   axis: {stroke: colors.axis},
                   tickLabels: { stroke: colors.axis}
                 }}
-                // style={{fontSize: 18, axisLabel: { padding: 30, fill: colors.axis },
-                //     ticks: {stroke: colors.axis, size: 7},
-                //     axis: {stroke: colors.axis},
-                //     tickLabels: { fill: colors.axis},
-                // }}
                 fixLabelOverlap
               />
               <VictoryAxis dependentAxis
                 label="Hours"
                 domain={[0, 14]}
                 style={{
-                  axisLabel: { padding: 30, fontSize: 18 },
+                  axisLabel: { fontSize: 18 },
+                  transform: [{ rotate: '90deg'}],
                   ticks: {stroke: colors.axis, size: 7},
                   axis: {stroke: colors.axis},
-                  tickLabels: { fill: colors.axis},
-                  transform: [{ rotate: '90deg'}],
+                  tickLabels: { fill: colors.axis}
                 }}
                 fixLabelOverlap
               />
@@ -267,7 +262,7 @@ class SummaryDetail extends Component {
             <VictoryAxis
               label={"Day"}
               style={{
-                axisLabel: { padding: 30, fontSize: 18 },
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
                 tickLabels: { fill: colors.axis},
