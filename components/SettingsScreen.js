@@ -5,6 +5,9 @@ import Colors from '../constants/Colors';
 import { Button } from 'react-native-elements';
 import SettingsList from 'react-native-settings-list';
 import firebase from '../Firebase';
+import colors from './colors';
+import styles from './style';
+
 
 // Create and export Settings screen component
 export default class SettingsScreen extends React.Component {
@@ -80,7 +83,9 @@ export default class SettingsScreen extends React.Component {
       [option]: !this.state[option]
     })
   }
+  componentDidMount() {
 
+  }
   //This saves the current settings to Firestore
   saveSettings() {
     this.ref.update({
@@ -101,14 +106,13 @@ export default class SettingsScreen extends React.Component {
     //Needed to naviaget to other pages from Settings Screen
     const {navigate} = this.props.navigation;
 
-    var bgColor = '#DCE3F4';
     return (
       //Display the settings item list
       <ScrollView style={styles.container}>
-      <View style={{backgroundColor:'#EFEFF4',flex:1}}>
+      <View style={{backgroundColor:colors.background,flex:1}}>
         <View style={{flex:1, marginTop:50}}>
           <SettingsList>
-          <SettingsList.Header headerText='Profile' headerStyle={{color:'black'}}/>
+          <SettingsList.Header headerText='Profile' headerStyle={{color:colors.highlight}}/>
             <SettingsList.Item
               icon={
                 <View style={{height:30,marginLeft:10,alignSelf:'center'}}>
@@ -117,52 +121,82 @@ export default class SettingsScreen extends React.Component {
               }
               itemWidth={50}
               title='Parent 1'
-              onPress={() => Alert.alert('See Account Information')}
+              titleStyle={{color: colors.descriptions}}
+              backgroundColor={colors.background}
+              onPress={() => Alert.alert('Will Show Account Information')}
             />
             <SettingsList.Item
               hasNavArrow={false}
               switchState={this.state.pooling}
               switchOnValueChange={this.onPoolingChange}
               hasSwitch={true}
+              titleStyle={{color: colors.descriptions}}
+              backgroundColor={colors.background}
               title='National Data Pooling'/>
             <SettingsList.Item
               title='Privacy Agreement'
-              backgroundColor='#D1D1D1'
-              onPress={() => Alert.alert('See Terms and Conditions of Use')}/>
-            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:'black', marginTop:50}}/>
-            <SettingsList.Item titleInfo='Details' hasNavArrow={false} title='Child 1'
-              onPress={() => navigate('ChildDetails')}/>
-            <SettingsList.Item title="Add Child" hasNavArrow={true} onPress={() => navigate('AddChild')} />
+              titleStyle={{color: colors.descriptions}}
+              backgroundColor={colors.background}
+              onPress={() => Alert.alert('Will Show Terms and Conditions of Use')}/>
+            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:colors.highlight, marginTop:50}}/>
+            <SettingsList.Item
+              titleInfo='Details'
+              hasNavArrow={false}
+              titleStyle={{color: colors.descriptions}}
+              title='Child 1'
+              backgroundColor={colors.background}
+              //onPress={() => navigate('ChildDetails')}
+              onPress={() => Alert.alert('Will Show Child Profile Information')}/>
+            <SettingsList.Item
+              title="Add Child"
+              hasNavArrow={true}
+              titleStyle={{color: colors.descriptions}}
+              backgroundColor={colors.background}
+              //onPress={() => navigate('AddChild')}
+              onPress={() => Alert.alert('Will Allow User to Add Child to Account')}
+              />
             <SettingsList.Item
               title='Calibrate Tracker'
+              backgroundColor={colors.background}
+              titleStyle={{color: colors.descriptions}}
               onPress={() => navigate('Calibrate')}/>
             <SettingsList.Item
               hasNavArrow={false}
+              titleStyle={{color: colors.descriptions}}
               switchState={this.state.notification}
               switchOnValueChange={this.onNotificationChange}
               hasSwitch={true}
+              backgroundColor={colors.background}
               title='Enable Push Notifications'/>
               <SettingsList.Item
                 hasNavArrow={false}
+                titleStyle={{color: colors.descriptions}}
                 switchState={this.state.bedwetting}
                 switchOnValueChange={this.onBedwettingChange}
                 hasSwitch={true}
+                backgroundColor={colors.background}
                 title='Bedwetting Alarm'/>
               <SettingsList.Item
                 hasNavArrow={false}
                 switchState={this.state.restless}
+                titleStyle={{color: colors.descriptions}}
                 switchOnValueChange={this.onRestlessChange}
                 hasSwitch={true}
+                backgroundColor={colors.background}
                 title='Restlessness Alarm'/>
               <SettingsList.Item
                 hasNavArrow={false}
                 switchState={this.state.outofbed}
                 switchOnValueChange={this.onOutOfBedChange}
                 hasSwitch={true}
+                titleStyle={{color: colors.descriptions}}
+                backgroundColor={colors.background}
                 title='Out of Bed Alarm'/>
               <SettingsList.Item
                 hasNavArrow={false}
+                backgroundColor={colors.background}
                 switchState={this.state.asleep}
+                titleStyle={{color: colors.descriptions}}
                 switchOnValueChange={this.onAsleepChange}
                 hasSwitch={true}
                 title='Fell Asleep Alert'/>
@@ -170,9 +204,10 @@ export default class SettingsScreen extends React.Component {
         </View>
       </View>
       //Save button (must be pressed to update settings in Firebase)
-      <View style={styles.button}>
+      <View style={styles.savebutton}>
         <Button
           small
+          backgroundColor={colors.background}
           leftIcon={{name: 'save'}}
           onPress={() => this.saveSettings()}
           title='Save Settings' />
@@ -202,16 +237,3 @@ export default class SettingsScreen extends React.Component {
     this.setState({asleep: value});
   }
 }
-
-const styles = StyleSheet.create({
-  imageStyle:{
-    marginLeft:15,
-    alignSelf:'center',
-    height:30,
-    width:30
-  },
-  titleInfoStyle:{
-    fontSize:16,
-    color: '#8e8e93'
-  }
-});
