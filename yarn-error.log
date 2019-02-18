@@ -1,20 +1,20 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.12.3/libexec/bin/yarn.js
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
-  1.12.3
+  1.13.0
 
 Node version: 
-  11.6.0
+  10.15.1
 
 Platform: 
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/emilychao/Desktop/sleep/node_modules/react-native-dialog-input/LICENSE'
+  Error: EACCES: permission denied, mkdir '/Users/emilychao/Desktop/sleep/node_modules/@babel/core/node_modules/json5'
 
 npm manifest: 
   {

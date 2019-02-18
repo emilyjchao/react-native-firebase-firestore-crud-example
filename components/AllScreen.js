@@ -150,12 +150,48 @@ class AllDetail extends Component {
           <TouchableOpacity
             onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep History</Text>
+              <Text style={styles.title}>Sleep</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>
           //Display line graph of all sleep time
           {graph}
+
+          //Line graph of Bedwets
+          <Text style={styles.title}>Bedwets</Text>
+          <VictoryChart
+            height={150}
+            domainPadding={{ x : [20, 20] }}
+            >
+            <VictoryLine
+              interpolation="natural"
+              style={{
+                data: { stroke: colors.awakeBar },
+              }}
+              data = {this.props.boards}
+              x="dateLabel" y="bedwet.length"
+              />
+            <VictoryAxis
+              label={"Day"}
+              style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis}
+                }}
+              fixLabelOverlap
+              />
+            <VictoryAxis dependentAxis
+              style={{
+                axisLabel: { padding: 10, fill: colors.axis},
+                tickLabels: { fill: colors.axis},
+                ticks: {stroke: colors.axis},
+                fontSize: 16,
+                axis: {stroke: colors.axis},
+                transform: [{ rotate: '90deg'}]
+              }}
+              fixLabelOverlap
+              />
+          </VictoryChart>
 
           <Text>{"\n"}</Text>
 
