@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   blackTextPadding: {
     textAlign: 'center',
     fontSize: 24,
-    color: colors.descriptions,
+    color: colors.highlight,
     paddingTop: 13,
     paddingBottom: 13,
     marginTop: 0,
