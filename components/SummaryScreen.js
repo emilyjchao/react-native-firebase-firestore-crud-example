@@ -11,6 +11,9 @@ class SummaryDetail extends Component {
 
   constructor(){
     super();
+    this.state = {
+      picked: 0, // view the details of clicked day
+    }
   }
 
   render() {
@@ -185,7 +188,8 @@ class SummaryDetail extends Component {
                 target: "data",
                 eventHandlers: {
                 onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
+                   //this.props.selectDay(data.datum.day);
+                   this.setState({picked: data.index});
                    return [{target: "data",}];
                  }
                }}]}
@@ -201,7 +205,8 @@ class SummaryDetail extends Component {
                   target: "data",
                   eventHandlers: {
                   onPressIn: (event, data) => {
-                     this.props.selectDay(data.datum.day);
+                     //this.props.selectDay(data.datum.day);
+                     this.setState({picked: data.index});
                      return [{target: "data",}];
                    }
                  }}]}
@@ -254,7 +259,8 @@ class SummaryDetail extends Component {
                 target: "data",
                 eventHandlers: {
                 onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
+                   //this.props.selectDay(data.datum.day);
+                   this.setState({picked: data.index});
                    return [{target: "data",}];
                  }
                }}]}
@@ -341,6 +347,13 @@ class SummaryDetail extends Component {
             Check out the rest of this page first, but when you come back, you can click on
             one of the blue bars  to see details about that day!
           </Text> : ""}
+
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+              <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
+            </TouchableOpacity>
+          </View>
+
       {graph}
 
         {this.props.tutorial ?

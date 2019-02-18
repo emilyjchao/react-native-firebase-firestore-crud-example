@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     //color: '#393E41',
     color: colors.tabText,
     fontFamily: 'Futura',
-    paddingHorizontal: 5,
   },
   brightText: {
     textAlign: 'center',
