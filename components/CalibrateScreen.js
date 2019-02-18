@@ -7,6 +7,9 @@ import styles from './style';
 class CalibrateScreen extends Component {
   static navigationOptions = {
     title: 'Calibrate System',
+    titleStyle: {
+      fontFamily: 'Futura'
+    },
   };
   constructor() {
     super();

@@ -18,7 +18,10 @@ class HomeScreen extends Component {
     const {params = {}} = navigation.state;
       return {
         //Draw settings and add child buttons on header of screen
-        title: 'Serta Simmons', 
+        title: 'Serta Simmons',
+        titleStyle: {
+	    		fontFamily: 'Futura'
+	    	},
         headerRight:  (
           <View style={styles.btnContainer}>
             <Button

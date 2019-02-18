@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     marginBottom: 0,
-    //color: '#44D197',
     color: colors.descriptions,
+    fontWeight: '100',
     fontFamily: 'Futura'
   },
   brightTextLeft: {
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     color: colors.descriptions,
+    fontWeight: '100',
     paddingTop: 0,
     marginTop: 0,
     fontFamily: 'Futura'
@@ -135,7 +136,8 @@ const styles = StyleSheet.create({
   },
   smallText: {
     textAlign: 'center',
-    fontFamily: 'Futura'
+    fontFamily: 'Futura',
+    color: colors.descriptions,
   },
   textInput: {
     fontSize: 24,
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
     color: colors.data,
+    fontWeight: '600',
     marginTop: 5,
     fontFamily: 'Futura'
   },
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 24,
+    fontWeight: '100',
     color: colors.triplet,
     paddingTop: 0,
     marginTop: -10,
