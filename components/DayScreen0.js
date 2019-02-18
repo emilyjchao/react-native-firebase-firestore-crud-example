@@ -180,22 +180,24 @@ import styles from './style';
             />
         </VictoryChart>
 
-        <View style={styles.appContainer}>
-        <Text>{'\n'}</Text>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('Times of bed wets')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Bedwets</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
+        <View style={styles.twoColumnContainer}>
+          <View style={styles.twoColumnColumn}>
+            <View style={styles.appContainer}>
+            <TouchableOpacity
+              onPress={() => {Alert.alert('Times of bed wets')}}
+              style={styles.button1}>
+                <View style={styles.btnContainer}>
+                  <Text style={styles.title}>Bedwets</Text>
+                  <Image source={require('./about.png')} style={styles.icon} />
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
+          {this.props.tutorial ?
+            <Text style={styles.smallText}>Displays the time of a bedwetting incident.
+            </Text> : ""}
+          <Text style={styles.brightText}>{bedWetContent}</Text>
         </View>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}>Displays the time of a bedwetting incident.
-          </Text> : ""}
-        <Text style={styles.brightText}>{bedWetContent}</Text>
-
+        <View style={styles.twoColumnColumn}>
         //Table for bed exits
         <View style={styles.appContainer}>
         <Text>{'\n'}</Text>
@@ -241,7 +243,8 @@ import styles from './style';
         {this.props.tutorial ?
           <Text style={styles.smallText}>Scroll back to the top and check out the monthly view!
           </Text> : ""}
-        </View>);
+        </View>
+      </View>);
 
   }
 }

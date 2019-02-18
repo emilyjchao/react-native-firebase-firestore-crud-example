@@ -201,68 +201,74 @@ import colors from './colors';
             />
         </VictoryChart>
 
-        <View style={styles.appContainer}>
-        <Text>{'\n'}</Text>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('Times of bed wets')}}
-          style={styles.button1}>
-            <View style={styles.btnContainer}>
-              <Text style={styles.title}>Bedwets</Text>
-              <Image source={require('./about.png')} style={styles.icon} />
+        <View style={styles.twoColumnContainer}>
+          <View style={styles.twoColumnColumn}>
+            <View style={styles.appContainer}>
+              <TouchableOpacity
+                onPress={() => {Alert.alert('Times of bed wets')}}
+                style={styles.button1}>
+                  <View style={styles.btnContainer}>
+                    <Text style={styles.title}>Bedwets</Text>
+                    <Image source={require('./about.png')} style={styles.icon} />
+                  </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}>Displays the time of a bedwetting incident.
-          </Text> : ""}
-        <Text style={styles.brightText}>{bedWetContent}</Text>
+            {this.props.tutorial ?
+              <Text style={styles.smallText}>Displays the time of a bedwetting incident.
+              </Text> : ""}
+            <Text style={styles.brightText}>{bedWetContent}</Text>
+          </View>
 
         //Table for bed exits
-        <View style={styles.appContainer}>
-        <Text>{'\n'}</Text>
-        <TouchableOpacity
-          onPress={() => {Alert.alert('Times and durations of bed exits')}}
-          style={styles.button1}>
-          <View style={styles.btnContainer}>
-            <Text style={styles.title}>Bed Exits</Text>
-            <Image source={require('./about.png')} style={styles.icon} />
+        <View style={styles.twoColumnColumn}>
+          <View style={styles.appContainer}>
+            <Text>{'\n'}</Text>
+            <TouchableOpacity
+              onPress={() => {Alert.alert('Times and durations of bed exits')}}
+              style={styles.button1}>
+              <View style={styles.btnContainer}>
+                <Text style={styles.title}>Bed Exits</Text>
+                <Image source={require('./about.png')} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+          {this.props.tutorial ?
+            <Text style={styles.smallText}>Displays the time and duration of exits.
+            </Text> : ""}
+          <Text style={styles.brightText}>{'  '}Time{'\t\t'}  Minutes</Text>
+          // This code for rendering table is from:
+          // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {
+              this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
+                if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
+                  return (
+                      <Text key={time} style={styles.brightTextLeft}>
+                        {'               '}{'--'}{'             '}{'--'}
+                      </Text>
+                  );
+                }
+                else if (index != this.props.boards[this.props.picked].exited.length-1){
+                  var exitTime = new Date(time);
+                  var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
+                  var dif = new Date(enterTime-exitTime);
+                  var timeOut = dif / (60000);
+                  return (
+                      <Text key={time} style={styles.brightTextLeft}>
+                        {this.props.formatTime(exitTime)}{'\t\t'}{(this.props.minToSec(timeOut))}
+                      </Text>
+                  );
+                }
+              })
+            }
+          </View>
+          </View>
+
+          {this.props.tutorial ?
+            <Text style={styles.smallText}>Scroll back to the top and check out the monthly view!
+            </Text> : ""}
         </View>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}>Displays the time and duration of exits.
-          </Text> : ""}
-        <Text style={styles.brightText}>Time{'\t\t'}  Minutes</Text>
-        // This code for rendering table is from:
-        // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {
-            this.props.boards[this.props.picked].exited.map((time, index) => { // This will render a row for each data element.
-              if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
-                return (
-                    <Text key={time} style={styles.brightTextLeft}>
-                      {'                         '}{'--'}{'                     '}{'--'}
-                    </Text>
-                );
-              }
-              else if (index != this.props.boards[this.props.picked].exited.length-1){
-                var exitTime = new Date(time);
-                var enterTime = new Date(this.props.boards[this.props.picked].enters[index + 1]);
-                var dif = new Date(enterTime-exitTime);
-                var timeOut = dif / (60000);
-                return (
-                    <Text key={time} style={styles.brightTextLeft}>
-                      {'                   '}{this.props.formatTime(exitTime)}{'           '}{(this.props.minToSec(timeOut))}
-                    </Text>
-                );
-              }
-            })
-          }
-        </View>
-        {this.props.tutorial ?
-          <Text style={styles.smallText}>Scroll back to the top and check out the monthly view!
-          </Text> : ""}
-        </View>);
+      </View>);
 
   }
 }

@@ -11,6 +11,7 @@ import Averages from './AveragesScreen';
 import AllDetail from './AllScreen';
 import firebase from '../Firebase';
 import styles from './style';
+import colors from './colors';
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -822,7 +823,7 @@ class HomeScreen extends Component {
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>
-          <ActivityIndicator size="large" color="#0000ff"/>
+          <ActivityIndicator size="large" color={colors.highlight}/>
         </View>
       )
     }
