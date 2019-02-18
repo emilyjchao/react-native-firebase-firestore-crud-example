@@ -70,8 +70,8 @@ class MonthDetail extends Component {
           orientation="horizontal"
           gutter={20}
           data={[
-            { name: "Asleep", symbol: { fill: colors.asleepBar} },
-            { name: "Awake", symbol: { fill: colors.awakeBar } }
+            { name: "Asleep", symbol: { fill: colors.asleepBar}, labels: {fill: colors.asleepBar}},
+            { name: "Awake", symbol: { fill: colors.awakeBar }, labels: {fill: colors.awakeBar} }
           ]}
         />
         <VictoryStack
@@ -112,28 +112,28 @@ class MonthDetail extends Component {
                }
              }}]}
             />
-          <VictoryAxis
-            label={"Day"}
-            style={{
-              axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
-              ticks: {stroke: colors.axis, size: 7},
-              axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis},
-            }}
-            fixLabelOverlap
-            />
-          <VictoryAxis dependentAxis
-            label="Sleep"
-            domain={[0, 14]}
-            style={{
-              axis: {stroke: colors.axis},
-              tickLabels: {fill: colors.axis},
-              axisLabel: { fontSize: 18, fill: colors.axis },
-              transform: [{ rotate: '90deg'}]
-            }}
-            fixLabelOverlap
-            />
         </VictoryStack>
+        <VictoryAxis
+          label={"Day"}
+          style={{
+            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+            ticks: {stroke: colors.axis, size: 7},
+            axis: {stroke: colors.axis},
+            tickLabels: { fill: colors.axis},
+          }}
+          fixLabelOverlap
+          />
+        <VictoryAxis dependentAxis
+          label="Sleep"
+          domain={[0, 14]}
+          style={{
+            axis: {stroke: colors.axis},
+            tickLabels: {fill: colors.axis},
+            axisLabel: { fontSize: 18, fill: colors.axis },
+            transform: [{ rotate: '90deg'}]
+          }}
+          fixLabelOverlap
+          />
         </VictoryChart>);
     }
     else if (this.props.AB == 2) {
