@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, TouchableOpacity, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-import { VictoryBar, VictoryLine, VictoryLegend, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
+import { VictoryBar, VictoryLine, VictoryLegend, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel, VictoryCandlestick } from 'victory-native';
 import styles from './style';
 import colors from './colors';
 
@@ -64,7 +64,7 @@ class SummaryDetail extends Component {
       waketimes.push(new Date (pushNum + pushNum2))
 
       //Store data in offsetData
-      offsetData.push({"x": weekLabels[i], "y0": new Date(pushNum), "y": pushNum2, "day": this.props.boards[i].day})
+      offsetData.push({"x": weekLabels[i], "y0": pushNum, "y": pushNum2, "day": this.props.boards[i].day})
     }
 
     console.log("Offset\n")
@@ -270,7 +270,7 @@ class SummaryDetail extends Component {
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
-              scale={"time"}
+              //scale={"time"}
               style={{
                 axisLabel: { fontSize: 18, fontFamily: 'Futura' },
                 transform: [{ rotate: '90deg'}],
