@@ -14,7 +14,6 @@ class MonthDetail extends Component {
     this.state = {
       picked: 0, // view the details of clicked day
     }
-
   }
 
   render() {
@@ -113,7 +112,8 @@ class MonthDetail extends Component {
               target: "data",
               eventHandlers: {
               onPressIn: (event, data) => {
-                 this.props.selectDay(data.datum.day);
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
                  return [{target: "data",}];
                }
              }}]}
@@ -161,7 +161,8 @@ class MonthDetail extends Component {
                 target: "data",
                 eventHandlers: {
                 onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
+                   //this.props.selectDay(data.datum.day);
+                   this.setState({picked: data.index});
                    return [{target: "data",}];
                  }
                }}]}
