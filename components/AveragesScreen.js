@@ -10,6 +10,9 @@ export default class AveragesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Averages',
+      titleStyle: {
+        fontFamily: 'Futura'
+      },
     }
   }
   constructor(props) {

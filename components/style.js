@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
   },
   smallText: {
     textAlign: 'center',
-    fontFamily: 'Futura'
+    fontFamily: 'Futura',
+    color: colors.descriptions,
   },
   textInput: {
     fontSize: 24,
