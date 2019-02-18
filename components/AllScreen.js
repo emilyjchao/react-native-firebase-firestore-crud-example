@@ -14,130 +14,66 @@ class AllDetail extends Component {
   render () {
     let graph;
     // display the graph based on what AB for ABtesting is
-    if (this.props.AB == 1) {
-      graph=(
-        <VictoryChart
+      graph = (
+        <VictoryChart>
+        <VictoryLegend x={125} y={10}
+          orientation="horizontal"
+          gutter={20}
+          data={[
+            { name: "Asleep", symbol: { fill: colors.asleepBar}, labels: {fill: colors.asleepBar}},
+            { name: "Awake", symbol: { fill: colors.awakeBar }, labels: {fill: colors.awakeBar} }
+          ]}
+        />
+        <VictoryAxis
+          style={{
+            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+            ticks: {stroke: colors.axis, size: 7},
+            axis: {stroke: colors.axis},
+            tickLabels: { fill: colors.axis}
+          }}
+          fixLabelOverlap
+        />
+        <VictoryAxis dependentAxis
+          label="Sleep"
+          domain={[0, 14]}
+          style={{
+            axis: {stroke: colors.axis},
+            tickLabels: {fill: colors.axis},
+            axisLabel: { fontSize: 18, fill: colors.axis },
+            transform: [{ rotate: '90deg'}]
+          }}
+        fixLabelOverlap
+        />
+        <VictoryStack
           //helps so that chart is not cut off on right
           domainPadding={{ x : [30, 30] }}
           containerComponent={
-              <VictoryZoomContainer/>
-            }
+            <VictoryZoomContainer/>
+          }
           >
-        <VictoryBar
-          data = {this.props.boards}
-          x="dateLabel" y="sleep"
-          barRatio={.75}
-          style={{
-            data: { fill: colors.asleepBar}
-          }}
-          events={[{
-            target: "data",
-            eventHandlers: {
-            onPressIn: (event, data) => {
-               this.props.selectDay(data.datum.day);
-               return [{target: "data",}];
-             }
-           }}]}
-          />
-        <VictoryLine
-          data = {this.props.boards}
-          x="dateLabel" y="inBed"
-          style={{ labels: { textAlign: 'left', marginRight: 30} }}
-          />
-        <VictoryScatter
-          data = {this.props.boards}
-          x="dateLabel" y="inBed"
-          events={[{
-            target: "data",
-            eventHandlers: {
-            onPressIn: () => {
-               Alert.alert('Total time in bed')
-             }
-           }}]}
-          />
-          <VictoryAxis
-            label="Day"
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="sleep"
             style={{
-              axisLabel: { padding: 30 },
-              fontSize: 16,
+              data: { fill: colors.asleepBar}
             }}
-            fixLabelOverlap
-          />
-          <VictoryAxis dependentAxis
-            label="Sleep"
-            style={{
-              axisLabel: { padding: 35},
-              fontSize: 16,
-              transform: [{ rotate: '90deg'}]
-            }}
-            fixLabelOverlap
-          />
-          </VictoryChart>);
-        }
-      else if (this.props.AB == 2) {
-        graph = (
-          <VictoryChart>
-          <VictoryLegend x={125} y={10}
-            orientation="horizontal"
-            gutter={20}
-            data={[
-              { name: "Asleep", symbol: { fill: colors.asleepBar} },
-              { name: "Awake", symbol: { fill: colors.awakeBar } }
-            ]}
-          />
-          <VictoryStack
-            //helps so that chart is not cut off on right
-            domainPadding={{ x : [30, 30] }}
-            containerComponent={
-              <VictoryZoomContainer/>
-            }
-            >
-            <VictoryBar
-              data = {this.props.boards}
-              x="dateLabel" y="sleep"
-              style={{
-                data: { fill: colors.asleepBar}
-              }}
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
-                   return [{target: "data",}];
-                 }
-               }}]}
-              />
-            <VictoryBar
-              data = {this.props.boards}
-              x="dateLabel" y="awake"
-              style={{ labels: { textAlign: 'left', marginRight: 30} }}
-              />
-
-              <VictoryAxis
-                label="Day"
-                style={{
-                  axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
-                  ticks: {stroke: colors.axis, size: 7},
-                  axis: {stroke: colors.axis},
-                  tickLabels: { fill: colors.axis}
-                }}
-                fixLabelOverlap
-              />
-              <VictoryAxis dependentAxis
-                label="Sleep"
-                domain={[0, 14]}
-                style={{
-                  axis: {stroke: colors.axis},
-                  tickLabels: {fill: colors.axis},
-                  axisLabel: { fontSize: 18, fill: colors.axis },
-                  transform: [{ rotate: '90deg'}]
-                }}
-              fixLabelOverlap
-              />
-              </VictoryStack>
-              </VictoryChart>
-        );
-      }
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 this.props.selectDay(data.datum.day);
+                 return [{target: "data",}];
+               }
+             }}]}
+            />
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="awake"
+            style={{ labels: { textAlign: 'left', marginRight: 30}, data: { fill: colors.awakeBar} }}
+            />
+          </VictoryStack>
+          </VictoryChart>
+      );
     return(
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
@@ -161,7 +97,7 @@ class AllDetail extends Component {
           <Text style={styles.title}>Bedwets</Text>
           <VictoryChart
             height={150}
-            domainPadding={{ x : [20, 20] }}
+            domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
             >
             <VictoryLine
               interpolation="natural"
@@ -172,7 +108,42 @@ class AllDetail extends Component {
               x="dateLabel" y="bedwet.length"
               />
             <VictoryAxis
-              label={"Day"}
+              style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis}
+                }}
+              fixLabelOverlap
+              />
+            <VictoryAxis dependentAxis
+              style={{
+                axisLabel: { padding: 10, fill: colors.axis},
+                tickLabels: { fill: colors.axis},
+                ticks: {stroke: colors.axis},
+                fontSize: 16,
+                axis: {stroke: colors.axis},
+                transform: [{ rotate: '90deg'}]
+              }}
+              tickValues={[2, 4]}
+              fixLabelOverlap
+              />
+          </VictoryChart>
+
+          //Line graph of Exits
+          <Text style={styles.title}>Bed Exits</Text>
+          <VictoryChart
+            height={150}
+            domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
+            >
+            <VictoryLine
+              interpolation="natural"
+              style={{
+                data: { stroke: colors.awakeBar },
+              }}
+              data = {this.props.boards}
+              x="dateLabel" y="exited.length"
+              />
+            <VictoryAxis
               style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
                   ticks: {stroke: colors.axis, size: 7},
                   axis: {stroke: colors.axis},
