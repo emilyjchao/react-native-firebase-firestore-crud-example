@@ -10,30 +10,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
   },
-  btnContainer: {
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: 'transparent',
-    marginHorizontal: 0,
-  },
-  chart: {
-    marginBottom: 35,
-  },
-  container: {
-    flex: 1,
-    paddingBottom: 22,
-    backgroundColor: colors.background,
-  },
-  header: {
-    backgroundColor: colors.header,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
   activity: {
     position: 'absolute',
     left: 0,
@@ -54,15 +30,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
   },
-  savebutton: {
-    flex: 1,
+  btnContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 3,
     borderColor: 'transparent',
-    borderWidth: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 5,
   },
   buttonSelected: {
     flex: 1,
@@ -77,7 +48,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.tabSel,
   },
   button1: {
-    flex: 1,
     alignItems: 'center',
     borderRadius: 3,
     borderColor: 'transparent',
@@ -125,12 +95,38 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: colors.descriptions,
   },
+  chart: {
+    marginBottom: 35,
+  },
+  container: {
+    flex: 1,
+    paddingBottom: 22,
+    backgroundColor: colors.background,
+  },
+  header: {
+    backgroundColor: colors.header,
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
   // chartData: {
   //   fill: '#39BAB1',
   // },
   // chartLabels: {
   //   labels: { fill: "white" }
   // },
+  savebutton: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: 3,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+  },
   smallText: {
     textAlign: 'center',
   },
@@ -142,7 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.data,
     marginTop: 5,
-    lineHeight: 30,
   },
   triplet: {
     flexDirection: 'row',
@@ -171,7 +166,7 @@ const styles = StyleSheet.create({
   },
   twoColumnColumn: {
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'flex-start',
   },
   icon: {
     width: 10,
