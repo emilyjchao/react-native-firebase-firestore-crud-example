@@ -30,6 +30,21 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
   },
+  buttonNoFlex: {
+    alignItems: 'center',
+    borderRadius: 3,
+    borderColor: colors.tabs,
+    borderWidth: 1,
+    marginHorizontal: 10,
+  },
+  buttonNoFlexText:{
+    textAlign: 'center',
+    fontSize: 18,
+    //color: '#393E41',
+    color: colors.tabText,
+    fontFamily: 'Futura',
+    paddingHorizontal: 5,
+  },
   btnContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -61,7 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     //color: '#393E41',
     color: colors.tabText,
-    fontFamily: 'Futura'
+    fontFamily: 'Futura',
+    paddingHorizontal: 5,
   },
   brightText: {
     textAlign: 'center',
@@ -69,7 +85,8 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     color: colors.descriptions,
     fontWeight: '100',
-    fontFamily: 'Futura'
+    fontFamily: 'Futura',
+    paddingHorizontal: 3,
   },
   brightTextLeft: {
     textAlign: 'left',

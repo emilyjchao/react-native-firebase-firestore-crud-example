@@ -14,7 +14,6 @@ class MonthDetail extends Component {
     this.state = {
       picked: 0, // view the details of clicked day
     }
-
   }
 
   render() {
@@ -113,7 +112,8 @@ class MonthDetail extends Component {
               target: "data",
               eventHandlers: {
               onPressIn: (event, data) => {
-                 this.props.selectDay(data.datum.day);
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
                  return [{target: "data",}];
                }
              }}]}
@@ -161,7 +161,8 @@ class MonthDetail extends Component {
                 target: "data",
                 eventHandlers: {
                 onPressIn: (event, data) => {
-                   this.props.selectDay(data.datum.day);
+                   //this.props.selectDay(data.datum.day);
+                   this.setState({picked: data.index});
                    return [{target: "data",}];
                  }
                }}]}
@@ -239,9 +240,8 @@ class MonthDetail extends Component {
         </View>
 
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={styles.brightText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
-            <Text style={styles.brightText}> Details</Text>
+          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+            <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
           </TouchableOpacity>
         </View>
 

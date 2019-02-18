@@ -10,6 +10,9 @@ import colors from './colors';
 class AllDetail extends Component {
   constructor () {
     super();
+    this.state = {
+      picked: 0, // view the details of clicked day
+    }
   }
   render () {
     let graph;
@@ -61,7 +64,8 @@ class AllDetail extends Component {
               target: "data",
               eventHandlers: {
               onPressIn: (event, data) => {
-                 this.props.selectDay(data.datum.day);
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
                  return [{target: "data",}];
                }
              }}]}
@@ -85,6 +89,11 @@ class AllDetail extends Component {
         <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
         <Text style={styles.title}>Sleep</Text>
 
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+              <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
+            </TouchableOpacity>
+          </View>
           //Display line graph of all sleep time
           {graph}
 
