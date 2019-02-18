@@ -909,7 +909,7 @@ class HomeScreen extends Component {
     />);}
 
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
       <View style={styles.tripleToggle}>
         <TouchableOpacity
           onPress = {()=> this.setState({day: 1})}
@@ -932,11 +932,14 @@ class HomeScreen extends Component {
           <Text style={styles.buttonText}>All</Text>
         </TouchableOpacity>
       </View>
+      <ScrollView style={styles.container}>
+
       {this.state.picked}
 
       {reports}
 
       </ScrollView>
+      </View>
     );
   }
 }
