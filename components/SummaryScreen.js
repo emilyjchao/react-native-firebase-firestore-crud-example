@@ -208,7 +208,7 @@ class SummaryDetail extends Component {
                 />
             </VictoryStack>
             <VictoryAxis
-              label={"Day"}
+              //label={"Day"}
               tickValues={dayLabels}
               style={{
                 axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
@@ -260,7 +260,7 @@ class SummaryDetail extends Component {
                }}]}
               />
             <VictoryAxis
-              label={"Day"}
+              //label={"Day"}
               style={{
                 axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
                 ticks: {stroke: colors.axis, size: 7},
@@ -327,7 +327,7 @@ class SummaryDetail extends Component {
         <View>
         <View style={styles.appContainer}>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}
+            onPress={() => {Alert.alert('Click a bar to see daily details.')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.title}>Sleep</Text>

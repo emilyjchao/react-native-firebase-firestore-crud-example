@@ -114,7 +114,6 @@ class MonthDetail extends Component {
             />
         </VictoryStack>
         <VictoryAxis
-          label={"Day"}
           style={{
             axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
             ticks: {stroke: colors.axis, size: 7},
@@ -145,12 +144,12 @@ class MonthDetail extends Component {
           >
             <VictoryBar
               data = {offsetData}
-              labels={monthSleep}
+              //labels={monthSleep}
               barRatio={.75}
               style={{
                 data: { fill: colors.asleepBar}, labels: { fill: "white" }
               }}
-              labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
+              //labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
                 target: "data",
                 eventHandlers: {
@@ -161,7 +160,6 @@ class MonthDetail extends Component {
                }}]}
               />
             <VictoryAxis
-              label={"Day"}
               style={{
                 axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
                 ticks: {stroke: colors.axis, size: 7},
@@ -224,9 +222,10 @@ class MonthDetail extends Component {
       <View>
         <View style={styles.appContainer}>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Click a bar to see daily details. \n \n Bars = hours asleep \n Points = hours in bed ')}}            style={styles.button1}>
+            onPress={() => {Alert.alert('Click a bar to see daily details.')}}
+            style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep History</Text>
+              <Text style={styles.title}>Sleep</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>
