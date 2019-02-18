@@ -177,7 +177,6 @@ import colors from './colors';
             data = {restlessData}
             />
           <VictoryAxis
-            label={"Time"}
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={restlessLabel}
             style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
@@ -203,26 +202,23 @@ import colors from './colors';
 
         <View style={styles.twoColumnContainer}>
           <View style={styles.twoColumnColumn}>
-            <View style={styles.appContainer}>
-              <TouchableOpacity
-                onPress={() => {Alert.alert('Times of bed wets')}}
-                style={styles.button1}>
-                  <View style={styles.btnContainer}>
-                    <Text style={styles.title}>Bedwets</Text>
-                    <Image source={require('./about.png')} style={styles.icon} />
-                  </View>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => {Alert.alert('Times of bed wets')}}
+              style={styles.button1}>
+                <View style={styles.btnContainer}>
+                  <Text style={styles.title}>Bedwets</Text>
+                  <Image source={require('./about.png')} style={styles.icon} />
+                </View>
+            </TouchableOpacity>
             {this.props.tutorial ?
               <Text style={styles.smallText}>Displays the time of a bedwetting incident.
-              </Text> : ""}
+              </Text> : ""  }
             <Text style={styles.brightText}>{bedWetContent}</Text>
           </View>
 
         //Table for bed exits
         <View style={styles.twoColumnColumn}>
           <View style={styles.appContainer}>
-            <Text>{'\n'}</Text>
             <TouchableOpacity
               onPress={() => {Alert.alert('Times and durations of bed exits')}}
               style={styles.button1}>
