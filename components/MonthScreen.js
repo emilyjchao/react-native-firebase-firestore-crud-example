@@ -239,9 +239,8 @@ class MonthDetail extends Component {
         </View>
 
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={styles.brightText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
-          <TouchableOpacity style={styles.button} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
-            <Text style={styles.brightText}> Details</Text>
+          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+            <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
           </TouchableOpacity>
         </View>
 
