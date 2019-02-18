@@ -157,16 +157,16 @@ class SummaryDetail extends Component {
     if (this.props.AB == 1) {
       graph=(
         <View style={styles.chart}>
-        <VictoryChart>
+        <VictoryChart domainPadding={10}>
           <VictoryLegend x={125} y={10}
             orientation="horizontal"
             gutter={20}
             data={[
-              { name: "Asleep", symbol: { fill: colors.asleepBar } },
-              { name: "Awake", symbol: { fill: colors.awakeBar } }
+              { name: "Asleep", symbol: { fill: colors.asleepBar }, labels: { fill: colors.asleepBar} },
+              { name: "Awake", symbol: { fill: colors.awakeBar }, labels: { fill: colors.awakeBar} }
             ]}
             style={{
-              text: { stroke: colors.axis}
+              fill: colors.axis
             }}
           />
           <VictoryStack
@@ -206,30 +206,30 @@ class SummaryDetail extends Component {
                    }
                  }}]}
                 />
-              <VictoryAxis
-                label={"Day"}
-                tickValues={dayLabels}
-                style={{
-                  axisLabel: { padding: 30, fontSize: 18, stroke: colors.axis },
-                  ticks: {stroke: colors.axis, size: 7},
-                  axis: {stroke: colors.axis},
-                  tickLabels: { stroke: colors.axis}
-                }}
-                fixLabelOverlap
-              />
-              <VictoryAxis dependentAxis
-                label="Hours"
-                domain={[0, 14]}
-                style={{
-                  axisLabel: { fontSize: 18 },
-                  transform: [{ rotate: '90deg'}],
-                  ticks: {stroke: colors.axis, size: 7},
-                  axis: {stroke: colors.axis},
-                  tickLabels: { fill: colors.axis}
-                }}
-                fixLabelOverlap
-              />
             </VictoryStack>
+            <VictoryAxis
+              label={"Day"}
+              tickValues={dayLabels}
+              style={{
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
+              }}
+              fixLabelOverlap
+            />
+            <VictoryAxis dependentAxis
+              label="Hours"
+              domain={[0, 14]}
+              style={{
+                axisLabel: { fontSize: 18, fill: colors.axis },
+                transform: [{ rotate: '90deg'}],
+                ticks: {stroke: colors.axis, size: 7},
+                axis: {stroke: colors.axis},
+                tickLabels: { fill: colors.axis}
+              }}
+              fixLabelOverlap
+            />
             </VictoryChart>
           </View>);
     }
