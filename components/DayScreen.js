@@ -147,7 +147,6 @@ import colors from './colors';
         </VictoryChart>
 
         <View style={styles.appContainer}>
-        <Text>{'\n'}</Text>
           <TouchableOpacity
             onPress={() => {Alert.alert('Movement on a scale of 0 (low) - 100 (high)')}}
             style={styles.button1}>
