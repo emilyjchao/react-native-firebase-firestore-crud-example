@@ -91,7 +91,6 @@ class AllDetail extends Component {
           //Line graph of Bedwets
           <Text style={styles.title}>{"\n"}Bedwets</Text>
           <VictoryChart
-            marginTop={-100}
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
             >

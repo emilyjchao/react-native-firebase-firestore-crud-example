@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     //color: '#393E41',
     color: colors.tabText,
+    fontFamily: 'Futura'
   },
   brightText: {
     textAlign: 'center',
@@ -68,12 +69,14 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     //color: '#44D197',
     color: colors.descriptions,
+    fontFamily: 'Futura'
   },
   brightTextLeft: {
     textAlign: 'left',
     fontSize: 18,
     alignSelf: 'stretch',
     color: colors.data,
+    fontFamily: 'Futura'
   },
   blackText: {
     textAlign: 'center',
@@ -81,6 +84,7 @@ const styles = StyleSheet.create({
     color: colors.descriptions,
     paddingTop: 0,
     marginTop: 0,
+    fontFamily: 'Futura'
   },
   blackTextPadding: {
     textAlign: 'center',
@@ -89,11 +93,13 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingBottom: 13,
     marginTop: 0,
+    fontFamily: 'Futura'
   },
   blueTextSmall: {
     textAlign: 'center',
     fontSize: 22,
     color: colors.descriptions,
+    fontFamily: 'Futura'
   },
   chart: {
     marginBottom: 35,
@@ -129,15 +135,18 @@ const styles = StyleSheet.create({
   },
   smallText: {
     textAlign: 'center',
+    fontFamily: 'Futura'
   },
   textInput: {
     fontSize: 24,
+    fontFamily: 'Futura'
   },
   title: {
     textAlign: 'center',
     fontSize: 30,
     color: colors.data,
     marginTop: 5,
+    fontFamily: 'Futura'
   },
   triplet: {
     flexDirection: 'row',
@@ -152,6 +161,7 @@ const styles = StyleSheet.create({
     color: colors.triplet,
     paddingTop: 0,
     marginTop: -10,
+    fontFamily: 'Futura'
   },
   tripleToggle: {
     flexDirection: 'row'
