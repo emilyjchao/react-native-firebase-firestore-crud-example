@@ -69,13 +69,14 @@ class MonthDetail extends Component {
     // display the graph based on what AB for ABtesting is
     if (this.props.AB == 1) {
       graph=(
+        <View style={styles.chart}>
         <VictoryChart>
         <VictoryLegend x={125} y={10}
           orientation="horizontal"
           gutter={20}
           data={[
-            { name: "Asleep", symbol: { fill: colors.asleepBar}, labels: {fill: colors.asleepBar}},
-            { name: "Awake", symbol: { fill: colors.awakeBar }, labels: {fill: colors.awakeBar} }
+            { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: 'Futura'}, labels: {fill: colors.asleepBar}},
+            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: 'Futura' }, labels: {fill: colors.awakeBar} }
           ]}
         />
         <VictoryStack
@@ -88,7 +89,7 @@ class MonthDetail extends Component {
             x="dateLabel" y="sleep"
             barRatio={.75}
             style={{
-              data: { fill: colors.asleepBar}, labels: { fill: "white" }
+              data: { fill: colors.asleepBar}, labels: { fill: "white", fontFamily: 'Futura' }
             }}
             labelComponent={<VictoryLabel dy={30}/>}
             events={[{
@@ -120,10 +121,10 @@ class MonthDetail extends Component {
         </VictoryStack>
         <VictoryAxis
           style={{
-            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis, fontFamily: 'Futura' },
             ticks: {stroke: colors.axis, size: 7},
             axis: {stroke: colors.axis},
-            tickLabels: { fill: colors.axis},
+            tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
           }}
           fixLabelOverlap
           />
@@ -132,13 +133,14 @@ class MonthDetail extends Component {
           domain={[0, 14]}
           style={{
             axis: {stroke: colors.axis},
-            tickLabels: {fill: colors.axis},
-            axisLabel: { fontSize: 18, fill: colors.axis },
+            tickLabels: {fill: colors.axis, fontFamily: 'Futura'},
+            axisLabel: { fontSize: 18, fill: colors.axis, fontFamily: 'Futura' },
             transform: [{ rotate: '90deg'}]
           }}
           fixLabelOverlap
           />
-        </VictoryChart>);
+        </VictoryChart>
+      </View>);
     }
     else if (this.props.AB == 2) {
       graph = (
@@ -152,7 +154,7 @@ class MonthDetail extends Component {
               //labels={monthSleep}
               barRatio={.75}
               style={{
-                data: { fill: colors.asleepBar}, labels: { fill: "white" }
+                data: { fill: colors.asleepBar}, labels: { fill: "white", fontFamily: 'Futura' }
               }}
               //labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
@@ -166,20 +168,20 @@ class MonthDetail extends Component {
               />
             <VictoryAxis
               style={{
-                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura'}
               }}
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
               scale={"time"}
               style={{
-                axisLabel: { padding: 30, fontSize: 18 },
+                axisLabel: { padding: 30, fontSize: 18, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis},
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
                 transform: [{ rotate: '90deg'}]
               }}
               fixLabelOverlap
