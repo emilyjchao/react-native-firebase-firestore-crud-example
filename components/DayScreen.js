@@ -136,10 +136,10 @@ import colors from './colors';
           <VictoryAxis
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={sleepLabel}
-            style={{fontSize: 16,
+            style={{fontSize: 16, fontFamily: "Futura",
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: "Futura"}
               }}
             fixLabelOverlap
             />
@@ -179,20 +179,21 @@ import colors from './colors';
           <VictoryAxis
             tickFormat={(d) => this.props.formatTime(d)}
             tickValues={restlessLabel}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
+            style={{fontSize: 16, fontFamily: "Futura", axisLabel: { padding: 35, fill: colors.axis},
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: "Futura"}
               }}
             fixLabelOverlap
             />
           <VictoryAxis dependentAxis
             label="Low     High"
             style={{
-              axisLabel: { padding: 10, fill: colors.axis},
+              axisLabel: { padding: 10, fill: colors.axis, fontFamily: "Futura"},
               tickLabels: { fill: colors.axis},
               ticks: {stroke: colors.axis},
               fontSize: 16,
+              fontFamily: "Futura",
               axis: {stroke: colors.axis},
               transform: [{ rotate: '90deg'}]
             }}

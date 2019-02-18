@@ -162,8 +162,8 @@ class SummaryDetail extends Component {
             orientation="horizontal"
             gutter={20}
             data={[
-              { name: "Asleep", symbol: { fill: colors.asleepBar }, labels: { fill: colors.asleepBar} },
-              { name: "Awake", symbol: { fill: colors.awakeBar }, labels: { fill: colors.awakeBar} }
+              { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: 'Futura' }, labels: { fill: colors.asleepBar} },
+              { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: 'Futura' }, labels: { fill: colors.awakeBar} }
             ]}
             style={{
               fill: colors.axis
@@ -211,10 +211,10 @@ class SummaryDetail extends Component {
               //label={"Day"}
               tickValues={dayLabels}
               style={{
-                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: "Futura"}
               }}
               fixLabelOverlap
             />
@@ -222,11 +222,11 @@ class SummaryDetail extends Component {
               label="Hours"
               domain={[0, 14]}
               style={{
-                axisLabel: { fontSize: 18, fill: colors.axis },
+                axisLabel: { fontSize: 18, fill: colors.axis, fontFamily: "Futura" },
                 transform: [{ rotate: '90deg'}],
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: "Futura"}
               }}
               fixLabelOverlap
             />
@@ -262,21 +262,21 @@ class SummaryDetail extends Component {
             <VictoryAxis
               //label={"Day"}
               style={{
-                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+                axisLabel: { padding: 30, fontSize: 18, fill: colors.axis, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis},
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
               }}
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
               scale={"time"}
               style={{
-                axisLabel: { fontSize: 18 },
+                axisLabel: { fontSize: 18, fontFamily: 'Futura' },
                 transform: [{ rotate: '90deg'}],
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura'}
               }}
               fixLabelOverlap
               />

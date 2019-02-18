@@ -112,7 +112,7 @@ export default class SettingsScreen extends React.Component {
       <View style={{backgroundColor:colors.background,flex:1}}>
         <View style={{flex:1, marginTop:50}}>
           <SettingsList>
-          <SettingsList.Header headerText='Profile' headerStyle={{color:colors.highlight}}/>
+          <SettingsList.Header headerText='Profile' headerStyle={{color:colors.highlight, fontFamily: "Futura"}}/>
             <SettingsList.Item
               icon={
                 <View style={{height:30,marginLeft:10,alignSelf:'center'}}>
@@ -121,7 +121,7 @@ export default class SettingsScreen extends React.Component {
               }
               itemWidth={50}
               title='Parent 1'
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               onPress={() => Alert.alert('Will Show Account Information')}
             />
@@ -130,19 +130,19 @@ export default class SettingsScreen extends React.Component {
               switchState={this.state.pooling}
               switchOnValueChange={this.onPoolingChange}
               hasSwitch={true}
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               title='National Data Pooling'/>
             <SettingsList.Item
               title='Privacy Agreement'
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               onPress={() => Alert.alert('Will Show Terms and Conditions of Use')}/>
-            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:colors.highlight, marginTop:50}}/>
+            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:colors.highlight, marginTop:50, fontFamily: "Futura"}}/>
             <SettingsList.Item
               titleInfo='Details'
               hasNavArrow={false}
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               title='Child 1'
               backgroundColor={colors.background}
               //onPress={() => navigate('ChildDetails')}
@@ -150,7 +150,7 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Item
               title="Add Child"
               hasNavArrow={true}
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               //onPress={() => navigate('AddChild')}
               onPress={() => Alert.alert('Will Allow User to Add Child to Account')}
@@ -158,11 +158,11 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Item
               title='Calibrate Tracker'
               backgroundColor={colors.background}
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               onPress={() => navigate('Calibrate')}/>
             <SettingsList.Item
               hasNavArrow={false}
-              titleStyle={{color: colors.descriptions}}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               switchState={this.state.notification}
               switchOnValueChange={this.onNotificationChange}
               hasSwitch={true}
@@ -170,7 +170,7 @@ export default class SettingsScreen extends React.Component {
               title='Enable Push Notifications'/>
               <SettingsList.Item
                 hasNavArrow={false}
-                titleStyle={{color: colors.descriptions}}
+                titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 switchState={this.state.bedwetting}
                 switchOnValueChange={this.onBedwettingChange}
                 hasSwitch={true}
@@ -179,7 +179,7 @@ export default class SettingsScreen extends React.Component {
               <SettingsList.Item
                 hasNavArrow={false}
                 switchState={this.state.restless}
-                titleStyle={{color: colors.descriptions}}
+                titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 switchOnValueChange={this.onRestlessChange}
                 hasSwitch={true}
                 backgroundColor={colors.background}
@@ -189,14 +189,14 @@ export default class SettingsScreen extends React.Component {
                 switchState={this.state.outofbed}
                 switchOnValueChange={this.onOutOfBedChange}
                 hasSwitch={true}
-                titleStyle={{color: colors.descriptions}}
+                titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 backgroundColor={colors.background}
                 title='Out of Bed Alarm'/>
               <SettingsList.Item
                 hasNavArrow={false}
                 backgroundColor={colors.background}
                 switchState={this.state.asleep}
-                titleStyle={{color: colors.descriptions}}
+                titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 switchOnValueChange={this.onAsleepChange}
                 hasSwitch={true}
                 title='Fell Asleep Alert'/>
@@ -210,7 +210,8 @@ export default class SettingsScreen extends React.Component {
           backgroundColor={colors.background}
           leftIcon={{name: 'save'}}
           onPress={() => this.saveSettings()}
-          title='Save Settings' />
+          title='Save Settings'
+          />
       </View>
       </ScrollView>
     )

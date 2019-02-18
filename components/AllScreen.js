@@ -20,16 +20,16 @@ class AllDetail extends Component {
           orientation="horizontal"
           gutter={20}
           data={[
-            { name: "Asleep", symbol: { fill: colors.asleepBar}, labels: {fill: colors.asleepBar}},
-            { name: "Awake", symbol: { fill: colors.awakeBar }, labels: {fill: colors.awakeBar} }
+            { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: "Futura"}, labels: {fill: colors.asleepBar}},
+            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: "Futura" }, labels: {fill: colors.awakeBar} }
           ]}
         />
         <VictoryAxis
           style={{
-            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis },
+            axisLabel: { padding: 30, fontSize: 18, fill: colors.axis, fontFamily: "Futura" },
             ticks: {stroke: colors.axis, size: 7},
             axis: {stroke: colors.axis},
-            tickLabels: { fill: colors.axis}
+            tickLabels: { fill: colors.axis, fontFamily: "Futura"}
           }}
           fixLabelOverlap
         />
@@ -38,8 +38,8 @@ class AllDetail extends Component {
           domain={[0, 14]}
           style={{
             axis: {stroke: colors.axis},
-            tickLabels: {fill: colors.axis},
-            axisLabel: { fontSize: 18, fill: colors.axis },
+            tickLabels: {fill: colors.axis, fontFamily: "Futura"},
+            axisLabel: { fontSize: 18, fill: colors.axis, fontFamily: "Futura" },
             transform: [{ rotate: '90deg'}]
           }}
         fixLabelOverlap

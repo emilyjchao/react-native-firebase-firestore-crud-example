@@ -62,7 +62,7 @@ export default class AveragesScreen extends React.Component {
             x={245} y={30}
             text="Hours of Sleep"
             textAnchor="end"
-            style={{ fill: colors.axis }}
+            style={{ fill: colors.axis, fontFamily: "Futura" }}
             />
           <VictoryBar
             barRatio={0.8}
@@ -74,29 +74,29 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 10.6},
             ]}
             style={{
-              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white" }
+              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white", fontFamily: "Futura" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
           />
           <VictoryLabel text="Recommended: 10.2" datum={{ x: 1.7, y: 12 }}
-            style={{fill: colors.axis}}/>
+            style={{fill: colors.axis, fontFamily: "Futura"}}/>
           <VictoryAxis dependentAxis tickFormat={() => ''}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis}
+                tickLabels: { fill: colors.axis, fontFamily: "Futura"}
               }}/>
           <VictoryAxis independentAxis tickFormat={(x) => x}
             style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
-              axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              axis: {stroke: colors.axis, fontFamily: "Futura"},
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
         </VictoryChart>
         <VictoryChart
           domainPadding={80}
           >
           <VictoryLabel text="Movement" x={225} y={30}
-            style={{ fill: colors.axis }} textAnchor="end" />
+            style={{ fill: colors.axis, fontFamily: "Futura" }} textAnchor="end" />
           <VictoryBar
             barRatio={0.8}
             categories={{
@@ -107,27 +107,27 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 4.6}
             ]}
             style={{
-              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white" }
+              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white", fontFamily: "Futura" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
           />
           <VictoryAxis dependentAxis tickFormat={() => ''}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
               axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }} />
           <VictoryAxis independentAxis tickFormat={(x) => x}
             style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
-              axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              axis: {stroke: colors.axis, fontFamily: "Futura"},
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
         </VictoryChart>
         <VictoryChart
           domainPadding={80}
           >
           <VictoryLabel text="Bedwets Per Night" x={200} y={30}
-            style={{ fill: colors.axis }} textAnchor="middle"/>
+            style={{ fill: colors.axis, fontFamily: "Futura" }} textAnchor="middle"/>
           <VictoryBar
             barRatio={0.8}
             categories={{
@@ -138,27 +138,27 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 0.7}
             ]}
             style={{
-              data: { fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white" }
+              data: { fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white", fontFamily: "Futura" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
           />
           <VictoryAxis dependentAxis tickFormat={() => ''}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
               axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
           <VictoryAxis independentAxis tickFormat={(x) => x}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
               axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
         </VictoryChart>
         <VictoryChart
           domainPadding={80}
           >
           <VictoryLabel text="Bed Exits Per Night" x={250} y={30}
-            style={{ fill: colors.axis }} fontSize={60} textAnchor="end"/>
+            style={{ fill: colors.axis, fontFamily: "Futura" }} fontSize={60} textAnchor="end"/>
           <VictoryBar
             barRatio={0.8}
             categories={{
@@ -169,20 +169,20 @@ export default class AveragesScreen extends React.Component {
               {x: "National Average", y: 1.2}
             ]}
             style={{
-              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white" }
+              data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: "white", fontFamily: "Futura" }
             }}
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
           />
           <VictoryAxis dependentAxis tickFormat={() => ''}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
               axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
           <VictoryAxis independentAxis tickFormat={(x) => x}
-            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis },
+            style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
               axis: {stroke: colors.axis},
-              tickLabels: { fill: colors.axis}
+              tickLabels: { fill: colors.axis, fontFamily: "Futura"}
             }}/>
         </VictoryChart>
       </View>
