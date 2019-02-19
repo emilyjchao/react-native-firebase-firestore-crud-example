@@ -168,6 +168,7 @@ import colors from './colors';
         <VictoryChart
           height={150}
           domainPadding={{ x : [20, 20] }}
+          maxDomain={{y: 73}}
           scale={{ x: "time" }}
           >
           <VictoryLine

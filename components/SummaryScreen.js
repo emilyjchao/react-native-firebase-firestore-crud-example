@@ -234,15 +234,25 @@ class SummaryDetail extends Component {
               />
           </VictoryChart>
         </View>);
-        button = (
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
-              <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}
-              {this.props.getHrMin(new Date(this.props.boards[this.state.picked].enters[0]))}
-              {' - '}{this.props.getHrMin(new Date(this.props.boards[this.state.picked].exited[this.props.boards[this.state.picked].exited.length-1]))}</Text>
-            </TouchableOpacity>
-          </View>
-        );
+        if (this.props.boards[this.state.picked].sleep.toFixed(0) != 0) {
+          button = (
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+                <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}
+                {this.props.getHrMin(new Date(this.props.boards[this.state.picked].enters[0]))}
+                {' - '}{this.props.getHrMin(new Date(this.props.boards[this.state.picked].exited[this.props.boards[this.state.picked].exited.length-1]))}</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        } else {
+          button = (
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+                <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{'--'}</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        }
     }
 
     return(

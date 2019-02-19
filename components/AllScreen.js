@@ -15,6 +15,7 @@ class AllDetail extends Component {
     }
   }
   render () {
+    
     let graph;
     // display the graph based on what AB for ABtesting is
       graph = (
@@ -131,6 +132,44 @@ class AllDetail extends Component {
           </View>
           //Display line graph of all sleep time
           {graph}
+
+          //Line graph of Restless
+          <Text style={styles.titleNoMargin}>Movement</Text>
+          <View style={styles.chart}>
+          <VictoryChart
+            height={150}
+            domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
+            maxDomain={{y: 100}}
+            >
+            <VictoryLine
+              interpolation="natural"
+              style={{
+                data: { stroke: colors.awakeBar },
+              }}
+              data = {this.props.boards}
+              x="dateLabel" y="restlessAvg"
+              />
+            <VictoryAxis
+              style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
+                  ticks: {stroke: colors.axis, size: 7},
+                  axis: {stroke: colors.axis},
+                  tickLabels: { fill: colors.axis},
+                }}
+              fixLabelOverlap
+              />
+            <VictoryAxis dependentAxis
+              style={{
+                axisLabel: { padding: 10, fill: colors.axis},
+                tickLabels: { fill: colors.axis},
+                ticks: {stroke: colors.axis},
+                fontSize: 16,
+                axis: {stroke: colors.axis},
+                transform: [{ rotate: '90deg'}]
+              }}
+              fixLabelOverlap
+              />
+          </VictoryChart>
+          </View>
 
           //Line graph of Bedwets
           <Text style={styles.titleNoMargin}>Bedwets</Text>

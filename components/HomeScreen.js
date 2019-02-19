@@ -540,7 +540,7 @@ class HomeScreen extends Component {
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0, "naps": 0 });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0, "naps": 0, "restlessAvg": 0});
           //console.log(prevDate);
         }
 
@@ -768,9 +768,22 @@ class HomeScreen extends Component {
           // true false on bed wetting length
           var bedwet = wets.length >= 1;
 
+          //Find avg restlessness per night
+          let averageMovement = 0;
+          let moveCount = 0;
+          for (i=0; i<restNum.length; i++) {
+            if (!isNaN(restNum[i])) {
+              averageMovement += restNum[i];
+              moveCount++;
+            }
+          }
+          if (moveCount > 0) {
+            averageMovement = averageMovement/moveCount;
+          }
+
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": 0});
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": 0, "restlessAvg": averageMovement});
 
 
         //} // end of checking if it was within the last 24 hrs
