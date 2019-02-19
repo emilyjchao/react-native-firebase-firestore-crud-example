@@ -251,24 +251,6 @@ class SummaryDetail extends Component {
             maxDomain={{x:7}}
             height={300}
           >
-            <VictoryBar
-              data = {offsetData}
-              labels={weekSleep}
-              barRatio={.75}
-              style={{
-                data: { fill: colors.asleepBar}, labels: { fill: colors.highlight }
-              }}
-              labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
-              events={[{
-                target: "data",
-                eventHandlers: {
-                onPressIn: (event, data) => {
-                   //this.props.selectDay(data.datum.day);
-                   this.setState({picked: data.index});
-                   return [{target: "data",}];
-                 }
-               }}]}
-              />
             <VictoryAxis
               //label={"Day"}
               style={{
@@ -285,10 +267,29 @@ class SummaryDetail extends Component {
                 axisLabel: { fontSize: 18, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura', angle: 270, textAnchor: 'middle'},
                 transform: [{ rotate: '90deg'}],
               }}
+              tickFormat={(x) => this.props.ampm(new Date(x))}
               fixLabelOverlap
+              />
+            <VictoryBar
+              data = {offsetData}
+              labels={weekSleep}
+              barRatio={.75}
+              style={{
+                data: { fill: colors.asleepBar}, labels: { fill: colors.highlight }
+              }}
+              labelComponent={<VictoryLabel dx={-30} dy={5} angle={270}/>}
+              events={[{
+                target: "data",
+                eventHandlers: {
+                onPressIn: (event, data) => {
+                   //this.props.selectDay(data.datum.day);
+                   this.setState({picked: data.index});
+                   return [{target: "data",}];
+                 }
+               }}]}
               />
           </VictoryChart>
         </View>);

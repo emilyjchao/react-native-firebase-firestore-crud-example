@@ -164,7 +164,7 @@ class MonthDetail extends Component {
               style={{
                 data: { fill: colors.asleepBar}, labels: { fill: colors.highlight, fontFamily: 'Futura', fontSize: 10 }
               }}
-              labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
+              labelComponent={<VictoryLabel dx={-30} dy={5} angle={270}/>}
               events={[{
                 target: "data",
                 eventHandlers: {
@@ -190,9 +190,10 @@ class MonthDetail extends Component {
                 axisLabel: { padding: 30, fontSize: 18, fontFamily: 'Futura' },
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura', angle: 270, textAnchor: 'middle'},
                 transform: [{ rotate: '90deg'}]
               }}
+              tickFormat={(x) => this.props.ampm(new Date(x))}
               fixLabelOverlap
               />
           </VictoryChart>

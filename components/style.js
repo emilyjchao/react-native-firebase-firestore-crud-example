@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     //color: '#393E41',
-    color: colors.tabText,
+    color: colors.highlight,
     fontFamily: 'Futura',
     paddingHorizontal: 5,
   },

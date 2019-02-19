@@ -171,6 +171,24 @@ class HomeScreen extends Component {
     var replacement = h + ":" + m + " " + dd;
     return replacement;
   }
+
+  //Format time into hh in am and pm
+  formatAmPmHr(date) {
+    var hh = date.getHours();
+    var dd = "AM";
+    var h = hh;
+    if (h >= 12) {
+      h = hh - 12;
+      dd = "PM";
+    }
+    if (h == 0) {
+      h = 12;
+    }
+    h = h < 10 ? " " + h : h;
+    var replacement = h + " " + dd;
+    return replacement;
+  }
+
   //Check if more weeks to toggle
   moreWeeks(direction) {
     //Find the index of the first day of the current week in dateDic
@@ -872,6 +890,7 @@ class HomeScreen extends Component {
           selectDay={this.goToDay}
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
+          ampm={this.formatAmPmHr}
           changeWeek={this.changeWeek}
           tutorial={this.state.tutorial}
           moreWeeks={this.moreWeeks}
@@ -889,6 +908,7 @@ class HomeScreen extends Component {
           selectDay={this.goToDay}
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
+          ampm={this.formatAmPmHr}
           changeMonth={this.changeMonth}
           tutorial={this.state.tutorial}
           moreMonths={this.moreMonths}
