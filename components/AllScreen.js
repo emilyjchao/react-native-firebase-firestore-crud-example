@@ -15,7 +15,7 @@ class AllDetail extends Component {
     }
   }
   render () {
-    
+
     let graph;
     // display the graph based on what AB for ABtesting is
       graph = (
@@ -110,7 +110,8 @@ class AllDetail extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>The All view contains the same metrics
+          <Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off. {"\n"} The All view contains the same metrics
             as the weekly view but shows all collected data.
           </Text> : ""
         }
@@ -252,7 +253,7 @@ class AllDetail extends Component {
               <View style={styles.appContainer}>
                 <Text style={styles.title}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
                 <TouchableOpacity
-                  onPress={() => {Alert.alert('Average hours of sleep this week')}}
+                  onPress={() => {Alert.alert('Average hours of sleep')}}
                   style={styles.button1}>
                   <View style={styles.btnContainer}>
                     <Text style={styles.brightText}>sleep per night</Text>
@@ -263,7 +264,7 @@ class AllDetail extends Component {
               <View style={styles.appContainer}>
                 <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
                 <TouchableOpacity
-                  onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 10 (high)')}}
+                  onPress={() => {Alert.alert('Average movement per night on a scale of 0 (low) - 100 (high)')}}
                   style={styles.button1}>
                   <View style={styles.btnContainer}>
                     <Text style={styles.brightText}>movement average</Text>
@@ -276,10 +277,10 @@ class AllDetail extends Component {
               <View style={styles.appContainer}>
                 <Text style={styles.title}>{this.props.sumWets}</Text>
                 <TouchableOpacity
-                  onPress={() => {Alert.alert('Total bed wets this week')}}
+                  onPress={() => {Alert.alert('Average bed wets per night')}}
                   style={styles.button1}>
                   <View style={styles.btnContainer}>
-                    <Text style={styles.brightText}>total bedwets</Text>
+                    <Text style={styles.brightText}>bedwets per night</Text>
                     <Image source={require('./about.png')} style={styles.icon} />
                   </View>
                 </TouchableOpacity>
@@ -287,7 +288,7 @@ class AllDetail extends Component {
               <View style={styles.appContainer}>
                 <Text style={styles.title}>{this.props.avgExits}</Text>
                 <TouchableOpacity
-                  onPress={() => {Alert.alert('Average bed exits per night this week')}}
+                  onPress={() => {Alert.alert('Average bed exits per night')}}
                   style={styles.button1}>
                   <View style={styles.btnContainer}>
                     <Text style={styles.brightText}>exits per night</Text>

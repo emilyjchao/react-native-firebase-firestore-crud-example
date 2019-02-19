@@ -300,7 +300,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.hrToMin(this.props.sleepAVG)}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Average hours of sleep this week')}}
+                onPress={() => {Alert.alert('Average hours of sleep this month')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>sleep per night</Text>
@@ -311,7 +311,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 100 (high)')}}
+                onPress={() => {Alert.alert('Average movement per night on a scale of 0 (low) - 100 (high)')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>movement score</Text>
@@ -325,10 +325,10 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.sumWets}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Total bed wets this week')}}
+                onPress={() => {Alert.alert('Average bed wets per night this month')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
-                  <Text style={styles.brightText}>total bedwets</Text>
+                  <Text style={styles.brightText}>bedwets per night</Text>
                   <Image source={require('./about.png')} style={styles.icon} />
                 </View>
               </TouchableOpacity>
@@ -336,7 +336,7 @@ class MonthDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.avgExits}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Average bed exits per night this week')}}
+                onPress={() => {Alert.alert('Average bed exits per night this month')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>exits per night</Text>

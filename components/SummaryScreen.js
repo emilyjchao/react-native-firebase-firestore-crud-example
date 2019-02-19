@@ -307,10 +307,9 @@ class SummaryDetail extends Component {
           </TouchableOpacity>
         </View>
         {this.props.tutorial ?
-          <Text style={styles.smallText}><Text style={{fontWeight: "bold"}}>Each night's time spent in bed is shown by
-            the black dotted line, while the blue bars indicate the time asleep.</Text>
+          <Text style={styles.smallText}>
             Check out the rest of this page first, but when you come back, you can click on
-            one of the blue bars  to see details about that day!
+            one of the blue bars  to see details about that day!{"\n"}
           </Text> : ""}
 
 
@@ -321,8 +320,8 @@ class SummaryDetail extends Component {
           <Text style={styles.smallText}>
             This section shows some averages and aggregates
             for the week. First is the average hours of sleep per night, then the
-            total number of bedwets, followed by the average restlessness and average
-            number of exits per night in the bottow row.
+            average number of bedwets per night, followed by the average restlessness and average
+            number of exits per night in the bottow row.{"\n"}
           </Text> : ""
         }
         <View style={styles.twoColumnContainer}>
@@ -341,7 +340,7 @@ class SummaryDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.restlessDescription}: {this.props.avgRestless}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Movement per night on a scale of 0 (low) - 100 (high)')}}
+                onPress={() => {Alert.alert('Average movement per night on a scale of 0 (low) - 100 (high)')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
                   <Text style={styles.brightText}>movement score</Text>
@@ -354,10 +353,10 @@ class SummaryDetail extends Component {
             <View style={styles.appContainer}>
               <Text style={styles.title}>{this.props.sumWets}</Text>
               <TouchableOpacity
-                onPress={() => {Alert.alert('Total bed wets this week')}}
+                onPress={() => {Alert.alert('Average bed wets per night this week')}}
                 style={styles.button1}>
                 <View style={styles.btnContainer}>
-                  <Text style={styles.brightText}>total bedwets</Text>
+                  <Text style={styles.brightText}>bedwets per night</Text>
                   <Image source={require('./about.png')} style={styles.icon} />
                 </View>
               </TouchableOpacity>

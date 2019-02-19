@@ -118,7 +118,7 @@ import colors from './colors';
         </View>
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Last night's sleep, blue is time asleep and white is time out of bed.
+          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue is time asleep and white is time out of bed.
           </Text> : ""}
         <View style={styles.chart}>
         <VictoryChart
@@ -160,7 +160,7 @@ import colors from './colors';
         {this.props.tutorial ?
           <Text style={styles.smallText}>Restless illustrates how much your child
             moved while sleeping. It is divided into low, normal, and high indicating
-            the relative amount of movement.
+            the relative amount of movement.{"\n"}
           </Text> : ""}
         <Text style={styles.brightTextNoMargin}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
@@ -204,6 +204,11 @@ import colors from './colors';
         </VictoryChart>
         </View>
 
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>Bedwets displays the time of a bedwetting incident,
+          and bed exits displays the time and duration of exits.
+          </Text> : ""}
+
         <View style={styles.twoColumnContainer}>
           <View style={styles.twoColumnColumn}>
             <TouchableOpacity
@@ -214,9 +219,7 @@ import colors from './colors';
                   <Image source={require('./about.png')} style={styles.icon} />
                 </View>
             </TouchableOpacity>
-            {this.props.tutorial ?
-              <Text style={styles.smallText}>Displays the time of a bedwetting incident.
-              </Text> : ""  }
+
             <Text style={styles.brightText}>{bedWetContent}</Text>
           </View>
 
@@ -232,9 +235,7 @@ import colors from './colors';
               </View>
             </TouchableOpacity>
           </View>
-          {this.props.tutorial ?
-            <Text style={styles.smallText}>Displays the time and duration of exits.
-            </Text> : ""}
+
           <Text style={styles.brightText}>{'  '}Time{'\t\t'}  Minutes</Text>
           // This code for rendering table is from:
           // https://stackoverflow.com/questions/44357336/setting-up-a-table-layout-in-react-native
@@ -263,11 +264,10 @@ import colors from './colors';
             }
           </View>
           </View>
-
-          {this.props.tutorial ?
-            <Text style={styles.smallText}>Scroll back to the top and check out the monthly view!
-            </Text> : ""}
         </View>
+        {this.props.tutorial ?
+          <Text style={styles.smallText}>{"\n"}{"\n"}Scroll back to the top and check out the monthly view!
+          </Text> : ""}
       </View>);
 
   }
