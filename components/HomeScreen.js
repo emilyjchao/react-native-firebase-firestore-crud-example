@@ -157,6 +157,9 @@ class HomeScreen extends Component {
   formatAmPm(date) {
     var hh = date.getHours();
     var m = date.getMinutes();
+    if (isNaN(hh) || isNaN(m)) {
+      return "-"
+    }
     var dd = "AM";
     var h = hh;
     if (h >= 12) {
@@ -175,6 +178,9 @@ class HomeScreen extends Component {
   //Format time into hh in am and pm
   formatAmPmHr(date) {
     var hh = date.getHours();
+    if (isNaN(hh)) {
+      return "-"
+    }
     var dd = "AM";
     var h = hh;
     if (h >= 12) {
@@ -534,7 +540,7 @@ class HomeScreen extends Component {
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
         //  console.log(extraNightName);
-          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0 });
+          nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0, "naps": 0 });
           //console.log(prevDate);
         }
 
@@ -764,7 +770,7 @@ class HomeScreen extends Component {
 
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep});
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": 0});
 
 
         //} // end of checking if it was within the last 24 hrs
@@ -891,6 +897,7 @@ class HomeScreen extends Component {
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
           ampm={this.formatAmPmHr}
+          getHrMin={this.formatAmPm}
           changeWeek={this.changeWeek}
           tutorial={this.state.tutorial}
           moreWeeks={this.moreWeeks}
@@ -909,6 +916,7 @@ class HomeScreen extends Component {
           navigation={this.props.navigation}
           hrToMin={this.hrTohhmm}
           ampm={this.formatAmPmHr}
+          getHrMin={this.formatAmPm}
           changeMonth={this.changeMonth}
           tutorial={this.state.tutorial}
           moreMonths={this.moreMonths}

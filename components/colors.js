@@ -9,6 +9,7 @@ let colors = {
   background: darkB,
   asleepBar: lightB,
   awakeBar: highlight,
+  napBar: 'white',
   data: lightB,
   descriptions: 'white',
   axis: 'white',

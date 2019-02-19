@@ -111,7 +111,7 @@ import colors from './colors';
             onPress={() => {Alert.alert('Shaded = time in bed asleep \n Unshaded = time out of bed')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
-              <Text style={styles.title}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
+              <Text style={styles.titleNoMargin}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
               <Image source={require('./about.png')} style={styles.icon} />
             </View>
           </TouchableOpacity>
@@ -120,6 +120,7 @@ import colors from './colors';
         {this.props.tutorial ?
           <Text style={styles.smallText}>Last night's sleep, blue is time asleep and white is time out of bed.
           </Text> : ""}
+        <View style={styles.chart}>
         <VictoryChart
           height={130}
           scale={{x: 'time', y: 'linear'}}
@@ -143,8 +144,8 @@ import colors from './colors';
               }}
             fixLabelOverlap
             />
-
         </VictoryChart>
+        </View>
 
         <View style={styles.appContainer}>
           <TouchableOpacity
@@ -161,8 +162,9 @@ import colors from './colors';
             moved while sleeping. It is divided into low, normal, and high indicating
             the relative amount of movement.
           </Text> : ""}
-        <Text style={styles.brightText}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
+        <Text style={styles.brightTextNoMargin}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
+        <View style={styles.chart}>
         <VictoryChart
           height={150}
           domainPadding={{ x : [20, 20] }}
@@ -199,6 +201,7 @@ import colors from './colors';
             tickFormat={() => ''}
             />
         </VictoryChart>
+        </View>
 
         <View style={styles.twoColumnContainer}>
           <View style={styles.twoColumnColumn}>

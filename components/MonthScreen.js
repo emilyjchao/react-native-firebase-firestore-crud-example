@@ -74,23 +74,23 @@ class MonthDetail extends Component {
 
 
     let graph;
+    let button;
     // display the graph based on what AB for ABtesting is
     if (this.props.AB == 1) {
       graph=(
         <View style={styles.chart}>
         <VictoryChart>
-        <VictoryLegend x={125} y={10}
+        <VictoryLegend x={65} y={10}
           orientation="horizontal"
           gutter={20}
           data={[
-            { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: 'Futura'}, labels: {fill: colors.asleepBar}},
-            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: 'Futura' }, labels: {fill: colors.awakeBar} }
+            { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: "Futura"}, labels: {fill: colors.asleepBar}},
+            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: "Futura" }, labels: {fill: colors.awakeBar}},
+            { name: "Napping", symbol: { fill: colors.napBar, fontFamily: "Futura" }, labels: {fill: colors.napBar}}
           ]}
         />
         <VictoryStack
           domainPadding={{ x: 15 }}
-          //minDomain={{x:0.5}}
-          //maxDomain={{x:8}}
           >
           <VictoryBar
             data = {this.props.boards}
@@ -126,6 +126,23 @@ class MonthDetail extends Component {
                }
              }}]}
             />
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="naps"
+            barRatio={.75}
+            style={{
+              data: { fill: colors.napBar}
+            }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
+                 return [{target: "data",}];
+               }
+             }}]}
+            />
         </VictoryStack>
         <VictoryAxis
           style={{
@@ -149,6 +166,13 @@ class MonthDetail extends Component {
           />
         </VictoryChart>
       </View>);
+      button = (
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+            <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(1)} h</Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
     else if (this.props.AB == 2) {
       graph = (
@@ -198,6 +222,15 @@ class MonthDetail extends Component {
               />
           </VictoryChart>
         </View>);
+      button = (
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
+            <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}
+            {this.props.getHrMin(new Date(this.props.boards[this.state.picked].enters[0]))}
+            {' - '}{this.props.getHrMin(new Date(this.props.boards[this.state.picked].exited[this.props.boards[this.state.picked].exited.length-1]))}</Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
 
     return(
@@ -248,11 +281,7 @@ class MonthDetail extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
-            <Text style={styles.buttonNoFlexText}>{this.props.boards[this.state.picked].dateLabel}{': '}{this.props.boards[this.state.picked].sleep.toFixed(2)}hr</Text>
-          </TouchableOpacity>
-        </View>
+        {button}
 
         {graph}
 

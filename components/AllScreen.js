@@ -18,13 +18,15 @@ class AllDetail extends Component {
     let graph;
     // display the graph based on what AB for ABtesting is
       graph = (
+        <View style={styles.chart}>
         <VictoryChart>
-        <VictoryLegend x={125} y={10}
+        <VictoryLegend x={65} y={10}
           orientation="horizontal"
           gutter={20}
           data={[
             { name: "Asleep", symbol: { fill: colors.asleepBar, fontFamily: "Futura"}, labels: {fill: colors.asleepBar}},
-            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: "Futura" }, labels: {fill: colors.awakeBar} }
+            { name: "Awake", symbol: { fill: colors.awakeBar, fontFamily: "Futura" }, labels: {fill: colors.awakeBar}},
+            { name: "Napping", symbol: { fill: colors.napBar, fontFamily: "Futura" }, labels: {fill: colors.napBar}}
           ]}
         />
         <VictoryAxis
@@ -74,11 +76,36 @@ class AllDetail extends Component {
             data = {this.props.boards}
             x="dateLabel" y="awake"
             style={{ labels: { textAlign: 'left', marginRight: 30}, data: { fill: colors.awakeBar} }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
+                 return [{target: "data",}];
+               }
+             }}]}
+            />
+          <VictoryBar
+            data = {this.props.boards}
+            x="dateLabel" y="naps"
+            style={{ labels: { textAlign: 'left', marginRight: 30}, data: { fill: colors.napBar} }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+              onPressIn: (event, data) => {
+                 //this.props.selectDay(data.datum.day);
+                 this.setState({picked: data.index});
+                 return [{target: "data",}];
+               }
+             }}]}
             />
           </VictoryStack>
           </VictoryChart>
+          </View>
       );
     return(
+      <View style={styles.headerWrapper}>
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
         {this.props.tutorial ?
@@ -86,8 +113,16 @@ class AllDetail extends Component {
             as the weekly view but shows all collected data.
           </Text> : ""
         }
-        <Text style={styles.blackTextPadding}>{"\n"}Full Data Report</Text>
-        <Text style={styles.title}>Sleep</Text>
+        <Text style={styles.blackTextPadding}>Full Data Report</Text>
+        <View style={styles.appContainer}>
+        <TouchableOpacity
+          onPress={() => {Alert.alert('Click a bar to see daily details.')}}
+          style={styles.button1}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.title}>Sleep</Text>
+          </View>
+        </TouchableOpacity>
+        </View>
 
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.selectDay(this.props.boards[this.state.picked].day)}>
@@ -98,7 +133,8 @@ class AllDetail extends Component {
           {graph}
 
           //Line graph of Bedwets
-          <Text style={styles.title}>{"\n"}Bedwets</Text>
+          <Text style={styles.titleNoMargin}>Bedwets</Text>
+          <View style={styles.chart}>
           <VictoryChart
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
@@ -115,7 +151,7 @@ class AllDetail extends Component {
               style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis},
                   ticks: {stroke: colors.axis, size: 7},
                   axis: {stroke: colors.axis},
-                  tickLabels: { fill: colors.axis}
+                  tickLabels: { fill: colors.axis},
                 }}
               fixLabelOverlap
               />
@@ -132,9 +168,11 @@ class AllDetail extends Component {
               fixLabelOverlap
               />
           </VictoryChart>
+          </View>
 
           //Line graph of Exits
-          <Text style={styles.title}>{"\n"}Bed Exits</Text>
+          <Text style={styles.titleNoMargin}>Bed Exits</Text>
+          <View style={styles.chart}>
           <VictoryChart
             height={150}
             domainPadding={{ x : [20, 20] }, { y : [10, 10] }}
@@ -168,8 +206,7 @@ class AllDetail extends Component {
               fixLabelOverlap
               />
           </VictoryChart>
-
-          <Text>{"\n"}</Text>
+          </View>
 
           <View style={styles.twoColumnContainer}>
             <View style={styles.twoColumnColumn}>
@@ -222,7 +259,8 @@ class AllDetail extends Component {
             </View>
           </View> // averages sections end
         </View>
-      </ScrollView>)
+      </ScrollView>
+    </View>)
 
     }
 }

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     //color: '#393E41',
-    color: colors.highlight,
+    color: colors.descriptions,
     fontFamily: 'Futura',
     paddingHorizontal: 5,
   },
@@ -82,6 +82,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     marginBottom: 0,
+    color: colors.descriptions,
+    fontWeight: '100',
+    fontFamily: 'Futura',
+    paddingHorizontal: 3,
+  },
+  brightTextNoMargin: {
+    textAlign: 'center',
+    fontSize: 18,
+    marginBottom: -30,
     color: colors.descriptions,
     fontWeight: '100',
     fontFamily: 'Futura',
@@ -164,6 +173,14 @@ const styles = StyleSheet.create({
     color: colors.data,
     fontWeight: '600',
     marginTop: 5,
+    fontFamily: 'Futura'
+  },
+  titleNoMargin: {
+    textAlign: 'center',
+    fontSize: 30,
+    color: colors.data,
+    fontWeight: '600',
+    marginBottom: -30,
     fontFamily: 'Futura'
   },
   triplet: {
