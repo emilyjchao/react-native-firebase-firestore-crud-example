@@ -25,7 +25,11 @@ class SummaryDetail extends Component {
     let weekSleep = [];
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
-      weekSleep.push(this.props.boards[i].sleep.toFixed(1) + " hr");
+      if (this.props.boards[i].sleep.toFixed(0) == 0) {
+        weekSleep.push("");
+      } else {
+        weekSleep.push(this.props.boards[i].sleep.toFixed(1) + " h");
+      }
     }
 
     //Set up data for offset bar graph
@@ -67,7 +71,7 @@ class SummaryDetail extends Component {
       waketimes.push(new Date (pushNum + pushNum2))
 
       //Store data in offsetData
-      offsetData.push({"x": weekLabels[i], "y0": pushNum, "y": pushNum2, "day": this.props.boards[i].day})
+      offsetData.push({"x": weekLabels[i], "y0": pushNum, "y": pushNum+pushNum2, "day": this.props.boards[i].day})
     }
 
     console.log("Offset\n")
@@ -157,7 +161,7 @@ class SummaryDetail extends Component {
     //       </VictoryChart>
     //     </View>);
     // }
-    if (this.props.AB == 1) {
+    if (this.props.AB == 2) {
       graph=(
         <View style={styles.chart}>
         <VictoryChart domainPadding={10}>
@@ -238,7 +242,7 @@ class SummaryDetail extends Component {
             </VictoryChart>
           </View>);
     }
-    else if (this.props.AB == 2) {
+    else if (this.props.AB == 1) {
       graph = (
         <View style={styles.chart}>
           <VictoryChart
@@ -252,7 +256,7 @@ class SummaryDetail extends Component {
               labels={weekSleep}
               barRatio={.75}
               style={{
-                data: { fill: colors.asleepBar}, labels: { fill: "white" }
+                data: { fill: colors.asleepBar}, labels: { fill: colors.highlight }
               }}
               labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
@@ -276,13 +280,13 @@ class SummaryDetail extends Component {
               fixLabelOverlap
               />
             <VictoryAxis dependentAxis
-              //scale={"time"}
+              scale={"time"}
               style={{
                 axisLabel: { fontSize: 18, fontFamily: 'Futura' },
-                transform: [{ rotate: '90deg'}],
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
-                tickLabels: { fill: colors.axis, fontFamily: 'Futura'}
+                tickLabels: { fill: colors.axis, fontFamily: 'Futura'},
+                transform: [{ rotate: '90deg'}],
               }}
               fixLabelOverlap
               />

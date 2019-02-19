@@ -19,6 +19,19 @@ class MonthDetail extends Component {
   render() {
 
     const {navigate} = this.props.navigation;
+
+    //Set up day of week labels
+    let monthLabels = [];
+    let monthSleep = [];
+    for (i=0; i<this.props.boards.length; i++) {
+      monthLabels.push(this.props.boards[i].dayLabel);
+      if (this.props.boards[i].sleep.toFixed(0) == 0) {
+        monthSleep.push("");
+      } else {
+        monthSleep.push(this.props.boards[i].sleep.toFixed(1) + " h");
+      }
+    }
+
     //Set up data for offset bar graph
     //Combine data into array in readable format
     let offsetData = [];
@@ -29,8 +42,7 @@ class MonthDetail extends Component {
     //Store y0 in bedtimes
     let bedtimes = [];
     let waketimes = [];
-    //Store bar labels
-    let monthSleep = [];
+
     const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
       //Set up x data
@@ -57,10 +69,7 @@ class MonthDetail extends Component {
       waketimes.push(new Date (pushNum + pushNum2))
 
       //Store data in offsetData
-      offsetData.push({"x": dateLabels[i], "y0": new Date(pushNum), "y": pushNum2, "day": this.props.boards[i].day})
-
-      //Set up labels for each bar
-      monthSleep.push(this.props.boards[i].sleep.toFixed(1));
+      offsetData.push({"x": dateLabels[i], "y0": pushNum, "y": pushNum+pushNum2, "day": this.props.boards[i].day})
     }
 
 
@@ -88,9 +97,8 @@ class MonthDetail extends Component {
             x="dateLabel" y="sleep"
             barRatio={.75}
             style={{
-              data: { fill: colors.asleepBar}, labels: { fill: "white", fontFamily: 'Futura' }
+              data: { fill: colors.asleepBar}
             }}
-            labelComponent={<VictoryLabel dy={30}/>}
             events={[{
               target: "data",
               eventHandlers: {
@@ -151,12 +159,12 @@ class MonthDetail extends Component {
           >
             <VictoryBar
               data = {offsetData}
-              //labels={monthSleep}
+              labels={monthSleep}
               barRatio={.75}
               style={{
-                data: { fill: colors.asleepBar}, labels: { fill: "white", fontFamily: 'Futura' }
+                data: { fill: colors.asleepBar}, labels: { fill: colors.highlight, fontFamily: 'Futura', fontSize: 10 }
               }}
-              //labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
+              labelComponent={<VictoryLabel dx={30} dy={5} angle={90}/>}
               events={[{
                 target: "data",
                 eventHandlers: {
