@@ -180,7 +180,7 @@ import colors from './colors';
             />
           <VictoryAxis
             tickFormat={(d) => this.props.formatTime(d)}
-            tickValues={restlessLabel}
+            tickValues={sleepLabel}
             style={{fontSize: 16, fontFamily: "Futura", axisLabel: { padding: 35, fill: colors.axis},
                 ticks: {stroke: colors.axis, size: 7},
                 axis: {stroke: colors.axis},
