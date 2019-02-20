@@ -171,7 +171,7 @@ class HomeScreen extends Component {
     }
     h = h < 10 ? " " + h : h;
     m = m < 10 ? "0" + m : m;
-    var replacement = h + ":" + m + " " + dd;
+    var replacement = h + ":" + m + dd;
     return replacement;
   }
 
@@ -696,21 +696,6 @@ class HomeScreen extends Component {
             }
           }
 
-          //Split timestamp from restlessness rating
-          let restTime = [];  //time in day/hr/min/set
-          let restNum = [];   //movement on scale 0-2
-
-          for (i=0; i<restless.length; i++) {
-            restlessSplit = restless[i].toString().split(" ")
-            restTime.push(new Date(parseInt(restlessSplit[0], 10)));
-            restNum.push(parseInt(restlessSplit[1], 10));
-          }
-          //To avoid graph errors, fill empty restless and sleep graph with fake data
-          if (restNum.length == 0) {
-            restNum = [0, 0];
-            restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
-          }
-
           //Fill empty enters and exits with a 0
           if (enters.length == 0) {
             enters = [0];
@@ -768,6 +753,23 @@ class HomeScreen extends Component {
           // true false on bed wetting length
           var bedwet = wets.length >= 1;
 
+          //Split timestamp from restlessness rating
+          let restTime = [];  //time in day/hr/min/set
+          let restNum = [];   //movement on scale 0-2
+
+          for (i=0; i<restless.length; i++) {
+            restlessSplit = restless[i].toString().split(" ")
+            if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
+              restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+              restNum.push(parseInt(restlessSplit[1], 10));
+            }
+          }
+          //To avoid graph errors, fill empty restless and sleep graph with fake data
+          if (restNum.length == 0) {
+            restNum = [0, 0];
+            restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
+          }
+
           //Find avg restlessness per night
           let averageMovement = 0;
           let moveCount = 0;
@@ -784,7 +786,6 @@ class HomeScreen extends Component {
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
           nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": 0, "restlessAvg": averageMovement});
-
 
         //} // end of checking if it was within the last 24 hrs
         // else {
