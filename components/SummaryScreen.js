@@ -263,7 +263,7 @@ class SummaryDetail extends Component {
             This is the default, weekly view of your
             child's sleep data. You'll find each night's sleep hours as well as
             the average number of bed exits per night, the average restlessness, and the
-            total number of bedwetting incidents from the past week. You can scroll to
+            average number of bedwets per night. You can scroll to
             past weeks using the arrows below.
           </Text> : ""
         }
@@ -309,7 +309,8 @@ class SummaryDetail extends Component {
         {this.props.tutorial ?
           <Text style={styles.smallText}>
             Check out the rest of this page first, but when you come back, you can click on
-            one of the blue bars  to see details about that day!{"\n"}
+            one of the bars to see details about that day! Click on the details button below
+            to see the daily view. {"\n"}
           </Text> : ""}
 
 

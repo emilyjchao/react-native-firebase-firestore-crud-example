@@ -118,7 +118,7 @@ import colors from './colors';
         </View>
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue is time asleep and white is time out of bed.
+          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue areas show time asleep and unfilled areas show time out of bed.
           </Text> : ""}
         <View style={styles.chart}>
         <VictoryChart
@@ -160,7 +160,7 @@ import colors from './colors';
         {this.props.tutorial ?
           <Text style={styles.smallText}>Restless illustrates how much your child
             moved while sleeping. It is divided into low, normal, and high indicating
-            the relative amount of movement.{"\n"}
+            the relative amount of movement. Movement is ranked on a scale of 0 to 100. {"\n"}
           </Text> : ""}
         <Text style={styles.brightTextNoMargin}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
@@ -245,11 +245,7 @@ import colors from './colors';
                 if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
                   return (
                       <Text key={time} style={styles.brightTextLeft}>
-<<<<<<< HEAD
-                        {'               '}{'--'}{'            '}{'--'}
-=======
                         {'\t'}{'--'}{'\t\t\t'}{'--'}
->>>>>>> 67397c256fc2c75f8fd9eec89a5e3652d155e330
                       </Text>
                   );
                 }

@@ -746,7 +746,6 @@ class HomeScreen extends Component {
                  else {
                    sleep += timeIn;
                  }
-                //sleep += timeIn;
               }
             //Add time in bed between each entrance and exit to sleep
             }
