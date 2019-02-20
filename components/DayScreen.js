@@ -245,7 +245,7 @@ import colors from './colors';
                 if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
                   return (
                       <Text key={time} style={styles.brightTextLeft}>
-                        {'               '}{'--'}{'             '}{'--'}
+                        {'               '}{'--'}{'            '}{'--'}
                       </Text>
                   );
                 }

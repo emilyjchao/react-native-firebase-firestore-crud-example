@@ -721,6 +721,7 @@ class HomeScreen extends Component {
           //Loop through exits and calculate sleep time (time in bed not counting exits)
           var sleep = 0;
           var totalOutOfBed = 0;
+          var napTime = 0;
           // amount of time that within exits and enters do not count towards Sleep
           const asleepThresh = .01;
           let asleep = false;
@@ -737,7 +738,15 @@ class HomeScreen extends Component {
             if (timeIn) {
               if (timeIn > asleepThresh) {
                 asleep = true;
-                sleep += timeIn;
+                //if napping (less than 4hr sleep period and entered bed between 10am and 6pm)
+                 if (enter1Time.getHours() <18 && enter1Time.getHours()>10 && timeIn < 4) {
+                   napTime += timeIn;
+                 }
+                //else if regular sleep
+                 else {
+                   sleep += timeIn;
+                 }
+                //sleep += timeIn;
               }
             //Add time in bed between each entrance and exit to sleep
             }
@@ -785,7 +794,7 @@ class HomeScreen extends Component {
 
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
-          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": 0, "restlessAvg": averageMovement});
+          nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": napTime, "restlessAvg": averageMovement});
 
         //} // end of checking if it was within the last 24 hrs
         // else {
