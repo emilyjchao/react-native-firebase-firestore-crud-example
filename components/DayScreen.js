@@ -245,7 +245,11 @@ import colors from './colors';
                 if (this.props.boards[this.props.picked].exited.length <= 1 || this.props.boards[this.props.picked].exited == undefined) {
                   return (
                       <Text key={time} style={styles.brightTextLeft}>
+<<<<<<< HEAD
                         {'               '}{'--'}{'            '}{'--'}
+=======
+                        {'\t'}{'--'}{'\t\t\t'}{'--'}
+>>>>>>> 67397c256fc2c75f8fd9eec89a5e3652d155e330
                       </Text>
                   );
                 }
