@@ -525,23 +525,27 @@ class HomeScreen extends Component {
     //console.log(prevDate);
     //console.log(prevDate.getDay());
     nights.forEach(function(nightName) {
+      // only deal with night's of data
       if (nightName != 'Profile' && nightName != 'current_time') {
         let thisDate = new Date(nightName.split("-")[2], nightName.split("-")[0] - 1, nightName.split("-")[1]);
         // console.log(thisDate);
         // console.log(prevDate);
         // console.log((thisDate - prevDate)/(60*60*1000));
+
+        // check that there was not a missing day
+        // continue looping through if there are multiple missing days
         while (((thisDate.getTime()) - (prevDate.getTime()))/(60*60*1000) > 30) {
           // add a day to prevDate
-          //console.log(prevDate);
+          // console.log(prevDate);
           prevDate = new Date(prevDate.getTime() + (24*60*60*1000));
           //console.log('missing day');
           // Now store an object of zeros
           let extraNightName= (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
           dates.push(extraNightName);
           let extradayOfWk = weekday[prevDate.getUTCDay()];
-        //  console.log(extraNightName);
+          // console.log(extraNightName);
           nightData.push({ "day": extraNightName, "dateLabel": extraNightName.slice(0, -5), "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": [prevDate, prevDate], "restNum": [0, 0], "inBed": 0, "dayLabel": extradayOfWk, "awake": 0, "naps": 0, "restlessAvg": 0});
-          //console.log(prevDate);
+          // console.log(prevDate);
         }
 
           prevDate = thisDate;
@@ -556,6 +560,7 @@ class HomeScreen extends Component {
           const night = data[nightName];
 
           //  fill arrays by iterating over each list from firebase
+          // Check that the date objects are 13 digits, if not *1000 (they are 10 or 13)
           if (night["enters"])  {
             enters = (Object.keys(night["enters"]).map( (key) => {
               if (night["enters"][key].toString().length < 13) {
@@ -589,11 +594,11 @@ class HomeScreen extends Component {
             });
           }
 
-          console.log("Wets " + wets);
+          // console.log("Wets " + wets);
 
           //Check that there are enters if other data exists
           if (!enters) {
-            //Fill all arrays with 0s
+            // Empty arrays
             console.log('No enters')
             enters = [];
             exits = [];
@@ -629,7 +634,7 @@ class HomeScreen extends Component {
           // console.log('new exits:');
           // console.log(exits);
 
-        // Check the data and fill in missing exits and enters
+          // Check the data and fill in missing exits and enters
           // check the number of exits and enters
           if (exits.length > 1){
             //Check that first enter comes before first exit
@@ -685,7 +690,7 @@ class HomeScreen extends Component {
             console.log('Equal or empty: ' + exits.length + "..." + enters.length);
           }
 
-          //Splice 0 minute exits-->enters
+          // Remove 0 minute exits-->enters
           for (i=0; i<exits.length-2; i++) {
             //Check if exit is less than a minute in length
             if (new Date((new Date(enters[i+1]).getTime())-(new Date(exits[i]).getTime()))/60000 < 1) {
@@ -696,7 +701,7 @@ class HomeScreen extends Component {
             }
           }
 
-          //Fill empty enters and exits with a 0
+          // Fill empty enters and exits with a 0
           if (enters.length == 0) {
             enters = [0];
           }
@@ -707,12 +712,19 @@ class HomeScreen extends Component {
           //Split timestamp from restlessness rating
           let restTime = [];  //time in day/hr/min/set
           let restNum = [];   //movement on scale 0-2
-
+// Check here that restlessness is within enters and exits?
+          //Find avg restlessness per night
+          let averageMovement = 0;
+          let moveCount = 0;
           for (i=0; i<restless.length; i++) {
             restlessSplit = restless[i].toString().split(" ")
             if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
               restTime.push(new Date(parseInt(restlessSplit[0], 10)));
               restNum.push(parseInt(restlessSplit[1], 10));
+            }
+            if (!isNaN(restNum[i])) {
+              averageMovement += restNum[i];
+              moveCount++;
             }
           }
           //To avoid graph errors, fill empty restless and sleep graph with fake data
@@ -721,15 +733,15 @@ class HomeScreen extends Component {
             restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
           }
 
-          //Find avg restlessness per night
-          let averageMovement = 0;
-          let moveCount = 0;
-          for (i=0; i<restNum.length; i++) {
-            if (!isNaN(restNum[i])) {
-              averageMovement += restNum[i];
-              moveCount++;
-            }
-          }
+          // //Find avg restlessness per night
+          // let averageMovement = 0;
+          // let moveCount = 0;
+          // for (i=0; i<restNum.length; i++) {
+          //   if (!isNaN(restNum[i])) {
+          //     averageMovement += restNum[i];
+          //     moveCount++;
+          //   }
+          // }
           if (moveCount > 0) {
             averageMovement = averageMovement/moveCount;
           }
