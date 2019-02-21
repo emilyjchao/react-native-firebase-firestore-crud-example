@@ -779,7 +779,6 @@ class HomeScreen extends Component {
             // if not asleep yet, don't count, check if asleep
             if (timeIn) {
               if (timeIn > asleepThresh) {
-                asleep = true;
                 //Find restlessness average for 5 minutes after enter time
                 let restEnterAvg = 0;
                 let restEnterCount = 0;
@@ -801,6 +800,7 @@ class HomeScreen extends Component {
                    }
                   //else if regular sleep
                    else {
+                     asleep = true;
                      sleep += timeIn;
                    }
                 }
