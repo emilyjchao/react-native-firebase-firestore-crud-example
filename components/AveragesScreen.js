@@ -54,11 +54,11 @@ export default class AveragesScreen extends React.Component {
           >
           <VictoryLine
             data = {[
-              {x: 0, y: 10.2},
-              {x: 4, y: 10.2},
+              {x: 0, y: 11.5},
+              {x: 4, y: 11.5},
             ]}
             style={{
-              data: { stroke: colors.axis }
+              data: { stroke: colors.highlight }
             }}
           />
           <VictoryLabel
@@ -74,7 +74,7 @@ export default class AveragesScreen extends React.Component {
             }}
             data = {[
               {x: "Your Child", y: parseFloat(sleepAVG)},
-              {x: "National Average", y: 10.6},
+              {x: "National Average", y: 11.7},
             ]}
             style={{
               data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: colors.highlight, fontFamily: "Futura" }
@@ -82,7 +82,7 @@ export default class AveragesScreen extends React.Component {
             labels={(d) => d.y}
             labelComponent={<VictoryLabel dy={30}/>}
           />
-          <VictoryLabel text="Recommended: 10.2" datum={{ x: 1.7, y: 12 }}
+          <VictoryLabel text="Recommended: 11.5" datum={{ x: 1.7, y: 13.5 }}
             style={{fill: colors.highlight, fontFamily: "Futura"}}/>
           <VictoryAxis dependentAxis tickFormat={() => ''}
             style={{fontSize: 16, axisLabel: { padding: 35, fill: colors.axis, fontFamily: "Futura" },
@@ -107,7 +107,7 @@ export default class AveragesScreen extends React.Component {
             }}
             data = {[
               {x: "Your Child", y: parseFloat(restlessAVG)},
-              {x: "National Average", y: 4.6}
+              {x: "National Average", y: 13}
             ]}
             style={{
               data: { fill: colors.asleepBar, fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: colors.highlight, fontFamily: "Futura" }
@@ -138,7 +138,7 @@ export default class AveragesScreen extends React.Component {
             }}
             data = {[
               {x: "Your Child", y: parseFloat(bedwetsAVG)},
-              {x: "National Average", y: 0.7}
+              {x: "National Average", y: 0.3}
             ]}
             style={{
               data: { fill: (d) => d.x === "National Average" ? colors.natAvg : colors.asleepBar, }, labels: { fill: colors.highlight, fontFamily: "Futura" }
