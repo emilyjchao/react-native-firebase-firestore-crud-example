@@ -704,6 +704,36 @@ class HomeScreen extends Component {
             exits = [0];
           }
 
+          //Split timestamp from restlessness rating
+          let restTime = [];  //time in day/hr/min/set
+          let restNum = [];   //movement on scale 0-2
+
+          for (i=0; i<restless.length; i++) {
+            restlessSplit = restless[i].toString().split(" ")
+            if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
+              restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+              restNum.push(parseInt(restlessSplit[1], 10));
+            }
+          }
+          //To avoid graph errors, fill empty restless and sleep graph with fake data
+          if (restNum.length == 0) {
+            restNum = [0, 0];
+            restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
+          }
+
+          //Find avg restlessness per night
+          let averageMovement = 0;
+          let moveCount = 0;
+          for (i=0; i<restNum.length; i++) {
+            if (!isNaN(restNum[i])) {
+              averageMovement += restNum[i];
+              moveCount++;
+            }
+          }
+          if (moveCount > 0) {
+            averageMovement = averageMovement/moveCount;
+          }
+
   // TODO: more accurate processing of sleep and awake time
           //Calculate time between first enter and last exit dates (time in bed)
           console.log(enters[0] + " - " + exits[exits.length-1])
@@ -738,14 +768,38 @@ class HomeScreen extends Component {
             if (timeIn) {
               if (timeIn > asleepThresh) {
                 asleep = true;
-                //if napping (less than 4hr sleep period and entered bed between 10am and 6pm)
-                 if (enter1Time.getHours() <18 && enter1Time.getHours()>10 && timeIn < 4) {
-                   napTime += timeIn;
-                 }
-                //else if regular sleep
-                 else {
-                   sleep += timeIn;
-                 }
+                //Find restlessness average for 5 minutes after enter time
+                let restEnterAvg = 0;
+                let restEnterCount = 0;
+                for (j=0; j<restNum.length; j++) {
+                  if (restTime[j] > enter1Time && restTime[j].getTime() < (inTime+(5*60*1000))) {
+                    restEnterAvg += restNum[j];
+                    restEnterCount++;
+                  }
+                  else if (restTime[j].getTime() > (inTime+(5*60*1000))) {
+                    j = restNum.length;
+                  }
+                }
+                restEnterAvg = restEnterAvg/restEnterCount;
+                //Only count sleep if low restlessness in 5 minutes since got in bed
+                if (restEnterAvg < 30 || isNaN(restEnterAvg)) {
+                  //if napping (less than 4hr sleep period and entered bed between 10am and 6pm)
+                   if (enter1Time.getHours() <18 && enter1Time.getHours()>10 && timeIn < 4) {
+                     napTime += timeIn;
+                   }
+                  //else if regular sleep
+                   else {
+                     sleep += timeIn;
+                   }
+                }
+                //Else make new "enter" 10 min later and rerun logic
+                else {
+                  //Warning: the time you add to enters[i] must be < asleepThresh
+                  //Try to make the current enter 10 min later and rerun looop to see if restlessness has settled
+                  enters.splice(i, 1, enters[i] + (5*60*1000));
+                  exits.splice(i, 1, exits[i]);
+                  i--;
+                }
               }
             //Add time in bed between each entrance and exit to sleep
             }
@@ -760,36 +814,6 @@ class HomeScreen extends Component {
 
           // true false on bed wetting length
           var bedwet = wets.length >= 1;
-
-          //Split timestamp from restlessness rating
-          let restTime = [];  //time in day/hr/min/set
-          let restNum = [];   //movement on scale 0-2
-
-          for (i=0; i<restless.length; i++) {
-            restlessSplit = restless[i].toString().split(" ")
-            if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
-              restTime.push(new Date(parseInt(restlessSplit[0], 10)));
-              restNum.push(parseInt(restlessSplit[1], 10));
-            }
-          }
-          //To avoid graph errors, fill empty restless and sleep graph with fake data
-          if (restNum.length == 0) {
-            restNum = [0, 0];
-            restTime = [new Date(enters[0]), new Date(exits[exits.length-1])];
-          }
-
-          //Find avg restlessness per night
-          let averageMovement = 0;
-          let moveCount = 0;
-          for (i=0; i<restNum.length; i++) {
-            if (!isNaN(restNum[i])) {
-              averageMovement += restNum[i];
-              moveCount++;
-            }
-          }
-          if (moveCount > 0) {
-            averageMovement = averageMovement/moveCount;
-          }
 
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);

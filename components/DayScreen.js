@@ -108,7 +108,7 @@ import colors from './colors';
         </View>
         <View style={styles.appContainer}>
           <TouchableOpacity
-            onPress={() => {Alert.alert('Shaded = time in bed asleep \n Unshaded = time out of bed')}}
+            onPress={() => {Alert.alert('Shaded = time in bed \n Unshaded = time out of bed')}}
             style={styles.button1}>
             <View style={styles.btnContainer}>
               <Text style={styles.titleNoMargin}>Sleep: {this.props.hrToMin((this.props.boards[this.props.picked].sleep).toFixed(2))}</Text>
@@ -118,7 +118,7 @@ import colors from './colors';
         </View>
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue areas show time asleep and unfilled areas show time out of bed.
+          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue areas show time in bed and unfilled areas show time out of bed.
           </Text> : ""}
         <View style={styles.chart}>
         <VictoryChart
