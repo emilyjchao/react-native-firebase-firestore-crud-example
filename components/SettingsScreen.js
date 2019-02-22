@@ -30,6 +30,7 @@ export default class SettingsScreen extends React.Component {
       restless: false,
       outofbed: false,
       asleep: false,
+      user: null,
     };
 
     //These help change the toggles from on to off and vice versa
@@ -86,9 +87,22 @@ export default class SettingsScreen extends React.Component {
       [option]: !this.state[option]
     })
   }
-  componentDidMount() {
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+        // console.log("Auth state is logged in Now!");
+        this.setState({user: user});
+      } else {
+        // User is signed out --> reroute to sign in
+        // console.log("Auth state is logged out now!");
+        this.setState({user: null});
+        this.props.navigation.push('SignIn');
+      }
+    });
   }
+
   //This saves the current settings to Firestore
   saveSettings() {
     this.ref.update({
@@ -103,6 +117,11 @@ export default class SettingsScreen extends React.Component {
     .catch((error) => {
       console.error("Error saving settings: ", error);
     });
+  }
+
+  logOut() {
+    firebase.auth().signOut().then(()=>{console.log("Signed Out");},
+      (error) => { console.log("Sign Out error : " + error.code + error.message);});
   }
 
   render() {
@@ -123,7 +142,7 @@ export default class SettingsScreen extends React.Component {
                 </View>
               }
               itemWidth={50}
-              title='Parent 1'
+              title={this.state.user ? this.state.user.email : 'Parent 1'}
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               onPress={() => Alert.alert('Will Show Account Information')}
@@ -214,6 +233,13 @@ export default class SettingsScreen extends React.Component {
           leftIcon={{name: 'save'}}
           onPress={() => this.saveSettings()}
           title='Save Settings'
+          />
+          <Button
+            small
+            leftIcon={{name: 'power'}}
+            backgroundColor={'transparent'}
+            onPress={() => this.logOut()}
+            title="Log Out"
           />
       </View>
       </ScrollView>
