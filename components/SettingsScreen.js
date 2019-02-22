@@ -233,14 +233,14 @@ export default class SettingsScreen extends React.Component {
           leftIcon={{name: 'save'}}
           onPress={() => this.saveSettings()}
           title='Save Settings'
-          />
-          <Button
-            small
-            leftIcon={{name: 'power'}}
-            backgroundColor={'transparent'}
-            onPress={() => this.logOut()}
-            title="Log Out"
-          />
+        />
+        {this.state.user ? <Button
+          small
+          leftIcon={{name: 'power'}}
+          backgroundColor={'transparent'}
+          onPress={() => this.logOut()}
+          title="Log Out"
+        /> : ''}
       </View>
       </ScrollView>
     )
