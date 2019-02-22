@@ -762,14 +762,22 @@ class HomeScreen extends Component {
           //Find avg restlessness per night
           let averageMovement = 0;
           let moveCount = 0;
-          let filRestTime = [];
-          let filRestNum = [];
+          let filRestString = [];
           let littleAvg = 0;
 
           // shrink old restlessness data by averaging if more than 700 entries
           // filter super old restlessness data by averaging to make it about 1000 entries instead of 10000
           if (restless.length > 700) {
             //console.error('OVERSIZED restless.\n');
+
+
+            // // replace existing restlessness data under userData with this abreviated one
+            // if (this.state.user){
+            //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nightName + '/movement').set(
+            //     {}
+            //   )
+            // }
+
             let avgGroup = Math.floor(restless.length/700);
             console.log("AVG group : " + avgGroup + " restless length: " + restless.length + '\n');
             for (i = 0; i < restless.length; i = i + avgGroup) {
@@ -785,30 +793,19 @@ class HomeScreen extends Component {
               if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
                 restTime.push(new Date(parseInt(restlessSplit[0], 10)));
                 restNum.push(Math.floor(littleAvg/avgGroup));
+
+                // upload to firebase
+                // if (this.state.user){
+                //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nightName + '/movement').push(restlessSplit[0] + ' ' + Math.floor(littleAvg/avgGroup));
+                // }
+
               }
               if (!isNaN(restNum[restNum.length - 1])) {
                 averageMovement += restNum[restNum.length - 1];
                 moveCount++;
               }
             }
-            // for (i = avgGroup; i < restless.length; i + avgGroup) {
-            //   let littleAvg;
-            //   for (j = avgGroup; j > 0; j --){
-            //     restlessSplit = restless[i - j].toString().split(" ")
-            //     if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
-            //       restTime.push(new Date(parseInt(restlessSplit[0], 10)));
-            //       restNum.push(parseInt(restlessSplit[1], 10));
-            //     }
-            //     if (!isNaN(restNum[i - j])) {
-            //       averageMovement += restNum[i - j];
-            //       littleAvg += restNum[i - j];
-            //       moveCount++;
-            //     }
-            //   }
-            //   filRestTime.push(new Date(parseInt(restlessSplit[0], 10)));
-            //   filRestNum.push(Math.floor(littleAvg/avgGroup));
-            //   littleAvg = 0;
-            // }
+
             console.log('Restless length: ' + restNum.length);
           }
           else {
