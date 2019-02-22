@@ -167,14 +167,12 @@ export default class SettingsScreen extends React.Component {
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               title='Child 1'
               backgroundColor={colors.background}
-              //onPress={() => navigate('ChildDetails')}
               onPress={() => Alert.alert('Will Show Child Profile Information')}/>
             <SettingsList.Item
               title="Add Child"
               hasNavArrow={true}
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
-              //onPress={() => navigate('AddChild')}
               onPress={() => Alert.alert('Will Allow User to Add Child to Account')}
               />
             <SettingsList.Item

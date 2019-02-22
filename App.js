@@ -3,8 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from '
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './components/HomeScreen';
 import AllScreen from './components/AllScreen'
-import AddChildScreen from './components/AddChildScreen';
-import ChildDetailsScreen from './components/ChildDetailsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import CalibrateScreen from './components/CalibrateScreen';
 import TutorialScreen from './components/TutorialScreen';
@@ -32,9 +30,6 @@ async function register(){
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    AllDetails: AllScreen,
-    AddChild: AddChildScreen,
-    ChildDetails: ChildDetailsScreen,
     Settings: SettingsScreen,
     Calibrate: CalibrateScreen,
     Tutorial: TutorialScreen,
