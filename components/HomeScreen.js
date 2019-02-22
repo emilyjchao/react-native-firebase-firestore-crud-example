@@ -5,7 +5,6 @@ import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, Victo
 import DayDetail from './DayScreen';
 import SummaryDetail from './SummaryScreen';
 import MonthDetail from './MonthScreen';
-import Tutorial from './TutorialScreen';
 import Settings from './SettingsScreen';
 import Averages from './AveragesScreen';
 import AllDetail from './AllScreen';
@@ -51,7 +50,6 @@ class HomeScreen extends Component {
               icon={{ name: 'info', style: { marginRight: 0, fontSize: 28 } }}
               onPress={() => {
                   params.setTutState();
-                  //navigation.push('Tutorial')
                }}
             />
             <Button
@@ -59,7 +57,6 @@ class HomeScreen extends Component {
             icon={{ name: 'view-carousel', style: { marginRight: 0, fontSize: 28 } }}
             onPress={() => {
                 params.toggleAB();
-                //navigation.push('Tutorial')
              }}
             />
           </View>
@@ -787,6 +784,7 @@ class HomeScreen extends Component {
           var napTime = 0;
           // amount of time that within exits and enters do not count towards Sleep
           const asleepThresh = .01;
+          const restlessThresh = 30;
           let asleep = false;
           console.log(enters.length);
           console.log(exits.length);
@@ -814,7 +812,7 @@ class HomeScreen extends Component {
                 }
                 restEnterAvg = restEnterAvg/restEnterCount;
                 //Only count sleep if low restlessness in 5 minutes since got in bed
-                if (restEnterAvg < 30 || isNaN(restEnterAvg)) {
+                if (restEnterAvg < restlessThresh || isNaN(restEnterAvg)) {
                   //if napping (less than 4hr sleep period and entered bed between 10am and 6pm)
                    if (enter1Time.getHours() <18 && enter1Time.getHours()>10 && timeIn < 4) {
                      napTime += timeIn;

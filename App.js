@@ -5,7 +5,6 @@ import HomeScreen from './components/HomeScreen';
 import AllScreen from './components/AllScreen'
 import SettingsScreen from './components/SettingsScreen';
 import CalibrateScreen from './components/CalibrateScreen';
-import TutorialScreen from './components/TutorialScreen';
 import AveragesScreen from './components/AveragesScreen';
 import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
@@ -32,7 +31,6 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     Settings: SettingsScreen,
     Calibrate: CalibrateScreen,
-    Tutorial: TutorialScreen,
     Averages: AveragesScreen,
     SignIn: SignIn,
   },
