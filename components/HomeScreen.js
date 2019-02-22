@@ -9,6 +9,7 @@ import Tutorial from './TutorialScreen';
 import Settings from './SettingsScreen';
 import Averages from './AveragesScreen';
 import AllDetail from './AllScreen';
+import SignIn from './signIn';
 import firebase from '../Firebase';
 import styles from './style';
 import colors from './colors';
@@ -81,6 +82,7 @@ class HomeScreen extends Component {
       day: 2,       // day v. week view --> should  be removed if using separate pages
       tutorial: false,
       ABtest: 1,  // AB testing variable, 1 or 2
+      loggedIn: false, // just fake flag for now
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -104,6 +106,12 @@ class HomeScreen extends Component {
     //         allBoards: this.state.day,
     //         sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
     //     });
+    // Check sign in user state and block on it
+    // if signed in set state to true and continue
+    // if not logged in go to signin page
+    if (!this.state.loggedIn){
+      this.props.navigation.push('SignIn');
+    }
   }
 
 

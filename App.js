@@ -12,6 +12,7 @@ import AveragesScreen from './components/AveragesScreen';
 import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
 import SummaryScreen from './components/SummaryScreen';
+import SignIn from './components/signIn';
 import {Constants, Permissions, Notifications} from 'expo';
 //import {styles} from './componenents/style';
 import colors from './components/colors';
@@ -38,6 +39,7 @@ const RootStack = createStackNavigator(
     Calibrate: CalibrateScreen,
     Tutorial: TutorialScreen,
     Averages: AveragesScreen,
+    SignIn: SignIn,
   },
   {
     initialRouteName: 'Home',
