@@ -67,12 +67,3 @@ export default class App extends React.Component {
     return <RootStack />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.darkB,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
