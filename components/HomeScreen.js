@@ -499,12 +499,12 @@ class HomeScreen extends Component {
 
 
 
-// TESTING writing under the UID just one day, not processed
-    // if (this.state.user){
-    //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nights[0]).set({
-    //     data[nights[0]]
-    //   })
-    // }
+// // TESTING writing under the UID just one day, not processed
+//     if (this.state.user){
+//       firebase.database().ref('userData/' + this.state.user.uid + '/' + nights[1]).set(
+//         data[nights[1]]
+//       )
+//     }
 
 
 
@@ -556,9 +556,9 @@ class HomeScreen extends Component {
     let prevDate = new Date(nights[0].split("-")[2], nights[0].split("-")[0] - 1, nights[0].split("-")[1]);
     //console.log(prevDate);
     //console.log(prevDate.getDay());
-    nights.forEach(function(nightName) {
+    nights.forEach((nightName) => {
       // only deal with night's of data
-      if (nightName != 'Profile' && nightName != 'current_time') {
+      if (nightName != 'Profile' && nightName != 'current_time' && nightName != 'userData') {
         let thisDate = new Date(nightName.split("-")[2], nightName.split("-")[0] - 1, nightName.split("-")[1]);
         // console.log(thisDate);
         // console.log(prevDate);
@@ -590,6 +590,20 @@ class HomeScreen extends Component {
           let wets = [];
           let restless = [];
           const night = data[nightName];
+
+
+
+// TESTING writing under the UID for all days since new 10 digit datatype
+          // let feb7 = new Date(2019,1,7);
+          // console.log("FEBRUARY " + feb7);
+          // console.log("GREATER THAN: " + (thisDate > feb7));
+          // if (this.state.user && (thisDate > feb7)){
+          //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nightName).set(
+          //     night
+          //   )
+          // }
+
+
 
           //  fill arrays by iterating over each list from firebase
           // Check that the date objects are 13 digits, if not *1000 (they are 10 or 13)
