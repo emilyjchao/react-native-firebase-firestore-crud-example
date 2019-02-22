@@ -101,9 +101,10 @@ class SignIn extends Component {
 
   render() {
     //this.props.navigation.push('Home');
-    let form;
+    let inUpOut; // buttons for sign in and up or for logout and back
+    let form; // input for signing in or up
     if (this.state.login) {
-      form = (
+       inUpOut = (
         <View>
           <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.logOut()}>
             <Text style={styles.buttonNoFlexText}>Log Out</Text>
@@ -114,6 +115,20 @@ class SignIn extends Component {
         </View>);
     }
     else {
+      inUpOut = (
+        <View style={styles.tripleToggle}>
+          <TouchableOpacity
+            onPress = {()=> this.setState({signIn: true})}
+            style={(this.state.signIn ? styles.buttonSelected : styles.button)}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress = {()=> this.setState({signIn: false})}
+            style={(this.state.signIn ? styles.button : styles.buttonSelected)}>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>);
+
       form = (this.state.signIn ? (
         <View>
           <TextInput
@@ -165,6 +180,7 @@ class SignIn extends Component {
         <Text>Welcome to the Serta Simmons children's smart mattress testing app.
           Please sign in if you have an account or sign up if you are joining.
         </Text>
+        {inUpOut}
         {form}
       </View>
     )

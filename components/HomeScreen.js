@@ -82,7 +82,7 @@ class HomeScreen extends Component {
       day: 2,       // day v. week view --> should  be removed if using separate pages
       tutorial: false,
       ABtest: 1,  // AB testing variable, 1 or 2
-      loggedIn: false, // just fake flag for now
+      loggedIn: false, // updated by the listener on auth state changes
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -109,9 +109,22 @@ class HomeScreen extends Component {
     // Check sign in user state and block on it
     // if signed in set state to true and continue
     // if not logged in go to signin page
-    if (!this.state.loggedIn){
-      this.props.navigation.push('SignIn');
-    }
+    // if (!this.state.loggedIn){
+    //   this.props.navigation.push('SignIn');
+    // }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+        console.log("Auth state is logged in Now!");
+        this.setState({loggedIn: true});
+      } else {
+        // User is signed out.
+        console.log("Auth state is logged out now!");
+        this.setState({loggedIn: false});
+        this.props.navigation.push('SignIn');
+      }
+    });
   }
 
 
