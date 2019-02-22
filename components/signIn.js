@@ -101,15 +101,15 @@ class SignIn extends Component {
 
 
 // Messing with user protected data and writing to the database
-  moveToUser() {
-    // if no user return nothing and do nothing
-    if( !this.state.user ) {
-      return();
-    }
-    // move first night of data to a key under uid
-    // firebase.database().ref('userData/' + this.state.user.uid + '/' + this.state.boards[0].).set
-
-  }
+  // moveToUser() {
+  //   // if no user return nothing and do nothing
+  //   if( !this.state.user ) {
+  //     return();
+  //   }
+  //   // move first night of data to a key under uid
+  //   // firebase.database().ref('userData/' + this.state.user.uid + '/' + this.state.boards[0].).set
+  //
+  // }
 
 
 
