@@ -99,6 +99,21 @@ class SignIn extends Component {
       (error) => { console.log("Sign Out error : " + error.code + error.message);});
   }
 
+
+// Messing with user protected data and writing to the database
+  moveToUser() {
+    // if no user return nothing and do nothing
+    if( !this.state.user ) {
+      return();
+    }
+    // move first night of data to a key under uid
+    // firebase.database().ref('userData/' + this.state.user.uid + '/' + this.state.boards[0].).set
+
+  }
+
+
+
+
   render() {
     //this.props.navigation.push('Home');
     let inUpOut; // buttons for sign in and up or for logout and back

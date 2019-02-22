@@ -80,6 +80,7 @@ class HomeScreen extends Component {
       tutorial: false,
       ABtest: 1,  // AB testing variable, 1 or 2
       loggedIn: false, // updated by the listener on auth state changes
+      user: null, // store the auth instance of the user
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -114,11 +115,11 @@ class HomeScreen extends Component {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now!");
-        this.setState({loggedIn: true});
+        this.setState({loggedIn: true, user: user});
       } else {
         // User is signed out.
         console.log("Auth state is logged out now!");
-        this.setState({loggedIn: false});
+        this.setState({loggedIn: false, user: null});
         this.props.navigation.push('SignIn');
       }
     });
@@ -495,6 +496,19 @@ class HomeScreen extends Component {
 
     // get the number of nights
     nights = Object.keys(data);
+
+
+
+// TESTING writing under the UID just one day, not processed
+    // if (this.state.user){
+    //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nights[0]).set({
+    //     data[nights[0]]
+    //   })
+    // }
+
+
+
+
 
     //Find day of week as label
     var weekday = new Array();
