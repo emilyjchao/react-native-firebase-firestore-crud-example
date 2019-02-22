@@ -762,15 +762,67 @@ class HomeScreen extends Component {
           //Find avg restlessness per night
           let averageMovement = 0;
           let moveCount = 0;
-          for (i=0; i<restless.length; i++) {
-            restlessSplit = restless[i].toString().split(" ")
-            if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
-              restTime.push(new Date(parseInt(restlessSplit[0], 10)));
-              restNum.push(parseInt(restlessSplit[1], 10));
+          let filRestTime = [];
+          let filRestNum = [];
+          let littleAvg = 0;
+
+          // shrink old restlessness data by averaging if more than 700 entries
+          // filter super old restlessness data by averaging to make it about 1000 entries instead of 10000
+          if (restless.length > 700) {
+            //console.error('OVERSIZED restless.\n');
+            let avgGroup = Math.floor(restless.length/700);
+            console.log("AVG group : " + avgGroup + " restless length: " + restless.length + '\n');
+            for (i = 0; i < restless.length; i = i + avgGroup) {
+              // do the i entry
+              restlessSplit = restless[i].toString().split(" ");
+              littleAvg = parseInt(restlessSplit[1], 10);
+              // do the next number and average
+              for (j = 1; j < avgGroup && (i+j < restless.length); j ++) {
+                restlessSplit = restless[i + j].toString().split(" ");
+                littleAvg += parseInt(restlessSplit[1], 10);
+              }
+              // check if within the exits and enters bounds
+              if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
+                restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+                restNum.push(Math.floor(littleAvg/avgGroup));
+              }
+              if (!isNaN(restNum[restNum.length - 1])) {
+                averageMovement += restNum[restNum.length - 1];
+                moveCount++;
+              }
             }
-            if (!isNaN(restNum[i])) {
-              averageMovement += restNum[i];
-              moveCount++;
+            // for (i = avgGroup; i < restless.length; i + avgGroup) {
+            //   let littleAvg;
+            //   for (j = avgGroup; j > 0; j --){
+            //     restlessSplit = restless[i - j].toString().split(" ")
+            //     if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
+            //       restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+            //       restNum.push(parseInt(restlessSplit[1], 10));
+            //     }
+            //     if (!isNaN(restNum[i - j])) {
+            //       averageMovement += restNum[i - j];
+            //       littleAvg += restNum[i - j];
+            //       moveCount++;
+            //     }
+            //   }
+            //   filRestTime.push(new Date(parseInt(restlessSplit[0], 10)));
+            //   filRestNum.push(Math.floor(littleAvg/avgGroup));
+            //   littleAvg = 0;
+            // }
+            console.log('Restless length: ' + restNum.length);
+          }
+          else {
+            for (i=0; i<restless.length; i++) {
+              restlessSplit = restless[i].toString().split(" ");
+              // check if within the exits and enters bounds
+              if (parseInt(restlessSplit[0], 10) > enters[0] && parseInt(restlessSplit[0], 10) < exits[exits.length-1]) {
+                restTime.push(new Date(parseInt(restlessSplit[0], 10)));
+                restNum.push(parseInt(restlessSplit[1], 10));
+              }
+              if (!isNaN(restNum[i])) {
+                averageMovement += restNum[i];
+                moveCount++;
+              }
             }
           }
           //To avoid graph errors, fill empty restless and sleep graph with fake data
