@@ -120,7 +120,7 @@ class SignIn extends Component {
     let form; // input for signing in or up
     if (this.state.login) {
        inUpOut = (
-        <View>
+        <View style={styles.tripleToggle}>
           <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.logOut()}>
             <Text style={styles.buttonNoFlexText}>Log Out</Text>
           </TouchableOpacity>
@@ -142,7 +142,8 @@ class SignIn extends Component {
             style={(this.state.signIn ? styles.button : styles.buttonSelected)}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
-        </View>);
+        </View>
+      );
 
       form = (this.state.signIn ? (
         <View style={styles.form}>
