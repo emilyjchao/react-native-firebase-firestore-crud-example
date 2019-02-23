@@ -512,9 +512,30 @@ class HomeScreen extends Component {
     let dates = [];
     let data = snapshot.val();
 
+    if (data == null && this.state.user) {
+      console.log("Adding user");
+      firebase.database().ref('userData/' + this.state.user.uid + '/Profile').set(
+        {"calibrate": 0}
+      ).catch(error => {
+        console.log('Failed to add user: ' + error.code + error.message);
+      });
+
+      //this.setState({isloading: false});
+      //console.log('isLoading: ' + this.state.isLoading);
+      return(false);
+    }
+    else if (data == null) {
+      console.log("User has no data");
+    }
+
     // get the number of nights
     nights = Object.keys(data);
 
+    if (nights.length == 1) {
+      console.log("only profile");
+      this.setState({isLoading: false});
+      return(false);
+    }
 
 
 // // TESTING writing under the UID just one day, not processed
@@ -1029,7 +1050,7 @@ class HomeScreen extends Component {
   render() {
     //Needed to navigate to other pages from Home Screen
     const {navigate} = this.props.navigation;
-    console.log(this.state.loggedIn);
+    console.log("isLoading: " + this.state.isLoading);
     //Check there is data loaded
     if(!this.state.loggedIn){
       return(
@@ -1050,6 +1071,16 @@ class HomeScreen extends Component {
           <ActivityIndicator size="large" color={colors.highlight}/>
         </View>
       )
+    }
+    if (this.state.boards.length == 0){
+      return(
+        <View style={styles.centerContainer}>
+          <View style={{marginTop: 80}}/>
+          <Text style={styles.smallText}>You don't have any data yet, please
+            set up the product and wait for your first night of data.
+          </Text>
+        </View>
+      );
     }
 
     let reports;
