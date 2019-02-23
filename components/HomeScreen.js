@@ -507,9 +507,6 @@ class HomeScreen extends Component {
 //     }
 
 
-
-
-
     //Find day of week as label
     var weekday = new Array();
     weekday[0] = "Su";
