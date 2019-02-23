@@ -99,7 +99,9 @@ class HomeScreen extends Component {
     // OLD: firestore connection
     //this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
     // Realtime database connection
-    this.fetchData();
+    //this.fetchData();
+
+
     // this.props.navigation.setParams({
     //         allBoards: this.state.day,
     //         sleepAVG: this.calcSleepAvg(this.state.boards).toFixed(2),
@@ -116,6 +118,7 @@ class HomeScreen extends Component {
         // User is signed in.
         console.log("Auth state is logged in Now!");
         this.setState({loggedIn: true, user: user});
+        this.fetchData();
       } else {
         // User is signed out.
         console.log("Auth state is logged out now!");
@@ -123,13 +126,17 @@ class HomeScreen extends Component {
         this.props.navigation.push('SignIn');
       }
     });
+
   }
 
 
   //wrapper so that state can be set from onFetchData
   fetchData() {
     //Change function to on or once to change data receiving options
-    firebase.database().ref().once('value', this.onFetchData);
+    //firebase.database().ref().once('value', this.onFetchData);
+    if (this.state.user) {
+      firebase.database().ref('userData/' + this.state.user.uid + '/').once('value', this.onFetchData);
+    }
   }
 
   // increment or decrement the picked by the amount given in updown
