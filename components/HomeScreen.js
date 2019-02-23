@@ -124,6 +124,17 @@ class HomeScreen extends Component {
         console.log("Auth state is logged out now!");
         this.setState({loggedIn: false, user: null});
         this.props.navigation.push('SignIn');
+        // this.setState({isLoading: false});
+        // set the parameters for going to the averages page
+        this.props.navigation.setParams({
+          sleepAVG: this.calcSleepAvg(this.state.boards),
+          restlessAVG: this.calcRestless(this.state.boards),
+          bedwetsAVG: this.calcBedwetting(this.state.boards),
+          exitsAVG: this.calcExits(this.state.boards),
+          setTutState: this.toggleTutorial,
+          toggleAB: this.toggleABtest,
+          ABtest: this.state.ABtest,
+        });
       }
     });
 
@@ -1018,8 +1029,21 @@ class HomeScreen extends Component {
   render() {
     //Needed to navigate to other pages from Home Screen
     const {navigate} = this.props.navigation;
-
+    console.log(this.state.loggedIn);
     //Check there is data loaded
+    if(!this.state.loggedIn){
+      return(
+        <View style={styles.centerContainer}>
+          <View style={{marginTop: 80}}/>
+          <Text style={styles.smallText}>Please sign in or sign up.</Text>
+          <TouchableOpacity
+            onPress = {()=> navigate('SignIn')}
+            style={styles.buttonNoFlex}>
+            <Text style={styles.buttonText}>Sign In or Up</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     if(this.state.isLoading){
       return(
         <View style={styles.activity}>

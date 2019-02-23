@@ -145,17 +145,21 @@ class SignIn extends Component {
         </View>);
 
       form = (this.state.signIn ? (
-        <View>
+        <View style={styles.form}>
           <TextInput
             placeholder={'Email'}
+            placeholderTextColor={colors.tabText}
             value={this.state.email}
             onChangeText={(text) => this.updateTextInput(text, 'email')}
+            style={styles.textInput}
           />
           <TextInput
             placeholder={'Password'}
+            placeholderTextColor={colors.tabText}
             secureTextEntry={true}
             value={this.state.password}
             onChangeText={(text) => this.updateTextInput(text, 'password')}
+            style={styles.textInput}
           />
           <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.signIn()}>
             <Text style={styles.buttonNoFlexText}>Sign In</Text>
@@ -163,24 +167,30 @@ class SignIn extends Component {
         </View>)
         :
         (
-          <View>
+          <View  style={styles.form}>
             <TextInput
               placeholder={'Email'}
+              placeholderTextColor={colors.tabText}
               value={this.state.email}
               onChangeText={(text) => this.updateTextInput(text, 'email')}
+              style={styles.textInput}
             />
             <TextInput
               placeholder={'Password'}
+              placeholderTextColor={colors.tabText}
               secureTextEntry={true}
               value={this.state.password}
               onChangeText={(text) => this.updateTextInput(text, 'password')}
+              style={styles.textInput}
             />
-            <Text>Please re-enter your password:</Text>
+            <Text styles={styles.smallText}>Please re-enter your password:</Text>
             <TextInput
               placeholder={'Password'}
+              placeholderTextColor={colors.tabText}
               secureTextEntry={true}
               value={this.state.password2}
               onChangeText={(text) => this.updateTextInput(text, 'password2')}
+              style={styles.textInput}
             />
             <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.signUp()}>
               <Text style={styles.buttonNoFlexText}>Sign Up</Text>
@@ -190,13 +200,16 @@ class SignIn extends Component {
     }
 
     return (
-      <View style={styles.appContainer}>
-        <Text>Hello!</Text>
-        <Text>Welcome to the Serta Simmons children's smart mattress testing app.
-          Please sign in if you have an account or sign up if you are joining.
-        </Text>
+      <View style={styles.container}>
         {inUpOut}
-        {form}
+        <View style={styles.centerContainer}>
+          <Text style={styles.smallText}>Hello!</Text>
+          <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
+            Please sign in if you have an account or sign up if you are joining.
+          </Text>
+
+          {form}
+        </View>
       </View>
     )
   }

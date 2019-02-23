@@ -134,6 +134,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+  centerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+    paddingBottom: 150,
+    paddingHorizontal: 10,
+  },
+  form: {
+    margin: 30,
+  },
   header: {
     backgroundColor: colors.header,
   },
@@ -165,7 +176,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 24,
-    fontFamily: 'Futura'
+    fontFamily: 'Futura',
+    color: colors.descriptions,
   },
   title: {
     textAlign: 'center',
