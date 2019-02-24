@@ -120,13 +120,21 @@ class SignIn extends Component {
     let form; // input for signing in or up
     if (this.state.login) {
        inUpOut = (
-        <View style={styles.tripleToggle}>
-          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.logOut()}>
-            <Text style={styles.buttonNoFlexText}>Log Out</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonNoFlex} onPress={()=>this.props.navigation.navigate('Home')}>
-            <Text style={styles.buttonNoFlexText}>Home Screen</Text>
-          </TouchableOpacity>
+         <View>
+          <View style={styles.tripleToggle}>
+            <TouchableOpacity style={styles.button} onPress={()=>this.logOut()}>
+              <Text style={styles.buttonNoFlexText}>Log Out</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('Home')}>
+              <Text style={styles.buttonNoFlexText}>Home Screen</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.form}>
+            <Text style={styles.smallText}>Hello!</Text>
+            <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
+              Thank you for signing in. Visit the homescreen or logout above.
+            </Text>
+          </View>
         </View>);
     }
     else {
@@ -147,6 +155,10 @@ class SignIn extends Component {
 
       form = (this.state.signIn ? (
         <View style={styles.form}>
+          <Text style={styles.smallText}>Hello!</Text>
+          <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
+            Please sign in if you have an account or sign up if you are joining.
+          </Text>
           <TextInput
             placeholder={'Email'}
             placeholderTextColor={colors.tabText}
@@ -169,6 +181,10 @@ class SignIn extends Component {
         :
         (
           <View  style={styles.form}>
+            <Text style={styles.smallText}>Hello!</Text>
+            <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
+              Please sign in if you have an account or sign up if you are joining.
+            </Text>
             <TextInput
               placeholder={'Email'}
               placeholderTextColor={colors.tabText}
@@ -204,10 +220,7 @@ class SignIn extends Component {
       <View style={styles.container}>
         {inUpOut}
         <View style={styles.centerContainer}>
-          <Text style={styles.smallText}>Hello!</Text>
-          <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
-            Please sign in if you have an account or sign up if you are joining.
-          </Text>
+
 
           {form}
         </View>
