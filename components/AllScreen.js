@@ -40,7 +40,7 @@ class AllDetail extends Component {
           fixLabelOverlap
         />
         <VictoryAxis dependentAxis
-          label="Sleep"
+          label="Hours"
           domain={[0, 14]}
           style={{
             axis: {stroke: colors.axis},
