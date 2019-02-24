@@ -178,6 +178,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Futura',
     color: colors.descriptions,
+    borderBottomColor: colors.lightB,
+    borderBottomWidth: 3,
+    marginBottom: 20,
   },
   title: {
     textAlign: 'center',

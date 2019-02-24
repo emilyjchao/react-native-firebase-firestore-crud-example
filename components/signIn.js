@@ -184,7 +184,7 @@ class SignIn extends Component {
               onChangeText={(text) => this.updateTextInput(text, 'password')}
               style={styles.textInput}
             />
-            <Text styles={styles.smallText}>Please re-enter your password:</Text>
+            <Text style={styles.smallText}>Please re-enter your password:</Text>
             <TextInput
               placeholder={'Password'}
               placeholderTextColor={colors.tabText}
