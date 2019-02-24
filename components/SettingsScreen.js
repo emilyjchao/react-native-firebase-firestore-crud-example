@@ -105,6 +105,20 @@ export default class SettingsScreen extends React.Component {
 
   //This saves the current settings to Firestore
   saveSettings() {
+    if (this.state.user){
+      firebase.database().ref('userData/' + this.state.user.uid + '/Profile').update({
+          pooling: this.state.pooling,
+          notification: this.state.notification,
+          bedwetting: this.state.bedwetting,
+          restless: this.state.restless,
+          outofbed: this.state.outofbed,
+          asleep: this.state.asleep,
+        }).catch(error => {
+        console.log('Failed to add user: ' + error.code + error.message);
+      });
+    }
+
+    // updating on firestore (old)
     this.ref.update({
       pooling: this.state.pooling,
       notification: this.state.notification,
