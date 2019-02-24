@@ -1050,7 +1050,7 @@ class HomeScreen extends Component {
   render() {
     //Needed to navigate to other pages from Home Screen
     const {navigate} = this.props.navigation;
-    console.log("isLoading: " + this.state.isLoading);
+    //console.log("isLoading: " + this.state.isLoading);
     //Check there is data loaded
     if(!this.state.loggedIn){
       return(
