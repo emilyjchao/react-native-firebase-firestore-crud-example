@@ -228,7 +228,7 @@ class HomeScreen extends Component {
       h = 12;
     }
     h = h < 10 ? " " + h : h;
-    var replacement = h + " " + dd;
+    var replacement = h + dd + "   ";
     return replacement;
   }
 
