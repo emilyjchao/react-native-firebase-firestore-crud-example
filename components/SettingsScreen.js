@@ -146,7 +146,7 @@ export default class SettingsScreen extends React.Component {
       //Display the settings item list
       <ScrollView style={styles.container}>
       <View style={{backgroundColor:colors.background,flex:1}}>
-        <View style={{flex:1, marginTop:50}}>
+        <View style={{flex:1, marginTop:10}}>
           <SettingsList>
           <SettingsList.Header headerText='Profile' headerStyle={{color:colors.highlight, fontFamily: "Futura"}}/>
             <SettingsList.Item
@@ -174,7 +174,7 @@ export default class SettingsScreen extends React.Component {
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
               onPress={() => Alert.alert('Will Show Terms and Conditions of Use')}/>
-            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:colors.highlight, marginTop:50, fontFamily: "Futura"}}/>
+            <SettingsList.Header headerText='Notifications and Alerts' headerStyle={{color:colors.highlight, marginTop:15, fontFamily: "Futura"}}/>
             <SettingsList.Item
               titleInfo='Details'
               hasNavArrow={false}
