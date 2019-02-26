@@ -3,12 +3,12 @@ import { Alert, StyleSheet, ScrollView, ActivityIndicator, Image, View, Touchabl
 import { List, ListItem, Button } from 'react-native-elements';
 import { VictoryBar, VictoryLine, VictoryArea, VictoryChart, VictoryStack, VictoryScatter, VictoryTheme, VictoryAxis, LineSegment, VictoryLabel } from 'victory-native';
 import DayDetail from './DayScreen';
-import SummaryDetail from './SummaryScreen';
+import SummaryDetail from './WeekScreen';
 import MonthDetail from './MonthScreen';
 import Settings from './SettingsScreen';
 import Averages from './AveragesScreen';
 import AllDetail from './AllScreen';
-import SignIn from './signIn';
+import SignIn from './SignIn';
 import firebase from '../Firebase';
 import styles from './style';
 import colors from './colors';
