@@ -5,6 +5,7 @@
 ### Project members: Cristian Vences, Dan Choe, Emily Chao, Lily Hanig, Rachel Martin, & Sheppard Somers
 ### Advisor: Professor Geoffrey Luke
 Completed Fall 2018 and Winter 2019
+The sensor code that this application displays data from was created by Cristian Vences, Dan Choe, and Rachel Martin and is [here](https://github.com/rhmartin/sleep).
 
 # Overview
 Mobile interface for parents to learn more about and thereby improve their children's sleeping habits. This application displays our four metrics of time in bed, movement, bed exits, and bed wetting collected by our hardware product. It is part of a feasibility study for Serta Simmmons Bedding (SSB), as such  it features a complete user interface to view the data and logon, but is lacking in its algorithms and notifications. The application will allow the hardware and user experience to be tested as part of product development for SSB. It is currently set up to be run and built as an iOS application.
