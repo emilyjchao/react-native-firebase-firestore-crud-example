@@ -1,6 +1,7 @@
 # ENGS 90 Serta Simmons Bedding Children's Sleep Monitoring System Application
 ## Sponsor: JD Velilla at Serta Simmons
 ### Code by: Emily Chao & Sheppard Somers
+### Design: Emily Chao, Sheppard Somers, and Regina Yan<sup>[1](myfootnote1)</sup>
 ### Project members: Cristian Vences, Dan Choe, Emily Chao, Lily Hanig, Rachel Martin, & Sheppard Somers
 ### Advisor: Professor Geoffrey Luke
 Completed Fall 2018 and Winter 2019
@@ -198,5 +199,11 @@ Recommendation: Add a page for parents to input their child's information and ad
 **Recommendation:** Align visual layout more closely with existing SSB sleep tracking apps, slight background shading behind graph to give depth/section it off or possibly borders between sections to visually break up and compartmentalize the main views
 
 
+# Sources and Resources Consulted
+This application was began using the [React Native Firebase Tutorial: Build CRUD Firestore App](https://www.djamware.com/post/5bbcd38080aca7466989441b/react-native-firebase-tutorial-build-crud-firestore-app) tutorial as well as the [expo tutorial](https://docs.expo.io/versions/latest/workflow/up-and-running/) and [documentation](https://docs.expo.io/versions/v32.0.0/introduction/) and the [React Native Documentation](https://facebook.github.io/react-native/).
 
-This source code is part of [React Native Firebase Tutorial: Build CRUD Firestore App](https://www.djamware.com/post/5bbcd38080aca7466989441b/react-native-firebase-tutorial-build-crud-firestore-app) tutorial.
+Throughout development, the resources listed above were heavily relied upon. Portions of the code are taken rather directly from the documentation of these main technologies uses (React Native, Expo, and Firebase). Naturally, stack overflow and other general resources were used to answer specific questions throughout development. Most of these inquiries were very generic and/or basic and are not explicitly cited as it either came from the provided documentation or tutorial of the language/framework/dev tech/database or was a commonly known piece of code that could easily be expected to be known by someone familiar with the field.
+
+ Significant design assistance was provided by [Regina Yan](http://reginayan.me/index.html). As discussed in the ENGS 90 Final Design Report, the development was also user driver and special thanks is extended to those 60 user testers who have helped define the user experience and interface.
+
+ <a id="myfootnote1">1</a>:Emily and Sheppard developed the UI through user testing but significant design refinements were suggested by Regina Yan. She was consulted as a UI expert as the lead designer at Dali.
