@@ -32,15 +32,75 @@ After building the app, Xcode and the application uploader can be used to add th
 * Users will be notified of new builds by email by default and can download the new or updated version via the external link or through TestFlight.
 
 # Functionality
-This application displays the user's information on the four key metrics mentioned above, sleep, enters and exits, bed wetting, and movement, as well as comparisons to national averages* and various user settings**.
+This application displays the user's information on the four key metrics mentioned above, sleep, enters and exits, bed wetting, and movement, as well as comparisons to national averages* and various user settings. It also allows users to sign in to the application after creating an account. The information is intended to help parents monitor the four metrics to better understand their children's sleeping habits and improve them.
+
+To this end, the app contains four timespan views, a settings view, a sign in view, and a national averages page. In terms of react structure, the app navigates between the homescreen (4 timespan views), settings, sign in, and national averages, as well as a calibration components. The homescreen component has a tab view of the time spans and renders the appropriate component (day/week/month/all screen). Each of these files are described in detail below. The homescreen component carries out all of the data fetching and processing from the database. As per our main recommendations, this processing should be moved to the database so that download amounts are minimized.
+
+## Firebase Database
+The Google Firebase realtime database that our app and sensor suite interfaces with is: https://sleepdata-d5465.firebaseio.com/
+
+The database currently contains two concurrent structures. The hierarchy being phased out was structured for a single user and simply contained each night with the timestamps of sleep events under each night. The new hierarchy is under ‘userData’ and contains an object for each user, keyed by the unique user id (UID) created by Firebase authentication. Under each user, the structure mirrors the structure of the old hierarchy. The first level contains dates for each night of measured sleep. Under each date, the second hierarchy contains time-stamped array of sleep events. "enters" contains an array of Epoch timestamps for each bed enter, "exits" contains an array of Epoch timestamps for each bed exit, "movement" contains a string array of Epoch timestamps and corresponding restlessness averages (averages rolled up every threshold number of seconds as determined on the Arduino), and "wets" contains a string array of any bedwetting events. Although the app can handle missing "exits", "movement", and "wets" arrays, a missing or empty "enters" array will cause the night's data to be disregarded.
+
+## Mobile App and Code
+The Thayer team has delivered a GitHub repository link to all project code, a mobile app published on Apple TestFlight, administrative access to a Google Firebase database containing test data, and this Go-Forward Plan to SSB. Our app is programmed in React Native, uses Expo, interfaces with Google Firebase, and visualizes graphs with the Formidable Labs Victory Native package. The code is well-commented, but in summary it contains 13 main files:
+
+### ```AllScreen.js```
+This file is located in the components folder and is a component of HomeScreen.js. It contains the rendering code for the "All" data view page. In this view, a full data report of sleep is reported in a stacked bar graph showing the number of hours asleep, awake, and napping for each day. By clicking on a bar, the user can switch the daily details displayed under the "Sleep" title. By clicking on those daily details, the user is transported to the daily view, as rendered in "DayScreen.js". Below the sleep graph, line graphs showing data trends are shown for movement, bed exits, and bedwetting. The movement chart graphs the daily movement average, ranked on a scale of 0 to 100. The bed exits graph shows the daily amount of times the user exited the bed each night over time, and the bedwetting graph shows the daily number of bedwets. Finally, averages for each night's sleep duration, movement, bed exits, and bedwetting events is provided for the full data range.
+
+### ```AveragesScreen.js```
+This file is located in the components folder. It contains the rendering code for the national averages comparison, accessible by the white graph button on the right header of the app. Bar graphs showing the child's all-time averages compared to the national averages for their age demographic are shown for sleep duration, movement, nightly bed exits, and nightly bedwetting events. On the sleep duration chart, a line showing the recommended hours of sleep for the child is also drawn. Currently, the national averages and recommended sleep duration are hard-coded in. Moving forward, SSB should calculate these national averages from the data of all their users and consult with sleep doctors to determine the recommended sleep for each unique child.
+
+### ```CalibrateScreen.js```
+This file is located in the components folder. It is navigated to through the "Calibrate Tracker" button on the Settings page. The calibrate screen displays information for calibrating the sleep system. A child should lie on the bed in a normal sleep position and press the calibrate button. This writes a "1" to the Profile/calibrate variable in the Firebase database. When this equals 1, the sensor suite records the load cell readings to create a reference of how much the child and mattress weigh. After saving this reading, the sensor suite rewrites the Firebase variable to 0.
+
+### ```colors.js```
+This file is located under the components folder. It contains the color variables for all app graphics. It is used to facilitate changing colors on the style sheet and Victory Graphs. The graphs cannot receive a style component from the stylesheet so colors are hardcoded into each graph, the color object is used to keep these in one easy to edit place.
+
+### ```DayScreen.js```
+This file is located under the components folder and is a component of HomeScreen.js. It contains the rendering code for the "Day" data view page. Before rendering the graphics, the file computes two arrays for the sleep graph, ySleep and in_out. ySleep contains the timestamps of each enter or exit for the night. in_out contains a 0 if the user left the bed at the corresponding time in ySleep, or a 1 if the user entered the bed at the time. Both of these arrays are pushed to sleepData in order to be viewed graphically. In terms of graphics, the page renders a sleep graph displaying the total duration of sleep along with sleep times. Times where the user was in bed asleep are shaded blue, and times whee the user was out of bed or not asleep are not shaded. Underneath, a line graph showing all movement readings over the night is drawn along with a movement average on a 0-100 scale. The number and times of bedwets and bed exits are also included.
+
+### ```HomeScreen.js```
+This file is located under the components folder. It contains the main processing and navigation code for our app. It also is the main file interfacing with the Google Firebase database. There are three main functions. The first, toggleTutorial() allows the user to turn tutorial mode on and off by pressing the white i button on the left header. When tutorial is toggled on, white text appears on each screen walking the user through the different app functions. The second, toggleABtest(), allows the user to toggle between sleep graphs on the "Week" and "Month" views by pressing the views button on the left header. The default view shows a graph of the sleep durations for each night. The second view shows a sleep graph with timestamped bedtimes and waketimes for each night. The final and most important function, fetchData(), references the onFetchData variable.
+
+This variable is a snapshot of the Firebase database. First, the function scans through the Firebase hierarchy, only reading sleep data from objects labeled as dates in string form "m-d-yyyy". It reformats the string data as a date object, and fills in empty data for days that are missing from the database. Next, it maps the enters, exits, wets, and movement arrays from the database into corresponding arrays in React Native. In the middle of our project, we encountered an error with sending timestamps in 10 digit vs 13 digit Epoch time. To catch this error, we append three 0s to all 10 digit timestamps that are read in. Effectively, this is setting the milliseconds of the timestamp to 0 if they do not already exist.
+
+For our data cleaning, we check that enters and exits exist, and that there are the correct number of corresponding enters and exits. If not enough enters exist, we fill a fake enter halfway between the two consecutive exits. If not enough exits exist, we fill a fake exit halfway between the two consecutive enters. If the child is still in bed, we display their sleep data through the current time. We calculate sleep times and durations by looking at the difference between consecutive exits and enters. If the time difference is greater than a hard-coded "asleepThreshold", and if the average restlessness in the five minutes after entering bed is lower than a hard-coded "restlessThresh", we consider the user asleep. If the sleep period is less than four hours in length and between the hours of 10 am and 6 pm, we categorize the sleep as napping. Awake, asleep, and napping times and durations are used in our data visualizations in other components.
+
+All data for each night is pushed to the nightData array and eventually saved in state as boards. Each board contains the day (string date from Firebase), dateLabel (mm-dd string date), exited (array of exit timestamps), enters (array of enter timestamps), bedwet (array of bedwet timestamps), sleep (number of hours of sleep for the night), restTime (array of timestamps corresponding to each restNum), restNum (array of restlessness averages throughout the night), inBed (total time in bed from first enter to last exit), dayLabel (label associated with the day of the week Sun-Sat), awake (total time between first enter and last exit where the child is awake), naps (total time napping), restlessAvg (average restlessness per night).
+
+In addition to boards, other state data includes displayBoards (only the boards displayed by the Week component), monthBoards (only the boards displayed by the month component), dateDic (a dictionary of all dates from Firebase), picked (an index showing which board is being displayed by the day component), firstRun (a variable used in setting our default views upon opening the app), and isLoading (a boolean to render graphics after data is loaded).
+
+We also calculate averages, convert timestamps to readable formats, allow the user to scan through days/weeks/months, and execute other functionality in the file. At the end of the file, we set up the functionality to toggle between day, week, month, and all data views.
+
+### ```MonthScreen.js```
+This file is located under the components folder and is a component of HomeScreen.js. It contains the rendering code for the "Month" data view page. Before rendering the graphics, the file sets up offsetData, the array containing information for the second toggleable view of the sleep graph. This array contains information about bedtimes, waketimes, and labels for the second toggleable graph.
+
+Depending on the view toggle state, the file first draws a bar chart showing either total sleep duration for each night or the bedtimes/waketimes for each night. Like in AllScreen.js, clicking on bars and bar details allows the user to view daily sleep details or the day page. Underneath the sleep chart, monthly averages for sleep duration, movement, bedwets per night, and bed exits per night are displayed.
+
+### ```SettingsScreen.js```
+This file is located under the components folder. It contains the rendering code for the settings page and is accessible by clicking the settings gear on the left header. Currently, the settings screen displays the current user, allows the parent to calibrate their tracker, and enables customizable notification settings for various sleep events. At the bottom of the page, a "Save Settings" button allows the user to change their notification preferences stored in the Firebase database. "Log out" allows them to log out of their account. Going forward, the notification settings saved in Firebase should be used to customize when notifications are sent to the user. A privacy agreement, child details screen, and method of adding children to the parent's account should also be implemented.
+
+### ```SignIn.js```
+This file is located under the components folder. It contains the logic and rendering code for the sign-in page and multiple user functionality. User accounts are username and password protected in order to address privacy concerns.
+
+### ```style.js```
+This file is located under the components folder. It contains the different style variables used throughout the app.
+
+### ```WeekScreen.js```
+This file is located under the components folder and is a component of HomeScreen.js. It contains the rendering code for the "Week" data view page. Before rendering the graphics, the file computes an offsetData array similar to that in month which contains the processed data for the second toggleable view of the sleep graph. In terms of graphics, this file renders a graph showing either sleep duration or bedtimes/waketimes for each night of the week. Below, it displays weekly averages for sleep duration, movement, bedwets per night, and bed exits per night.
+
+### ```App.js```
+This file contains the root stack for our app. It also sets up the beginning notification-handling structure. Currently, the app prompts users to register for push notifications with Expo. Using Expo's test push notification server, the developers can manually send notifications to specific users. However, this functionality has not been fully built out with the app on Apple TestFlight. In addition, we have not programmed any back-end logic for sending user notifications or referring to user notification preferences.
+
+### ```Firebase.js```
+This file contains the Firebase database connection information for our app. By changing this file, SSB can change which database the app interfaces with. All configuration ID details are easily found on Firebase.
 
 # Recommended Improvements
 Moving forward, we recommend that Serta Simmons make several changes to the logic of our sleep algorithms and app, data visualization, and database structure. At the highest level we have generally implemented the front-end, but have not created any logic on the server side. This is the most pressing addition. The server should include logic for better processing data from the arduino and serve specific data to the app rather than all at once.
 ## Database:
 ### Current Structure
 The current database contains the following hierarchy:
- ```./sleep-Data/userData/[uniqueUID]/[String “mm-dd-yyyy”]/[event type]/[array of timestamps for event]```
-```[uniqueUID]/Profile/[various settings]/[0 or 1]```
+![](./ReadmeImages/DatabaseGenericLevels.png)
 
 The database contains no functions, is not cost optimized (does not minimize download), cannot send notifications, and is only partially password protected.
 ### Read/Write
@@ -55,7 +115,7 @@ The database contains no functions, is not cost optimized (does not minimize dow
 Firebase charges for the number of GB stored as well as the number of downloads. Downloads are currently very high as discussed above, which drives almost all of the costs.		
  The formula is the sum of the cost of storing data as it accrues and the average downloads per month.
 
-	$ per user per yr = (stored MB/mo.)*(sum(1-12))*($0.005/MB) + (downloads MB/mo.)*($0.001/MB)
+	cost per user per yr = (stored MB/mo.)\*(sum(1-12))\*($0.005/MB) + (downloads MB/mo.)\*($0.001/MB)
 
   | Data Structure | Data/mo. (MB) | Downloads/mo. (MB) | Cost ($/yr) |
 |----------------|---------------|--------------------|-------------|
