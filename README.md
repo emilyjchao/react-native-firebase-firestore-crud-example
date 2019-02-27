@@ -1,7 +1,7 @@
 # ENGS 90 Serta Simmons Bedding Children's Sleep Monitoring System Application
 ## Sponsor: JD Velilla at Serta Simmons
 ### Code by: Emily Chao & Sheppard Somers
-### Design: Emily Chao, Sheppard Somers, and Regina Yan<sup>[1](#myfootnote1)</sup>
+### Design: Emily Chao, Sheppard Somers, and Regina Yan<sup id="fnl1">[1](#fn1)</sup>
 ### Project members: Cristian Vences, Dan Choe, Emily Chao, Lily Hanig, Rachel Martin, & Sheppard Somers
 ### Advisor: Professor Geoffrey Luke
 Completed Fall 2018 and Winter 2019
@@ -206,4 +206,4 @@ Throughout development, the resources listed above were heavily relied upon. Por
 
  Significant design assistance was provided by [Regina Yan](http://reginayan.me/index.html). As discussed in the ENGS 90 Final Design Report, the development was also user driver and special thanks is extended to those 60 user testers who have helped define the user experience and interface.
 
- <a id="myfootnote1">1</a>: Emily and Sheppard developed the UI through user testing but significant design refinements were suggested by Regina Yan. She was consulted as a UI expert as the lead designer at Dali.
+ <a id="fn1">1</a>: Emily and Sheppard developed the UI through user testing but significant design refinements were suggested by Regina Yan. She was consulted as a UI expert as the lead designer at Dali.[↩](#fnl1)
