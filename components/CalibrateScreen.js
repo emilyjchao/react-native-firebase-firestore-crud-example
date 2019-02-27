@@ -61,8 +61,8 @@ class CalibrateScreen extends Component {
         <Text style={styles.tripletText}>{"\n"}{"\n"}Instructions{"\n"}</Text>
         <Text
           style={styles.brightText}>  Please calibrate the system.
-          Once your child is lying on the bed in a sleep position, press 'Calibrate'.
-          This will set the default night-time bed weight.{"\n"}{"\n"}
+          Once the child is sitting on the edge of the bed, press 'Calibrate'.
+          This will set the default threshhold for identifying if the child is in bed.{"\n"}{"\n"}
         </Text>
         //Set calibrate in firebase
         <Button
