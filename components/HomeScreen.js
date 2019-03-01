@@ -115,7 +115,7 @@ class HomeScreen extends Component {
     //   this.props.navigation.push('SignIn');
     // }
 
-    firebase.auth().onAuthStateChanged(user => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now!");
@@ -141,6 +141,13 @@ class HomeScreen extends Component {
       }
     });
 
+  }
+
+  componentWillUnmount(){
+    //firebase.auth().off();
+    if (this.unsubscribe){
+      this.unsubscribe();
+    }
   }
 
   checkCalibration(user) {
@@ -1105,7 +1112,8 @@ class HomeScreen extends Component {
         <View style={styles.centerContainer}>
           <View style={{marginTop: 80}}/>
           <Text style={styles.smallTextMarg}>You don't have any data yet, please
-            set up the product and wait for your first night of data.
+            set up the product and wait for your first night of data. If you have already set up your device,
+            your data should arrive in the morning.
           </Text>
           <Text style={styles.smallTextMarg}>
             To set up your device please first connect it to WiFi by powering the device
