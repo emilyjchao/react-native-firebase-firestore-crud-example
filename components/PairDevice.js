@@ -114,7 +114,15 @@ class PairDevice extends Component {
       page = (
         <View>
         <Text style={styles.title}>Congrats! Your device is now connected.</Text>
-        <Text style={styles.smallText}>You will receive data in the morning. Go to:</Text>
+        <Text style={styles.smallTextMarg}>You will receive data in the morning. Please
+          calibrate your device with your child now.
+        </Text>
+        <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=> navigate('Calibrate')}>
+          <Text style={styles.buttonNoFlexText}>Calibrate</Text>
+        </TouchableOpacity>
+        <Text style={styles.smallTextMarg}>If your child is not available to sit on the edge of
+          the bed for calibrating at this time, return to:
+        </Text>
         <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=> navigate('Settings')}>
           <Text style={styles.buttonNoFlexText}>Settings</Text>
         </TouchableOpacity>

@@ -81,6 +81,7 @@ class HomeScreen extends Component {
       ABtest: 1,  // AB testing variable, 1 or 2
       loggedIn: false, // updated by the listener on auth state changes
       user: null, // store the auth instance of the user
+      calibrated: true,
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
@@ -92,6 +93,7 @@ class HomeScreen extends Component {
     this.moreDays = this.moreDays.bind(this);
     this.toggleTutorial = this.toggleTutorial.bind(this);
     this.toggleABtest = this.toggleABtest.bind(this);
+    this.checkCalibration = this.checkCalibration.bind(this);
 
   }
 
@@ -119,6 +121,7 @@ class HomeScreen extends Component {
         console.log("Auth state is logged in Now!");
         this.setState({loggedIn: true, user: user});
         this.fetchData();
+        this.checkCalibration(user);
       } else {
         // User is signed out.
         console.log("Auth state is logged out now!");
@@ -140,6 +143,31 @@ class HomeScreen extends Component {
 
   }
 
+  checkCalibration(user) {
+    const {navigate} = this.props.navigation;
+    if (user.uid){
+      firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
+        if (snapshot.val() == 2) {
+          this.setState({calibrated: true});
+        }
+        // else if (snapshot.val() == 1) {
+        //   this.setState({sent: true});
+        // }
+        if (snapshot.val() == 0) {
+          this.setState({sent: false, calibrated: false});
+
+          Alert.alert(
+            'Calibrate',
+            'Please calibrate system',
+            [{text: 'Calibrate Now', onPress: () => {
+              navigate('Calibrate');
+            }}])
+        }
+       console.log('On homescreen, checking calibration' + snapshot.val());
+       //this.setState({added: snapshot.val()})
+      });
+    }
+  }
 
   //wrapper so that state can be set from onFetchData
   fetchData() {
@@ -1165,8 +1193,25 @@ class HomeScreen extends Component {
       AB={this.state.ABtest}
     />);}
 
+    // if not calibrated state and urge to calibrate
+    let calib;
+    if (!this.state.calibrated) {
+      calib = (
+        <View>
+          <Text style={styles.smallTextMarg}>
+            Your device is not calibrated.
+          </Text>
+          <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=> navigate('Calibrate')}>
+            <Text style={styles.buttonNoFlexText}>Calibrate Now</Text>
+          </TouchableOpacity>
+        </View>)
+    }
+
+
+
     return (
       <View style={styles.container}>
+      {calib}
       <View style={styles.tripleToggle}>
         <TouchableOpacity
           onPress = {()=> this.setState({day: 1})}
