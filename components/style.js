@@ -37,6 +37,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 10,
   },
+  buttonNoFlexMarg: {
+    alignItems: 'center',
+    borderRadius: 3,
+    borderColor: colors.tabs,
+    borderWidth: 1,
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
   buttonNoFlexText:{
     textAlign: 'center',
     fontSize: 18,

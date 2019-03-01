@@ -10,6 +10,7 @@ import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
 import SummaryScreen from './components/WeekScreen';
 import SignIn from './components/SignIn';
+import PairDevice from './components/PairDevice';
 import {Constants, Permissions, Notifications} from 'expo';
 //import {styles} from './componenents/style';
 import colors from './components/colors';
@@ -33,6 +34,7 @@ const RootStack = createStackNavigator(
     Calibrate: CalibrateScreen,
     Averages: AveragesScreen,
     SignIn: SignIn,
+    Pair: PairDevice,
   },
   {
     initialRouteName: 'Home',

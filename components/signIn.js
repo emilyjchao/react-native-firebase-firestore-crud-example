@@ -20,6 +20,7 @@ class SignIn extends Component {
       password2: null,
       signIn: true, // state for sign in v. logon
       login: false, // state for logged in user
+      justSignedUp: false,
     }
     this.signIn = this.signIn.bind(this);
   }
@@ -30,6 +31,15 @@ class SignIn extends Component {
         // User is signed in.
         console.log("Auth state is logged in Now!");
         this.setState({login: true, email: user.email});
+        // if the user just signed up then add their branch to the database
+        if(this.state.justSignedUp){
+          firebase.database().ref('userData/' + user.uid + '/Profile').update(
+            {'hasD': false}
+          ).catch(error => {
+            console.log('Failed to add user: ' + error.code + error.message);
+          });
+          this.setState({justSignedUp: false});
+        }
         //this.props.navigation.navigate('Home');
       } else {
         // User is signed out.
@@ -74,6 +84,7 @@ class SignIn extends Component {
         console.log("ERROR adding user:" + error.code);
         console.log(error.message);
       });
+      this.setState({justSignedUp: true});
     }
     else {
       console.log("Passwords do not match or email is invalid.");

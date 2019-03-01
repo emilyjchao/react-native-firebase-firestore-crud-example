@@ -190,6 +190,13 @@ export default class SettingsScreen extends React.Component {
               onPress={() => Alert.alert('Will Allow User to Add Child to Account')}
               />
             <SettingsList.Item
+              title="Add Tracker"
+              hasNavArrow={true}
+              titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
+              backgroundColor={colors.background}
+              onPress={() => navigate('Pair')}
+              />
+            <SettingsList.Item
               title='Calibrate Tracker'
               backgroundColor={colors.background}
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
