@@ -182,6 +182,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Futura',
     color: colors.descriptions,
   },
+  smallTextMarg: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: colors.descriptions,
+    marginVertical: 10,
+  },
   textInput: {
     fontSize: 24,
     fontFamily: 'Futura',
