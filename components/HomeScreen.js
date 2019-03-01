@@ -1120,18 +1120,17 @@ class HomeScreen extends Component {
           <Text style={styles.smallTextMarg}>
             To set up your device please first connect it to WiFi by powering the device
             up and connecting your phone the WiFi network 'ESP####' (where #### is some number)
-            on your phone. After connecting wait for a new page to pop up while still in Settings, follow the instructions there.
-            Once that page  closes return here.
+            on your phone.
+          </Text>
+          <Text style={styles.smallTextMarg}>
             Connecting will redirect you to a page to add you network name and
-            password. This will connect the device to the internet.
+            password. This will connect the device to the internet. Once the wifi returns to your normal
+            settings page and wifi network, return here.
           </Text>
           <Text style={styles.smallTextMarg}>
             Once you have connected the device to the internet navigate to settings and click
-            'Add tracker'. Follow the instructions on that page. Or go directly:
+            'Add tracker'. Follow the instructions on that page.
           </Text>
-          <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=> navigate('Pair')}>
-            <Text style={styles.buttonNoFlexText}>Add Tracker</Text>
-          </TouchableOpacity>
           <Text style={styles.smallTextMarg}>
             If you have already added your tracker then just wait for data!
           </Text>
