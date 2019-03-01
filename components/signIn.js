@@ -232,7 +232,6 @@ class SignIn extends Component {
         {inUpOut}
         <View style={styles.centerContainer}>
 
-
           {form}
         </View>
       </View>
