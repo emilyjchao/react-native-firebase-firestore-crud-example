@@ -25,8 +25,9 @@ class SignIn extends Component {
     this.signIn = this.signIn.bind(this);
   }
 
+
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now!");
@@ -44,11 +45,18 @@ class SignIn extends Component {
       } else {
         // User is signed out.
         console.log("Auth state is logged out now!");
-        this.setState({login: false});
+        //this.setState({login: false});
         // ...
       }
     });
 
+  }
+
+  componentWillUnmount(){
+    //firebase.auth().off();
+    if (this.unsubscribe){
+      this.unsubscribe();
+    }
   }
 
   updateTextInput = (text, field) => {

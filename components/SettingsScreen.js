@@ -89,7 +89,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         // console.log("Auth state is logged in Now!");
@@ -101,6 +101,13 @@ export default class SettingsScreen extends React.Component {
         this.props.navigation.push('SignIn');
       }
     });
+  }
+
+  componentWillUnmount(){
+    //firebase.auth().off();
+    if (this.unsubscribe){
+      this.unsubscribe();
+    }
   }
 
   //This saves the current settings to Firestore

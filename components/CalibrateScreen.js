@@ -18,12 +18,13 @@ class CalibrateScreen extends Component {
       isLoading: true,
       calibrated: null,
       sent: false,
+      user: null,
     };
   }
 
   componentDidMount() {
     const {navigate} = this.props.navigation;
-    firebase.auth().onAuthStateChanged(user => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now! Add Tracker");
@@ -35,31 +36,35 @@ class CalibrateScreen extends Component {
         //  this.setState({added: snapshot.val()})
         // });
         firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
-          if (snapshot.val() == 2) {
-            this.setState({calibrated: true});
-            Alert.alert(
-              'Calibrated',
-              'System calibrated',
-              [{
-                text: 'Return Home', onPress: () => {
-                navigate('Home'); }
-              },
-              {
-                text: 'Re-Calibrate'
-              }
-            ]);
+          console.log('snapshot' + snapshot);
+          //console.log(snapshot.val());
+          if (snapshot != undefined) {
+            if (snapshot.val() == 2) {
+              this.setState({calibrated: true});
+              Alert.alert(
+                'Calibrated',
+                'System calibrated',
+                [{
+                  text: 'Return Home', onPress: () => {
+                  navigate('Home'); }
+                },
+                {
+                  text: 'Re-Calibrate'
+                }
+              ]);
+            }
+            else if (snapshot.val() == 1) {
+              this.setState({sent: true});
+            }
+            console.log(snapshot.val());
+            this.setState({added: snapshot.val()})
           }
-          else if (snapshot.val() == 1) {
-            this.setState({sent: true});
-          }
-         console.log(snapshot.val());
-         this.setState({added: snapshot.val()})
         });
 
       } else {
         // User is signed out.
         // console.log("Auth state is logged out now! Add tracker");
-        this.setState({login: false});
+        //this.setState({login: false});
         // ...
       }
     });
@@ -69,6 +74,21 @@ class CalibrateScreen extends Component {
     });
 
   }
+
+
+  componentWillUnmount(){
+    //firebase.auth().off();
+    if (this.unsubscribe){
+      this.unsubscribe();
+    }
+  }
+  // componentWillUnmount(){
+  //   //firebase.auth().off();
+  //   if (this.state.user){
+  //     firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').off();
+  //   }
+  //
+  // }
 
   //Check if component mounted
   // componentDidMount() {
