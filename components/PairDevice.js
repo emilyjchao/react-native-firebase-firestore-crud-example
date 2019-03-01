@@ -38,7 +38,7 @@ class PairDevice extends Component {
         //  console.log(snapshot.val());
         //  this.setState({added: snapshot.val()})
         // });
-        firebase.database().ref('userData/' + this.state.user.uid + '/Profile/asleep').on('value', (snapshot) => {
+        firebase.database().ref('userData/' + this.state.user.uid + '/Profile/hasD').on('value', (snapshot) => {
          console.log(snapshot.val());
          this.setState({added: snapshot.val()})
         });
@@ -155,7 +155,7 @@ class PairDevice extends Component {
             style={styles.textInput}
           />
           <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=>this.sendDUID()}>
-            <Text style={styles.buttonNoFlexTextMarg}>Submit</Text>
+            <Text style={styles.buttonNoFlexText}>Submit</Text>
           </TouchableOpacity>
         </View>);
     }
