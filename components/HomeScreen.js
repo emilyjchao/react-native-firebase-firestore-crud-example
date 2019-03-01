@@ -1111,14 +1111,18 @@ class HomeScreen extends Component {
       return(
         <View style={styles.centerContainer}>
           <View style={{marginTop: 80}}/>
+          <Text style={styles.title}>Please follow all of these instructions.
+          </Text>
           <Text style={styles.smallTextMarg}>You don't have any data yet, please
             set up the product and wait for your first night of data. If you have already set up your device,
             your data should arrive in the morning.
           </Text>
           <Text style={styles.smallTextMarg}>
             To set up your device please first connect it to WiFi by powering the device
-            up and connecting the wifi network 'ESP####' (where #### is some number)
-            on your phone. Connecting will redirect you to a page to add you network name and
+            up and connecting your phone the WiFi network 'ESP####' (where #### is some number)
+            on your phone. After connecting wait for a new page to pop up while still in Settings, follow the instructions there.
+            Once that page  closes return here.
+            Connecting will redirect you to a page to add you network name and
             password. This will connect the device to the internet.
           </Text>
           <Text style={styles.smallTextMarg}>
