@@ -22,6 +22,7 @@ class PairDevice extends Component {
       signIn: true, // state for sign in v. logon
       login: false, // state for logged in user
       deviceUID: null, // unique device id
+      sent: false,
     }
     this.sendDUID = this.sendDUID.bind(this);
   }
@@ -82,6 +83,7 @@ class PairDevice extends Component {
       ).catch(error => {
         console.log('Failed to add user: ' + error.code + error.message);
       });
+      this.setState({sent: true});
       //console.log("Sent to server." + this.state.deviceUID);
     }
   }
@@ -110,6 +112,19 @@ class PairDevice extends Component {
     //this.props.navigation.push('Home');
     const {navigate} = this.props.navigation;
     let page;
+
+    let button;
+    if (this.state.sent){
+      button = (<ActivityIndicator size="large" color={colors.highlight}/> )
+    }
+    else {
+      button = (
+        <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=>this.sendDUID()}>
+          <Text style={styles.buttonNoFlexText}>Submit</Text>
+        </TouchableOpacity>
+        )
+    }
+
     if (this.state.added){
       page = (
         <View>
@@ -143,13 +158,11 @@ class PairDevice extends Component {
     else {
       page = (  <View style={styles.form}>
           <Text style={styles.smallText}>Welcome to your new device!</Text>
-          <Text style={styles.smallText}>
+          <Text style={styles.smallTextMarg}>
             Please first complete the instructions to connect your device to your
-            network. Power on device, it will create a wifi network. Join the wifi
-            network and you will be redirected to enter the name and password for
-            your wifi. This will ensure the device is connected to the internet.
+            network.
             </Text>
-            <Text style={styles.smallText}>
+            <Text style={styles.smallTextMarg}>
             Please enter the device unique identification (DUID) string shown on
             packaging and mattress. Then press "Submit". This will set up our server
              to pair your account with your device. There will be no confirmation here.
@@ -162,9 +175,7 @@ class PairDevice extends Component {
             onChangeText={(text) => this.updateTextInput(text, 'deviceUID')}
             style={styles.textInput}
           />
-          <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={()=>this.sendDUID()}>
-            <Text style={styles.buttonNoFlexText}>Submit</Text>
-          </TouchableOpacity>
+          {button}
         </View>);
     }
 

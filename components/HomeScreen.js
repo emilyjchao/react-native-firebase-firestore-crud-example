@@ -1111,8 +1111,9 @@ class HomeScreen extends Component {
       return(
         <View style={styles.centerContainer}>
           <View style={{marginTop: 80}}/>
-          <Text style={styles.title}>Please follow all of these instructions.
+          <Text style={styles.title}>Welcome to your new smart mattress!
           </Text>
+          <Text style={styles.smallTextMarg}>Please follow all of these instructions.</Text>
           <Text style={styles.smallTextMarg}>You don't have any data yet, please
             set up the product and wait for your first night of data. If you have already set up your device,
             your data should arrive in the morning.
