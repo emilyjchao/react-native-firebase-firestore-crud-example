@@ -5,6 +5,14 @@ import firebase from '../Firebase';
 import styles from './style';
 import colors from './colors';
 
+
+//This file collects the unique device id (DUID) and adds the signed in user’s
+// UID to the database under ./Pairing/[DUID]/UID: [UID]. The file confirms
+// this pairing when ./userData/[UID]/Profile/hasD is set to true. The page
+// displays a confirmation screen with multiple options, but the alert from
+// homescreen regarding calibration will trigger on top of this page. This
+// is a bug that should be worked out to allow the user to proceed to
+// calibration if they choose.
 class PairDevice extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -60,21 +68,7 @@ class PairDevice extends Component {
     this.setState(state);
   }
 
-  // from : https://stackoverflow.com/questions/43676695/email-validation-react-native-returning-the-result-as-invalid-for-all-the-e
-  emailValidate = (text) => {
-    // console.log(text);
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-    if (reg.test(text) === false) {
-      // console.log("Email is Not Correct");
-      return false;
-    }
-    else {
-      // console.log("Email is Correct");
-      return true;
-    }
-  }
-
-
+  // send the unique device id to the database under the pairing tab
   sendDUID() {
     //console.log('user: ' + this.state.user.uid);
     if (this.state.deviceUID && this.state.user.uid){
@@ -94,25 +88,12 @@ class PairDevice extends Component {
   }
 
 
-// Messing with user protected data and writing to the database
-  // moveToUser() {
-  //   // if no user return nothing and do nothing
-  //   if( !this.state.user ) {
-  //     return();
-  //   }
-  //   // move first night of data to a key under uid
-  //   // firebase.database().ref('userData/' + this.state.user.uid + '/' + this.state.boards[0].).set
-  //
-  // }
-
-
-
-
   render() {
     //this.props.navigation.push('Home');
     const {navigate} = this.props.navigation;
     let page;
 
+    // show loading after DUID is sent, but confirmation is not received
     let button;
     if (this.state.sent){
       button = (<ActivityIndicator size="large" color={colors.highlight}/> )
@@ -125,6 +106,9 @@ class PairDevice extends Component {
         )
     }
 
+    // after pairing show instructions
+    // this is currently overwritten by the alert that pops up from the homescreen (we believe)
+    // but homescreen also shows instructions so its not terrible
     if (this.state.added){
       page = (
         <View>
@@ -155,6 +139,7 @@ class PairDevice extends Component {
         </View>
       );
     }
+    // input area for the unique device id
     else {
       page = (  <View style={styles.form}>
           <Text style={styles.smallText}>Welcome to your new device!</Text>
@@ -183,7 +168,6 @@ class PairDevice extends Component {
       <View style={styles.container}>
         <View style={styles.centerContainer}>
         {page}
-
         </View>
       </View>
     )
