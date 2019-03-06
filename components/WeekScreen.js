@@ -277,12 +277,12 @@ class WeekDetail extends Component {
           <Button
             buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
-            onPress={() => this.props.changeWeek(-1)}
+            onPress={() => {this.setState({picked: 0}); this.props.changeWeek(-1);}}
           /> :
           <Button
             buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
-            onPress={() => this.props.changeWeek(-1)}
+            onPress={() => {}}
           />
         }
         <Text style={styles.tripletText}>Week of {this.props.boards[0].day}</Text>
@@ -290,12 +290,12 @@ class WeekDetail extends Component {
           <Button
             buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-forward', style: { marginRight: 0, fontSize: 28, color: colors.triplet} }}
-            onPress={() => this.props.changeWeek(1)}
+            onPress={() => {this.setState({picked: 0}); this.props.changeWeek(1);}}
           /> :
           <Button
             buttonStyle={styles.tripletButton}
             icon={{ name: 'arrow-back', style: { marginRight: 0, fontSize: 28, color: 'transparent'} }}
-            onPress={() => this.props.changeWeek(1)}
+            onPress={() => {}}
           />
         }
         </View> // end of triplets view
