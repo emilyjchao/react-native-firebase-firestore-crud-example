@@ -35,12 +35,12 @@ async function register(){
 //Create app root navigation stack
 const RootStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: HomeScreen, // pulls data and renders each visualization component
     Settings: SettingsScreen,
-    Calibrate: CalibrateScreen,
-    Averages: AveragesScreen,
-    SignIn: SignIn,
-    Pair: PairDevice,
+    Calibrate: CalibrateScreen, // set calibrate to 1 in firebase for user profile to calibrate device
+    Averages: AveragesScreen, // national averages
+    SignIn: SignIn, // sign in and sign up screens 
+    Pair: PairDevice, // pair hardware with user account
   },
   {
     initialRouteName: 'Home',
