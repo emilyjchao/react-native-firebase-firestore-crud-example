@@ -36,7 +36,7 @@ class PairDevice extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    this.unsubAuth = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now! Add Tracker");
@@ -47,7 +47,7 @@ class PairDevice extends Component {
         //  console.log(snapshot.val());
         //  this.setState({added: snapshot.val()})
         // });
-        firebase.database().ref('userData/' + this.state.user.uid + '/Profile/hasD').on('value', (snapshot) => {
+        this.unsubHasD = firebase.database().ref('userData/' + this.state.user.uid + '/Profile/hasD').on('value', (snapshot) => {
          console.log(snapshot.val());
          this.setState({added: snapshot.val()})
         });
@@ -62,6 +62,14 @@ class PairDevice extends Component {
 
   }
 
+  componentWillUnmount() {
+    if (this.unsubAuth){
+      this.unsubAuth();
+    }
+    if (this.unsubHasD){
+      this.unsubHasD();
+    }
+  }
   updateTextInput = (text, field) => {
     const state = this.state;
     state[field] = text;

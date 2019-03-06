@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import colors from './colors';
 
-
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
@@ -161,6 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 44,
   },
+  // unfortunately cannot style charts from this file 
   // chartData: {
   //   fill: '#39BAB1',
   // },

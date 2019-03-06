@@ -13,8 +13,14 @@ import firebase from '../Firebase';
 import styles from './style';
 import colors from './colors';
 
+// See readme for description
+// this file pulls all the data, processes it, performs our rudimentary sleep
+// algorithm and renders each visualization timeframe component, as well as the tabs
+// at the top of the screen
+
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    // have to use params to pass wrapper function to change component state from header
     const {params = {}} = navigation.state;
       return {
         //Draw settings and add child buttons on header of screen
@@ -83,6 +89,7 @@ class HomeScreen extends Component {
       user: null, // store the auth instance of the user
       calibrated: true,
     };
+
     this.onFetchData = this.onFetchData.bind(this);
     this.goToDay = this.goToDay.bind(this);
     this.changeDay = this.changeDay.bind(this);
@@ -115,6 +122,7 @@ class HomeScreen extends Component {
     //   this.props.navigation.push('SignIn');
     // }
 
+    // subscribe for sign in/out events
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
@@ -143,17 +151,23 @@ class HomeScreen extends Component {
 
   }
 
+  // unsubscribe from sign in/out, calibrate listener
   componentWillUnmount(){
     //firebase.auth().off();
     if (this.unsubscribe){
       this.unsubscribe();
     }
+    if (this.unsubCalibrate){
+      this.unsubCalibrate();
+    }
   }
 
+  // see what the value of calibration variable in userData/[UID]/Profile/calibrate is
+  // 2 = calibrated (written by device), 1 = calibrate state entered from app, 0 = not calibrated (written by device)
   checkCalibration(user) {
     const {navigate} = this.props.navigation;
     if (user.uid){
-      firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
+      this.unsubCalibrate = firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
         if (snapshot.val() == 2) {
           this.setState({calibrated: true});
         }
@@ -162,13 +176,13 @@ class HomeScreen extends Component {
         // }
         if (snapshot.val() == 0) {
           this.setState({sent: false, calibrated: false});
-
-          Alert.alert(
-            'Calibrate',
-            'Please calibrate system',
-            [{text: 'Calibrate Now', onPress: () => {
-              navigate('Calibrate');
-            }}])
+          // issue alert to calibrate when not calibrated
+          // Alert.alert(
+          //   'Calibrate',
+          //   'Please calibrate system',
+          //   [{text: 'Calibrate Now', onPress: () => {
+          //     navigate('Calibrate');
+          //   }}])
         }
        console.log('On homescreen, checking calibration' + snapshot.val());
        //this.setState({added: snapshot.val()})
@@ -176,7 +190,8 @@ class HomeScreen extends Component {
     }
   }
 
-  //wrapper so that state can be set from onFetchData
+  // wrapper to pull from firebase so that state can be set from onFetchData
+  // if changed to on for realtime updates then must unsubscribe
   fetchData() {
     //Change function to on or once to change data receiving options
     //firebase.database().ref().once('value', this.onFetchData);
@@ -284,6 +299,7 @@ class HomeScreen extends Component {
     //If can toggle week, return 1
     return 1;
   }
+
   //Change week view for summary screen
   changeWeek(direction) {
     let newBoards = [];
@@ -346,6 +362,7 @@ class HomeScreen extends Component {
     }
     return 1;
   }
+
   //Change week view for summary screen
   changeMonth(direction) {
     let newBoards = [];
@@ -540,6 +557,9 @@ class HomeScreen extends Component {
     return restlessDescription;
   }
 
+  // this is the meat and potatoes of this file
+  // lot of stuff going on here and most of it is pretty weird with all the strings
+  // and the changing data types that were stored in the database during development
   // process the incoming data
   onFetchData = (snapshot) => {
     let nightData = [];
@@ -547,6 +567,9 @@ class HomeScreen extends Component {
     let dates = [];
     let data = snapshot.val();
 
+    // set calibrate to 0 if the user doesn't have an account to create a branch for them
+    // this should now be covered in the sign up functionality in SignIn.js but we have
+    // not fully tested that so leaving this here for now
     if (data == null && this.state.user) {
       console.log("Adding user");
       firebase.database().ref('userData/' + this.state.user.uid + '/Profile').set(
@@ -571,15 +594,6 @@ class HomeScreen extends Component {
       this.setState({isLoading: false});
       return(false);
     }
-
-
-// // TESTING writing under the UID just one day, not processed
-//     if (this.state.user){
-//       firebase.database().ref('userData/' + this.state.user.uid + '/' + nights[1]).set(
-//         data[nights[1]]
-//       )
-//     }
-
 
     //Find day of week as label
     var weekday = new Array();
@@ -673,7 +687,6 @@ class HomeScreen extends Component {
           //     night
           //   )
           // }
-
 
 
           //  fill arrays by iterating over each list from firebase
@@ -804,7 +817,7 @@ class HomeScreen extends Component {
 
           }
           else {
-            console.log('Equal or empty: ' + exits.length + "..." + enters.length);
+            console.log('Exit and enters length is Equal or empty: ' + exits.length + "..." + enters.length);
           }
 
           // Remove 0 minute exits-->enters
@@ -836,21 +849,14 @@ class HomeScreen extends Component {
           let filRestString = [];
           let littleAvg = 0;
 
+          // AVERAGE RESTLESS data if too long
           // shrink old restlessness data by averaging if more than 700 entries
           // filter super old restlessness data by averaging to make it about 1000 entries instead of 10000
           if (restless.length > 700) {
-            //console.error('OVERSIZED restless.\n');
-
-
-            // // replace existing restlessness data under userData with this abreviated one
-            // if (this.state.user){
-            //   firebase.database().ref('userData/' + this.state.user.uid + '/' + nightName + '/movement').set(
-            //     {}
-            //   )
-            // }
+            console.log('OVERSIZED restless.\n averaging...');
 
             let avgGroup = Math.floor(restless.length/700);
-            console.log("AVG group : " + avgGroup + " restless length: " + restless.length + '\n');
+            console.log("AVG group: " + avgGroup + " restless length: " + restless.length + '\n');
             for (i = 0; i < restless.length; i = i + avgGroup) {
               // do the i entry
               restlessSplit = restless[i].toString().split(" ");
@@ -914,7 +920,7 @@ class HomeScreen extends Component {
 
   // TODO: more accurate processing of sleep and awake time
           //Calculate time between first enter and last exit dates (time in bed)
-          console.log(enters[0] + " - " + exits[exits.length-1])
+          // console.log(enters[0] + " - " + exits[exits.length-1])
           var enter1 = new Date(enters[0]);
           var exit2 = new Date(exits[exits.length-1]);
           var inBedDiff = new Date((exit2.getTime() - enter1.getTime()));
@@ -924,8 +930,9 @@ class HomeScreen extends Component {
             inBedTime = inBedDiff / (3600000 );
           }
 
-          console.log('InBed: ' + inBedTime);
+          // console.log('InBed: ' + inBedTime);
 
+          // SLEEP ALGORITHM
           //Loop through exits and calculate sleep time (time in bed not counting exits)
           var sleep = 0;
           var totalOutOfBed = 0;
@@ -934,18 +941,21 @@ class HomeScreen extends Component {
           const asleepThresh = .01;
           const restlessThresh = 30;
           let asleep = false;
-          console.log(enters.length);
-          console.log(exits.length);
+          // console.log(enters.length);
+          // console.log(exits.length);
+
+
           for (i=0; i < enters.length; i++){
             var inTime = enters[i];
             var outTime = exits[i];
             var timeIn = (outTime - inTime) / (60*60*1000);
             var enter1Time = new Date(inTime);
             var exit1Time = new Date(outTime);
-            console.log(enter1Time.getHours() + " : " + exit1Time.getHours() + " : " + timeIn);
+            // console.log(enter1Time.getHours() + " : " + exit1Time.getHours() + " : " + timeIn);
             // if not asleep yet, don't count, check if asleep
             if (timeIn) {
               if (timeIn > asleepThresh) {
+                // CHECK RESTLESSNESS
                 //Find restlessness average for 5 minutes after enter time
                 let restEnterAvg = 0;
                 let restEnterCount = 0;
@@ -983,9 +993,7 @@ class HomeScreen extends Component {
             //Add time in bed between each entrance and exit to sleep
             }
           }
-          console.log("Asleep: " + sleep);
-
-  // Todo: incorporate restlessness into judging sleep time
+          // console.log("Asleep: " + sleep);
 
 
           splitDate= nightName.split("-");
@@ -997,20 +1005,6 @@ class HomeScreen extends Component {
           // add these arrays to the array that will be boards
           //console.log('real: ' + nightName);
           nightData.push({ "day": nightName, "dateLabel": nightName.slice(0, -5), "exited": exits, "enters": enters, "bedwet": wets, "sleep": sleep, "restTime": restTime, "restNum": restNum, "inBed": inBedTime, "dayLabel": dayOfWk, "awake": inBedTime-sleep, "naps": napTime, "restlessAvg": averageMovement});
-
-        //} // end of checking if it was within the last 24 hrs
-        // else {
-        //   // add a day to prevDate
-        //   //console.log(prevDate);
-        //   prevDate = new Date(prevDate.getTime() + (24*60*60*1000));
-        //   console.log('missing day');
-        //   // Now store an object of zeros
-        //   nightName = (prevDate.getMonth() + 1) + '-' + prevDate.getDate() + '-' + prevDate.getFullYear();
-        //   let dayOfWk = weekday[prevDate.getUTCDay()];
-        //   console.log(nightName);
-        //   nightData.push({ "day": nightName, "exited": [], "enters": [], "bedwet": [], "sleep": 0, "restTime": 0, "restNum": 0, "inBed": 0, "dayLabel": dayOfWk, });
-        //   //console.log(prevDate);
-        // }
 
         } // end of if checking its not current time or profile
 
@@ -1081,7 +1075,8 @@ class HomeScreen extends Component {
     });
   }
 
-
+  // render the tabs at the top and the corresponding component,
+  // unless no data then render instructions 
   render() {
     //Needed to navigate to other pages from Home Screen
     const {navigate} = this.props.navigation;

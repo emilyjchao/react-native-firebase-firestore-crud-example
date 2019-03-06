@@ -34,7 +34,7 @@ class CalibrateScreen extends Component {
 
         // subscribe to changes of the calibrate variable of the user's profile
         // 0 = not calibrated (written by device), 1 = calibrate (sent from app), 2 = calibrated (sent from device)
-        firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
+        this.unsubCalibrate = firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
           console.log('snapshot' + snapshot);
           //console.log(snapshot.val());
 
@@ -82,6 +82,9 @@ class CalibrateScreen extends Component {
     //firebase.auth().off();
     if (this.unsubscribe){
       this.unsubscribe();
+    }
+    if (this.unsubCalibrate) {
+      this.unsubCalibrate();
     }
   }
 
