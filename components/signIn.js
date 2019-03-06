@@ -105,7 +105,17 @@ class SignIn extends Component {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log("ERROR adding user:" + error.code);
+        if(error.code == 'auth/user-not-found') {
+          Alert.alert("No known user with this email address.");
+          this.setState({password: null});
+        }
+        else if (error.code == 'auth/wrong-password') {
+          Alert.alert("Incorrect email address and password combination.");
+        }
+        else {
+          Alert.alert("There was an error signing you in.");
+        }
+        console.log("ERROR adding user: " + error.code);
         console.log(error.message);
       });
       console.log("Sign in successful!");
