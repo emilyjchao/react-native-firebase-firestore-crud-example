@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// This file stores all the colors used, the Serta Simmons Colors
+// Should be updated to the official hex values as these were pulled using
+// digital color meter (mac) on the website
 const darkB = '#0c2245';
 const medB = '#0e4587';
 const lightB = '#59aae0';

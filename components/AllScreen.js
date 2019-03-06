@@ -113,10 +113,12 @@ class AllDetail extends Component {
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Press the i button to turn
-          Tutorial Mode off. {"\n"} The All view contains the same metrics
+          <View><Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off.
+          </Text>
+          <Text style={styles.smallTextMarg}> The All view contains the same metrics
             as the weekly view but shows all collected data.
-          </Text> : ""
+          </Text></View> : ""
         }
         <Text style={styles.blackTextPadding}>Full Data Report</Text>
         <View style={styles.appContainer}>

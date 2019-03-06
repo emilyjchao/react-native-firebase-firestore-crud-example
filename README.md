@@ -57,6 +57,7 @@ This file is located in the components folder. It is navigated to through the "C
 
 ### ```colors.js```
 This file is located under the components folder. It contains the color variables for all app graphics. It is used to facilitate changing colors on the style sheet and Victory Graphs. The graphs cannot receive a style component from the stylesheet so colors are hardcoded into each graph, the color object is used to keep these in one easy to edit place.
+This should be updated to the official hex values as the current values were retrieved using Digital Color Meter (mac) from the website.
 
 ### ```DayScreen.js```
 This file is located under the components folder and is a component of HomeScreen.js. It contains the rendering code for the "Day" data view page. Before rendering the graphics, the file computes two arrays for the sleep graph, ySleep and in_out. ySleep contains the timestamps of each enter or exit for the night. in_out contains a 0 if the user left the bed at the corresponding time in ySleep, or a 1 if the user entered the bed at the time. Both of these arrays are pushed to sleepData in order to be viewed graphically. In terms of graphics, the page renders a sleep graph displaying the total duration of sleep along with sleep times. Times where the user was in bed asleep are shaded blue, and times whee the user was out of bed or not asleep are not shaded. Underneath, a line graph showing all movement readings over the night is drawn along with a movement average on a 0-100 scale. The number and times of bedwets and bed exits are also included.
@@ -105,7 +106,8 @@ This file contains the Firebase database connection information for our app. By 
 
 ### Noted Additional files
 * ```AddChildScreen``` non-functional screen that could be utilized when multiple children are added.
-
+* ``` ChildDetailsScreen``` not used screen that could be the starting point for displaying account information about a child, most useful when there are multiple children added.
+*
 
 # Recommended Improvements
 Moving forward, we recommend that Serta Simmons make several changes to the logic of our sleep algorithms and app, data visualization, and database structure. At the highest level we have generally implemented the front-end, but have not created any logic on the server side. This is the most pressing addition. The server should include logic for better processing data from the arduino and serve specific data to the app rather than all at once.

@@ -4,7 +4,8 @@ import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 import colors from './colors';
 
-
+// This screen is currently not used in the application
+// it is a very rough file, left from the initial tutorial used in creating this code base
 class ChildDetailsScreen extends Component {
   static navigationOptions = {
     title: 'Child Profile',

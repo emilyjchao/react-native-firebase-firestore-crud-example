@@ -5,7 +5,9 @@ import { VictoryBar, VictoryLine, VictoryArea, VictoryLegend, VictoryChart, Vict
 import styles from './style';
 import colors from './colors';
 
-
+// almost the same as week screen just for 30 days instead of 7
+// could probably be combined with the 7 day one, though some styling
+// on charts regarding bar to space ratio is number specific
 class MonthDetail extends Component {
   static navigationOptions = ({ navigation }) => {}
 
@@ -72,10 +74,10 @@ class MonthDetail extends Component {
       offsetData.push({"x": dateLabels[i], "y0": pushNum, "y": pushNum+pushNum2, "day": this.props.boards[i].day})
     }
 
-
     let graph;
     let button;
     // display the graph based on what AB for ABtesting is
+    // stacked
     if (this.props.AB == 1) {
       graph=(
         <View style={styles.chart}>
@@ -174,6 +176,7 @@ class MonthDetail extends Component {
         </View>
       );
     }
+    //floating
     else if (this.props.AB == 2) {
       graph = (
         <View style={styles.chart}>
@@ -243,13 +246,20 @@ class MonthDetail extends Component {
       }
     }
 
+    // render the scroll and title box
+    // sleep graph (from above based on chosen view)
+    // metric averages over the month
+    // some users were interested in trendcharts from all screen also being here
     return(
       <View style={styles.headerWrapper}>
       {this.props.tutorial ?
+        <View>
         <Text style={styles.smallText}>Press the i button to turn
-        Tutorial Mode off. {"\n"} The monthly view contains the same metrics
+        Tutorial Mode off.
+        </Text>
+        <Text style={styles.smallTextMarg}> The monthly view contains the same metrics
           as the weekly view but is organized by month.
-        </Text> : ""
+        </Text></View>: ""
       }
       <View style={styles.triplet}>
         {this.props.moreMonths(-1) ?
@@ -264,7 +274,7 @@ class MonthDetail extends Component {
             onPress={() => this.props.changeMonth(-1)}
           />
         }
-        <Text style={styles.tripletText}>{"\n"}{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
+        <Text style={styles.tripletText}>{this.props.boards[0].day.split("-")[0]}{"-"}{this.props.boards[0].day.split("-")[2]}</Text>
         {this.props.moreMonths(1) ?
           <Button
             buttonStyle={styles.tripletButton}

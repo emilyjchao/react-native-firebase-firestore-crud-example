@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'flex-start',
-    height: 60,
+
   },
   tripletText: {
     textAlign: 'center',
@@ -225,15 +225,16 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     color: colors.triplet,
     paddingTop: 0,
-    marginTop: -10,
+    marginTop: 15,
     fontFamily: 'Futura'
   },
   tripleToggle: {
     flexDirection: 'row'
   },
   tripletButton: {
-    marginTop: 6,
-    backgroundColor: 'transparent'
+    marginTop: 15,
+    backgroundColor: 'transparent',
+    padding: 0,
   },
   twoColumnContainer: {
     flexDirection: 'row',

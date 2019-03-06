@@ -261,14 +261,16 @@ class WeekDetail extends Component {
     return(
       <View style={styles.headerWrapper}>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Press the i button to turn
-          Tutorial Mode off. {"\n"}
+          <View><Text style={styles.smallText}>Press the i button to turn
+          Tutorial Mode off.
+          </Text>
+          <Text style={styles.smallTextMarg}>
             This is the default, weekly view of your
             child's sleep data. You'll find each night's sleep hours as well as
             the average number of bed exits per night, the average restlessness, and the
             average number of bedwets per night. You can scroll to
             past weeks using the arrows below.
-          </Text> : ""
+          </Text></View> : ""
         }
         <View style={styles.triplet}>
         {this.props.moreWeeks(-1) ?
@@ -283,7 +285,7 @@ class WeekDetail extends Component {
             onPress={() => this.props.changeWeek(-1)}
           />
         }
-        <Text style={styles.tripletText}>{"\n"}Week of {this.props.boards[0].day}</Text>
+        <Text style={styles.tripletText}>Week of {this.props.boards[0].day}</Text>
         {this.props.moreWeeks(1) ?
           <Button
             buttonStyle={styles.tripletButton}
@@ -310,10 +312,10 @@ class WeekDetail extends Component {
           </TouchableOpacity>
         </View>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>
+          <Text style={styles.smallTextMarg}>
             Check out the rest of this page first, but when you come back, you can click on
             one of the bars to see details about that day! Click on the details button below
-            to see the daily view. {"\n"}
+            to see the daily view.
           </Text> : ""}
 
 
@@ -321,11 +323,11 @@ class WeekDetail extends Component {
       {graph}
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>
+          <Text style={styles.smallTextMarg}>
             This section shows some averages and aggregates
             for the week. First is the average hours of sleep per night, then the
             average number of bedwets per night, followed by the average restlessness and average
-            number of exits per night in the bottow row.{"\n"}
+            number of exits per night in the bottow row.
           </Text> : ""
         }
         <View style={styles.twoColumnContainer}>

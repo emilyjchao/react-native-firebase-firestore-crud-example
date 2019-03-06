@@ -6,6 +6,7 @@ import styles from './style';
 import colors from './colors';
 
 
+// renders the day component
  class DayDetail extends Component {
    constructor(props) {
      super();
@@ -41,6 +42,7 @@ import colors from './colors';
      }
 
      //Set up labels for sleep chart
+     // making reasonable time ticks between asleep time and awake time
      let label1 = ySleep[0];
      let label4 = ySleep[ySleep.length-1];
      let increment = Math.floor((ySleep[ySleep.length-1].getTime()-ySleep[0].getTime())/3);
@@ -49,6 +51,7 @@ import colors from './colors';
      let sleepLabel = [label1, label2, label3, label4];
 
      //Set up labels for restlessness
+     // see above
      let restlessLabel = []
      //Add to array if restlessness is longer than 1 hour
      if ((this.props.boards[this.props.picked].restTime[this.props.boards[this.props.picked].restTime.length-1].getTime() - this.props.boards[this.props.picked].restTime[0].getTime()) <= 60000) {
@@ -70,15 +73,21 @@ import colors from './colors';
        bedWetContent = "Dry";
      }
 
+     // input tutorial text if in tutorial mode
+     // display sleep graph
+     // display movement graph
+     // display bed wetting and bed exit tables
     return(
       <View style={styles.headerWrapper}>
       {this.props.tutorial ?
-        <Text style={styles.smallText}>Press the i button to turn
-        Tutorial Mode off. {"\n"}The daily view shows
+        <View><Text style={styles.smallTextMarg}>Press the i button to turn
+        Tutorial Mode off.
+        </Text>
+        <Text style={styles.smallTextMarg}>The daily view shows
         more detailed information about the metrics from the weekly page.
         Use the arrows below to scroll through different days. Have a look
         around and then click on Month above.
-      </Text> : ""}
+      </Text></View> : ""}
         <View style={styles.triplet}>
         {this.props.moreDays(-1) ?
             <Button
@@ -92,7 +101,7 @@ import colors from './colors';
               onPress={() => this.props.changePicked(-1)}
             />
           }
-          <Text style={styles.tripletText}>{"\n"}{this.props.boards[this.props.picked].day}</Text>
+          <Text style={styles.tripletText}>{this.props.boards[this.props.picked].day}</Text>
           {this.props.moreDays(1) ?
             <Button
               buttonStyle={styles.tripletButton}
@@ -118,7 +127,7 @@ import colors from './colors';
         </View>
 
         {this.props.tutorial ?
-          <Text style={styles.smallText}>{"\n"}{"\n"}Last night's sleep, blue areas show time in bed and unfilled areas show time out of bed.
+          <Text style={styles.smallTextMarg}>Last night's sleep, blue areas show time in bed and unfilled areas show time out of bed.
           </Text> : ""}
         <View style={styles.chart}>
         <VictoryChart
@@ -158,9 +167,9 @@ import colors from './colors';
           </TouchableOpacity>
         </View>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>Restless illustrates how much your child
+          <Text style={styles.smallTextMarg}>Restless illustrates how much your child
             moved while sleeping. It is divided into low, normal, and high indicating
-            the relative amount of movement. Movement is ranked on a scale of 0 to 100. {"\n"}
+            the relative amount of movement. Movement is ranked on a scale of 0 to 100. 
           </Text> : ""}
         <Text style={styles.brightTextNoMargin}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
@@ -266,7 +275,7 @@ import colors from './colors';
           </View>
         </View>
         {this.props.tutorial ?
-          <Text style={styles.smallText}>{"\n"}{"\n"}Scroll back to the top and check out the monthly view!
+          <Text style={styles.smallTextMarg}>Scroll back to the top and check out the monthly view!
           </Text> : ""}
       </View>);
 
