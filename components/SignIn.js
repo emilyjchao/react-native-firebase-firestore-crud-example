@@ -91,6 +91,7 @@ class SignIn extends Component {
         var errorMessage = error.message;
         console.log("ERROR adding user:" + error.code);
         console.log(error.message);
+        Alert.alert(error.message);
       });
       this.setState({justSignedUp: true});
     }
@@ -111,9 +112,11 @@ class SignIn extends Component {
         }
         else if (error.code == 'auth/wrong-password') {
           Alert.alert("Incorrect email address and password combination.");
+          this.setState({password: null});
         }
         else {
           Alert.alert("There was an error signing you in.");
+          this.setState({password: null});
         }
         console.log("ERROR adding user: " + error.code);
         console.log(error.message);
