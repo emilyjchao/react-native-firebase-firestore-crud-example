@@ -5,6 +5,7 @@ import firebase from '../Firebase';
 import styles from './style';
 import colors from './colors';
 
+
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -17,10 +18,10 @@ class SignIn extends Component {
     this.state = {
       email: null,
       password: null,
-      password2: null,
+      password2: null, // for new user signup password confirmation
       signIn: true, // state for sign in v. logon
       login: false, // state for logged in user
-      justSignedUp: false,
+      justSignedUp: false, // if new user add their username to the userData
     }
     this.signIn = this.signIn.bind(this);
   }
@@ -33,6 +34,7 @@ class SignIn extends Component {
         console.log("Auth state is logged in Now!");
         this.setState({login: true, email: user.email});
         // if the user just signed up then add their branch to the database
+        // give them a profile under userData and set hasD to false
         if(this.state.justSignedUp){
           firebase.database().ref('userData/' + user.uid + '/Profile').update(
             {'hasD': false}
@@ -52,6 +54,7 @@ class SignIn extends Component {
 
   }
 
+  //unsubscribe from the firebase auth listener
   componentWillUnmount(){
     //firebase.auth().off();
     if (this.unsubscribe){
@@ -59,12 +62,14 @@ class SignIn extends Component {
     }
   }
 
+  // updates text input fields
   updateTextInput = (text, field) => {
     const state = this.state;
     state[field] = text;
     this.setState(state);
   }
 
+  // check it has the form of an email address
   // from : https://stackoverflow.com/questions/43676695/email-validation-react-native-returning-the-result-as-invalid-for-all-the-e
   emailValidate = (text) => {
     // console.log(text);
@@ -80,6 +85,7 @@ class SignIn extends Component {
   }
 
 
+  // signup a new user
   signUp() {
 
     if (this.state.password == this.state.password2 && this.emailValidate(this.state.email)){
@@ -100,6 +106,7 @@ class SignIn extends Component {
     }
   }
 
+  // signin a user, give alerts for failed attempts
   signIn() {
     if(this.emailValidate(this.state.email) && (this.state.password != null)) {
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
@@ -132,25 +139,15 @@ class SignIn extends Component {
   }
 
 
-// Messing with user protected data and writing to the database
-  // moveToUser() {
-  //   // if no user return nothing and do nothing
-  //   if( !this.state.user ) {
-  //     return();
-  //   }
-  //   // move first night of data to a key under uid
-  //   // firebase.database().ref('userData/' + this.state.user.uid + '/' + this.state.boards[0].).set
-  //
-  // }
-
-
-
-
   render() {
     //this.props.navigation.push('Home');
     let inUpOut; // buttons for sign in and up or for logout and back
     let form; // input for signing in or up
+
+    // if logged in give logout and homescreen links
+    // this view can likely be removed and the user can be directed straight to the homescreen
     if (this.state.login) {
+      // this.props.navigation.push('Home'); // throws warning regarding changes during state transition
        inUpOut = (
          <View>
           <View style={styles.tripleToggle}>
@@ -169,7 +166,7 @@ class SignIn extends Component {
           </View>
         </View>);
     }
-    else {
+    else { // logged out, give sign in and sign up options
       inUpOut = (
         <View style={styles.tripleToggle}>
           <TouchableOpacity
@@ -215,7 +212,8 @@ class SignIn extends Component {
           <View  style={styles.form}>
             <Text style={styles.smallText}>Hello!</Text>
             <Text style={styles.smallText}>Welcome to the Serta Simmons children's smart mattress testing app.
-              Please sign in if you have an account or sign up if you are joining.
+              Please sign in if you have an account or sign up if you are joining. When signing up please pick
+              a password that is at least 8 characters and includes both upper and lowercase letters.
             </Text>
             <TextInput
               placeholder={'Email'}
@@ -252,7 +250,6 @@ class SignIn extends Component {
       <View style={styles.container}>
         {inUpOut}
         <View style={styles.centerContainer}>
-
           {form}
         </View>
       </View>

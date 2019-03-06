@@ -89,7 +89,7 @@ This file collects the unique device id (DUID) and adds the signed in user’s U
 This file is located under the components folder. It contains the rendering code for the settings page and is accessible by clicking the settings gear on the left header. Currently, the settings screen displays the current user, allows the parent to calibrate their tracker, and enables customizable notification settings for various sleep events. At the bottom of the page, a "Save Settings" button allows the user to change their notification preferences stored in the Firebase database. "Log out" allows them to log out of their account. Going forward, the notification settings saved in Firebase should be used to customize when notifications are sent to the user. A privacy agreement, child details screen, and method of adding children to the parent's account should also be implemented.
 
 ### ```SignIn.js```
-This file is located under the components folder. It contains the logic and rendering code for the sign-in page and multiple user functionality. User accounts are username and password protected in order to address privacy concerns.
+This file is located under the components folder. It contains the logic and rendering code for the sign-in page and multiple user functionality. User accounts are username and password protected in order to address privacy concerns. Passwords might have to be encrypted, unclear if this happens automatically with Firebase's authentication function.
 
 ### ```style.js```
 This file is located under the components folder. It contains the different style variables used throughout the app.
