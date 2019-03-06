@@ -103,6 +103,10 @@ This file contains the root stack for our app. It also sets up the beginning not
 ### ```Firebase.js```
 This file contains the Firebase database connection information for our app. By changing this file, SSB can change which database the app interfaces with. All configuration ID details are easily found on Firebase.
 
+### Noted Additional files
+* ```AddChildScreen``` non-functional screen that could be utilized when multiple children are added.
+
+
 # Recommended Improvements
 Moving forward, we recommend that Serta Simmons make several changes to the logic of our sleep algorithms and app, data visualization, and database structure. At the highest level we have generally implemented the front-end, but have not created any logic on the server side. This is the most pressing addition. The server should include logic for better processing data from the arduino and serve specific data to the app rather than all at once.
 ## Database:
@@ -127,10 +131,12 @@ Firebase charges for the number of GB stored as well as the number of downloads.
 
   | Data Structure | Data/mo. (MB) | Downloads/mo. (MB) | Cost ($/yr) |
 |----------------|---------------|--------------------|-------------|
-| Current        | 9.9           | 4590               | 59.10       |
+| Development    | 9.9           | 4590               | 59.10       |
+| Current        | 9.9           | 450                | 9.30        |
 | Optimized      | 9.9           | 24.9               | 4.20        |
 
-The projected costs/user estimations of using the Firebase database with the current app and the potential cost for a download optimized application.
+
+The projected costs/user estimations of using the Firebase database with the usage from during development, the current app and the potential cost for a download optimized application.
 
 ### Security
 **Current:** Read/write rules in firebase are set according to the firebase docs to only allow authorized users to access data under their UID. It does not. The front end requires authentication but the backend can still read and write without authentication.

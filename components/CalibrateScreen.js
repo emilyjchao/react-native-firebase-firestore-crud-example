@@ -134,7 +134,7 @@ class CalibrateScreen extends Component {
       <ScrollView style={{backgroundColor: colors.background}}>
         <View style={{backgroundColor: colors.background, marginHorizontal: 5}}>
           //Display instructions
-          <Text style={styles.tripletText}>{"\n"}{"\n"}Instructions{"\n"}</Text>
+          <Text style={styles.title}>Instructions</Text>
           <Text
             style={styles.smallTextMarg}>  Please calibrate the system.
             Once the child is sitting on the edge of the bed, press 'Calibrate'.

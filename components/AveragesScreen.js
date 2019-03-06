@@ -5,7 +5,8 @@ import { VictoryBar, VictoryLine, VictoryChart, VictoryZoomContainer, VictorySca
 import styles from './style';
 import colors from './colors';
 
-// Create and export Averages screen component
+// Create and export national Averages screen component
+// At this point all the national averages are hardcoded
 export default class AveragesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -48,7 +49,7 @@ export default class AveragesScreen extends React.Component {
       //Display the averages
       <View style={styles.headerWrapper}>
         //Display instructions
-        <Text style={styles.blackText}>{"\n"}Data for 4 Year-Olds</Text>
+        <Text style={styles.title}>Data for 4 Year-Olds</Text>
         <VictoryChart
           domainPadding={80}
           >

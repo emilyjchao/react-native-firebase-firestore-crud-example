@@ -5,8 +5,8 @@ import { VictoryBar, VictoryLine, VictoryChart, VictoryLegend, VictoryStack, Vic
 import styles from './style';
 import colors from './colors';
 
-
-
+// Display the all history data, as given by HomeScreen
+// Similar to week and month with the addition of trend charts for each metric
 class AllDetail extends Component {
   constructor () {
     super();
@@ -14,8 +14,11 @@ class AllDetail extends Component {
       picked: 0, // view the details of clicked day
     }
   }
-  render () {
 
+  // renders multiple charts based on the data provided in the props
+  // shows trendlines for bedwetting, exits and movement
+  // displays the standard averages below the trend charts
+  render () {
     let graph;
     // display the graph based on what AB for ABtesting is
       graph = (

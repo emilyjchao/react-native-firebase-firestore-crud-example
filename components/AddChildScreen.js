@@ -3,6 +3,8 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'reac
 import { Button } from 'react-native-elements';
 import firebase from '../Firebase';
 
+// This screen doesn't actually do anything right now
+// but has been left in case this functionality is added
 class AddChildScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
