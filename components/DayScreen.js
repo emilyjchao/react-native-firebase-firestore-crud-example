@@ -169,7 +169,7 @@ import colors from './colors';
         {this.props.tutorial ?
           <Text style={styles.smallTextMarg}>Restless illustrates how much your child
             moved while sleeping. It is divided into low, normal, and high indicating
-            the relative amount of movement. Movement is ranked on a scale of 0 to 100. 
+            the relative amount of movement. Movement is ranked on a scale of 0 to 100.
           </Text> : ""}
         <Text style={styles.brightTextNoMargin}>{this.props.restlessDescription} : {this.props.avgRestless}</Text>
         //Line graph of restlessness
