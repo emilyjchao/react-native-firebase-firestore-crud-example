@@ -15,30 +15,31 @@ class CalibrateScreen extends Component {
     super();
     this.state = {
       key: '',
-      isLoading: true,
-      calibrated: null,
-      sent: false,
-      user: null,
+      isLoading: true, // standard is loading element
+      calibrated: null, // is the device calibrated, retrieve from firebase "[UID]/Profile/calibrated"
+      sent: false, // sent request to calibrate
+      user: null, // store the signed in user (if there is one), used for writes and pulls
     };
   }
 
   componentDidMount() {
     const {navigate} = this.props.navigation;
+
+    // subscribe to sign in/out changes
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
         console.log("Auth state is logged in Now! Add Tracker");
         this.setState({ user: user });
-        //this.props.navigation.navigate('Home');
-        // Change this to be the hasD
-        // firebase.database().ref('userData/' + this.state.user.uid + '/Profile/asleep').once('value').then((snapshot) => {
-        //  console.log(snapshot.val());
-        //  this.setState({added: snapshot.val()})
-        // });
+
+        // subscribe to changes of the calibrate variable of the user's profile
+        // 0 = not calibrated (written by device), 1 = calibrate (sent from app), 2 = calibrated (sent from device)
         firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').on('value', (snapshot) => {
           console.log('snapshot' + snapshot);
           //console.log(snapshot.val());
+
           if (snapshot != undefined) {
+            // if calibrated
             if (snapshot.val() == 2) {
               this.setState({calibrated: true});
               Alert.alert(
@@ -53,6 +54,7 @@ class CalibrateScreen extends Component {
                 }
               ]);
             }
+            // if you sent the calibrate and it was written
             else if (snapshot.val() == 1) {
               this.setState({sent: true});
             }
@@ -75,31 +77,16 @@ class CalibrateScreen extends Component {
 
   }
 
-
+  // unsubscribe from firebase
   componentWillUnmount(){
     //firebase.auth().off();
     if (this.unsubscribe){
       this.unsubscribe();
     }
   }
-  // componentWillUnmount(){
-  //   //firebase.auth().off();
-  //   if (this.state.user){
-  //     firebase.database().ref('userData/' + this.state.user.uid + '/Profile/calibrate').off();
-  //   }
-  //
-  // }
-
-  //Check if component mounted
-  // componentDidMount() {
-  //   const { navigation } = this.props;
-  //   var database = firebase.database();
-  //   this.setState({
-  //     isLoading: false,
-  //   });
-  // }
 
   //Write calibrate variable to Firebase
+  // calibrateBool should always be 1, but function is flexible
   updateBoard(calibrateBool) {
     // this.setState({
     //   isLoading: true,
@@ -131,6 +118,7 @@ class CalibrateScreen extends Component {
     if (this.state.sent && !this.state.calibrated){
       button = (<ActivityIndicator size="large" color={colors.highlight}/> )
     }
+    // otherwise show calibrate button
     else if (this.state.user) {
       button = (
         <TouchableOpacity style={styles.buttonNoFlexMarg} onPress={() => this.updateBoard(1)}>
