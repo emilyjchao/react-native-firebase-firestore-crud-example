@@ -9,7 +9,8 @@ import colors from './colors';
 import styles from './style';
 
 
-// Create and export Settings screen component
+// Create and export Settings screen component that displays user Settings
+// and updates them when the user presses save
 export default class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -19,6 +20,7 @@ export default class SettingsScreen extends React.Component {
       },
     }
   }
+
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('settings').doc('userSettings');
@@ -33,13 +35,8 @@ export default class SettingsScreen extends React.Component {
       user: null,
     };
 
-    //These help change the toggles from on to off and vice versa
-    this.onPoolingChange = this.onPoolingChange.bind(this);
-    this.onNotificationChange = this.onNotificationChange.bind(this);
-    this.onBedwettingChange = this.onBedwettingChange.bind(this);
-    this.onRestlessChange = this.onRestlessChange.bind(this);
-    this.onOutOfBedChange = this.onOutOfBedChange.bind(this);
-    this.onAsleepChange = this.onAsleepChange.bind(this);
+
+    this.updateStateSetting = this.updateStateSetting.bind(this);
 
     //This pulls the toggle settings from the Firestore database
     this.ref.get().then((doc) => {
@@ -88,6 +85,7 @@ export default class SettingsScreen extends React.Component {
     })
   }
 
+  // subscribe to the login events
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -103,6 +101,7 @@ export default class SettingsScreen extends React.Component {
     });
   }
 
+  // unsubscribe login listener
   componentWillUnmount(){
     //firebase.auth().off();
     if (this.unsubscribe){
@@ -145,10 +144,24 @@ export default class SettingsScreen extends React.Component {
       (error) => { console.log("Sign Out error : " + error.code + error.message);});
   }
 
+  // update each settings in state
+  updateStateSetting(value, field) {
+    const state = this.state;
+    state[field] = value;
+    this.setState(state);
+  }
+
+  toggleAuthView() {
+    this.setState({toggleAuthView: !this.state.toggleAuthView});
+  }
+
+
   render() {
-    //Needed to naviaget to other pages from Settings Screen
+    //Needed to navigate to other pages from Settings Screen
     const {navigate} = this.props.navigation;
 
+    // display a whole list of settings in two sections with save and logout buttons
+    // at the bottom of the screen
     return (
       //Display the settings item list
       <ScrollView style={styles.container}>
@@ -171,7 +184,7 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Item
               hasNavArrow={false}
               switchState={this.state.pooling}
-              switchOnValueChange={this.onPoolingChange}
+              switchOnValueChange={(value) => { this.updateStateSetting(value, 'pooling');}}
               hasSwitch={true}
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               backgroundColor={colors.background}
@@ -212,7 +225,7 @@ export default class SettingsScreen extends React.Component {
               hasNavArrow={false}
               titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
               switchState={this.state.notification}
-              switchOnValueChange={this.onNotificationChange}
+              switchOnValueChange={(value) => {this.updateStateSetting(value, 'notification')}}
               hasSwitch={true}
               backgroundColor={colors.background}
               title='Enable Push Notifications'/>
@@ -220,7 +233,7 @@ export default class SettingsScreen extends React.Component {
                 hasNavArrow={false}
                 titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 switchState={this.state.bedwetting}
-                switchOnValueChange={this.onBedwettingChange}
+                switchOnValueChange={(value) => {this.updateStateSetting(value, 'bedwetting')}}
                 hasSwitch={true}
                 backgroundColor={colors.background}
                 title='Bedwetting Alarm'/>
@@ -228,14 +241,14 @@ export default class SettingsScreen extends React.Component {
                 hasNavArrow={false}
                 switchState={this.state.restless}
                 titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
-                switchOnValueChange={this.onRestlessChange}
+                switchOnValueChange={(value) => {this.updateStateSetting(value, 'restless')}}
                 hasSwitch={true}
                 backgroundColor={colors.background}
                 title='Restlessness Alarm'/>
               <SettingsList.Item
                 hasNavArrow={false}
                 switchState={this.state.outofbed}
-                switchOnValueChange={this.onOutOfBedChange}
+                switchOnValueChange={(value) => {this.updateStateSetting(value, 'outofbed')}}
                 hasSwitch={true}
                 titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
                 backgroundColor={colors.background}
@@ -245,7 +258,7 @@ export default class SettingsScreen extends React.Component {
                 backgroundColor={colors.background}
                 switchState={this.state.asleep}
                 titleStyle={{color: colors.descriptions, fontFamily: "Futura"}}
-                switchOnValueChange={this.onAsleepChange}
+                switchOnValueChange={(value) => {this.updateStateSetting(value, 'asleep')}}
                 hasSwitch={true}
                 title='Fell Asleep Alert'/>
           </SettingsList>
@@ -271,25 +284,5 @@ export default class SettingsScreen extends React.Component {
       </ScrollView>
     )
   }
-  toggleAuthView() {
-    this.setState({toggleAuthView: !this.state.toggleAuthView});
-  }
-  onPoolingChange(value){
-    this.setState({pooling: value});
-  }
-  onNotificationChange(value){
-    this.setState({notification: value});
-  }
-  onBedwettingChange(value){
-    this.setState({bedwetting: value});
-  }
-  onRestlessChange(value){
-    this.setState({restless: value});
-  }
-  onOutOfBedChange(value){
-    this.setState({outofbed: value});
-  }
-  onAsleepChange(value){
-    this.setState({asleep: value});
-  }
+
 }
