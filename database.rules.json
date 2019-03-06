@@ -1,3 +1,4 @@
+//Rules for database read and write
 {
   "rules": {
     ".read": "auth != null",
