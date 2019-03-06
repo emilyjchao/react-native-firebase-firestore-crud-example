@@ -3,6 +3,7 @@ import firestore from 'firebase/firestore'
 
 const settings = {timestampsInSnapshots: true};
 
+//Change this const in order to change the Firebase connection
 const config = {
   apiKey: "AIzaSyD3LbiaTxDFLSzRZQD9qdn1spqp2zDaXaY",
   authDomain: "sleepdata-d5465.firebaseapp.com",

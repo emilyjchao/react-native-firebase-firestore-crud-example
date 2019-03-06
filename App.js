@@ -1,6 +1,8 @@
+//All app files must be imported below
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+
 import HomeScreen from './components/HomeScreen';
 import AllScreen from './components/AllScreen'
 import SettingsScreen from './components/SettingsScreen';
@@ -8,13 +10,14 @@ import CalibrateScreen from './components/CalibrateScreen';
 import AveragesScreen from './components/AveragesScreen';
 import DayScreen from './components/DayScreen';
 import MonthScreen from './components/MonthScreen';
-import SummaryScreen from './components/WeekScreen';
+import WeekScreen from './components/WeekScreen';
 import SignIn from './components/SignIn';
 import PairDevice from './components/PairDevice';
-import {Constants, Permissions, Notifications} from 'expo';
-//import {styles} from './componenents/style';
-import colors from './components/colors';
 
+import colors from './components/colors';
+import {Constants, Permissions, Notifications} from 'expo';
+
+//Function to register notification permissions
 async function register(){
   const {status: alertPermission} = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
   console.log(alertPermission)
@@ -23,10 +26,13 @@ async function register(){
     return;
   }
 
+  //Prints notification token (device specific) or unknown
   const token = await Expo.Notifications.getExpoPushTokenAsync();
   console.log(alertPermission, token);
 
 }
+
+//Create app root navigation stack
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -40,8 +46,6 @@ const RootStack = createStackNavigator(
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        //backgroundColor: '#777777',
-        //backgroundColor: '#4C8C7B',
         backgroundColor: colors.medB,
       },
       headerTintColor: '#fff',
@@ -53,7 +57,7 @@ const RootStack = createStackNavigator(
   },
 );
 
-
+//Set up App, including notification listener
 export default class App extends React.Component {
   componentWillMount() {
     register();

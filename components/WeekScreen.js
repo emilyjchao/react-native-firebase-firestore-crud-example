@@ -5,14 +5,15 @@ import { VictoryBar, VictoryLine, VictoryLegend, VictoryArea, VictoryChart, Vict
 import styles from './style';
 import colors from './colors';
 
-
-class SummaryDetail extends Component {
+//Renders visualization for week page
+class WeekDetail extends Component {
   static navigationOptions = ({ navigation }) => {}
 
   constructor(){
     super();
     this.state = {
-      picked: 0, // view the details of clicked day
+      picked: 0, // Holds index of day shown in summary button on top of sleep graphics
+                    //Use to view the details of clicked day
     }
   }
 
@@ -20,8 +21,9 @@ class SummaryDetail extends Component {
 
     const {navigate} = this.props.navigation;
     //Set up graph labels
-    //Set up day of week labels
+    //weekLabels holds day of week labels (dayLabel from HomeScreen)
     let weekLabels = [];
+    //weekSleep holds "" if sleep=0 or "hh" if sleep>0
     let weekSleep = [];
     for (i=0; i<this.props.boards.length; i++) {
       weekLabels.push(this.props.boards[i].dayLabel);
@@ -33,7 +35,7 @@ class SummaryDetail extends Component {
     }
 
     //Set up data for offset bar graph
-    //Combine data into array in readable format
+    //offsetData holds data in array in readable format for floating bar graph
     let offsetData = [];
     //Store x in dateLabels and dayLabels
     let dateLabels = [];
@@ -42,6 +44,7 @@ class SummaryDetail extends Component {
     let sleeptimes = []
     //Store y0 in bedtimes
     let bedtimes = [];
+    //Store waketimes for testing
     let waketimes = [];
     const interval = 1000 * 60 * 60 * 24; // 24 hours in milliseconds
     for (i=0; i<this.props.boards.length; i++) {
@@ -381,4 +384,4 @@ class SummaryDetail extends Component {
     }
   }
 
-export default SummaryDetail;
+export default WeekDetail;
