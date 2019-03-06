@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, ScrollView, StyleSheet, Switch,
   View, AppRegistry, Component, Image, Alert } from 'react-native'
-import Colors from '../constants/Colors';
 import { Button } from 'react-native-elements';
 import SettingsList from 'react-native-settings-list';
 import firebase from '../Firebase';

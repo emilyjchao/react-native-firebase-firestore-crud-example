@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Colors from '../constants/Colors';
 import { Alert, StyleSheet, ScrollView, ActivityIndicator, View, TextInput, Text, Button } from 'react-native';
 import { VictoryBar, VictoryLine, VictoryChart, VictoryZoomContainer, VictoryScatter, VictoryTheme, VictoryLabel, VictoryAxis, LineSegment } from 'victory-native';
 import styles from './style';
